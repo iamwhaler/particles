@@ -1,0 +1,50 @@
+.App {
+  text-align: center;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto Condensed', sans-serif;
+  overflow: auto;
+}
+
+
+.tooltip {
+  padding-bottom: -70px;
+  padding-top: -70px;
+  text-align: justify;
+}
+
+
+#tooltip > .tooltip-inner {
+  max-width: 300px;
+  background-color: #EFEEEE;
+  color: black;
+  border: 1px solid #BDBDBD;
+}
+
+#tooltip > .tooltip-arrow{
+  display: none;
+}
+
+.resources {
+  margin-left: 5px;
+  margin-right: 5px;
+  border: 1px solid #BDBDBD;
+  border-radius: 10px;
+}
+.automation  .col-md-6 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+button {
+  border-radius: 3.5px;
+}
+
+.flex-element {
+  padding-top: 2.5px;
+  padding-bottom: 2.5px
+
+}
