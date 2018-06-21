@@ -75,7 +75,7 @@ export const rules = {
             if(state.hydrogen_stars>=1){
                 state.hydrogen_stars--;
                     let parameters = {
-                        name: star_names[_.random(0, star_names.length/2)],
+                        name: star_names[_.random(0, star_names.length)],
                         diameter: _.random(0,10),
                         density: _.random(0,stars.length-1)
                     };
