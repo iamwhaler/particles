@@ -21,6 +21,9 @@ import {modules} from './game/modules';
 import {upgrades} from './game/upgrades';
 import Popup from "./utils/Popup/Popup";
 
+import {Circle} from 'react-shapes';
+
+
 
 class App extends Component {
     constructor(props) {
@@ -216,6 +219,27 @@ class App extends Component {
                         )}
                     </div>
 
+                    <div className="flex-element">
+                        <h6>Your stars</h6>
+                        {_.map(state.stars, (item, key) =>
+                            <div key={key} style={{border: '1px solid #BDBDBD'}} className="flex-container-row">
+                                    <div className="flex-element" style={{textAlign: 'center'}}>
+
+                                <Circle r={1 + item.star.diameter} fill={{color: '#6C256F'}}
+                                        stroke={{color: '#4E4E9A'}} strokeWidth={item.star.density}/>
+                                </div>
+
+                                    <div className="flex-element">
+                                    {item.star.name}
+                                    <br/>
+                                Density: {item.star.density}
+                                    <br/>
+                                Diameter: {item.star.diameter}
+                                    </div>
+                            </div>
+                        )}
+                    </div>
+
 
 
                 </div>
@@ -258,12 +282,12 @@ class App extends Component {
 
                                        <div className="flex-element">
 
-                                        <OverlayTrigger delay={150} placement="left" overlay={tooltip(this.state, item)}>
-                                        <span>
-
                                            <div className="col-md-6" style={{textAlign: "right"}}>{item.name}: {state[key]}</div>
 
-                                            <div className="col-md-3">
+
+                                        <OverlayTrigger delay={150} placement="left" overlay={tooltip(this.state, item)}>
+                                        <span>
+                                           <div className="col-md-3">
                                             {<button
                                                 className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
                                                 onClick={() => { this.onClickWrapper(item); }}>
@@ -278,8 +302,10 @@ class App extends Component {
                                             </button>}
                                             </div>
 
-                                                 </span>
-                                                </OverlayTrigger>
+                                           </span>
+                                           </OverlayTrigger>
+
+
 
                                             </div>
 

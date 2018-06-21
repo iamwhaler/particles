@@ -72,15 +72,19 @@ export const rules = {
     hydrogen_stars_rule: {
 
         onTick: (state) => {
-            state.hydrogen_stars += state.H2 / 333.33;
+            if(state.hydrogen>9) {
+                state.hydrogen_stars += state.H2 / 333.33;
+            }
 
             if (state.hydrogen_stars >= 1) {
                 state.hydrogen_stars--;
                 let star_name = getStarName();
                 let parameters = {
-                    name: star_name,
-                    diameter: _.random(0, 10),
-                    density: _.random(0, state.stars.length)
+                    star: {
+                        name: star_name,
+                        diameter: _.random(1, 10),
+                        density: _.random(0, state.stars.length)
+                    }
                 };
                 //  let pushed_value = JSON.stringify(parameters);
                 state.stars.push(parameters);

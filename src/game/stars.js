@@ -8,4 +8,3 @@ export let getStarName = () => {
     let last_name = star_surnames[_.random(0, star_surnames.length-1)];
     return first_name + ' ' + last_name;
 };
-
