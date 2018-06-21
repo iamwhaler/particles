@@ -42,6 +42,8 @@ const default_state = {
 
     fluctuating: false,
 
+    stars: [],
+
 // not used for now
     player: {
         armor_current: 1000,

@@ -14,6 +14,8 @@ import {data} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {automators} from './game/automators';
+import {stars} from './game/stars';
+
 import {modes} from './game/modes';
 import {modules} from './game/modules';
 import {upgrades} from './game/upgrades';
