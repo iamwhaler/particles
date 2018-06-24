@@ -11,7 +11,6 @@ export const rules = {
           //  state.down_quarks += 5;
          //   state.up_quarks += 5;
          //   state.electrons += 5 // for test purposes
-            state.hydrogen+=10;
             if (state.fluctuating) {
 
                 let randomNumber = Math.random() * (100 - 1) + 1;
