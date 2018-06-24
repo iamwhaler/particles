@@ -173,13 +173,15 @@ class App extends Component {
 
         return (
             <div className="App">
-                <Popup ref={(p) => this.popupHandler = p} />
-                <button onClick={() => this.createPopup()}>MakeNewPopup</button>
+                { /* <Popup ref={(p) => this.popupHandler = p} /> -->
+                <button onClick={() => this.createPopup()}>MakeNewPopup</button> */}
+               <div className="header" style={{backgroundImage: "url(solar.png)"}}>
                 <h2>Particles Inkremental</h2>
 
                 <div style={{color: '#982727'}}>
                     Temperature: {state.temperature.toFixed(1)}
                 </div>
+               </div>
 
 
                 <div className="flex-container-row resources">
@@ -246,11 +248,12 @@ class App extends Component {
 
 
                 <div className="flex-container-row">
-                    <div className="flex-element">
+
+                    <div className="flex-container-row">
                         <h3>Clickers</h3>
 
-                            <div className="flex-container-column">
-                                {_.map(clickers, (item, key) =>
+                        <div className="flex-element">
+                         {_.map(clickers.basic_particles, (item, key) =>
                                     (item.locked && item.locked(this.state))
                                         ? ''
                                         :
@@ -269,7 +272,48 @@ class App extends Component {
                                 )}
                             </div>
 
+                        <div className="flex-element">
+                            {_.map(clickers.leptons, (item, key) =>
+                                (item.locked && item.locked(this.state))
+                                    ? ''
+                                    :
+                                    <div key={key}>
+                                        <OverlayTrigger delay={150} placement="right"
+                                                        overlay={tooltip(this.state, item)}>
+                                            <button
+                                                className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
+                                                onClick={() => {
+                                                    this.onClickWrapper(item);
+                                                }}>
+                                                {item.name}
+                                            </button>
+                                        </OverlayTrigger>
+                                    </div>
+                            )}
+                        </div>
+
+                        <div className="flex-element">
+                            {_.map(clickers.atoms, (item, key) =>
+                                (item.locked && item.locked(this.state))
+                                    ? ''
+                                    :
+                                    <div key={key}>
+                                        <OverlayTrigger delay={150} placement="right"
+                                                        overlay={tooltip(this.state, item)}>
+                                            <button
+                                                className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
+                                                onClick={() => {
+                                                    this.onClickWrapper(item);
+                                                }}>
+                                                {item.name}
+                                            </button>
+                                        </OverlayTrigger>
+                                    </div>
+                            )}
+                        </div>
                     </div>
+
+
 
 
                     <div className="flex-element">
@@ -282,12 +326,12 @@ class App extends Component {
 
                                        <div className="flex-element">
 
-                                           <div className="col-md-6" style={{textAlign: "right"}}>{item.name}: {state[key]}</div>
+                                           <div className="col-sm-6" style={{textAlign: "right"}}>{item.name}: {state[key]}</div>
 
 
-                                        <OverlayTrigger delay={150} placement="left" overlay={tooltip(this.state, item)}>
+                                        <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
                                         <span>
-                                           <div className="col-md-3">
+                                           <div className="col-sm-6">
                                             {<button
                                                 className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
                                                 onClick={() => { this.onClickWrapper(item); }}>
@@ -315,13 +359,13 @@ class App extends Component {
                     </div>
 
                     <div className="flex-element">
-                        <h3>OneClickers</h3>
+                        <h3>Upgrades</h3>
                         {_.map(oneclickers, (item, key) =>
                             (item.locked && item.locked(this.state))
                                 ? ''
                                 :
                                 <div key={key}>
-                                    <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
+                                    <OverlayTrigger delay={150} placement="left" overlay={tooltip(this.state, item)}>
                                         {this.state[key]
                                             ? <span className="badge">{item.name}</span>
                                             :
