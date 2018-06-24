@@ -11,6 +11,7 @@ export const rules = {
           //  state.down_quarks += 5;
          //   state.up_quarks += 5;
          //   state.electrons += 5 // for test purposes
+            state.hydrogen+=10;
             if (state.fluctuating) {
 
                 let randomNumber = Math.random() * (100 - 1) + 1;
@@ -62,7 +63,7 @@ export const rules = {
     H2_rule: {
         onTick: (state) => {
             if (state.hydrogen >= 10) {
-                state.H2 += state.hydrogen / 4;
+                state.H2 += 1;
                 state.hydrogen -= 2;
             }
             return state;
@@ -82,8 +83,9 @@ export const rules = {
     hydrogen_stars_rule: {
 
         onTick: (state) => {
-            if(state.hydrogen>9) {
+            if(state.H2>30 && state.H2 !== 0) {
                 state.hydrogen_stars += state.H2 / 333.33;
+                state.H2 -= state.strings/100;
             }
 
             if (state.hydrogen_stars >= 1) {
@@ -99,6 +101,11 @@ export const rules = {
                 //  let pushed_value = JSON.stringify(parameters);
                 state.stars.push(parameters);
                 console.log(state.stars);
+            }
+
+            if (state.stars.length>30 && state.hydrogen_stars !== 0) {
+                state.hydrogen_stars -= 10;
+                state.stars.splice(0, _.random(0, state.H2/10));
             }
 
             return state;

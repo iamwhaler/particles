@@ -43,6 +43,15 @@ button {
   border-radius: 3.5px;
 }
 
+.button-selector {
+  color: black;
+}
+
+.button-selector-disabled {
+  color: #BDBDBD;
+
+}
+
 .flex-element {
   padding-top: 2.5px;
   padding-bottom: 2.5px

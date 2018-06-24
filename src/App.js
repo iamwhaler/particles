@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { Tooltip, OverlayTrigger, Modal } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger, Button } from 'react-bootstrap';
 import Footer from './footer.js'
 
 import './css/App.css';
@@ -181,6 +181,30 @@ class App extends Component {
                 <div style={{color: '#982727'}}>
                     Temperature: {state.temperature.toFixed(1)}
                 </div>
+
+                   <div className="flex-element flex-container-row">
+                       <div className="col-sm-3" style={{color: '#DADADA'}}>
+                           <h5>Tick: {this.state.tick} Frame: {this.state.frame} </h5>
+                       </div>
+
+                       {_.map(modes, (item, key) =>
+                           (item.locked && item.locked(this.state))
+                               ? ''
+                               :
+                               <div className="col-xs-2" key={key}>
+                                   <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
+                                       {<button type="button"
+                                                className={classNames(
+                                                    this.state.mode === key ? 'button-selector' : 'button-selector-disabled',
+                                                    item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : ''
+                                                )}
+                                                onClick={() => { this.onClickWrapper(item); }}>
+                                           {item.name}
+                                       </button>}
+                                   </OverlayTrigger>
+                               </div>
+                       )}
+                   </div>
                </div>
 
 
@@ -226,7 +250,7 @@ class App extends Component {
                     </div>
 
                     <div className="flex-element">
-                        <h6>Your stars</h6>
+                        <h6> Your stars: {state.stars.length} </h6>
                         <div  style={{ height: '150px', overflowY: 'scroll'}}>
                         {_.map(state.stars, (item, key) =>
                             <div key={key} style={{border: '1px solid #BDBDBD'}} className="flex-container-row">
@@ -384,30 +408,7 @@ class App extends Component {
 
 
 
-                <div className="flex-element flex-container-row">
-                    <div className="flex-element">
-                        <h4>Tick: {this.state.tick} Frame: {this.state.frame} </h4>
-                        <h4>Mode: {modes[this.state.mode].name}</h4>
-                    </div>
 
-                    {_.map(modes, (item, key) =>
-                        (item.locked && item.locked(this.state))
-                            ? ''
-                            :
-                            <div className="flex-element" key={key}>
-                                <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
-                                    {<button
-                                        className={classNames(
-                                            this.state.mode === key ? 'btn-success' : 'btn-warning',
-                                            item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : ''
-                                        )}
-                                        onClick={() => { this.onClickWrapper(item); }}>
-                                        {item.name}
-                                    </button>}
-                                </OverlayTrigger>
-                            </div>
-                    )}
-                </div>
 
 
             <Footer newGame={this.newGame}/>
