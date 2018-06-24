@@ -8,9 +8,9 @@ export const rules = {
         onTick: (state) => {
             state.strings++;
 
-            state.down_quarks += 5;
-            state.up_quarks += 5;
-            state.electrons += 5/// for test purposes
+          //  state.down_quarks += 5;
+         //   state.up_quarks += 5;
+         //   state.electrons += 5 // for test purposes
             if (state.fluctuating) {
 
                 let randomNumber = Math.random() * (100 - 1) + 1;
@@ -69,6 +69,16 @@ export const rules = {
         }
     },
 
+    He2_rule: {
+        onTick: (state) => {
+            if(state.helium >= 2){
+                state.He2 += state.helium/10;
+                state.helium-= 2;
+            }
+            return state;
+        }
+    },
+
     hydrogen_stars_rule: {
 
         onTick: (state) => {
@@ -78,6 +88,32 @@ export const rules = {
 
             if (state.hydrogen_stars >= 1) {
                 state.hydrogen_stars--;
+                let star_name = getStarName();
+                let parameters = {
+                    star: {
+                        name: star_name,
+                        diameter: _.random(1, 10),
+                        density: _.random(0, state.stars.length)
+                    }
+                };
+                //  let pushed_value = JSON.stringify(parameters);
+                state.stars.push(parameters);
+                console.log(state.stars);
+            }
+
+            return state;
+        }
+    },
+
+    helium_stars_rule: {
+
+        onTick: (state) => {
+            if(state.helium>9) {
+                state.helium_stars += state.He2 / 333.33;
+            }
+
+            if (state.helium_stars >= 1) {
+                state.helium_stars--;
                 let star_name = getStarName();
                 let parameters = {
                     star: {

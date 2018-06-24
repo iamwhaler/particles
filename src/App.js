@@ -248,10 +248,7 @@ class App extends Component {
                         </div>
                     </div>
 
-
-
                 </div>
-
 
                 <div className="flex-container-row">
 
@@ -327,8 +324,6 @@ class App extends Component {
                     </div>
 
 
-
-
                     <div className="flex-element">
                         <h3>Automation</h3>
                         {_.map(automators, (item, key) =>
@@ -336,11 +331,8 @@ class App extends Component {
                                 ? ''
                                 :
                                 <div key={key} className="flex-container-row automation">
-
                                        <div className="flex-element">
-
                                            <div className="col-sm-6" style={{textAlign: "right"}}>{item.name}: {state[key]}</div>
-
 
                                         <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
                                         <span>
@@ -362,11 +354,7 @@ class App extends Component {
                                            </span>
                                            </OverlayTrigger>
 
-
-
                                             </div>
-
-
                                 </div>
                         )}
                     </div>

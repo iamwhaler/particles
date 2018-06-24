@@ -22,6 +22,7 @@ const default_state = {
     N2: 0,
 
     hydrogen_stars: 0,
+    helium_stars: 0,
 
     strings_rule: 0,
     up_quarks_rule: 0,
@@ -33,12 +34,14 @@ const default_state = {
     down_quarks_clicker: 0,
     electrons_clicker: 0,
 
+
     strings_miner: 0,
     up_quarks_miner: 0,
     down_quarks_miner: 0,
     electrons_miner: 0,
 
     hydrogen_miner: 0,
+    helium_miner: 0,
 
     fluctuating: false,
 

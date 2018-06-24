@@ -73,6 +73,17 @@ export const clickers = {
                 state.hydrogen++;
                 return state;
             }
-        }
+        },
+
+
+        helium_clicker: {
+            name: 'Synth Helium',
+            cost: {protons: 2, neutrons: 2, electrons: 2},
+            locked: (state) => state.protons < 2 && state.neutrons < 2 && state.electrons < 2,
+            onClick: (state) => {
+                state.helium++;
+                return state;
+            }
+        },
     },
 }

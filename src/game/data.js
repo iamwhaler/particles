@@ -21,6 +21,8 @@ export const data = {
     },
 
     stars: {
-        hydrogen_stars: {name: 'Hydrogen stars'}
+        hydrogen_stars: {name: 'Hydrogen stars'},
+        helium_stars: {name: 'Helium stars'}
+
     }
 };
