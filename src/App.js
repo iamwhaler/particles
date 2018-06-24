@@ -187,6 +187,7 @@ class App extends Component {
                 <div className="flex-container-row resources">
                         <div className="flex-element">
                             <h6>Basic particles</h6>
+                           <img src = {"./img/basic_particles.png"} />
                             { _.map(data.basic_particles, (item, key) =>
                                 <div key={key}>
                                     {item.name}: {state[key]}
@@ -196,6 +197,7 @@ class App extends Component {
 
                         <div className="flex-element">
                             <h6>Atoms</h6>
+                            <img src = {"./img/atoms.png"} />
                             { _.map(data.atoms, (item, key) =>
                                 <div key={key}>
                                     {item.name}: {state[key].toFixed(2)}
@@ -205,6 +207,7 @@ class App extends Component {
 
                         <div className="flex-element">
                             <h6>Simple molecules</h6>
+                            <img src = {"./img/simple_molecules.png"} />
                             { _.map(data.simple_molecules, (item, key) =>
                                 <div key={key}>
                                     {item.name}: {state[key].toFixed(2)}
@@ -214,6 +217,7 @@ class App extends Component {
 
                     <div className="flex-element">
                         <h6>Stars</h6>
+                        <img src = {"./img/star.png"} />
                         { _.map(data.stars, (item, key) =>
                             <div key={key}>
                                 {item.name}: {state[key].toFixed(2)}
@@ -223,6 +227,7 @@ class App extends Component {
 
                     <div className="flex-element">
                         <h6>Your stars</h6>
+                        <div  style={{ height: '150px', overflowY: 'scroll'}}>
                         {_.map(state.stars, (item, key) =>
                             <div key={key} style={{border: '1px solid #BDBDBD'}} className="flex-container-row">
                                     <div className="flex-element" style={{textAlign: 'center'}}>
@@ -240,6 +245,7 @@ class App extends Component {
                                     </div>
                             </div>
                         )}
+                        </div>
                     </div>
 
 
@@ -249,10 +255,16 @@ class App extends Component {
 
                 <div className="flex-container-row">
 
+                    <div className="flex-element">
                     <div className="flex-container-row">
-                        <h3>Clickers</h3>
-
                         <div className="flex-element">
+                        <h3>Clickers</h3>
+                        </div>
+                    </div>
+
+                    <div className="flex-container-row">
+
+                    <div className="flex-element">
                          {_.map(clickers.basic_particles, (item, key) =>
                                     (item.locked && item.locked(this.state))
                                         ? ''
@@ -311,6 +323,7 @@ class App extends Component {
                                     </div>
                             )}
                         </div>
+                    </div>
                     </div>
 
 
