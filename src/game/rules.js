@@ -85,7 +85,9 @@ export const rules = {
 
         onTick: (state) => {
             if(state.H2>30 && state.H2 !== 0) {
-                state.hydrogen_stars += state.H2 / 333.33;
+                if(state.temperature<3000) {
+                    state.hydrogen_stars += (state.H2 / 333.33) / state.H2 * 10;
+                }
             }
 
             if (state.hydrogen_stars >= 1) {
@@ -105,8 +107,8 @@ export const rules = {
             }
 
             if (state.stars.length>30 && state.hydrogen_stars !== 0) {
-                state.hydrogen_stars -= 10;
-                state.stars.splice(0, _.random(0, state.H2/10));
+                state.hydrogen_stars -= (state.hydrogen_stars - (state.H2/100) );
+                state.stars.splice(0, _.random(0, state.H2/20));
            //     this.popupHandler.createPopup('Blackhole', 'Your stars were sucked. Buy')
             }
 
