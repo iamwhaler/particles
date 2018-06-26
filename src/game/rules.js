@@ -86,6 +86,7 @@ export const rules = {
         onTick: (state) => {
             if(state.H2>30 && state.H2 !== 0) {
                 if(state.temperature<3000) {
+                    state.H2 -= _.random(1, state.H2/10);
                     state.hydrogen_stars += (state.H2 / 333.33) / state.H2 * 10;
                 }
             }

@@ -44,6 +44,38 @@ export const automators = {
         }
     },
 
+    protons_miner: {
+        name: 'Proton Miner',
+        cost: {up_quarks: 80, down_quarks: 35},
+        locked: (state) => !state.up_quarks_miner,
+        onClick: (state) => {
+            state.protons_miner++;
+            return state;
+        },
+        onTick: (state) => {
+            if(state.protons_miner>=1) {
+                state.protons += Math.round(_.random(0, state.protons_miner* 0.5));
+            }
+            return state;
+        }
+    },
+
+    neutrons_miner: {
+        name: 'Neutrons Miner',
+        cost: {up_quarks: 90, down_quarks: 150},
+        locked: (state) => !state.down_quarks_miner,
+        onClick: (state) => {
+            state.neutrons_miner++;
+            return state;
+        },
+        onTick: (state) => {
+            if(state.neutrons_miner>=1) {
+                state.protons += Math.round(_.random(0, state.neutrons_miner* 0.5));
+            }
+            return state;
+        }
+    },
+
     hydrogen_miner: {
         name: 'Hydrogen Miner',
         text: 'The only way to get Hydrogen in this Universe.' +

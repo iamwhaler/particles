@@ -38,6 +38,9 @@ const default_state = {
     strings_miner: 0,
     up_quarks_miner: 0,
     down_quarks_miner: 0,
+
+    protons_miner: 0,
+    neutrons_miner: 0,
     electrons_miner: 0,
 
     hydrogen_miner: 0,

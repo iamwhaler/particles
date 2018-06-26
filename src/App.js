@@ -150,22 +150,29 @@ class App extends Component {
 
 
         const tooltip = (state, item) =>
-            <Tooltip id="tooltip">
-                <div className="col-lg-12 infoBar">
-                    <span>{item.name}</span>
-                    <br />
-                    <span style={{fontSize: '10px'}}> {item.text ? item.text : ''}</span>
-                </div>
 
-                 {_.map(item.cost, (value, resource_key) =>
-                     (!item.cost)
-                         ? ''
-                         :
-                                <div className="row" key={resource_key}>
-                                <div className="col-sm-6 infoBar">{resource_key}</div>
-                                <div className="col-sm-6 infoBar">{value} / {state[resource_key]} </div>
-                            </div>
-                        )}
+
+            <Tooltip id="tooltip">
+                {(!item.text)
+                    ? ''
+                    :
+                    <div className="col-lg-12 infoBar">
+                        <span>{item.name}</span>
+                        <br/>
+                        <span style={{fontSize: '11px'}}> {item.text ? item.text : ''}</span>
+                    </div>
+                }
+
+
+                {_.map(item.cost, (value, resource_key) =>
+                    (!item.cost)
+                        ? ''
+                        :
+                        <div className="row" key={resource_key}>
+                            <div className="col-sm-6 infoBar">{resource_key}</div>
+                            <div className="col-sm-6 infoBar">{value} / {state[resource_key]} </div>
+                        </div>
+                )}
 
             </Tooltip>;
 

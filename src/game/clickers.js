@@ -4,7 +4,9 @@ export const clickers = {
 
     basic_particles: {
         strings_clicker: {
-            name: 'Fluctuate string', cost: false, locked: (state) => state.tick < 10, onClick: (state) => {
+            name: 'Fluctuate string',
+            text: 'String is one-dimensional extended objects',
+            cost: {tick: 1}, locked: (state) => state.tick < 10, onClick: (state) => {
                 state.strings++;
                 return state;
             }
@@ -13,7 +15,7 @@ export const clickers = {
         up_quarks_clicker: {
             name: 'Gain Up Quark',
             cost: {strings: 4},
-            text: 'Information about Cards resource which also explains its functionality. Information about Cards resource which also explains its functionality',
+            text: 'The lightest of all quarks, forms protons and neutrons',
             locked: (state) => state.tick < 20,
             onClick: (state) => {
                 state.up_quarks++;
@@ -23,6 +25,7 @@ export const clickers = {
         down_quarks_clicker: {
             name: 'Gain Down Quark',
             cost: {strings: 4},
+            text: 'The second-lightest all quarks, forms protons and neutrons',
             locked: (state) => !state.up_quarks_miner,
             onClick: (state) => {
                 state.down_quarks++;
@@ -35,6 +38,7 @@ export const clickers = {
 
         electrons_clicker: {
             name: 'Gain Electron',
+            text: 'Elementary particle, orbits the nuclei of atom',
             cost: {down_quarks: 4},
             locked: (state) => !state.down_quarks_miner,
             onClick: (state) => {
@@ -45,6 +49,7 @@ export const clickers = {
 
         protons_clicker: {
             name: 'Gain Proton',
+            text: 'Proton has a positive electric charge and combined with neutron forms atom nuclei.',
             cost: {up_quarks: 2, down_quarks: 1},
             locked: (state) => state.up_quarks < 2 && state.down_quarks < 1,
             onClick: (state) => {
@@ -55,6 +60,7 @@ export const clickers = {
 
         neutrons_clicker: {
             name: 'Gain Neutron',
+            text: 'Neutron has no net electric charge and forms atom nuclei.',
             cost: {up_quarks: 1, down_quarks: 2},
             locked: (state) => state.up_quarks < 1 && state.down_quarks < 2,
             onClick: (state) => {
