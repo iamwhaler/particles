@@ -70,7 +70,7 @@ export const automators = {
         },
         onTick: (state) => {
             if(state.neutrons_miner>=1) {
-                state.protons += Math.round(_.random(0, state.neutrons_miner* 0.5));
+                state.neutrons += Math.round(_.random(0, state.neutrons_miner* 0.5));
             }
             return state;
         }

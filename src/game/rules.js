@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {getStarName} from './stars';
+import {getStarName, getStarColor} from './stars';
 import {frame} from "./frame";
 
 import {Popup} from '../utils/Popup/Popup';
@@ -87,7 +87,7 @@ export const rules = {
             if(state.H2>30 && state.H2 !== 0) {
                 if(state.temperature<3000) {
                     state.H2 -= _.random(1, state.H2/10);
-                    state.hydrogen_stars += (state.H2 / 333.33) / state.H2 * 10;
+                    state.hydrogen_stars += 10 //(state.H2 / 333.33) / state.H2 * 10;
                 }
             }
 
@@ -98,8 +98,9 @@ export const rules = {
                     star: {
                         name: star_name,
                         type: 'Hydrogen',
+                        color: getStarColor(),
                         diameter: _.random(1, 10),
-                        density: _.random(0, state.stars.length)
+                        density: _.random(0, state.stars.length/10)
                     }
                 };
                 //  let pushed_value = JSON.stringify(parameters);
@@ -107,9 +108,9 @@ export const rules = {
                 console.log(state.stars);
             }
 
-            if (state.stars.length>30 && state.hydrogen_stars !== 0) {
+            if (state.stars.length>30 && state.hydrogen_stars>0) {
                 state.hydrogen_stars -= (state.hydrogen_stars - (state.H2/100) );
-                state.stars.splice(0, _.random(0, state.H2/20));
+                state.stars.splice(0, _.random(0, state.H2/10));
            //     this.popupHandler.createPopup('Blackhole', 'Your stars were sucked. Buy')
             }
 
