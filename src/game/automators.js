@@ -46,7 +46,8 @@ export const automators = {
 
     hydrogen_miner: {
         name: 'Hydrogen Miner',
-        text: 'The only way to get Hydrogen in this Universe',
+        text: 'The only way to get Hydrogen in this Universe.' +
+        'It really depends on the temperature.',
         cost: {electrons: 10, protons: 5, neutrons: 17.5},
         locked: (state) => false,
         onClick: (state) => {
@@ -55,7 +56,7 @@ export const automators = {
         },
         onTick: (state) => {
             if(state.hydrogen_miner>=1) {
-                state.hydrogen += Math.round(_.random( 1 / state.temperature,  0.75));
+                state.hydrogen += Math.round(_.random( 1 / state.temperature,  state.hydrogen_miner/4));
             }
             return state;
 

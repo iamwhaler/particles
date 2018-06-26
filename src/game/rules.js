@@ -2,6 +2,8 @@ import _ from 'lodash';
 import {getStarName} from './stars';
 import {frame} from "./frame";
 
+import {Popup} from '../utils/Popup/Popup';
+
 export const rules = {
 
     strings_rule: {
@@ -84,7 +86,6 @@ export const rules = {
         onTick: (state) => {
             if(state.H2>30 && state.H2 !== 0) {
                 state.hydrogen_stars += state.H2 / 333.33;
-                state.H2 -= state.strings/100;
             }
 
             if (state.hydrogen_stars >= 1) {
@@ -93,6 +94,7 @@ export const rules = {
                 let parameters = {
                     star: {
                         name: star_name,
+                        type: 'Hydrogen',
                         diameter: _.random(1, 10),
                         density: _.random(0, state.stars.length)
                     }
@@ -105,6 +107,7 @@ export const rules = {
             if (state.stars.length>30 && state.hydrogen_stars !== 0) {
                 state.hydrogen_stars -= 10;
                 state.stars.splice(0, _.random(0, state.H2/10));
+           //     this.popupHandler.createPopup('Blackhole', 'Your stars were sucked. Buy')
             }
 
             return state;

@@ -263,6 +263,8 @@ class App extends Component {
                                     <div className="flex-element">
                                     {item.star.name}
                                     <br/>
+                                        Type: {item.star.type}
+                                    <br/>
                                 Density: {item.star.density}
                                     <br/>
                                 Diameter: {item.star.diameter}
