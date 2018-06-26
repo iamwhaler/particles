@@ -10,7 +10,15 @@ export let getStarName = () => {
 };
 
 
-export let getStarColor = () => {
-    const starColors = ['#6B4E90','#8F78AD','#1C053A','#542493', '#23528E', '#2B3C51', '#1258B1'];
-    return starColors[Math.floor(Math.random() * starColors.length)];
-}
+export let getStarColor = (star_type) => {
+    const hydrogenStarColors = ['#6B4E90','#8F78AD','#1C053A','#542493', '#23528E', '#2B3C51', '#1258B1'];
+    const heliumStarColors = ['#0693A7', '#26464B'];
+
+    if(star_type === 'Hydrogen') {
+        return hydrogenStarColors[_.random(0,hydrogenStarColors.length)];
+    }
+    else if(star_type === 'Helium') {
+        return heliumStarColors[_.random(0,heliumStarColors.length)];
+
+    }
+};

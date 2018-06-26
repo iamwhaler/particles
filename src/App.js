@@ -148,8 +148,6 @@ class App extends Component {
     render() {
         let state = this.state;
 
-
-
         const tooltip = (state, item) =>
 
 
@@ -259,14 +257,14 @@ class App extends Component {
 
                     <div className="flex-element">
                         <h6> Your stars: {state.stars.length} </h6>
-                        <div  style={{ height: '150px', overflowY: 'scroll'}}>
+                        <div className="your-stars" style={{ height: '150px', overflowY: 'scroll'}}>
                         {_.map(state.stars, (item, key) =>
 
                             <div key={key} style={{border: '1px solid #BDBDBD'}} className="flex-container-row">
                                     <div className="flex-element" style={{textAlign: 'center'}}>
 
                                 <Circle r={1 + item.star.diameter} fill={{color: item.star.color}}
-                                        stroke={{color: '#4E4E9A'}} strokeWidth={item.star.density/10}/>
+                                        stroke={{color: '#4E4E9A'}} strokeWidth={item.star.density/4}/>
                                 </div>
 
                                     <div className="flex-element">

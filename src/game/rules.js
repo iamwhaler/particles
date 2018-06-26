@@ -10,9 +10,7 @@ export const rules = {
         onTick: (state) => {
             state.strings++;
 
-          //  state.down_quarks += 5;
-         //   state.up_quarks += 5;
-         //   state.electrons += 5 // for test purposes
+           // state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10 // for test purposes
             if (state.fluctuating) {
 
                 let randomNumber = Math.random() * (100 - 1) + 1;
@@ -87,7 +85,7 @@ export const rules = {
             if(state.H2>30 && state.H2 !== 0) {
                 if(state.temperature<3000) {
                     state.H2 -= _.random(1, state.H2/10);
-                    state.hydrogen_stars += 10 //(state.H2 / 333.33) / state.H2 * 10;
+                    state.hydrogen_stars += (state.H2 / 333.33) / state.H2 * 10;
                 }
             }
 
@@ -98,7 +96,7 @@ export const rules = {
                     star: {
                         name: star_name,
                         type: 'Hydrogen',
-                        color: getStarColor(),
+                        color: getStarColor('Hydrogen'),
                         diameter: _.random(1, 10),
                         density: _.random(0, state.stars.length/10)
                     }
@@ -131,6 +129,8 @@ export const rules = {
                 let parameters = {
                     star: {
                         name: star_name,
+                        color: getStarColor('Helium'),
+                        type: 'Helium',
                         diameter: _.random(1, 10),
                         density: _.random(0, state.stars.length)
                     }
