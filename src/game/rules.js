@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import {getStarName, getStarColor} from './stars';
-import {frame} from "./frame";
 
 import {Popup} from '../utils/Popup/Popup';
 
@@ -10,7 +9,7 @@ export const rules = {
         onTick: (state) => {
             state.strings++;
 
-           // state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10 // for test purposes
+         // state.hydrogen+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10 // for test purposes
             if (state.fluctuating) {
 
                 let randomNumber = Math.random() * (100 - 1) + 1;
@@ -82,8 +81,8 @@ export const rules = {
     hydrogen_stars_rule: {
 
         onTick: (state) => {
-            if(state.H2>30 && state.H2 !== 0) {
-                if(state.temperature<3000) {
+            if(state.H2>20 && state.H2 !== 0) {
+                if(state.temperature<2000) {
                     state.H2 -= _.random(1, state.H2/10);
                     state.hydrogen_stars += (state.H2 / 333.33) / state.H2 * 10;
                 }
@@ -97,8 +96,7 @@ export const rules = {
                         name: star_name,
                         type: 'Hydrogen',
                         color: getStarColor('Hydrogen'),
-                        diameter: _.random(1, 10),
-                        density: _.random(0, state.stars.length/10)
+                        mass: _.random((1/state.temperature), state.H2 ,true)
                     }
                 };
                 //  let pushed_value = JSON.stringify(parameters);
@@ -110,6 +108,10 @@ export const rules = {
                 state.hydrogen_stars -= (state.hydrogen_stars - (state.H2/100) );
                 state.stars.splice(0, _.random(0, state.H2/10));
            //     this.popupHandler.createPopup('Blackhole', 'Your stars were sucked. Buy')
+            }
+
+            if (state.H2>150 && state.temperature>1000) {
+                state.stars.splice(0, _.random(0, state.H2/10));
             }
 
             return state;
@@ -132,10 +134,9 @@ export const rules = {
                         color: getStarColor('Helium'),
                         type: 'Helium',
                         diameter: _.random(1, 10),
-                        density: _.random(0, state.stars.length)
+                        mass: _.random(0.1, state.stars.length)
                     }
                 };
-                //  let pushed_value = JSON.stringify(parameters);
                 state.stars.push(parameters);
                 console.log(state.stars);
             }

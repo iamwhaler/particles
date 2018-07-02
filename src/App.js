@@ -215,7 +215,7 @@ class App extends Component {
 
 
                 <div className="flex-container-row resources">
-                        <div className="flex-element">
+                        <div className="flex-element resource-tab">
                             <h6>Basic particles</h6>
                            <img src = {"./img/basic_particles.png"} />
                             { _.map(data.basic_particles, (item, key) =>
@@ -263,8 +263,8 @@ class App extends Component {
                             <div key={key} style={{border: '1px solid #BDBDBD'}} className="flex-container-row">
                                     <div className="flex-element" style={{textAlign: 'center'}}>
 
-                                <Circle r={1 + item.star.diameter} fill={{color: item.star.color}}
-                                        stroke={{color: '#4E4E9A'}} strokeWidth={item.star.density/4}/>
+                                <Circle r={1 + item.star.mass/10} fill={{color: item.star.color}}
+                                        stroke={{color: '#4E4E9A'}} strokeWidth={state.H2/4}/>
                                 </div>
 
                                     <div className="flex-element">
@@ -272,9 +272,7 @@ class App extends Component {
                                     <br/>
                                         Type: {item.star.type}
                                     <br/>
-                                Density: {item.star.density.toFixed(0)}
-                                    <br/>
-                                Diameter: {item.star.diameter.toFixed(0)}
+                                Mass: {item.star.mass.toFixed(2)}
                                     </div>
                             </div>
                         )}
@@ -295,7 +293,9 @@ class App extends Component {
                     <div className="flex-container-row">
 
                     <div className="flex-element">
-                         {_.map(clickers.basic_particles, (item, key) =>
+                        <img src = {"./img/basic_particles.png"} />
+
+                        {_.map(clickers.basic_particles, (item, key) =>
                                     (item.locked && item.locked(this.state))
                                         ? ''
                                         :
@@ -315,6 +315,7 @@ class App extends Component {
                             </div>
 
                         <div className="flex-element">
+                            <img src = {"./img/atom_nucleus.png"} />
                             {_.map(clickers.leptons, (item, key) =>
                                 (item.locked && item.locked(this.state))
                                     ? ''
@@ -335,6 +336,7 @@ class App extends Component {
                         </div>
 
                         <div className="flex-element">
+                            <img src = {"./img/atoms.png"} />
                             {_.map(clickers.atoms, (item, key) =>
                                 (item.locked && item.locked(this.state))
                                     ? ''
@@ -359,7 +361,7 @@ class App extends Component {
 
                     <div className="flex-element">
                         <h3>Automation</h3>
-                        {_.map(automators, (item, key) =>
+                        {_.map(automators.miners, (item, key) =>
                             (item.locked && item.locked(this.state))
                                 ? ''
                                 :
@@ -388,6 +390,37 @@ class App extends Component {
                                            </OverlayTrigger>
 
                                             </div>
+                                </div>
+                        )}
+
+                        {_.map(automators.converters, (item, key) =>
+                            (item.locked && item.locked(this.state))
+                                ? ''
+                                :  <div key={key} className="flex-container-row automation">
+                                    <div className="flex-element">
+                                        <div className="col-sm-6" style={{textAlign: "right"}}>{item.name}: {state[key]}</div>
+
+                                        <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
+                                        <span>
+                                           <div className="col-sm-6">
+                                            {<button
+                                                className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
+                                                onClick={() => { this.onClickWrapper(item); }}>
+                                                +
+                                            </button>}
+
+
+                                               {<button
+                                                   className={( state[key]>0 ? '' : 'disabled')}
+                                                   onClick={() => { state[key]>0 ? state[key]-=1 : false}}>
+                                                   -
+                                               </button>}
+                                            </div>
+
+                                           </span>
+                                        </OverlayTrigger>
+
+                                    </div>
                                 </div>
                         )}
                     </div>

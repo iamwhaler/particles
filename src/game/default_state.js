@@ -43,6 +43,8 @@ const default_state = {
     neutrons_miner: 0,
     electrons_miner: 0,
 
+    H2_converter: 0,
+
     hydrogen_miner: 0,
     helium_miner: 0,
 
@@ -54,7 +56,7 @@ const default_state = {
     player: {
         armor_current: 1000,
         armor: 1000,
-        stamina: 1000
+        stamina: 1000000
     },
 
     weapon: genModuleState('weapon'),
