@@ -14,7 +14,8 @@ export const automators = {
             },
             onTick: (state) => {
                 console.log(state);
-                state.strings += _.random(0, state.strings_miner);
+                state.strings += _.random(1, state.strings_miner);
+                console.log(_.random(1, state.strings_miner));
                 return state;
             }
         },
@@ -114,7 +115,7 @@ export const automators = {
                 return state;
             },
             onTick: (state) => {
-                if (state.H2_converter >= 1) {
+                if (state.H2_converter >= 1 && state.hydrogen>=2) {
                     state.H2 += state.H2_converter * 2;
                     state.hydrogen -= state.H2_converter * 4;
                 }

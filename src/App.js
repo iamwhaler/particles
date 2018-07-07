@@ -217,7 +217,7 @@ class App extends Component {
                 <div className="flex-container-row resources">
                         <div className="flex-element resource-tab">
                             <h6>Basic particles</h6>
-                           <img src = {"./img/basic_particles.png"} />
+                           <img className="overlay" src = {"./img/basic_particles.png"} />
                             { _.map(data.basic_particles, (item, key) =>
                                 <div key={key}>
                                     {item.name}: {state[key]}
@@ -227,7 +227,7 @@ class App extends Component {
 
                         <div className="flex-element">
                             <h6>Atoms</h6>
-                            <img src = {"./img/atoms.png"} />
+                            <img className="overlay" src = {"./img/atoms.png"} />
                             { _.map(data.atoms, (item, key) =>
                                 <div key={key}>
                                     {item.name}: {state[key].toFixed(2)}
@@ -237,7 +237,7 @@ class App extends Component {
 
                         <div className="flex-element">
                             <h6>Simple molecules</h6>
-                            <img src = {"./img/simple_molecules.png"} />
+                            <img className="overlay" src = {"./img/simple_molecules.png"} />
                             { _.map(data.simple_molecules, (item, key) =>
                                 <div key={key}>
                                     {item.name}: {state[key].toFixed(2)}
@@ -247,7 +247,7 @@ class App extends Component {
 
                     <div className="flex-element">
                         <h6>Stars</h6>
-                        <img src = {"./img/star.png"} />
+                        <img className="overlay" src = {"./img/star.png"} />
                         { _.map(data.stars, (item, key) =>
                             <div key={key}>
                                 {item.name}: {state[key].toFixed(2)}
@@ -293,7 +293,7 @@ class App extends Component {
                     <div className="flex-container-row">
 
                     <div className="flex-element">
-                        <img src = {"./img/basic_particles.png"} />
+                        <img className="overlay" src = {"./img/basic_particles.png"} />
 
                         {_.map(clickers.basic_particles, (item, key) =>
                                     (item.locked && item.locked(this.state))
@@ -315,7 +315,7 @@ class App extends Component {
                             </div>
 
                         <div className="flex-element">
-                            <img src = {"./img/atom_nucleus.png"} />
+                            <img className="overlay" src = {"./img/atom_nucleus.png"} />
                             {_.map(clickers.leptons, (item, key) =>
                                 (item.locked && item.locked(this.state))
                                     ? ''
@@ -336,7 +336,7 @@ class App extends Component {
                         </div>
 
                         <div className="flex-element">
-                            <img src = {"./img/atoms.png"} />
+                            <img className="overlay" src = {"./img/atoms.png"} />
                             {_.map(clickers.atoms, (item, key) =>
                                 (item.locked && item.locked(this.state))
                                     ? ''
@@ -361,6 +361,9 @@ class App extends Component {
 
                     <div className="flex-element">
                         <h3>Automation</h3>
+                        <img className="overlay" src = {"./img/automation.png"} style={{width: '25px',height: '25px'}}/>
+                        <div className="flex-container-column">
+
                         {_.map(automators.miners, (item, key) =>
                             (item.locked && item.locked(this.state))
                                 ? ''
@@ -424,9 +427,12 @@ class App extends Component {
                                 </div>
                         )}
                     </div>
+                    </div>
 
                     <div className="flex-element">
                         <h3>Upgrades</h3>
+                        <img className="overlay" src = {"./img/upgrades.png"}/>
+
                         {_.map(oneclickers, (item, key) =>
                             (item.locked && item.locked(this.state))
                                 ? ''

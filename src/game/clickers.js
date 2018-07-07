@@ -6,7 +6,7 @@ export const clickers = {
         strings_clicker: {
             name: 'Fluctuate string',
             text: 'String is one-dimensional extended objects',
-            cost: {tick: 1}, locked: (state) => state.tick < 10, onClick: (state) => {
+            cost: false, locked: (state) => state.tick < 10, onClick: (state) => {
                 state.strings++;
                 return state;
             }
