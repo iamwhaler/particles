@@ -4,9 +4,11 @@ export const clickers = {
 
     basic_particles: {
         strings_clicker: {
-            name: 'Fluctuate string',
+            name: 'Fluctuate String',
             text: 'String is one-dimensional extended objects',
-            cost: false, locked: (state) => state.tick < 10, onClick: (state) => {
+            cost: false,
+            locked: (state) => state.tick < 10,
+            onClick: (state) => {
                 state.strings++;
                 return state;
             }
@@ -32,9 +34,6 @@ export const clickers = {
                 return state;
             }
         },
-    },
-
-    leptons: {
 
         electrons_clicker: {
             name: 'Gain Electron',

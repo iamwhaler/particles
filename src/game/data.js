@@ -1,17 +1,18 @@
+import {clickers} from "./clickers";
 
 export const data = {
     basic_particles: {
         strings: {name: 'Strings'},
         up_quarks: {name: 'Up Quarks'},
-        down_quarks: {name: 'Down Quarks'},
-        electrons: {name: 'Electrons'},
-        protons: {name: 'Protons'},
-        neutrons: {name: 'Neutrons'}
+        down_quarks: {name: 'Down Quarks', locked: (state) => clickers.basic_particles.down_quarks_clicker.locked(state)},
+        electrons: {name: 'Electrons', locked: (state) => clickers.basic_particles.electrons_clicker.locked(state)},
+        protons: {name: 'Protons', locked: (state) => clickers.basic_particles.protons_clicker.locked(state)},
+        neutrons: {name: 'Neutrons', locked: (state) => clickers.basic_particles.neutrons_clicker.locked(state)}
     },
 
     atoms: {
-        hydrogen: {name: 'Hydrogen'},
-        helium: {name: 'Helium'},
+        hydrogen: {name: 'Hydrogen', locked: (state) => clickers.atoms.hydrogen_clicker.locked(state)},
+        helium: {name: 'Helium', locked: (state) => clickers.atoms.helium_clicker.locked(state)},
     },
 
     simple_molecules: {

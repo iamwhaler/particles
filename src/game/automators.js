@@ -6,7 +6,7 @@ export const automators = {
     miners: {
         strings_miner: {
             name: 'Strings Miner',
-            cost: {strings: 10},
+            cost: {strings: 20},
             locked: (state) => state.tick < 10,
             onClick: (state) => {
                 state.strings_miner++;
@@ -21,7 +21,7 @@ export const automators = {
         },
         up_quarks_miner: {
             name: 'Up Quarks Miner',
-            cost: {up_quarks: 100},
+            cost: {up_quarks: 40},
             locked: (state) => !state.strings_miner,
             onClick: (state) => {
                 state.up_quarks_miner++;
@@ -35,7 +35,7 @@ export const automators = {
 
         down_quarks_miner: {
             name: 'Down Quarks Miner',
-            cost: {down_quarks: 80},
+            cost: {down_quarks: 40},
             locked: (state) => !state.strings_miner,
             onClick: (state) => {
                 state.down_quarks_miner++;
@@ -108,7 +108,7 @@ export const automators = {
             name: 'H2 Converter',
             text: 'The only way to get Hydrogen in this Universe.' +
             'It really depends on the temperature.',
-            cost: {electrons: 10, protons: 5, neutrons: 17.5},
+            cost: {hydrogen: 20, H2: 5},
             locked: (state) => false,
             onClick: (state) => {
                 state.H2_converter++;
@@ -117,7 +117,7 @@ export const automators = {
             onTick: (state) => {
                 if (state.H2_converter >= 1 && state.hydrogen>=2) {
                     state.H2 += state.H2_converter * 2;
-                    state.hydrogen -= state.H2_converter * 4;
+                    state.hydrogen -= _.random(state.H2_converter, state.hydrogen);
                 }
                 return state;
 

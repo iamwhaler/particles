@@ -47,8 +47,7 @@ export const rules = {
 
     temperature_rule: {
         onTick: (state) => {
-            state.temperature += 3.33;
-
+            state.temperature += 1 + state.stars.length;
             // clearInterval(state.timerID);
             // state.game_paused = true;
             //  state.frame_rate = state.temperature;
@@ -81,11 +80,9 @@ export const rules = {
     hydrogen_stars_rule: {
 
         onTick: (state) => {
-            if(state.H2>20 && state.H2 !== 0) {
-                if(state.temperature<2000) {
+            if(state.H2>20 && state.H2 !== 0 && state.temperature<2000) {
                     state.H2 -= _.random(1, state.H2/10);
                     state.hydrogen_stars += (state.H2 / 333.33) / state.H2 * 10;
-                }
             }
 
             if (state.hydrogen_stars >= 1) {
@@ -95,8 +92,9 @@ export const rules = {
                     star: {
                         name: star_name,
                         type: 'Hydrogen',
+                        diameter: 0, // this will be used to describe what's going on inside the star (all h2 turned into other more weight elements
                         color: getStarColor('Hydrogen'),
-                        mass: _.random((1/state.temperature), state.H2 ,true)
+                        mass: _.random(1, state.H2 ,true)
                     }
                 };
                 //  let pushed_value = JSON.stringify(parameters);
@@ -113,6 +111,22 @@ export const rules = {
             if (state.H2>150 && state.temperature>1000) {
                 state.stars.splice(0, _.random(0, state.H2/10));
             }
+
+
+            ///star explosion
+
+            _.map(state.stars, (item, key) => {
+                    if (item.mass>30) {
+                        state.stars.splice(key);
+
+                        let probability = _.random(0,100,true);
+
+                        switch(probability) {
+                            case probability<33.3:
+                        }
+                    }
+                }
+            );
 
             return state;
         }

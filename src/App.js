@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import {Circle} from 'react-shapes';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { Tooltip, OverlayTrigger, Button } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Footer from './footer.js'
 
 import './css/App.css';
@@ -14,14 +15,12 @@ import {data} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {automators} from './game/automators';
-import {stars} from './game/stars';
 
 import {modes} from './game/modes';
 import {modules} from './game/modules';
 import {upgrades} from './game/upgrades';
 import Popup from "./utils/Popup/Popup";
 
-import {Circle} from 'react-shapes';
 
 
 
@@ -169,7 +168,7 @@ class App extends Component {
                         :
                         <div className="row" key={resource_key}>
                             <div className="col-sm-6 infoBar">{resource_key}</div>
-                            <div className="col-sm-6 infoBar">{value} / {state[resource_key]} </div>
+                            <div className="col-sm-6 infoBar">{value} / {state[resource_key].toFixed(0)} </div>
                         </div>
                 )}
 
@@ -215,24 +214,82 @@ class App extends Component {
 
 
                 <div className="flex-container-row resources">
-                        <div className="flex-element resource-tab">
-                            <h6>Basic particles</h6>
-                           <img className="overlay" src = {"./img/basic_particles.png"} />
-                            { _.map(data.basic_particles, (item, key) =>
-                                <div key={key}>
-                                    {item.name}: {state[key]}
+                    <div className="flex-element">
+                        <h6>Basic particles</h6>
+                        <img className="overlay" src={"./img/basic_particles.png"}/>
+                        <div className="flex-container-row resource-tab">
+
+                            <div className="flex-element">
+                            {_.map(data.basic_particles, (item, key) =>
+                                (item.locked && item.locked(this.state))
+                                    ? ''
+                                    :
+                                <div className="flex-element" style={{width: '150px'}} key={key}>
+                                        <span className="flex-element">{item.name}: {state[key]}</span>
                                 </div>
                             )}
+                            </div>
+
+                            <div className="flex-element col-xs clickers">
+                            {_.map(clickers.basic_particles, (item, key) =>
+                                (item.locked && item.locked(this.state))
+                                    ? ''
+                                    :
+                                    <div key={key}>
+                                        <OverlayTrigger delay={150} placement="right"
+                                                        overlay={tooltip(this.state, item)}>
+                                            <button
+                                                className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
+                                                onClick={() => {
+                                                    this.onClickWrapper(item);
+                                                }}>
+                                                +1
+                                            </button>
+                                        </OverlayTrigger>
+                                    </div>
+                            )}
+                            </div>
+
                         </div>
+                    </div>
 
                         <div className="flex-element">
                             <h6>Atoms</h6>
                             <img className="overlay" src = {"./img/atoms.png"} />
-                            { _.map(data.atoms, (item, key) =>
-                                <div key={key}>
-                                    {item.name}: {state[key].toFixed(2)}
+                            <div className="flex-container-row resource-tab">
+
+                                <div className="flex-element">
+                                    {_.map(data.atoms, (item, key) =>
+                                        (item.locked && item.locked(this.state))
+                                            ? ''
+                                            :
+                                        <div className="flex-element" style={{width: '150px'}} key={key}>
+                                            <span className="flex-element">{item.name}: {state[key]}</span>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
+
+                                <div className="flex-element col-xs clickers">
+                                    {_.map(clickers.atoms, (item, key) =>
+                                        (item.locked && item.locked(this.state))
+                                            ? ''
+                                            :
+                                            <div key={key}>
+                                                <OverlayTrigger delay={150} placement="right"
+                                                                overlay={tooltip(this.state, item)}>
+                                                    <button
+                                                        className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
+                                                        onClick={() => {
+                                                            this.onClickWrapper(item);
+                                                        }}>
+                                                        +1
+                                                    </button>
+                                                </OverlayTrigger>
+                                            </div>
+                                    )}
+                                </div>
+
+                            </div>
                         </div>
 
                         <div className="flex-element">
@@ -284,83 +341,31 @@ class App extends Component {
                 <div className="flex-container-row">
 
                     <div className="flex-element">
-                    <div className="flex-container-row">
-                        <div className="flex-element">
-                        <h3>Clickers</h3>
-                        </div>
-                    </div>
+                        <h3>Upgrades</h3>
+                        <img className="overlay" src = {"./img/upgrades.png"}/>
 
-                    <div className="flex-container-row">
-
-                    <div className="flex-element">
-                        <img className="overlay" src = {"./img/basic_particles.png"} />
-
-                        {_.map(clickers.basic_particles, (item, key) =>
-                                    (item.locked && item.locked(this.state))
-                                        ? ''
-                                        :
-                                        <div key={key}>
-                                            <OverlayTrigger delay={150} placement="right"
-                                                            overlay={tooltip(this.state, item)}>
-                                                <button
-                                                    className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
-                                                    onClick={() => {
-                                                        this.onClickWrapper(item);
-                                                    }}>
-                                                    {item.name}
-                                                </button>
-                                            </OverlayTrigger>
-                                        </div>
-                                )}
-                            </div>
-
-                        <div className="flex-element">
-                            <img className="overlay" src = {"./img/atom_nucleus.png"} />
-                            {_.map(clickers.leptons, (item, key) =>
-                                (item.locked && item.locked(this.state))
-                                    ? ''
-                                    :
-                                    <div key={key}>
-                                        <OverlayTrigger delay={150} placement="right"
-                                                        overlay={tooltip(this.state, item)}>
+                        {_.map(oneclickers, (item, key) =>
+                            (item.locked && item.locked(this.state))
+                                ? ''
+                                :
+                                <div key={key}>
+                                    <OverlayTrigger delay={150} placement="left" overlay={tooltip(this.state, item)}>
+                                        {this.state[key]
+                                            ? <span className="badge">{item.name}</span>
+                                            :
                                             <button
                                                 className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
-                                                onClick={() => {
-                                                    this.onClickWrapper(item);
-                                                }}>
+                                                onClick={() => { this.onClickWrapper(item); }}>
                                                 {item.name}
-                                            </button>
-                                        </OverlayTrigger>
-                                    </div>
-                            )}
-                        </div>
-
-                        <div className="flex-element">
-                            <img className="overlay" src = {"./img/atoms.png"} />
-                            {_.map(clickers.atoms, (item, key) =>
-                                (item.locked && item.locked(this.state))
-                                    ? ''
-                                    :
-                                    <div key={key}>
-                                        <OverlayTrigger delay={150} placement="right"
-                                                        overlay={tooltip(this.state, item)}>
-                                            <button
-                                                className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
-                                                onClick={() => {
-                                                    this.onClickWrapper(item);
-                                                }}>
-                                                {item.name}
-                                            </button>
-                                        </OverlayTrigger>
-                                    </div>
-                            )}
-                        </div>
-                    </div>
+                                            </button>}
+                                    </OverlayTrigger>
+                                </div>
+                        )}
                     </div>
 
 
                     <div className="flex-element">
-                        <h3>Automation</h3>
+                        <h3>Synthesizers</h3>
                         <img className="overlay" src = {"./img/automation.png"} style={{width: '25px',height: '25px'}}/>
                         <div className="flex-container-column">
 
@@ -429,27 +434,29 @@ class App extends Component {
                     </div>
                     </div>
 
-                    <div className="flex-element">
-                        <h3>Upgrades</h3>
-                        <img className="overlay" src = {"./img/upgrades.png"}/>
 
-                        {_.map(oneclickers, (item, key) =>
-                            (item.locked && item.locked(this.state))
-                                ? ''
-                                :
-                                <div key={key}>
-                                    <OverlayTrigger delay={150} placement="left" overlay={tooltip(this.state, item)}>
-                                        {this.state[key]
-                                            ? <span className="badge">{item.name}</span>
-                                            :
-                                            <button
-                                                className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
-                                                onClick={() => { this.onClickWrapper(item); }}>
-                                                {item.name}
-                                            </button>}
-                                    </OverlayTrigger>
-                                </div>
-                        )}
+                    <div className="flex-element">
+                        <div className="flex-container-row">
+                            <div className="flex-element">
+                                <h3>Planets</h3>
+                            </div>
+                        </div>
+
+                        <div className="flex-container-row">
+
+                            <div className="flex-element">
+                                <img className="overlay" src = {"./img/basic_particles.png"} />
+
+                            </div>
+
+                            <div className="flex-element">
+                                <img className="overlay" src = {"./img/atom_nucleus.png"} />
+                            </div>
+
+                            <div className="flex-element">
+                                <img className="overlay" src = {"./img/atoms.png"} />
+                            </div>
+                        </div>
                     </div>
 
                 </div>
