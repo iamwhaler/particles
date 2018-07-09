@@ -16,9 +16,9 @@ export const data = {
     },
 
     simple_molecules: {
-        H2: {name: 'H2'},
-        He2: {name: 'He2'},
-        N2: {name: 'N2'},
+        H2: {name: 'H2', locked: (state) => !state.achievements.includes('hydrogen')},
+        He2: {name: 'He2', locked: (state) =>!state.achievements.includes('helium')},
+        N2: {name: 'N2', locked: (state) => !state.achievements.includes('nitrogen')},
     },
 
     stars: {

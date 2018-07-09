@@ -3,12 +3,11 @@ import {genTarget} from '../game/targets';
 
 export const modules = {
     weapon: {
-        name: 'Weapon',
+        name: 'Cool down',
         onClick: (state) => {
-            if (state.weapon.current_state === 'stopped') {
+            if (state.cooler.current_state === 'stopped') {
                 state.weapon.current_state = 'started';
                 state.weapon.next_command = 'start';
-                state.weapon.cooldown_timer = modules.weapon.base_cooldown;
             }
             else {
                 state.weapon.next_command = state.weapon.next_command === 'start' ? 'stop' : 'start';

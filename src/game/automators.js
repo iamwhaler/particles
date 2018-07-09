@@ -6,6 +6,7 @@ export const automators = {
     miners: {
         strings_miner: {
             name: 'Strings Miner',
+            text: 'Generates strings once in a tick',
             cost: {strings: 20},
             locked: (state) => state.tick < 10,
             onClick: (state) => {
@@ -13,14 +14,13 @@ export const automators = {
                 return state;
             },
             onTick: (state) => {
-                console.log(state);
                 state.strings += _.random(1, state.strings_miner);
-                console.log(_.random(1, state.strings_miner));
                 return state;
             }
         },
         up_quarks_miner: {
             name: 'Up Quarks Miner',
+            text: 'Synths Up Quarks once in a tick',
             cost: {up_quarks: 40},
             locked: (state) => !state.strings_miner,
             onClick: (state) => {
@@ -35,6 +35,7 @@ export const automators = {
 
         down_quarks_miner: {
             name: 'Down Quarks Miner',
+            text: 'Synths Down Quarks once in a tick',
             cost: {down_quarks: 40},
             locked: (state) => !state.strings_miner,
             onClick: (state) => {
@@ -87,7 +88,7 @@ export const automators = {
             text: 'The only way to get Hydrogen in this Universe.' +
             'It really depends on the temperature.',
             cost: {electrons: 10, protons: 5, neutrons: 17.5},
-            locked: (state) => false,
+            locked: (state) => !state.achievements.includes('hydrogen'),
             onClick: (state) => {
                 state.hydrogen_miner++;
                 return state;
@@ -106,10 +107,9 @@ export const automators = {
     converters: {
         H2_converter: {
             name: 'H2 Converter',
-            text: 'The only way to get Hydrogen in this Universe.' +
-            'It really depends on the temperature.',
+            text: 'Synths H2 consuming Hydrogen',
             cost: {hydrogen: 20, H2: 5},
-            locked: (state) => false,
+            locked: (state) => !state.achievements.includes('H2'),
             onClick: (state) => {
                 state.H2_converter++;
                 return state;

@@ -4,12 +4,24 @@ import {getStarName, getStarColor} from './stars';
 import {Popup} from '../utils/Popup/Popup';
 
 export const rules = {
+    achievement_rule: {
+        onFrame: (state) => {
+            if(state.up_quarks===1){state.achievements.push('quarks')}
+            if(state.hydrogen===1){state.achievements.push('hydrogen')}
+            if(state.helium===1){state.achievements.push('helium')}
+            if(state.H2===1){state.achievements.push('H2')}
+            if(state.He2===1){state.achievements.push('He2')}
+
+
+            return state;
+        }
+    },
 
     strings_rule: {
         onTick: (state) => {
             state.strings++;
 
-         // state.hydrogen+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10 // for test purposes
+       //   state.hydrogen+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10 // for test purposes
             if (state.fluctuating) {
 
                 let randomNumber = Math.random() * (100 - 1) + 1;

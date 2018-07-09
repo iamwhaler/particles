@@ -52,6 +52,8 @@ const default_state = {
 
     stars: [],
 
+    achievements: [],
+
 // not used for now
     player: {
         armor_current: 1000,

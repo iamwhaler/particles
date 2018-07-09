@@ -1,4 +1,5 @@
-//import _ from 'lodash';
+import _ from 'lodash';
+import {modules} from "./modules";
 
 export const oneclickers = {
     fluctuating: {
@@ -10,11 +11,35 @@ export const oneclickers = {
     },
 
     refresh_temperature: {
-        name: 'Refresh temperature', text: 'Refresh temperature once in a while',
-        cost: {strings: 10}, locked: (state) => false, onClick: (state) => {
-            state.temperature-=1000;
-            return state;
+        name: 'Cool temperature', text: 'Temperature gets lower consuming strings',
+        cost: {strings: 10}, locked: (state) => false,
+        onClick: (state) => {
+            if (document.getElementById('switch').value === 'off') {
+                document.getElementById("switch").value = "on";
+                console.log('Cooler state:' + document.getElementById('switch').value);
+            }
+            else {
+                document.getElementById("switch").value = "off";
+                console.log('Cooler state:' + document.getElementById('switch').value);
+            }
+        }
+        ,
+        onTick: (state) => {
+
+            if (document.getElementById('switch').value==="on") {
+                if(state.strings>5) {
+                    state.strings -= _.random(1, 5);
+                    state.temperature -= 10;
+                }
+            }
+            else {return state}
+            return state
         }
     }
 
+};
+
+export const genUpgradeState = (name) => {
+    let oneclicker = oneclickers[name];
+    return {current_state: 'stop', next_command: 'start'};
 };
