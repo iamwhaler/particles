@@ -21,7 +21,7 @@ export const automators = {
         up_quarks_miner: {
             name: 'Up Quarks Miner',
             text: 'Synths Up Quarks once in a tick',
-            cost: {up_quarks: 40},
+            cost: {up_quarks: 20},
             locked: (state) => !state.strings_miner,
             onClick: (state) => {
                 state.up_quarks_miner++;

@@ -1,4 +1,13 @@
 import _ from 'lodash';
+import toastr from 'toastr';
+
+toastr.options = {
+    timeOut: 2500,
+    closeButton: true,
+    preventDuplicates: false,
+    extendedTimeOut: 1000,
+    escapeHtml: false
+};
 
 export const oneclickers = {
     fluctuating: {
@@ -13,22 +22,22 @@ export const oneclickers = {
         name: 'Cool temperature', text: 'Temperature gets lower consuming strings',
         cost: {strings: 10}, locked: (state) => false,
         onClick: (state) => {
-            if (document.getElementById('switch').value === 'off') {
-                document.getElementById("switch").value = "on";
-                console.log('Cooler state:' + document.getElementById('switch').value);
-            }
-            else {
-                document.getElementById("switch").value = "off";
-                console.log('Cooler state:' + document.getElementById('switch').value);
-            }
-        }
-        ,
+                if (document.getElementById('refresh_temperature').className!=='switchOn') {
+                    toastr.info('Temperature cooler is turned on');
+                    document.getElementById('refresh_temperature').classList.add("switchOn");
+                }
+                else {
+                    toastr.info('Temperature cooler is turned off');
+                    document.getElementById('refresh_temperature').classList.remove("switchOn");
+                }
+         },
+
         onTick: (state) => {
 
-            if (document.getElementById('switch').value==="on") {
+            if (document.getElementById('refresh_temperature').className==="switchOn") {
                 if(state.strings>5) {
                     state.strings -= _.random(1, 5);
-                    state.temperature -= 10;
+                    state.temperature -= _.random(10, 20);
                 }
             }
             else {return state}

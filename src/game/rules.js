@@ -1,10 +1,8 @@
 import _ from 'lodash';
 import toastr from 'toastr';
+import React from 'react';
 
 import {getStarName, getStarColor} from './stars';
-
-import {Popup} from '../utils/Popup/Popup';
-
 
 export const rules = {
     achievement_rule: {
@@ -13,13 +11,20 @@ export const rules = {
                 state.achievements.push('quarks')
             }
             if (state.hydrogen === 1) {
-                state.achievements.push('hydrogen');
+                state.achievements.push('hydrogen')
             }
             if (state.helium === 1) {
                 state.achievements.push('helium')
             }
             if (state.H2 === 1) {
-                state.achievements.push('H2')
+                state.achievements.push('H2');
+                toastr.info("You've discovered Hydrogen molecules", 'Congratulations!', {
+                    timeOut: 6000,
+                    closeButton: true,
+                    preventDuplicates: true,
+                    extendedTimeOut: 4000,
+                    escapeHtml: false
+                });
             }
             if (state.He2 === 1) {
                 state.achievements.push('He2')
@@ -33,12 +38,12 @@ export const rules = {
             if (state.temperature > 2000) {
                 toastr.error('Be aware', 'Temperature of your universe is too high!', {
                     timeOut: 15000,
-                    closeButton: true,
+                    closeButton: false,
                     preventDuplicates: true,
-                    extendedTimeOut: 5000
+                    extendedTimeOut: 5000,
+                    escapeHtml: false
                 });
-                //ToastDanger('Temperature of your universe is too high!')
-                // }
+
             }
             return state;
 
@@ -47,7 +52,7 @@ export const rules = {
 
     temperature_rule: {
         onTick: (state) => {
-            state.temperature += 100 + state.stars.length;
+            state.temperature += _.random(5,10) + state.stars.length;
             // clearInterval(state.timerID);
             // state.game_paused = true;
             //  state.frame_rate = state.temperature;

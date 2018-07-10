@@ -375,11 +375,12 @@ class App extends Component {
                                         {this.state[key]
                                             ? <span className="badge">{item.name}</span>
                                             :
-                                            <button id="switch" value="off"
+                                            <button id={key} value="off" key={key}
                                                 className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
                                                 onClick={() => { this.onClickWrapper(item); }}>
                                                 {item.name}
                                             </button>}
+
                                     </OverlayTrigger>
                                 </div>
                         )}

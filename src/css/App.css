@@ -63,13 +63,16 @@ button {
   margin-top: 2.5px;
 }
 
+.switchOn {
+  background-color: #83B18F;
+}
+
 .button-selector {
   color: black;
 }
 
 .button-selector-disabled {
   color: #BDBDBD;
-
 }
 
 .flex-element {
