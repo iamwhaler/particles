@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import {rules} from './rules';
 import {automators} from './automators';
-import {functions} from './targets';
 import {oneclickers} from "./oneclickers";
 
 export const tick = (state) => {

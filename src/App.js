@@ -21,6 +21,12 @@ import {modules} from './game/modules';
 import {upgrades} from './game/upgrades';
 import Popup from "./utils/Popup/Popup";
 
+//import {Router} from 'react-router';
+
+import { ToastContainer } from 'react-toastr';
+
+
+
 
 
 
@@ -147,6 +153,7 @@ class App extends Component {
     render() {
         let state = this.state;
 
+
         const tooltip = (state, item) =>
 
 
@@ -187,6 +194,8 @@ class App extends Component {
                     Temperature: {state.temperature.toFixed(1)}
                 </div>
 
+                   <ToastContainer className="toast-top-right"/>
+
                    <div className="flex-element flex-container-row">
                        <div className="col-sm-3" style={{color: '#DADADA'}}>
                            <h5>Tick: {this.state.tick} Frame: {this.state.frame} </h5>
@@ -216,7 +225,7 @@ class App extends Component {
                 <div className="flex-container-row resources">
                     <div className="flex-element">
                         <h6>Basic particles</h6>
-                        <img className="overlay" src={"./img/basic_particles.png"}/>
+                        <img alt="" className="overlay" src={"./img/basic_particles.png"}/>
                         <div className="flex-container-row resource-tab">
 
                             <div className="flex-element">
@@ -256,7 +265,7 @@ class App extends Component {
 
                     <div className="flex-element">
                             <h6>Atoms</h6>
-                            <img className="overlay" src = {"./img/atoms.png"} />
+                            <img alt="" className="overlay" src = {"./img/atoms.png"} />
                             <div className="flex-container-row resource-tab">
 
                                 <div className="flex-element">
@@ -296,7 +305,7 @@ class App extends Component {
 
                         <div className="flex-element">
                             <h6>Simple molecules</h6>
-                            <img className="overlay" src = {"./img/simple_molecules.png"} />
+                            <img alt="" className="overlay" src = {"./img/simple_molecules.png"} />
                             { _.map(data.simple_molecules, (item, key) =>
                                 (item.locked && item.locked(this.state))
                                     ? ''
@@ -311,7 +320,7 @@ class App extends Component {
                         ?
                     <div className="flex-element">
                         <h6>Stars</h6>
-                        <img className="overlay" src = {"./img/star.png"} />
+                        <img alt="" className="overlay" src = {"./img/star.png"} />
                         { _.map(data.stars, (item, key) =>
                             <div key={key}>
                                 {item.name}: {state[key].toFixed(2)}
@@ -355,7 +364,7 @@ class App extends Component {
 
                     <div className="flex-element">
                         <h3>Research</h3>
-                        <img className="overlay" src = {"./img/upgrades.png"}/>
+                        <img alt="" className="overlay" src = {"./img/upgrades.png"}/>
 
                         {_.map(oneclickers, (item, key) =>
                             (item.locked && item.locked(this.state))
@@ -379,7 +388,7 @@ class App extends Component {
 
                     <div className="flex-element">
                         <h3>Synthesizers</h3>
-                        <img className="overlay" src = {"./img/automation.png"} style={{width: '25px',height: '25px'}}/>
+                        <img alt="" className="overlay" src = {"./img/automation.png"} style={{width: '25px',height: '25px'}}/>
                         <div className="flex-container-column">
 
                             {_.map(automators.miners, (item, key) =>
@@ -392,18 +401,17 @@ class App extends Component {
 
                                             <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
                                                 <div>
-                                            {<button
+                                            <button
                                                 className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
                                                 onClick={() => { this.onClickWrapper(item); }}>
                                                 +
-                                            </button>}
+                                            </button>
 
 
-                                                       {<button
-                                                           className={( state[key]>0 ? '' : 'disabled')}
-                                                           onClick={() => { state[key]>0 ? state[key]-=1 : false}}>
-                                                           -
-                                                       </button>}
+                                             <button className={state[key]>0 ? '' : 'disabled'}
+                                              onClick={() => state[key]>0 ? state[key]-=1 : false}>
+                                               -
+                                             </button>
                                                 </div>
 
                                             </OverlayTrigger>
@@ -423,18 +431,18 @@ class App extends Component {
 
                                                 <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
                                                     <div>
-                                                        {<button
+                                                        <button
                                                             className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
-                                                            onClick={() => { this.onClickWrapper(item); }}>
+                                                            onClick={() => this.onClickWrapper(item)}>
                                                             +
-                                                        </button>}
+                                                        </button>
 
 
-                                                        {<button
-                                                            className={( state[key]>0 ? '' : 'disabled')}
-                                                            onClick={() => { state[key]>0 ? state[key]-=1 : false}}>
+                                                        <button
+                                                            className={state[key]>0 ? '' : 'disabled'}
+                                                            onClick={() => state[key]>0 ? state[key]-=1 : false}>
                                                             -
-                                                        </button>}
+                                                        </button>
                                                     </div>
 
                                                 </OverlayTrigger>
@@ -457,16 +465,16 @@ class App extends Component {
                         <div className="flex-container-row">
 
                             <div className="flex-element">
-                                <img className="overlay" src = {"./img/basic_particles.png"} />
+                                <img alt="" className="overlay" src = {"./img/basic_particles.png"} />
 
                             </div>
 
                             <div className="flex-element">
-                                <img className="overlay" src = {"./img/atom_nucleus.png"} />
+                                <img alt="" className="overlay" src = {"./img/atom_nucleus.png"} />
                             </div>
 
                             <div className="flex-element">
-                                <img className="overlay" src = {"./img/atoms.png"} />
+                                <img alt="" className="overlay" src = {"./img/atoms.png"} />
                             </div>
                         </div>
                     </div>
@@ -474,11 +482,7 @@ class App extends Component {
                 </div>
 
 
-
-
-
-
-            <Footer newGame={this.newGame}/>
+                <Footer newGame={this.newGame}/>
             </div>
         );
     }

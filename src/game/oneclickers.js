@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import {modules} from "./modules";
 
 export const oneclickers = {
     fluctuating: {
@@ -37,9 +36,4 @@ export const oneclickers = {
         }
     }
 
-};
-
-export const genUpgradeState = (name) => {
-    let oneclicker = oneclickers[name];
-    return {current_state: 'stop', next_command: 'start'};
 };
