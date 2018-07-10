@@ -7,15 +7,23 @@ import {getStarName, getStarColor} from './stars';
 export const rules = {
     achievement_rule: {
         onFrame: (state) => {
-            if (state.up_quarks === 1) {
-                state.achievements.push('quarks')
-            }
-            if (state.hydrogen === 1) {
-                state.achievements.push('hydrogen')
-            }
-            if (state.helium === 1) {
-                state.achievements.push('helium')
-            }
+            (state.strings===9 || state.strings === 10 || state.strings === 11)
+                ? state.achievements.push('strings')
+                : false;
+
+            (state.up_quarks >= 1 && state.down_quarks===1)
+                ? state.achievements.push('quarks')
+                : false;
+
+            (state.hydrogen === 1)
+                ? state.achievements.push('hydrogen')
+                : false;
+
+
+            (state.helium === 1)
+                ? state.achievements.push('helium')
+                : false;
+
             if (state.H2 === 1) {
                 state.achievements.push('H2');
                 toastr.info("You've discovered Hydrogen molecules", 'Congratulations!', {
@@ -36,7 +44,7 @@ export const rules = {
         onTick: (state) => {
 
             if (state.temperature > 2000) {
-                toastr.error('Be aware', 'Temperature of your universe is too high!', {
+                toastr.error('It will block you from further growth', 'Temperature of your universe is too high!', {
                     timeOut: 15000,
                     closeButton: false,
                     preventDuplicates: true,
@@ -52,7 +60,18 @@ export const rules = {
 
     temperature_rule: {
         onTick: (state) => {
-            state.temperature += _.random(5,10) + state.stars.length;
+            if(!state.achievements.includes('strings')) {
+                state.temperature -= _.random(50, 100);
+                toastr.info("Your universe is cooling down, please wait a little", 'Welcome to the Game!', {
+                    timeOut: 15000,
+                    closeButton: true,
+                    preventDuplicates: true,
+                    extendedTimeOut: 15000,
+                    escapeHtml: false
+                });
+            }
+            else {state.temperature += _.random(5, 10) + state.stars.length}
+
             // clearInterval(state.timerID);
             // state.game_paused = true;
             //  state.frame_rate = state.temperature;
