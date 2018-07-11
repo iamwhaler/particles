@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import toastr from 'toastr';
-import React from 'react';
 
 import {getStarName, getStarColor} from './stars';
 

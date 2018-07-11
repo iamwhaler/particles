@@ -1,6 +1,6 @@
-export const game_name = 'BDC-Engine-Demo';
+export const game_name = 'Particles Inkremental';
 export const social_links = {
-    telegram: '',
+    telegram: 'https://t.me/particles_inkremental',
     wiki: '',
     reddit: ''
 };
