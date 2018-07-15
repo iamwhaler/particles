@@ -3,12 +3,30 @@ import toastr from 'toastr';
 
 import {getStarName, getStarColor} from './stars';
 
+let propName = function(prop, value){
+    for(let i in prop) {
+        if (prop[i] == value){
+            return i;
+        }
+    }
+    return false;
+};
+
+let checkAchievement = function(state,resource){
+    if(!state.achievements.includes(propName(state, resource))){
+        let achieved = 0;
+        achieved += resource;
+        console.log(achieved);
+        (achieved > 5 && achieved < 20)
+            ? state.achievements.push(propName(state, resource))
+            : false
+    }
+};
+
 export const rules = {
     achievement_rule: {
         onFrame: (state) => {
-            (state.strings===9 || state.strings === 10 || state.strings === 11)
-                ? state.achievements.push('strings')
-                : false;
+            checkAchievement(state, state.strings);
 
             (state.up_quarks >= 1 && state.down_quarks===1)
                 ? state.achievements.push('quarks')
@@ -25,13 +43,13 @@ export const rules = {
 
             if (state.H2 === 1) {
                 state.achievements.push('H2');
-                toastr.info("You've discovered Hydrogen molecules", 'Congratulations!', {
+               /* toastr.info("You've discovered Hydrogen molecules", 'Congratulations!', {
                     timeOut: 6000,
                     closeButton: true,
                     preventDuplicates: true,
                     extendedTimeOut: 4000,
                     escapeHtml: false
-                });
+                }); */
             }
             if (state.He2 === 1) {
                 state.achievements.push('He2')
@@ -42,12 +60,12 @@ export const rules = {
 
         onTick: (state) => {
 
-            if (state.temperature > 2000) {
+            if (state.temperature > 2000 && !state.temperature) { //!state.temperature izmenit
                 toastr.error('It will block you from further growth', 'Temperature of your universe is too high!', {
-                    timeOut: 15000,
+                    timeOut: 150000,
                     closeButton: false,
                     preventDuplicates: true,
-                    extendedTimeOut: 5000,
+                    extendedTimeOut: 500000,
                     escapeHtml: false
                 });
 
@@ -84,7 +102,7 @@ export const rules = {
         onTick: (state) => {
             state.strings++;
 
-       //   state.hydrogen+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10 // for test purposes
+         state.hydrogen+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
             if (state.fluctuating) {
 
                 let randomNumber = Math.random() * (100 - 1) + 1;
@@ -92,12 +110,14 @@ export const rules = {
                 if (randomNumber < 33.3) {
                     state.up_quarks += 1
                 }
-                else if (randomNumber < 66.6) {
+                else if (randomNumber < 66.6 && randomNumber > 33.3) {
                     state.down_quarks += 1
                 }
-                else {
+                else if(randomNumber>66.6){
                     state.electrons += 1
                 }
+
+                state.strings--;
 
             }
             else {
@@ -135,7 +155,7 @@ export const rules = {
         onTick: (state) => {
             if(state.helium >= 2){
                 state.He2 += state.helium/10;
-                state.helium-= 2;
+                state.helium-= state.helium/5;
             }
             return state;
         }
@@ -168,13 +188,22 @@ export const rules = {
 
             if (state.stars.length>30 && state.hydrogen_stars>0) {
                 state.hydrogen_stars -= (state.hydrogen_stars - (state.H2/100) );
+                state.H2 -= _.random(state.hydrogen_stars, state.H2);
                 state.stars.splice(0, _.random(0, state.H2/10));
-           //     this.popupHandler.createPopup('Blackhole', 'Your stars were sucked. Buy')
+                toastr.info("Your planets were sucked by the blackhole", 'Be aware!', {
+                    timeOut: 5000,
+                    closeButton: true,
+                    preventDuplicates: true,
+                    extendedTimeOut: 4000,
+                    escapeHtml: false
+                });
             }
 
-            if (state.H2>150 && state.temperature>1000) {
-                state.stars.splice(0, _.random(0, state.H2/10));
+          /*  if (state.H2>150 && state.temperature>3000) {
+                state.stars.splice(0, _.random(0, state.H2/100));
             }
+
+            */ // too fucked
 
 
             ///star explosion
@@ -200,11 +229,12 @@ export const rules = {
 
         onTick: (state) => {
             if(state.helium>9) {
-                state.helium_stars += state.He2 / 333.33;
+                state.helium_stars += state.He2 / 3333.33;
             }
 
             if (state.helium_stars >= 1) {
                 state.helium_stars--;
+                state.He2 -= _.random(3, state.stars.length);
                 let star_name = getStarName();
                 let parameters = {
                     star: {
@@ -216,7 +246,20 @@ export const rules = {
                     }
                 };
                 state.stars.push(parameters);
-                console.log(state.stars);
+
+                if (state.stars.length>30 && state.helium_stars>0) {
+                    state.helium_stars -= (state.helium_stars - (state.He2/100) );
+                    state.He2 -= _.random(state.helium_stars, state.He2);
+                    state.stars.splice(0, _.random(1, state.He2));
+                    toastr.warning("Your planets were sucked by the blackhole", 'Be aware!', {
+                        timeOut: 5000,
+                        closeButton: true,
+                        preventDuplicates: true,
+                        extendedTimeOut: 4000,
+                        escapeHtml: false
+                    });
+                }
+
             }
 
             return state;

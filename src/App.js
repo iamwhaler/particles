@@ -274,7 +274,7 @@ class App extends Component {
                                             ? ''
                                             :
                                         <div className="flex-element" style={{width: '150px'}} key={key}>
-                                            <span className="flex-element">{item.name}: {state[key]}</span>
+                                            <span className="flex-element">{item.name}: {state[key].toFixed(0)}</span>
                                         </div>
                                     )}
                                 </div>
@@ -341,8 +341,8 @@ class App extends Component {
                             <div key={key} style={{border: '1px solid #BDBDBD'}} className="flex-container-row">
                                     <div className="flex-element" style={{textAlign: 'center'}}>
 
-                                <Circle r={1 + item.star.mass/10} fill={{color: item.star.color}}
-                                        stroke={{color: '#4E4E9A'}} strokeWidth={state.H2/4}/>
+                                <Circle r={1 + item.star.mass/10} fill={{color: '#4E4E9A'}}
+                                        stroke={{color: item.star.color}} strokeWidth={4}/>
                                 </div>
 
                                     <div className="flex-element">

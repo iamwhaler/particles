@@ -19,6 +19,5 @@ export let getStarColor = (star_type) => {
     }
     else if(star_type === 'Helium') {
         return heliumStarColors[_.random(0,heliumStarColors.length)];
-
     }
 };
