@@ -114,8 +114,9 @@ class App extends Component {
 
     onClickWrapper(item) {
         if (item.cost) {
-            if (this.isEnough(this.state, item.cost)) {
-                if (item.onClick) this.setState(item.onClick(this.chargeCost(this.state, item.cost)));
+            let cost = _.isFunction(item.cost) ? item.cost(this.state) : item.cost;
+            if (this.isEnough(this.state, cost)) {
+                if (item.onClick) this.setState(item.onClick(this.chargeCost(this.state, cost)));
             }
             else { return false; }
         }
@@ -177,7 +178,7 @@ class App extends Component {
                 }
 
 
-                {_.map(item.cost, (value, resource_key) =>
+                {_.map(_.isFunction(item.cost) ? item.cost(this.state) : item.cost, (value, resource_key) =>
                     (!item.cost)
                         ? ''
                         :
@@ -411,7 +412,7 @@ class App extends Component {
                                             <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
                                                 <div>
                                             <button
-                                                className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
+                                                className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
                                                 onClick={() => { this.onClickWrapper(item); }}>
                                                 +
                                             </button>

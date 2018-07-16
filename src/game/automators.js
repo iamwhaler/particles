@@ -7,7 +7,7 @@ export const automators = {
         strings_miner: {
             name: 'Strings Miner',
             text: 'Generates strings once in a tick',
-            cost: {strings: 20},
+            cost: (state) => { return {strings: Math.floor(Math.pow(1.4, state.strings_miner-1) * 20)};},
             locked: (state) => state.tick < 10,
             onClick: (state) => {
                 state.strings_miner++;
@@ -21,7 +21,7 @@ export const automators = {
         up_quarks_miner: {
             name: 'Up Quarks Miner',
             text: 'Synths Up Quarks once in a tick',
-            cost: {up_quarks: 20},
+            cost: (state) => { return {up_quarks:Math.floor(Math.pow(1.5, state.up_quarks_miner-1) * 20)};},
             locked: (state) => !state.strings_miner,
             onClick: (state) => {
                 state.up_quarks_miner++;
@@ -36,7 +36,7 @@ export const automators = {
         down_quarks_miner: {
             name: 'Down Quarks Miner',
             text: 'Synths Down Quarks once in a tick',
-            cost: {down_quarks: 40},
+            cost: (state) => { return {down_quarks:Math.floor(Math.pow(1.5, state.down_quarks_miner-1) * 20)};},
             locked: (state) => !state.strings_miner,
             onClick: (state) => {
                 state.down_quarks_miner++;
@@ -53,7 +53,7 @@ export const automators = {
 
         protons_miner: {
             name: 'Proton Miner',
-            cost: {up_quarks: 80, down_quarks: 35},
+            cost: (state) => { return {up_quarks:Math.floor(Math.pow(1.5, state.protons_miner-1) * 80), down_quarks:Math.floor(Math.pow(1.5, state.protons_miner-1) * 35)};},
             locked: (state) => !state.up_quarks_miner,
             onClick: (state) => {
                 state.protons_miner++;
@@ -69,7 +69,7 @@ export const automators = {
 
         neutrons_miner: {
             name: 'Neutrons Miner',
-            cost: {up_quarks: 90, down_quarks: 150},
+            cost: (state) => { return {up_quarks:Math.floor(Math.pow(1.5, state.neutrons_miner-1) * 90), down_quarks:Math.floor(Math.pow(1.5, state.neutrons_miner-1) * 150)};},
             locked: (state) => !state.down_quarks_miner,
             onClick: (state) => {
                 state.neutrons_miner++;
@@ -87,7 +87,7 @@ export const automators = {
             name: 'Hydrogen Miner',
             text: 'The only way to get Hydrogen in this Universe.' +
             'It really depends on the temperature.',
-            cost: {electrons: 10, protons: 5, neutrons: 17.5},
+            cost: (state) => { return {electrons:Math.floor(Math.pow(1.6, state.hydrogen_miner-1) * 10), protons:Math.floor(Math.pow(1.5, state.hydrogen_miner-1) * 5), neutrons:Math.floor(Math.pow(1.5, state.hydrogen_miner-1) * 17.5)};},
             locked: (state) => !state.achievements.includes('hydrogen'),
             onClick: (state) => {
                 state.hydrogen_miner++;
@@ -105,7 +105,7 @@ export const automators = {
         helium_miner: {
             name: 'Helium Miner',
             text: 'The only way to get Helium in this Universe.',
-            cost: {electrons: 10, protons: 5, neutrons: 17.5},
+            cost: (state) => { return {electrons:Math.floor(Math.pow(1.6, state.helium_miner-1) * 10), protons:Math.floor(Math.pow(1.5, state.helium_miner-1) * 5), neutrons:Math.floor(Math.pow(1.5, state.helium_miner-1) * 17.5)};},
             locked: (state) => !state.achievements.includes('hydrogen'),
             onClick: (state) => {
                 state.helium_miner++;
@@ -126,7 +126,7 @@ export const automators = {
         H2_converter: {
             name: 'H2 Converter',
             text: 'Synths H2 consuming Hydrogen',
-            cost: {hydrogen: 20, H2: 5},
+            cost: (state) => { return {hydrogen:Math.floor(Math.pow(1.7, state.neutrons_miner-1) * 20), H2:Math.floor(Math.pow(1.5, state.neutrons_miner-1) * 5)};},
             locked: (state) => !state.achievements.includes('H2'),
             onClick: (state) => {
                 state.H2_converter++;
