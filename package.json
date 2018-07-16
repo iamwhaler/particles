@@ -11,7 +11,10 @@
     "react-scripts": "1.1.4",
     "react-shapes": "0.1.0",
     "react-toastr": "^3.0.0",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "prop-types": "^15.6.2",
+    "react-confirm": "0.1.17",
+    "rc-dialog": "7.1.7"
   },
   "scripts": {
     "start": "react-scripts start",

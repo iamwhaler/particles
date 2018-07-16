@@ -15,7 +15,6 @@ import {data} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {automators} from './game/automators';
-
 import {modes} from './game/modes';
 import {modules} from './game/modules';
 import {upgrades} from './game/upgrades';
@@ -24,7 +23,7 @@ import Popup from "./utils/Popup/Popup";
 //import {Router} from 'react-router';
 
 import { ToastContainer } from 'react-toastr';
-
+import confirm from './game/confirm_launch';
 
 
 
@@ -75,10 +74,20 @@ class App extends Component {
     }
 
     newGame() {
-        if (!window.confirm('Are you ready to start a new game? Your progress will be lost.')) return false;
-        localStorage.setItem(game_name+"_app_state", null);
-        this.setState(getDefaultState());
-        this.playGame();
+        confirm('Do you want to fully reset the game?').then(
+            () => {
+                localStorage.setItem(game_name+"_app_state", null);
+                this.setState(getDefaultState());
+                this.playGame();
+                console.log('proceed called');
+            },
+
+        () => {
+                console.log('cancel called');
+                return false;
+            });
+
+
     }
 
     frame() {
@@ -152,7 +161,6 @@ class App extends Component {
 
     render() {
         let state = this.state;
-
 
         const tooltip = (state, item) =>
 

@@ -17,7 +17,7 @@ let checkAchievement = function(state,resource){
         let achieved = 0;
         achieved += resource;
         console.log(achieved);
-        (achieved > 5 && achieved < 20)
+        (achieved > 5)
             ? state.achievements.push(propName(state, resource))
             : false
     }
@@ -102,7 +102,7 @@ export const rules = {
         onTick: (state) => {
             state.strings++;
 
-         state.hydrogen+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
+        // state.hydrogen+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
             if (state.fluctuating) {
 
                 let randomNumber = Math.random() * (100 - 1) + 1;

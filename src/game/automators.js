@@ -77,7 +77,7 @@ export const automators = {
             },
             onTick: (state) => {
                 if (state.neutrons_miner >= 1) {
-                    state.neutrons += Math.round(_.random(0, state.neutrons_miner * 0.5));
+                    state.neutrons += Math.round(_.random(state.neutrons_miner * 0.5, state.neutrons_miner));
                 }
                 return state;
             }
@@ -95,7 +95,25 @@ export const automators = {
             },
             onTick: (state) => {
                 if (state.hydrogen_miner >= 1) {
-                    state.hydrogen += Math.round(_.random(1 / state.temperature, state.hydrogen_miner / 4));
+                    state.hydrogen += Math.round(_.random(1, state.hydrogen_miner / 4));
+                }
+                return state;
+
+            }
+        },
+
+        helium_miner: {
+            name: 'Helium Miner',
+            text: 'The only way to get Helium in this Universe.',
+            cost: {electrons: 10, protons: 5, neutrons: 17.5},
+            locked: (state) => !state.achievements.includes('hydrogen'),
+            onClick: (state) => {
+                state.helium_miner++;
+                return state;
+            },
+            onTick: (state) => {
+                if (state.helium_miner >= 1) {
+                    state.helium += Math.round(_.random(1, state.helium_miner / 4));
                 }
                 return state;
 
@@ -116,8 +134,8 @@ export const automators = {
             },
             onTick: (state) => {
                 if (state.H2_converter >= 1 && state.hydrogen>=2) {
+                    state.hydrogen -= _.random(5, state.H2_converter*2);
                     state.H2 += state.H2_converter * 2;
-                    state.hydrogen -= _.random(state.H2_converter, state.hydrogen);
                 }
                 return state;
 
