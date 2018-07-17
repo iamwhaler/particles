@@ -11,7 +11,7 @@ let checkAchievement = function(state,resource){
     if(!state.achievements.includes(propName(state, resource))){
         let achieved = 0;
         achieved += resource;
-        (achieved > 5)
+        (achieved > 1)
             ? state.achievements.push(propName(state, resource))
             : false
     }

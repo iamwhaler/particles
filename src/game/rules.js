@@ -134,7 +134,6 @@ export const rules = {
     },
 
     hydrogen_stars_rule: {
-
         onTick: (state) => {
             if(state.H2>20 && state.H2 !== 0 && state.temperature<2000) {
                     state.H2 -= _.random(1, state.H2/10);
@@ -162,7 +161,7 @@ export const rules = {
                 state.hydrogen_stars -= (state.hydrogen_stars - (state.H2/100) );
                 state.H2 -= _.random(state.hydrogen_stars, state.H2);
                 state.stars.splice(0, _.random(1, state.H2/10));
-                toastr.info("Your planets were sucked by the blackhole", 'Be aware!', {
+                toastr.warning("Your planets were sucked by the blackhole", 'Too low level of galaxy!', {
                     timeOut: 5000,
                     closeButton: true,
                     preventDuplicates: true,
@@ -223,7 +222,7 @@ export const rules = {
                     state.helium_stars -= (state.helium_stars - (state.He2/100) );
                     state.He2 -= _.random(state.helium_stars, state.He2);
                     state.stars.splice(0, _.random(1, state.He2));
-                    toastr.warning("Your planets were sucked by the blackhole", 'Be aware!', {
+                    toastr.warning("Your planets were sucked by the blackhole", 'Too low level of galaxy!', {
                         timeOut: 5000,
                         closeButton: true,
                         preventDuplicates: true,

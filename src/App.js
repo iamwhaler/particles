@@ -344,10 +344,10 @@ class App extends Component {
                         ?
                     <div className="flex-element">
                         <h6> Your stars: {state.stars.length} </h6>
-                        <div className="your-stars" style={{ height: '150px', overflowY: 'scroll'}}>
+                        <div className="your-stars">
                         {_.map(state.stars, (item, key) =>
 
-                            <div key={key} style={{border: '1px solid #BDBDBD'}} className="flex-container-row">
+                            <div key={key} style={{border: '0px solid #BDBDBD'}} className="flex-container-row">
                                     <div className="flex-element" style={{textAlign: 'center'}}>
 
                                 <Circle r={1 + item.star.mass/10} fill={{color: '#4E4E9A'}}

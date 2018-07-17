@@ -96,3 +96,12 @@ img {
   opacity: 0.5;
   transition: .5s ease;
 }
+
+.your-stars {
+  background-image: url("https://cdn2.vectorstock.com/i/1000x1000/52/36/space-planets-pattern-vector-20575236.jpg");
+  margin-right: 5px;
+  height: 150px;
+  overflow-y: scroll;
+  border: 1px solid #BDBDBD;
+  border-radius: 3px;
+}
