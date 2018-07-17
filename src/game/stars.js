@@ -21,3 +21,22 @@ export let getStarColor = (star_type) => {
         return heliumStarColors[_.random(0,heliumStarColors.length)];
     }
 };
+
+
+export let nuclearReaction = (star_type, state) => {
+   _.map(state.stars, (item, key) => {
+       if(item) {
+           if (state.tick - item.star.born > 10) {
+               if (item.star.type === 'Hydrogen') {
+                   item.star.hydrogen -= _.random(1, (state.tick - item.star.born) / 10);
+                   item.star.carbon += _.random(0, 1);
+
+                   if (item.star.hydrogen < 10) {
+                       state.carbon += item.star.carbon;
+                       state.stars.splice(key, 1);
+                   }
+               }
+           }
+       }
+   })
+};

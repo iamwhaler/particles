@@ -8,11 +8,11 @@ class Footer extends Component {
     render() {
         return (
             <div className="footer">
-                <span className="pull-left"><a href="#" onClick={this.props.newGame} title='Hard Reset For Developers'>New game</a></span>
+                <span className="pull-left"><a href="#" onClick={this.props.newGame}>New game</a></span>
 
                 &nbsp;
                 <a target="_blank" rel="noopener noreferrer" href={social_links.telegram}>
-                    <img alt="" src="http://www.advanceduninstaller.com/7b12b396d38166a899fff585e466e50d-icon.ico" />
+                    <img alt="" src="http://www.advanceduninstaller.com/7b12b396d38166a899fff585e466e50d-icon.ico" style={{width: '20px'}}/>
                     &nbsp;
                     Telegram
                 </a>

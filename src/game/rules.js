@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import toastr from 'toastr';
-import {getStarName, getStarColor} from './stars';
+import {getStarName, getStarColor, nuclearReaction} from './stars';
 import checkAchievement from './achievements';
 
 export const rules = {
@@ -74,7 +74,7 @@ export const rules = {
         onTick: (state) => {
             state.strings++;
 
-        // state.hydrogen+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
+        state.hydrogen+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
             if (state.fluctuating) {
 
                 let randomNumber = Math.random() * (100 - 1) + 1;
@@ -149,13 +149,18 @@ export const rules = {
                         type: 'Hydrogen',
                         diameter: 0, // this will be used to describe what's going on inside the star (all h2 turned into other more weight elements
                         color: getStarColor('Hydrogen'),
-                        mass: _.random(1, state.H2 ,true)
+                        mass: _.random(1, state.H2 ,true),
+                        born: state.tick,
+                        hydrogen: _.random(10, state.H2*10),
+                        carbon: 0,
                     }
                 };
                 //  let pushed_value = JSON.stringify(parameters);
                 state.stars.push(parameters);
-                console.log(state.stars);
             }
+
+            nuclearReaction('Hydrogen', state);
+
 
             if (state.stars.length>30 && state.hydrogen_stars>0) {
                 state.hydrogen_stars -= (state.hydrogen_stars - (state.H2/100) );
@@ -175,22 +180,6 @@ export const rules = {
             }
 
             */ // too fucked
-
-
-            ///star explosion
-
-            _.map(state.stars, (item, key) => {
-                    if (item.mass>30) {
-                        state.stars.splice(key);
-
-                        let probability = _.random(0,100,true);
-
-                        switch(probability) {
-                            case probability<33.3: state.stars.splice(3)
-                        }
-                    }
-                }
-            );
 
             return state;
         }
