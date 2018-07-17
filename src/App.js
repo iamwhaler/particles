@@ -184,7 +184,7 @@ class App extends Component {
                         :
                         <div className="row" key={resource_key}>
                             <div className="col-sm-6 infoBar">{resource_key}</div>
-                            <div className="col-sm-6 infoBar" style={(value > state[resource_key]) ? {color: 'red'} : {color: ''}}>
+                            <div className="col-sm-6 infoBar" style={(value > state[resource_key]) ? {color: '#982727'} : {color: ''}}>
                                 {value} / {state[resource_key].toFixed(0)}
                                 </div>
                         </div>
@@ -201,9 +201,9 @@ class App extends Component {
                <div className="header" style={{backgroundImage: "url(solar.png)"}}>
                 <h2>Particles Inkremental</h2>
 
-                <div style={{color: '#982727'}}>
-                    Temperature: {state.temperature.toFixed(1)}
-                </div>
+                   <div style={(state.temperature<-(1000)) ? {color: '#515F90'} : (state.temperature>4000) ? {color: '#FC2200'} : (state.temperature>2000) ? {color: '#982727'} : {color: ''}}>
+                       Temperature: {state.temperature.toFixed(1)}
+                   </div>
 
                    <ToastContainer className="toast-top-right"/>
 
@@ -351,8 +351,11 @@ class App extends Component {
                             <div key={key} style={{border: '0px solid #BDBDBD'}} className="flex-container-row">
                                     <div className="flex-element" style={{textAlign: 'center'}}>
 
+
+                               <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
                                 <Circle r={1 + item.star.mass/10} fill={{color: '#4E4E9A'}}
                                         stroke={{color: item.star.color}} strokeWidth={4}/>
+                               </OverlayTrigger>
                                 </div>
 
                                     <div className="flex-element">
