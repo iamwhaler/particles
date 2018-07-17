@@ -184,7 +184,9 @@ class App extends Component {
                         :
                         <div className="row" key={resource_key}>
                             <div className="col-sm-6 infoBar">{resource_key}</div>
-                            <div className="col-sm-6 infoBar">{value} / {state[resource_key].toFixed(0)} </div>
+                            <div className="col-sm-6 infoBar" style={(value > state[resource_key]) ? {color: 'red'} : {color: ''}}>
+                                {value} / {state[resource_key].toFixed(0)}
+                                </div>
                         </div>
                 )}
 
