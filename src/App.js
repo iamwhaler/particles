@@ -23,7 +23,7 @@ import Popup from "./utils/Popup/Popup";
 //import {Router} from 'react-router';
 
 import { ToastContainer } from 'react-toastr';
-import confirm from './game/confirm_launch';
+import confirm from './components/confirm_launch';
 
 
 
@@ -441,9 +441,8 @@ class App extends Component {
 
                                                 <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
                                                     <div>
-                                                        <button
-                                                            className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
-                                                            onClick={() => this.onClickWrapper(item)}>
+                                                        <button className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
+                                                            onClick={() => { this.onClickWrapper(item); }}>
                                                             +
                                                         </button>
 

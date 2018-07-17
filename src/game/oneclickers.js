@@ -37,7 +37,7 @@ export const oneclickers = {
             if (document.getElementById('refresh_temperature').className==="switchOn") {
                 if(state.strings>5) {
                     state.strings -= _.random(1, 5);
-                    state.temperature -= _.random(10, 20);
+                    state.temperature -= _.random(30, 60);
                 }
             }
             else {return state}

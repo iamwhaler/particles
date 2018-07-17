@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { confirmable } from 'react-confirm';
-import './dialog.css';
+import '../css/dialog.css';
 
 const YourDialog = ({show, proceed, dismiss, cancel, confirmation, options}) => (
-    <div className="flex-element popup">
-                <h3 className="text-center">{confirmation}</h3>
-                <div className="buttons text-center">
+    <div className="popup">
+                <p className="text-center">{confirmation}</p>
+                <div className="text-right">
                     <button className="btn btn-cancel" onClick={() => cancel('arguments will be passed to the callback')}>Cancel</button>
                     <button className="btn btn-primary" onClick={() => proceed('same as cancel')}>Ok</button>
                 </div>

@@ -1,45 +1,17 @@
 import _ from 'lodash';
 import toastr from 'toastr';
-
 import {getStarName, getStarColor} from './stars';
-
-let propName = function(prop, value){
-    for(let i in prop) {
-        if (prop[i] == value){
-            return i;
-        }
-    }
-    return false;
-};
-
-let checkAchievement = function(state,resource){
-    if(!state.achievements.includes(propName(state, resource))){
-        let achieved = 0;
-        achieved += resource;
-        console.log(achieved);
-        (achieved > 5)
-            ? state.achievements.push(propName(state, resource))
-            : false
-    }
-};
+import checkAchievement from './achievements';
 
 export const rules = {
     achievement_rule: {
         onFrame: (state) => {
             checkAchievement(state, state.strings);
-
-            (state.up_quarks >= 1 && state.down_quarks===1)
-                ? state.achievements.push('quarks')
-                : false;
-
-            (state.hydrogen === 1)
-                ? state.achievements.push('hydrogen')
-                : false;
-
-
-            (state.helium === 1)
-                ? state.achievements.push('helium')
-                : false;
+            checkAchievement(state, state.up_quarks);
+            checkAchievement(state, state.hydrogen);
+            checkAchievement(state, state.helium);
+            checkAchievement(state, state.H2);
+            checkAchievement(state, state.He2);
 
             if (state.H2 === 1) {
                 state.achievements.push('H2');
@@ -153,7 +125,7 @@ export const rules = {
 
     He2_rule: {
         onTick: (state) => {
-            if(state.helium >= 2){
+            if(state.helium >= 5){
                 state.He2 += state.helium/10;
                 state.helium-= state.helium/5;
             }
@@ -189,7 +161,7 @@ export const rules = {
             if (state.stars.length>30 && state.hydrogen_stars>0) {
                 state.hydrogen_stars -= (state.hydrogen_stars - (state.H2/100) );
                 state.H2 -= _.random(state.hydrogen_stars, state.H2);
-                state.stars.splice(0, _.random(0, state.H2/10));
+                state.stars.splice(0, _.random(1, state.H2/10));
                 toastr.info("Your planets were sucked by the blackhole", 'Be aware!', {
                     timeOut: 5000,
                     closeButton: true,
@@ -228,7 +200,7 @@ export const rules = {
     helium_stars_rule: {
 
         onTick: (state) => {
-            if(state.helium>9) {
+            if(state.helium>5) {
                 state.helium_stars += state.He2 / 3333.33;
             }
 

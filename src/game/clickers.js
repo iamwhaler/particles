@@ -39,7 +39,7 @@ export const clickers = {
             name: 'Gain Electron',
             text: 'Elementary particle, orbits the nuclei of atom',
             cost: {down_quarks: 4},
-            locked: (state) =>  !state.achievements.includes('quarks'),
+            locked: (state) =>  !state.achievements.includes('up_quarks'),
             onClick: (state) => {
                 state.electrons++;
                 return state;
@@ -50,7 +50,7 @@ export const clickers = {
             name: 'Gain Proton',
             text: 'Proton has a positive electric charge and combined with neutron forms atom nuclei.',
             cost: {up_quarks: 2, down_quarks: 1},
-            locked: (state) => !state.achievements.includes('quarks'),
+            locked: (state) => !state.achievements.includes('up_quarks'),
             onClick: (state) => {
                 state.protons++;
                 return state;
@@ -61,7 +61,7 @@ export const clickers = {
             name: 'Gain Neutron',
             text: 'Neutron has no net electric charge and forms atom nuclei.',
             cost: {up_quarks: 1, down_quarks: 2},
-            locked: (state) =>  !state.achievements.includes('quarks'),
+            locked: (state) =>  !state.achievements.includes('up_quarks'),
             onClick: (state) => {
                 state.neutrons++;
                 return state;
