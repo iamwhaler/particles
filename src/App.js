@@ -346,7 +346,6 @@ class App extends Component {
                         <h6> Your stars: {state.stars.length} </h6>
                         <div className="your-stars">
                         {_.map(state.stars, (item, key) =>
-
                             <div key={key} style={{border: '0px solid #BDBDBD'}} className="flex-container-row">
                                     <div className="flex-element" style={{textAlign: 'center'}}>
 
