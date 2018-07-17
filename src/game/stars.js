@@ -1,4 +1,6 @@
-import _ from 'lodash'
+import _ from 'lodash';
+import toastr from 'toastr';
+
 
 const star_names = ['Exiled', 'Arriving', 'Rising', 'Relicted', 'Centured', 'Retrived', 'Uniqum'];
 const star_surnames = ['Rootery', 'Flat', 'Part', 'Lightning', 'Dense', 'Tectile', 'Number' ];
@@ -28,12 +30,38 @@ export let nuclearReaction = (star_type, state) => {
        if(item) {
            if (state.tick - item.star.born > 10) {
                if (item.star.type === 'Hydrogen') {
-                   item.star.hydrogen -= _.random(1, (state.tick - item.star.born) / 10);
-                   item.star.carbon += _.random(0, 1);
+                   item.star.hydrogen -= _.random(0, (state.tick - item.star.born) / 100, true);
+                   item.star.carbon += _.random(0, 1, true);
 
                    if (item.star.hydrogen < 10) {
                        state.carbon += item.star.carbon;
                        state.stars.splice(key, 1);
+                       toastr.info("Your star exploded and brought rewards", 'Be aware!', {
+                           timeOut: 2000,
+                           closeButton: true,
+                           preventDuplicates: false,
+                           extendedTimeOut: 2000,
+                           escapeHtml: false
+                       });
+                   }
+               }
+
+               if (item.star.type === 'Helium') {
+                   item.star.helium -= _.random(0, ((state.tick - item.star.born) / 100), true);
+                   item.star.nitrogen += _.random(0, 1, true);
+
+                   if (item.star.hydrogen < 10) {
+                       state.nitrogen += item.star.nitrogen;
+                       let string = "Your star" + " " + item.star.name + ' ' + 'exploded and brought rewards';
+                       toastr.info(string, 'Be aware!', {
+                           timeOut: 2000,
+                           closeButton: true,
+                           preventDuplicates: false,
+                           extendedTimeOut: 2000,
+                           escapeHtml: false
+                       });
+                       state.stars.splice(key, 1);
+
                    }
                }
            }

@@ -13,7 +13,9 @@ export const data = {
     atoms: {
         hydrogen: {name: 'Hydrogen', locked: (state) => clickers.atoms.hydrogen_clicker.locked(state)},
         helium: {name: 'Helium', locked: (state) => clickers.atoms.helium_clicker.locked(state)},
-        carbon: {name: 'Carbon', locked: (state) => false}
+        carbon: {name: 'Carbon', locked: (state) => false},
+        nitrogen: {name: 'Nitrogen', locked: (state) => false}
+
     },
 
     simple_molecules: {

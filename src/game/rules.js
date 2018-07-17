@@ -59,7 +59,7 @@ export const rules = {
                     escapeHtml: false
                 });
             }
-            else {state.temperature += _.random(5, 10) + state.stars.length}
+            else {state.temperature += _.random(1, 2) + state.stars.length}
 
             // clearInterval(state.timerID);
             // state.game_paused = true;
@@ -74,7 +74,7 @@ export const rules = {
         onTick: (state) => {
             state.strings++;
 
-        state.hydrogen+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
+         state.hydrogen+=10; state.helium+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
             if (state.fluctuating) {
 
                 let randomNumber = Math.random() * (100 - 1) + 1;
@@ -149,9 +149,9 @@ export const rules = {
                         type: 'Hydrogen',
                         diameter: 0, // this will be used to describe what's going on inside the star (all h2 turned into other more weight elements
                         color: getStarColor('Hydrogen'),
-                        mass: _.random(1, state.H2 ,true),
+                        mass: _.random(state.H2/10 , 30  ,true),
                         born: state.tick,
-                        hydrogen: _.random(10, state.H2*10),
+                        hydrogen: _.random(state.hydrogen, state.H2*33.3),
                         carbon: 0,
                     }
                 };
@@ -202,7 +202,10 @@ export const rules = {
                         color: getStarColor('Helium'),
                         type: 'Helium',
                         diameter: _.random(1, 10),
-                        mass: _.random(0.1, state.stars.length)
+                        born: state.tick,
+                        mass: _.random(0.1, state.stars.length),
+                        helium: _.random(state.helium, state.He2*10),
+                        nitrogen: 0
                     }
                 };
                 state.stars.push(parameters);
@@ -221,6 +224,8 @@ export const rules = {
                 }
 
             }
+
+            nuclearReaction('Helium', state);
 
             return state;
         }

@@ -80,7 +80,6 @@ class App extends Component {
             },
 
             () => {
-                console.log('cancel called');
                 return false;
             });
 
@@ -105,7 +104,7 @@ class App extends Component {
     tick(initial_state) {
         let state = tick(initial_state);
         localStorage.setItem(game_name + "_app_state", JSON.stringify(state));
-        return state; // this.setState(state);
+        return state;
     }
 
 
@@ -163,29 +162,58 @@ class App extends Component {
         let state = this.state;
 
         const starTooltip = (state, item) =>
-            (item)
+            (item.star.type==='Hydrogen')
+                ?
+                (item)
+                        ?
+                        <Tooltip id="tooltip">
+                            <div className="flex-container-column infoBar">
+                                <div className="flex element">
+                                    <div className="col-md infoBar">
+                                        <h6>{item.star.name}</h6>
+                                    </div>
+
+                                    <div className="col-md infoBar">
+                                        Old: {this.state.tick-item.star.born}
+                                    </div>
+
+                                    <div className="col-md infoBar">
+                                        Hydrogen: {item.star.hydrogen.toFixed(0)}
+                                    </div>
+                                    <div className="col-md infoBar">
+                                        Carbon: {item.star.carbon.toFixed(0)}
+                                    </div>
+                                </div>
+                            </div>
+                        </Tooltip>
+                    : ''
+                :
+                (item.star.type==='Helium')
             ?
-            <Tooltip id="tooltip">
-                <div className="flex-container-column infoBar">
-                    <div className="flex element">
-                        <div className="col-md infoBar">
-                            <h6>{item.star.name}</h6>
-                        </div>
+                    (item)
+                        ?
+                        <Tooltip id="tooltip">
+                            <div className="flex-container-column infoBar">
+                                <div className="flex element">
+                                    <div className="col-md infoBar">
+                                        <h6>{item.star.name}</h6>
+                                    </div>
 
-                        <div className="col-md infoBar">
-                            Old: {this.state.tick-item.star.born}
-                        </div>
+                                    <div className="col-md infoBar">
+                                        Old: {this.state.tick-item.star.born}
+                                    </div>
 
-                        <div className="col-md infoBar">
-                            Hydrogen: {item.star.hydrogen.toFixed(0)}
-                        </div>
-                        <div className="col-md infoBar">
-                            Carbon: {item.star.carbon.toFixed(0)}
-                        </div>
-                    </div>
-                </div>
-            </Tooltip>
-        : '';
+                                    <div className="col-md infoBar">
+                                        Helium: {item.star.helium.toFixed(0)}
+                                    </div>
+                                    <div className="col-md infoBar">
+                                        Nitrogen: {item.star.nitrogen.toFixed(0)}
+                                    </div>
+                                </div>
+                            </div>
+                        </Tooltip>
+                        : ''
+                    : '';
 
         const tooltip = (state, item) =>
 
@@ -380,14 +408,14 @@ class App extends Component {
                                     (item)
                                     ?
                                     <div key={key} style={{border: '0px solid #BDBDBD'}} className="flex-container-row">
+                                        <OverlayTrigger delay={150} placement="left"
+                                                        overlay={starTooltip(this.state, item)}>
                                         <div className="flex-element" style={{textAlign: 'center'}}>
-
-                                            <OverlayTrigger delay={150} placement="left"
-                                                            overlay={starTooltip(this.state, item)}>
                                                 <Circle r={1 + item.star.mass / 10} fill={{color: '#4E4E9A'}}
                                                         stroke={{color: item.star.color}} strokeWidth={4}/>
-                                            </OverlayTrigger>
                                         </div>
+                                        </OverlayTrigger>
+
 
                                         <div className="flex-element">
                                             {item.star.name}
