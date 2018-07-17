@@ -409,7 +409,7 @@ class App extends Component {
                                             <div className="col-sm-6" style={{textAlign: "right"}}>{item.name}: {state[key]}</div>
                                             <div className="col-sm-6" style={{textAlign: 'left'}}>
 
-                                            <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
+                                            <OverlayTrigger delay={150} placement="top" overlay={tooltip(this.state, item)}>
                                                 <div>
                                             <button
                                                 className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
@@ -439,7 +439,7 @@ class App extends Component {
                                             <div className="col-sm-6" style={{textAlign: "right"}}>{item.name}: {state[key]}</div>
                                             <div className="col-sm-6" style={{textAlign: 'left'}}>
 
-                                                <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
+                                                <OverlayTrigger delay={150} placement="top" overlay={tooltip(this.state, item)}>
                                                     <div>
                                                         <button className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
                                                             onClick={() => { this.onClickWrapper(item); }}>
