@@ -17,4 +17,4 @@ let checkAchievement = function(state,resource){
     }
 };
 
-export default checkAchievement
+export default checkAchievement;

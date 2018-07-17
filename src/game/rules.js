@@ -15,13 +15,6 @@ export const rules = {
 
             if (state.H2 === 1) {
                 state.achievements.push('H2');
-               /* toastr.info("You've discovered Hydrogen molecules", 'Congratulations!', {
-                    timeOut: 6000,
-                    closeButton: true,
-                    preventDuplicates: true,
-                    extendedTimeOut: 4000,
-                    escapeHtml: false
-                }); */
             }
             if (state.He2 === 1) {
                 state.achievements.push('He2')
