@@ -67,7 +67,7 @@ export const rules = {
         onTick: (state) => {
             state.strings++;
 
-         state.hydrogen+=10; state.helium+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
+       //  state.hydrogen+=10; state.helium+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
             if (state.fluctuating) {
 
                 let randomNumber = Math.random() * (100 - 1) + 1;
@@ -144,7 +144,7 @@ export const rules = {
                         color: getStarColor('Hydrogen'),
                         mass: _.random(state.H2/10 , 30  ,true),
                         born: state.tick,
-                        hydrogen: _.random(state.hydrogen, state.H2*33.3),
+                        hydrogen: _.random(state.hydrogen, state.H2),
                         carbon: 0,
                     }
                 };
@@ -197,7 +197,7 @@ export const rules = {
                         diameter: _.random(1, 10),
                         born: state.tick,
                         mass: _.random(0.1, state.stars.length),
-                        helium: _.random(state.helium, state.He2*10),
+                        helium: _.random(state.helium, state.He2),
                         nitrogen: 0
                     }
                 };
