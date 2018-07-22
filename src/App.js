@@ -292,7 +292,7 @@ class App extends Component {
                     <div className="flex-element">
                         <h6>Basic particles</h6>
                         <img alt="" className="overlay" src={"./img/basic_particles.png"}/>
-                        <div className="flex-container-row resource-tab">
+                        <div className="flex-container-row resource-tab"  style={{backgroundImage: 'url(https://www.colourbox.com/preview/13858802-dust-particles.jpg)'}}>
 
                             <div className="flex-element">
                                 {_.map(data.basic_particles, (item, key) =>
@@ -332,7 +332,7 @@ class App extends Component {
                     <div className="flex-element">
                         <h6>Atoms</h6>
                         <img alt="" className="overlay" src={"./img/atoms.png"}/>
-                        <div className="flex-container-row resource-tab">
+                        <div className="flex-container-row resource-tab" style={{backgroundImage: 'url()'}}>
 
                             <div className="flex-element">
                                 {_.map(data.atoms, (item, key) =>
@@ -372,6 +372,7 @@ class App extends Component {
                     <div className="flex-element">
                         <h6>Simple molecules</h6>
                         <img alt="" className="overlay" src={"./img/simple_molecules.png"}/>
+                        <div style={{backgroundImage: 'url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8oPgi9ZX_A1ntubO94p34jvRncvqS1GqU1c9fYBMM0hFMNjZsCg)'}}>
                         {_.map(data.simple_molecules, (item, key) =>
                             (item.locked && item.locked(this.state))
                                 ? ''
@@ -382,6 +383,7 @@ class App extends Component {
                                         </span>
                                 </div>
                         )}
+                        </div>
                     </div>
 
                     {(state.achievements.includes('hydrogen') || state.achievements.includes('helium'))
