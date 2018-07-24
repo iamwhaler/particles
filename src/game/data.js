@@ -7,7 +7,7 @@ export const data = {
         down_quarks: {name: 'Down Quarks', locked: (state) => clickers.basic_particles.down_quarks_clicker.locked(state)},
         electrons: {name: 'Electrons', locked: (state) => clickers.basic_particles.electrons_clicker.locked(state)},
         protons: {name: 'Protons', locked: (state) => clickers.basic_particles.protons_clicker.locked(state)},
-        neutrons: {name: 'Neutrons', locked: (state) => clickers.basic_particles.neutrons_clicker.locked(state)}
+        neutrons: {name: 'Neutrons', locked: (state) => clickers.basic_particles.neutrons_clicker.locked(state)},
     },
 
     atoms: {
@@ -27,6 +27,16 @@ export const data = {
     stars: {
         hydrogen_stars: {name: 'Hydrogen stars'},
         helium_stars: {name: 'Helium stars'}
+
+    }
+};
+
+export const info = {
+    basic_particles: {
+        info: 'Basic particles form a more complex structures. It is important to keep the stream of income of this elements since it will be the base of your galaxy',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Calabi_yau_formatted.svg/1200px-Calabi_yau_formatted.svg.png'
+    },
+    atoms: {
 
     }
 };

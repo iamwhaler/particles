@@ -11,7 +11,7 @@ import {game_name} from './game/app_config';
 import {getDefaultState} from './game/default_state';
 import {frame} from './game/frame';
 import {tick} from './game/tick';
-import {data} from './game/data';
+import {data, info} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {automators} from './game/automators';
@@ -215,6 +215,25 @@ class App extends Component {
                         : ''
                     : '';
 
+        const details = (item) =>
+            <Tooltip id="tooltip">
+                <div className="flex-container-row">
+                    <div className="flex-element flex-container-column">
+                        <img src={item.image} style={{marginLeft: '20px', width: '60px', height: '70px'}} />
+                    </div>
+                    <div className="flex-element flex-container-column">
+                            {(!item.info)
+                                ? ''
+                                :
+                                <div className="flex-element infoBar">
+                                    <p>{item.info}</p>
+                                </div>
+                            }
+                    </div>
+
+                </div>
+            </Tooltip>;
+
         const tooltip = (state, item) =>
 
 
@@ -250,7 +269,7 @@ class App extends Component {
             <div className="App">
                 {/* <Popup ref={(p) => this.popupHandler = p} /> -->
                 <button onClick={() => this.createPopup()}>MakeNewPopup</button> */}
-                <div className="header" style={{backgroundImage: "url(solar.png)"}}>
+                <div className="header" style={{backgroundImage: "url(https://steamuserimages-a.akamaihd.net/ugc/867361404264636705/B43EE084571441E838F65B6CB2E94F26C0D985FB/)"}}>
                     <h2>Particles Inkremental</h2>
 
                     <div
@@ -291,8 +310,12 @@ class App extends Component {
                 <div className="flex-container-row resources">
                     <div className="flex-element">
                         <h6>Basic particles</h6>
-                        <img alt="" className="overlay" src={"./img/basic_particles.png"}/>
-                        <div className="flex-container-row resource-tab"  style={{backgroundImage: 'url(https://www.colourbox.com/preview/13858802-dust-particles.jpg)'}}>
+
+                        <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
+                        <img alt="" className="overlay resource-icon" src={"./img/basic_particles.png"}/>
+                        </OverlayTrigger>
+
+                        <div className="flex-container-row resource-tab">
 
                             <div className="flex-element">
                                 {_.map(data.basic_particles, (item, key) =>
@@ -331,8 +354,8 @@ class App extends Component {
 
                     <div className="flex-element">
                         <h6>Atoms</h6>
-                        <img alt="" className="overlay" src={"./img/atoms.png"}/>
-                        <div className="flex-container-row resource-tab" style={{backgroundImage: 'url()'}}>
+                        <img alt="" className="overlay resource-icon" src={"./img/atoms.png"}/>
+                        <div className="flex-container-row resource-tab">
 
                             <div className="flex-element">
                                 {_.map(data.atoms, (item, key) =>
@@ -371,8 +394,8 @@ class App extends Component {
 
                     <div className="flex-element">
                         <h6>Simple molecules</h6>
-                        <img alt="" className="overlay" src={"./img/simple_molecules.png"}/>
-                        <div style={{backgroundImage: 'url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8oPgi9ZX_A1ntubO94p34jvRncvqS1GqU1c9fYBMM0hFMNjZsCg)'}}>
+                        <img alt="" className="overlay resource-icon" src={"./img/simple_molecules.png"}/>
+                        <div>
                         {_.map(data.simple_molecules, (item, key) =>
                             (item.locked && item.locked(this.state))
                                 ? ''
@@ -390,7 +413,7 @@ class App extends Component {
                         ?
                         <div className="flex-element">
                             <h6>Stars</h6>
-                            <img alt="" className="overlay" src={"./img/star.png"}/>
+                            <img alt="" className="overlay resource-icon" src={"./img/star.png"}/>
                             {_.map(data.stars, (item, key) =>
                                 <div key={key}>
                                     {item.name}: {state[key].toFixed(2)}
@@ -413,7 +436,7 @@ class App extends Component {
                                         <OverlayTrigger delay={150} placement="left"
                                                         overlay={starTooltip(this.state, item)}>
                                         <div className="flex-element" style={{textAlign: 'center'}}>
-                                                <Circle r={1 + item.star.mass / 10} fill={{color: '#4E4E9A'}}
+                                                <Circle r={item.star.mass/10+ (Math.asin(0.015*(this.state.tick - item.star.born)))} fill={{color: '#4E4E9A'}}
                                                         stroke={{color: item.star.color}} strokeWidth={4}/>
                                         </div>
                                         </OverlayTrigger>

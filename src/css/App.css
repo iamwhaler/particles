@@ -3,6 +3,8 @@
 }
 
 body {
+  color: white;
+  background-image: url('https://i.ytimg.com/vi/MajFWL0WECM/maxresdefault.jpg');
   margin: 0;
   padding: 0;
   font-family: 'Roboto Condensed', sans-serif;
@@ -57,6 +59,7 @@ body {
 }
 
 button {
+  color: black;
   font-size: 11px;
   border-radius: 3.5px;
   margin-bottom: 2.5px;
@@ -88,8 +91,11 @@ circle {
 img {
   width: 20px;
   height: 20px;
-
   margin-bottom: 10px
+}
+
+.resource-icon {
+  filter: invert(100%);
 }
 
 .overlay:hover {
@@ -98,6 +104,8 @@ img {
 }
 
 .your-stars {
+  color: black;
+  filter: invert(100%);
   background-image: url("https://image.freepik.com/vector-gratis/fondo-abstracto-gris_1035-9041.jpg");
   margin-right: 5px;
   height: 150px;
