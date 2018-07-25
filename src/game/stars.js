@@ -29,40 +29,44 @@ export let nuclearReaction = (star_type, state) => {
     _.map(state.stars, (item, key) => {
         if (item) {
             if (state.tick - item.star.born > 10) {
-                if (item.star.type === 'Hydrogen') {
-                    item.star.hydrogen -= _.random(0, (state.tick - item.star.born) / 100, true);
-                    item.star.carbon += _.random(0, 1, true);
+                switch (item.star.type) {
+                    case 'Hydrogen' :
+                        item.star.hydrogen -= _.random(0, (state.tick - item.star.born) / 100, true);
+                        item.star.carbon += _.random(0, 1, true);
 
-                    if (item.star.hydrogen < 10 || (state.tick - item.star.born > 400) || item.star.hydrogen < 0) {
-                        state.carbon += item.star.carbon;
-                        state.stars.splice(key, 1);
-                        toastr.info("Your star exploded and brought rewards", 'Be aware!', {
-                            timeOut: 2000,
-                            closeButton: true,
-                            preventDuplicates: false,
-                            extendedTimeOut: 2000,
-                            escapeHtml: false
-                        });
-                    }
-                }
+                        if (item.star.hydrogen < 10 || (state.tick - item.star.born > 400) || item.star.hydrogen < 0) {
+                            state.carbon += item.star.carbon;
+                            state.stars.splice(key, 1);
+                            toastr.info("Your star exploded and brought rewards", 'Be aware!', {
+                                timeOut: 2000,
+                                closeButton: true,
+                                preventDuplicates: false,
+                                extendedTimeOut: 2000,
+                                escapeHtml: false
+                            });
+                        }
+                        break;
 
-                if (item.star.type === 'Helium') {
-                    item.star.helium -= _.random(0, ((state.tick - item.star.born) / 100), true);
-                    item.star.nitrogen += _.random(0, 1, true);
 
-                    if (item.star.helium < 10 || (state.tick - item.star.born > 400) || item.star.helium < 0) {
-                        state.nitrogen += item.star.nitrogen;
-                        let string = "Your star" + " " + item.star.name + ' ' + 'exploded and brought rewards';
-                        toastr.info(string, 'Be aware!', {
-                            timeOut: 2000,
-                            closeButton: true,
-                            preventDuplicates: false,
-                            extendedTimeOut: 2000,
-                            escapeHtml: false
-                        });
-                        state.stars.splice(key, 1);
+                    case 'Helium' :
+                            item.star.helium -= _.random(0, ((state.tick - item.star.born) / 100), true);
+                            item.star.nitrogen += _.random(0, 1, true);
 
-                    }
+                            if (item.star.helium < 10 || (state.tick - item.star.born > 400) || item.star.helium < 0) {
+                                state.nitrogen += item.star.nitrogen;
+                                let string = "Your star" + " " + item.star.name + ' ' + 'exploded and brought rewards';
+                                toastr.info(string, 'Be aware!', {
+                                    timeOut: 2000,
+                                    closeButton: true,
+                                    preventDuplicates: false,
+                                    extendedTimeOut: 2000,
+                                    escapeHtml: false
+                                });
+                                state.stars.splice(key, 1);
+
+
+                        }
+                        break;
                 }
             }
         }

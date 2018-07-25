@@ -12,7 +12,7 @@ class Footer extends Component {
 
                 &nbsp;
                 <a target="_blank" rel="noopener noreferrer" href={social_links.telegram}>
-                    <img alt="" src="http://www.advanceduninstaller.com/7b12b396d38166a899fff585e466e50d-icon.ico" style={{width: '20px'}}/>
+                    <img alt="" src="https://sagacoin.net/img/social_telegram.png" style={{width: '20px'}}/>
                     &nbsp;
                     Telegram
                 </a>
@@ -30,7 +30,7 @@ class Footer extends Component {
                 </a>
                 &nbsp;&nbsp;&nbsp;
                 <a rel="noopener noreferrer" href={support.show}>
-                    <img alt="" src="https://image.flaticon.com/icons/svg/81/81924.svg"/>
+                    <img alt="" src="https://www.intraworlds.com/wp-content/uploads/2015/01/IntraWorlds_icon_Solutions_Dedicated-Client-Support.png"/>
                     &nbsp;
                     Support
                 </a>

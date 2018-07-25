@@ -36,7 +36,6 @@ const default_state = {
     down_quarks_clicker: 0,
     electrons_clicker: 0,
 
-
     strings_miner: 0,
     up_quarks_miner: 0,
     down_quarks_miner: 0,
@@ -49,6 +48,20 @@ const default_state = {
 
     hydrogen_miner: 0,
     helium_miner: 0,
+
+    toggle: {
+        strings_miner: false,
+        up_quarks_miner: false,
+        down_quarks_miner: false,
+        protons_miner: false,
+        neutrons_miner: false,
+        electrons_miner: false,
+        hydrogen_miner: false,
+        helium_miner: false,
+
+        H2_converter: false
+    },
+
 
     fluctuating: false,
 

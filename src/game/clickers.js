@@ -16,7 +16,7 @@ export const clickers = {
 
         up_quarks_clicker: {
             name: 'Gain Up Quark',
-            cost: {strings: 4},
+            cost: {strings: 1},
             text: 'The lightest of all quarks, forms protons and neutrons',
             locked: (state) => state.tick < 6,
             onClick: (state) => {
@@ -26,7 +26,7 @@ export const clickers = {
         },
         down_quarks_clicker: {
             name: 'Gain Down Quark',
-            cost: {strings: 4},
+            cost: {strings: 1},
             text: 'The second-lightest all quarks, forms protons and neutrons',
             locked: (state) => !state.up_quarks_miner,
             onClick: (state) => {
@@ -38,7 +38,7 @@ export const clickers = {
         electrons_clicker: {
             name: 'Gain Electron',
             text: 'Elementary particle, orbits the nuclei of atom',
-            cost: {down_quarks: 4},
+            cost: {strings: 1},
             locked: (state) =>  !state.achievements.includes('up_quarks'),
             onClick: (state) => {
                 state.electrons++;

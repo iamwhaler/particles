@@ -94,6 +94,13 @@ img {
   margin-bottom: 10px
 }
 
+.star-icon {
+  filter: invert(100%);
+  width: 25px;
+  height: 25px;
+  margin-bottom: 5px;
+}
+
 .resource-icon {
   filter: invert(100%);
 }
@@ -104,12 +111,14 @@ img {
 }
 
 .your-stars {
-  color: black;
-  filter: invert(100%);
-  background-image: url("https://image.freepik.com/vector-gratis/fondo-abstracto-gris_1035-9041.jpg");
   margin-right: 5px;
   height: 150px;
   overflow-y: scroll;
   border: 0px solid #BDBDBD;
   border-radius: 3px;
+}
+
+.star-circle {
+  text-align: center;
+  filter: invert(0%) !important;
 }

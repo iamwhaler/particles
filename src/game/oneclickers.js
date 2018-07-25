@@ -22,15 +22,17 @@ export const oneclickers = {
         name: 'Cool temperature', text: 'Temperature gets lower consuming strings',
         cost: {strings: 10}, locked: (state) => false,
         onClick: (state) => {
-                if (document.getElementById('refresh_temperature').className!=='switchOn') {
-                    toastr.info('Temperature cooler is turned on');
-                    document.getElementById('refresh_temperature').classList.add("switchOn");
-                }
-                else {
+            switch (document.getElementById('refresh_temperature').className) {
+                case "switchOn" :
                     toastr.info('Temperature cooler is turned off');
                     document.getElementById('refresh_temperature').classList.remove("switchOn");
-                }
-         },
+                    break;
+                default :
+                    toastr.info('Temperature cooler is turned on');
+                    document.getElementById('refresh_temperature').classList.add("switchOn");
+                    break;
+            }
+        },
 
         onTick: (state) => {
 
