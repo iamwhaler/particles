@@ -5,7 +5,7 @@ import checkAchievement from './achievements';
 
 export const rules = {
     achievement_rule: {
-        onFrame: (state) => {
+        onTick: (state) => {
             checkAchievement(state, state.strings);
             checkAchievement(state, state.up_quarks);
             checkAchievement(state, state.hydrogen);
@@ -13,30 +13,7 @@ export const rules = {
             checkAchievement(state, state.H2);
             checkAchievement(state, state.He2);
 
-            if (state.H2 === 1) {
-                state.achievements.push('H2');
-            }
-            if (state.He2 === 1) {
-                state.achievements.push('He2')
-            }
-
             return state;
-        },
-
-        onTick: (state) => {
-
-            if (state.temperature > 2000 && !state.temperature) { //!state.temperature izmenit
-                toastr.error('It will block you from further growth', 'Temperature of your universe is too high!', {
-                    timeOut: 150000,
-                    closeButton: false,
-                    preventDuplicates: true,
-                    extendedTimeOut: 500000,
-                    escapeHtml: false
-                });
-
-            }
-            return state;
-
         }
     },
 
@@ -142,9 +119,9 @@ export const rules = {
                         type: 'Hydrogen',
                         diameter: 0, // this will be used to describe what's going on inside the star (all h2 turned into other more weight elements
                         color: getStarColor('Hydrogen'),
-                        mass: _.random(state.H2/10 , 30  ,true),
+                        mass: _.random(state.H2/5, 30  ,true),
                         born: state.tick,
-                        hydrogen: _.random(state.hydrogen, state.H2),
+                        hydrogen: _.random(this.mass, state.H2),
                         carbon: 0,
                     }
                 };
@@ -196,7 +173,7 @@ export const rules = {
                         type: 'Helium',
                         diameter: _.random(1, 10),
                         born: state.tick,
-                        mass: _.random(0.1, state.stars.length),
+                        mass: _.random(state.He2/6, state.stars.length, true),
                         helium: _.random(state.helium, state.He2),
                         nitrogen: 0
                     }

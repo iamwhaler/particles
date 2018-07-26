@@ -56,7 +56,7 @@ export const automators = {
             },
             onTick: (state) => {
                 if(state.toggle.up_quarks_miner) {
-                    state.up_quarks += Math.round(_.random(0, state.up_quarks_miner / 2));
+                    state.up_quarks += Math.round(_.random(state.up_quarks_miner/4 , state.up_quarks_miner));
                 }
                 return state;
             }
@@ -82,7 +82,7 @@ export const automators = {
             },
             onTick: (state) => {
                 if (state.toggle.down_quarks_miner && state.down_quarks_miner >= 1) {
-                    state.down_quarks += Math.round(_.random(0, state.down_quarks_miner / 2));
+                    state.down_quarks += Math.round(_.random(state.down_quarks_miner/3, state.down_quarks_miner));
                 }
 
                 return state;
@@ -170,7 +170,7 @@ export const automators = {
             },
             onTick: (state) => {
                 if (state.toggle.hydrogen_miner && state.hydrogen_miner >= 1) {
-                    state.hydrogen += Math.round(_.random(1, state.hydrogen_miner / 4));
+                    state.hydrogen += Math.round(_.random(1, state.hydrogen_miner / 3.14));
                 }
                 return state;
 
@@ -201,7 +201,7 @@ export const automators = {
             },
             onTick: (state) => {
                 if (state.toggle.helium_miner && state.helium_miner >= 1) {
-                    state.helium += Math.round(_.random(1, state.helium_miner / 4));
+                    state.helium += Math.round(_.random(1, state.helium_miner / 3.33));
                 }
                 return state;
 

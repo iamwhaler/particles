@@ -231,8 +231,6 @@ class App extends Component {
             </Tooltip>;
 
         const tooltip = (state, item) =>
-
-
             <Tooltip id="tooltip">
                 <div>
                 {(!item.text)
@@ -254,7 +252,7 @@ class App extends Component {
                             <div className="col-sm-6 infoBar">{resource_key}</div>
                             <div className="col-sm-6 infoBar"
                                  style={(value > state[resource_key]) ? {color: '#982727'} : {color: ''}}>
-                                {value} / {state[resource_key].toFixed(0)}
+                                {value} / {state[resource_key].toFixed(0)} {(value > state[resource_key]) ?  <p>({-(state[resource_key] - value).toFixed(0)} left)</p> : ''}
                             </div>
                         </div>
                 )}
@@ -313,6 +311,7 @@ class App extends Component {
                                         <div key={key}>
                                             <OverlayTrigger delay={150} placement="right"
                                                             overlay={tooltip(this.state, item)}>
+                                                <div>
                                                 <button
                                                     className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
                                                     onClick={() => {
@@ -320,6 +319,20 @@ class App extends Component {
                                                     }}>
                                                     +1
                                                 </button>
+
+
+                                                    {(state.micro_swiper)
+                                                        ?
+                                                    <button
+                                                        className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
+                                                        onClick={() => {
+                                                        for(let i= 0; i<5; i++) {this.onClickWrapper(item)}
+                                                    }}>
+                                                        +5
+                                                        </button>
+                                                        : ''
+                                                    }
+                                                </div>
                                             </OverlayTrigger>
                                         </div>
                                 )}
@@ -413,7 +426,7 @@ class App extends Component {
                                         <OverlayTrigger delay={150} placement="left"
                                                         overlay={starTooltip(this.state, item)}>
                                         <div className="flex-element star-circle">
-                                                <Circle r={1 + (5*Math.asin((this.state.tick - item.star.born)/130))} fill={{color: '#4E4E9A'}}
+                                                <Circle r={1 + item.star.mass/4} fill={{color: '#4E4E9A'}}
                                                         stroke={{color: item.star.color}} strokeWidth={4}/>
                                         </div>
                                         </OverlayTrigger>
