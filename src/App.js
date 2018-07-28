@@ -15,7 +15,7 @@ import {data, info} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {automators} from './game/automators';
-import Popup from "./utils/Popup/Popup";
+//import Popup from "./utils/Popup/Popup";
 
 import {ToastContainer} from 'react-toastr';
 import confirm from './components/confirm_launch';
@@ -39,6 +39,49 @@ class App extends Component {
     }
 
 
+    componentDidMount() {
+        console.log('App '+game_name+' componentDidMount');
+        var app_state = JSON.parse(localStorage.getItem(game_name+"_app_state"));
+        this.setState(app_state ? app_state : getDefaultState());
+        this.playGame();
+    }
+
+    playGame(speed_multiplier = false) {
+        clearInterval(this.timerID);
+        this.timerID = setInterval(
+            () => this.frame(),
+            Math.floor(this.state.game_speed / this.state.frame_rate / (speed_multiplier ? speed_multiplier : this.state.game_speed_multiplier))
+        );
+        this.setState({game_paused: false});
+    }
+
+    pauseGame() {
+        clearInterval(this.timerID);
+        this.setState({game_paused: true});
+    }
+
+    setGameSpeed(speed) {
+        if (!this.state.game_paused) this.playGame(speed);
+        this.setState({game_speed_multiplier: speed});
+    }
+
+    newGame() {
+        confirm('Do you want to fully reset the game?').then(
+            () => {
+                localStorage.setItem(game_name+"_app_state", null);
+                let new_state = getDefaultState();
+                this.setState(new_state);
+                this.playGame(new_state.game_speed_multiplier);
+            },
+
+            () => {
+                return false;
+            });
+    }
+
+
+
+/*
     componentDidMount() {
         console.log('App ' + game_name + ' componentDidMount');
         var app_state = JSON.parse(localStorage.getItem(game_name + "_app_state"));
@@ -81,6 +124,7 @@ class App extends Component {
         if (!this.state.game_paused) this.playGame(speed);
         this.setState({game_speed_multiplier: speed});
     }
+    */
 
     frame() {
         let state = frame(this.state);
@@ -215,7 +259,7 @@ class App extends Component {
             <Tooltip id="tooltip">
                 <div className="flex-container-row">
                     <div className="flex-element flex-container-column">
-                        <img src={item.image} style={{marginLeft: '20px', width: '60px', height: '70px'}} />
+                        <img src={item.image} alt="tooltip illustration" style={{marginLeft: '20px', width: '60px', height: '70px'}} />
                     </div>
                     <div className="flex-element flex-container-column">
                             {(!item.info)
@@ -266,17 +310,49 @@ class App extends Component {
                 {/* <Popup ref={(p) => this.popupHandler = p} /> -->
                 <button onClick={() => this.createPopup()}>MakeNewPopup</button> */}
                 <div className="flex-container-column header" style={{backgroundImage: "url(https://steamuserimages-a.akamaihd.net/ugc/867361404264636705/B43EE084571441E838F65B6CB2E94F26C0D985FB/)"}}>
-                   <div className="flex-container-row">
-                    <h5 className="flex-element"
-                        style={(state.temperature < -(1000)) ? {color: '#515F90'}
-                        : (state.temperature > 4000)
-                                ? {color: '#FC2200'} : (state.temperature > 2000)
-                                    ? {color: '#982727'} : {color: ''}}>
-                        Temperature: {state.temperature.toFixed(0)}
-                    </h5>
                     <div className="flex-element">
-                        <h5>Years: {this.state.tick}k</h5></div>
-                   </div>
+                        <h5>
+                            <div className="flex-element">
+                                <span onClick={() => {
+                                    if (this.state.game_paused) {
+                                        this.playGame();
+                                    } else {
+                                        this.pauseGame();
+                                    }
+                                }}>
+                                    <span
+                                        className={classNames('glyphicon', (this.state.game_paused ? 'glyphicon-play' : 'glyphicon-pause'))}
+                                        style={{width: 28, height: 28}}> </span>
+                                </span>
+                                <span>
+                                    {[1, 4, 16, 64].map((speed, index) => {
+                                        return <span key={index}>
+                                            {this.state.game_speed_multiplier === speed
+                                                ? <button className="" style={{width: 42, height: 28}}>
+                                                <u>{{0: 'x1', 1: 'x4', 2: 'x16', 3: 'x64'}[index]}</u></button>
+                                                : <button className="" style={{width: 42, height: 28}}
+                                                          onClick={() => {
+                                                              this.setGameSpeed(speed);
+                                                          }}>{{0: 'x1', 1: 'x4', 2: 'x16', 3: 'x64'}[index]}
+                                            </button>}
+                                        </span>
+                                    })}
+                                </span>
+                            </div>
+                        </h5>
+                    </div>
+                    <div className="flex-container-row">
+                        <h5 className="flex-element"
+                            style={(state.temperature < -(1000)) ? {color: '#515F90'}
+                                : (state.temperature > 4000)
+                                ? {color: '#FC2200'} : (state.temperature > 2000)
+                                ? {color: '#982727'} : {color: ''}}>
+                            Temperature: {state.temperature.toFixed(0)}
+                        </h5>
+                        <div className="flex-element">
+                            <h5>Years: {this.state.tick}k</h5>
+                        </div>
+                    </div>
 
                         <ToastContainer className="toast-top-right"/>
                 </div>
