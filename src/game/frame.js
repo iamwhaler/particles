@@ -11,6 +11,7 @@ export const frame = (state) => {
     _.each(rules, (item) => {
         if (item.onFrame) state = item.onFrame(state);
     });
+
     _.each(modules, (item) => {
         if (item.onFrame) state = item.onFrame(state);
     });

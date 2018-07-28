@@ -18,26 +18,37 @@ export const oneclickers = {
         }
     },
 
+    micro_swiper: {
+        name: 'Micro Swiper', text: 'Allows manage basic particles on more global level',
+        cost: {carbon: 20, nitrogen: 10}, locked: (state) => !state.H2_converter,
+        onClick: (state) => {
+            state.micro_swiper = true;
+            return state;
+        }
+    },
+
     refresh_temperature: {
         name: 'Cool temperature', text: 'Temperature gets lower consuming strings',
         cost: {strings: 10}, locked: (state) => false,
         onClick: (state) => {
-                if (document.getElementById('refresh_temperature').className!=='switchOn') {
-                    toastr.info('Temperature cooler is turned on');
-                    document.getElementById('refresh_temperature').classList.add("switchOn");
-                }
-                else {
+            switch (document.getElementById('refresh_temperature').className) {
+                case "switchOn" :
                     toastr.info('Temperature cooler is turned off');
                     document.getElementById('refresh_temperature').classList.remove("switchOn");
-                }
-         },
+                    break;
+                default :
+                    toastr.info('Temperature cooler is turned on');
+                    document.getElementById('refresh_temperature').classList.add("switchOn");
+                    break;
+            }
+        },
 
         onTick: (state) => {
 
             if (document.getElementById('refresh_temperature').className==="switchOn") {
                 if(state.strings>5) {
                     state.strings -= _.random(1, 5);
-                    state.temperature -= _.random(10, 20);
+                    state.temperature -= _.random(30, 60);
                 }
             }
             else {return state}

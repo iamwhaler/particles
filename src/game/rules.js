@@ -1,77 +1,19 @@
 import _ from 'lodash';
 import toastr from 'toastr';
-
-import {getStarName, getStarColor} from './stars';
-
-let propName = function(prop, value){
-    for(let i in prop) {
-        if (prop[i] == value){
-            return i;
-        }
-    }
-    return false;
-};
-
-let checkAchievement = function(state,resource){
-    if(!state.achievements.includes(propName(state, resource))){
-        let achieved = 0;
-        achieved += resource;
-        console.log(achieved);
-        (achieved > 5)
-            ? state.achievements.push(propName(state, resource))
-            : false
-    }
-};
+import {getStarName, getStarColor, nuclearReaction} from './stars';
+import checkAchievement from './achievements';
 
 export const rules = {
     achievement_rule: {
-        onFrame: (state) => {
-            checkAchievement(state, state.strings);
-
-            (state.up_quarks >= 1 && state.down_quarks===1)
-                ? state.achievements.push('quarks')
-                : false;
-
-            (state.hydrogen === 1)
-                ? state.achievements.push('hydrogen')
-                : false;
-
-
-            (state.helium === 1)
-                ? state.achievements.push('helium')
-                : false;
-
-            if (state.H2 === 1) {
-                state.achievements.push('H2');
-               /* toastr.info("You've discovered Hydrogen molecules", 'Congratulations!', {
-                    timeOut: 6000,
-                    closeButton: true,
-                    preventDuplicates: true,
-                    extendedTimeOut: 4000,
-                    escapeHtml: false
-                }); */
-            }
-            if (state.He2 === 1) {
-                state.achievements.push('He2')
-            }
-
-            return state;
-        },
-
         onTick: (state) => {
+            checkAchievement(state, state.strings);
+            checkAchievement(state, state.up_quarks);
+            checkAchievement(state, state.hydrogen);
+            checkAchievement(state, state.helium);
+            checkAchievement(state, state.H2);
+            checkAchievement(state, state.He2);
 
-            if (state.temperature > 2000 && !state.temperature) { //!state.temperature izmenit
-                toastr.error('It will block you from further growth', 'Temperature of your universe is too high!', {
-                    timeOut: 150000,
-                    closeButton: false,
-                    preventDuplicates: true,
-                    extendedTimeOut: 500000,
-                    escapeHtml: false
-                });
-
-            }
             return state;
-
         }
     },
 
@@ -87,7 +29,7 @@ export const rules = {
                     escapeHtml: false
                 });
             }
-            else {state.temperature += _.random(5, 10) + state.stars.length}
+            else {state.temperature += _.random(1, 2) + state.stars.length}
 
             // clearInterval(state.timerID);
             // state.game_paused = true;
@@ -102,7 +44,7 @@ export const rules = {
         onTick: (state) => {
             state.strings++;
 
-        // state.hydrogen+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
+       //  state.hydrogen+=10; state.helium+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
             if (state.fluctuating) {
 
                 let randomNumber = Math.random() * (100 - 1) + 1;
@@ -153,7 +95,7 @@ export const rules = {
 
     He2_rule: {
         onTick: (state) => {
-            if(state.helium >= 2){
+            if(state.helium >= 5){
                 state.He2 += state.helium/10;
                 state.helium-= state.helium/5;
             }
@@ -162,7 +104,6 @@ export const rules = {
     },
 
     hydrogen_stars_rule: {
-
         onTick: (state) => {
             if(state.H2>20 && state.H2 !== 0 && state.temperature<2000) {
                     state.H2 -= _.random(1, state.H2/10);
@@ -178,19 +119,24 @@ export const rules = {
                         type: 'Hydrogen',
                         diameter: 0, // this will be used to describe what's going on inside the star (all h2 turned into other more weight elements
                         color: getStarColor('Hydrogen'),
-                        mass: _.random(1, state.H2 ,true)
+                        mass: _.random(state.H2/5, 30  ,true),
+                        born: state.tick,
+                        hydrogen: _.random(this.mass, state.H2),
+                        carbon: 0,
                     }
                 };
                 //  let pushed_value = JSON.stringify(parameters);
                 state.stars.push(parameters);
-                console.log(state.stars);
             }
+
+            nuclearReaction('Hydrogen', state);
+
 
             if (state.stars.length>30 && state.hydrogen_stars>0) {
                 state.hydrogen_stars -= (state.hydrogen_stars - (state.H2/100) );
                 state.H2 -= _.random(state.hydrogen_stars, state.H2);
-                state.stars.splice(0, _.random(0, state.H2/10));
-                toastr.info("Your planets were sucked by the blackhole", 'Be aware!', {
+                state.stars.splice(0, _.random(1, state.H2/10));
+                toastr.warning("Your planets were sucked by the blackhole", 'Too low level of galaxy!', {
                     timeOut: 5000,
                     closeButton: true,
                     preventDuplicates: true,
@@ -205,22 +151,6 @@ export const rules = {
 
             */ // too fucked
 
-
-            ///star explosion
-
-            _.map(state.stars, (item, key) => {
-                    if (item.mass>30) {
-                        state.stars.splice(key);
-
-                        let probability = _.random(0,100,true);
-
-                        switch(probability) {
-                            case probability<33.3: state.stars.splice(3)
-                        }
-                    }
-                }
-            );
-
             return state;
         }
     },
@@ -228,7 +158,7 @@ export const rules = {
     helium_stars_rule: {
 
         onTick: (state) => {
-            if(state.helium>9) {
+            if(state.helium>5) {
                 state.helium_stars += state.He2 / 3333.33;
             }
 
@@ -242,7 +172,10 @@ export const rules = {
                         color: getStarColor('Helium'),
                         type: 'Helium',
                         diameter: _.random(1, 10),
-                        mass: _.random(0.1, state.stars.length)
+                        born: state.tick,
+                        mass: _.random(state.He2/6, state.stars.length, true),
+                        helium: _.random(state.helium, state.He2),
+                        nitrogen: 0
                     }
                 };
                 state.stars.push(parameters);
@@ -251,7 +184,7 @@ export const rules = {
                     state.helium_stars -= (state.helium_stars - (state.He2/100) );
                     state.He2 -= _.random(state.helium_stars, state.He2);
                     state.stars.splice(0, _.random(1, state.He2));
-                    toastr.warning("Your planets were sucked by the blackhole", 'Be aware!', {
+                    toastr.warning("Your planets were sucked by the blackhole", 'Too low level of galaxy!', {
                         timeOut: 5000,
                         closeButton: true,
                         preventDuplicates: true,
@@ -261,6 +194,8 @@ export const rules = {
                 }
 
             }
+
+            nuclearReaction('Helium', state);
 
             return state;
         }
