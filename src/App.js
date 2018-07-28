@@ -9,7 +9,6 @@ import './css/App.css';
 
 import {game_name} from './game/app_config';
 import {getDefaultState} from './game/default_state';
-import {frame} from './game/frame';
 import {tick} from './game/tick';
 import {data, info} from './game/data';
 import {oneclickers} from './game/oneclickers';
@@ -49,8 +48,8 @@ class App extends Component {
     playGame(speed_multiplier = false) {
         clearInterval(this.timerID);
         this.timerID = setInterval(
-            () => this.frame(),
-            Math.floor(this.state.game_speed / this.state.frame_rate / (speed_multiplier ? speed_multiplier : this.state.game_speed_multiplier))
+            () => { this.tick(this.state); },
+            Math.floor(this.state.game_speed / (speed_multiplier ? speed_multiplier : this.state.game_speed_multiplier))
         );
         this.setState({game_paused: false});
     }
@@ -126,23 +125,9 @@ class App extends Component {
     }
     */
 
-    frame() {
-        let state = frame(this.state);
-        state.frame++;
-
-        let frame_rate = state.mode === "slow" ? state.frame_rate * 2
-            : state.mode === "fast" ? Math.round(state.frame_rate / 2)
-                : state.frame_rate;
-
-        if (state.frame % frame_rate === 0) {
-            state = this.tick(state);
-            state.tick++;
-        }
-        this.setState(state);
-    }
-
     tick(initial_state) {
         let state = tick(initial_state);
+        state.tick++;
         localStorage.setItem(game_name + "_app_state", JSON.stringify(state));
         return state;
     }

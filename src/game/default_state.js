@@ -69,12 +69,8 @@ const default_state = {
 
     temperature: 356,
 
-
-
     game_speed: 1000,
-    frame_rate: 30,
     game_speed_multiplier: 1,
-    frame: 0,
     tick: 0,
     game_paused: true,
     game_end: false
