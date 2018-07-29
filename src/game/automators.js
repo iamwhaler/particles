@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import toastr from "toastr";
+// import toastr from "toastr";
 
 // onClick effect costs item.cost
 

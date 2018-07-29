@@ -54,7 +54,7 @@ export let nuclearReaction = (star_type, state) => {
 
                             if (item.star.helium < 10 || (state.tick - item.star.born > 400) || item.star.helium < 0) {
                                 state.nitrogen += item.star.nitrogen;
-                                let string = "Your star" + " " + item.star.name + ' ' + 'exploded and brought rewards';
+                                let string = "Your star " + item.star.name + ' exploded and brought rewards';
                                 toastr.info(string, 'Be aware!', {
                                     timeOut: 2000,
                                     closeButton: true,
@@ -67,6 +67,8 @@ export let nuclearReaction = (star_type, state) => {
 
                         }
                         break;
+                    default:
+                        console.log('Unknown star type: ', item.star.type);
                 }
             }
         }

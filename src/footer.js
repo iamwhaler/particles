@@ -8,7 +8,7 @@ class Footer extends Component {
     render() {
         return (
             <div className="footer">
-                <span className="pull-left"><a href="#" onClick={this.props.newGame}>New game</a></span>
+                <span className="pull-left"><a onClick={this.props.newGame}>New game</a></span>
 
                 &nbsp;
                 <a target="_blank" rel="noopener noreferrer" href={social_links.telegram}>

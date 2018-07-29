@@ -1,9 +1,6 @@
 
 import _ from 'lodash';
 
-import {genModuleState} from '../game/modules';
-import {genTarget} from '../game/targets';
-
 const default_state = {
 
     strings: 0,
@@ -70,31 +67,10 @@ const default_state = {
 
     achievements: [],
 
-// not used for now
-    player: {
-        armor_current: 1000,
-        armor: 1000,
-        stamina: 1000000
-    },
-
-    weapon: genModuleState('weapon'),
-    repairer: genModuleState('repairer'),
-    target: genTarget(1),
-
-    weapon_upgrade: 0,
-    armor_upgrade: 0,
-
-    mode: 'slow',
-//
-
     temperature: 356,
 
-
-
     game_speed: 1000,
-    frame_rate: 30,
     game_speed_multiplier: 1,
-    frame: 0,
     tick: 0,
     game_paused: true,
     game_end: false
