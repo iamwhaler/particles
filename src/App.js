@@ -48,7 +48,7 @@ class App extends Component {
     playGame(speed_multiplier = false) {
         clearInterval(this.timerID);
         this.timerID = setInterval(
-            () => { this.tick(this.state); },
+            () => this.tick(),
             Math.floor(this.state.game_speed / (speed_multiplier ? speed_multiplier : this.state.game_speed_multiplier))
         );
         this.setState({game_paused: false});
@@ -125,11 +125,11 @@ class App extends Component {
     }
     */
 
-    tick(initial_state) {
-        let state = tick(initial_state);
+    tick() {
+        let state = tick(this.state);
         state.tick++;
         localStorage.setItem(game_name + "_app_state", JSON.stringify(state));
-        return state;
+        this.setState(state);
     }
 
 
@@ -297,6 +297,7 @@ class App extends Component {
                 <div className="flex-container-column header" style={{backgroundImage: "url(https://steamuserimages-a.akamaihd.net/ugc/867361404264636705/B43EE084571441E838F65B6CB2E94F26C0D985FB/)"}}>
                     <div className="flex-element">
                         <h5>
+                            <div>Tick: {this.state.tick}</div>
                             <div className="flex-element">
                                 <span onClick={() => {
                                     if (this.state.game_paused) {
