@@ -12,6 +12,8 @@ export const rules = {
             checkAchievement(state, state.helium);
             checkAchievement(state, state.H2);
             checkAchievement(state, state.He2);
+            checkAchievement(state, state.carbon);
+            checkAchievement(state, state.nitrogen);
 
             return state;
         }
@@ -121,7 +123,7 @@ export const rules = {
                         color: getStarColor('Hydrogen'),
                         mass: _.random(state.H2/5, 30  ,true),
                         born: state.tick,
-                        hydrogen: _.random(this.mass, state.H2),
+                        hydrogen: _.random(state.hydrogen, state.H2),
                         carbon: 0,
                     }
                 };

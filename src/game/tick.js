@@ -3,6 +3,8 @@ import _ from 'lodash';
 import {rules} from './rules';
 import {automators} from './automators';
 import {oneclickers} from "./oneclickers";
+import {achievements} from "./achievements";
+import toastr from 'react-toastr';
 
 export const tick = (state) => {
     _.each(rules, (item) => {
@@ -21,10 +23,13 @@ export const tick = (state) => {
         if (item.onTick) state = item.onTick(state);
     });
 
-
-    //console.log(state.target);
-    //state = functions[state.target.onTick](state);
-    //if (state.target.onTick) state = state.target.onTick(state);
+    _.each(achievements, (achievement, key) => {
+        if (state.achievements[key] === true) return;
+        if (achievement.rule(state)) {
+            state.achievements[key] = true;
+            toastr.success(`${achievement.name} ${achievement.rank} achievement unlocked!`, {timeOut: 3000, extendedTimeOut: 2000});
+        }
+    });
 
     return state;
 };

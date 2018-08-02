@@ -6,6 +6,7 @@ import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import Footer from './footer.js'
 
 import './css/App.css';
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {game_name} from './game/app_config';
 import {getDefaultState} from './game/default_state';
@@ -18,6 +19,9 @@ import {automators} from './game/automators';
 
 import {ToastContainer} from 'react-toastr';
 import confirm from './components/confirm_launch';
+
+
+
 
 
 class App extends Component {
@@ -65,6 +69,7 @@ class App extends Component {
     }
 
     newGame() {
+        this.pauseGame();
         confirm('Do you want to fully reset the game?').then(
             () => {
                 localStorage.setItem(game_name+"_app_state", null);
@@ -78,52 +83,6 @@ class App extends Component {
             });
     }
 
-
-
-/*
-    componentDidMount() {
-        console.log('App ' + game_name + ' componentDidMount');
-        var app_state = JSON.parse(localStorage.getItem(game_name + "_app_state"));
-        this.setState(app_state ? app_state : getDefaultState());
-        this.playGame();
-    }
-
-    playGame(speed_multiplier = false) {
-        clearInterval(this.timerID);
-        this.timerID = setInterval(
-            () => this.frame(),
-            Math.floor(this.state.game_speed / this.state.frame_rate / (speed_multiplier ? speed_multiplier : this.state.game_speed_multiplier))
-        );
-        this.setState({game_paused: false});
-    }
-
-    pauseGame() {
-        clearInterval(this.timerID);
-        this.setState({game_paused: true});
-    }
-
-
-    newGame() {
-        confirm('Do you want to fully reset the game?').then(
-            () => {
-                localStorage.setItem(game_name+"_app_state", null);
-                let new_state = getDefaultState();
-                this.setState(new_state);
-                this.playGame(new_state.game_speed_multiplier);
-            },
-
-            () => {
-                return false;
-            });
-
-
-    }
-
-    setGameSpeed(speed) {
-        if (!this.state.game_paused) this.playGame(speed);
-        this.setState({game_speed_multiplier: speed});
-    }
-    */
 
     tick() {
         let state = tick(this.state);
@@ -156,7 +115,7 @@ class App extends Component {
             }
         });
         return text;
-    };
+    }
 
     isEnough(state, cost) {
         let enough = true;
@@ -262,15 +221,17 @@ class App extends Component {
         const tooltip = (state, item) =>
             <Tooltip id="tooltip">
                 <div>
-                {(!item.text)
-                    ? ''
-                    :
-                    <div>
-                        <span>{item.name}</span>
-                        <br/>
-                        <span style={{fontSize: '11px'}}> {item.text ? item.text : ''}</span>
+                    <div className="flex-container-row">
+                        <div className="flex-element">
+                            <span>{item.name}</span>
+                            <br/>
+                            {(!item.text)
+                                ? ''
+                                :
+                            <span style={{fontSize: '11px'}}> {item.text ? item.text : ''}</span>}
+                        </div>
                     </div>
-                }
+
 
 
                 {_.map(_.isFunction(item.cost) ? item.cost(this.state) : item.cost, (value, resource_key) =>
@@ -279,13 +240,26 @@ class App extends Component {
                         :
                         <div className="row" key={resource_key}>
                             <div className="col-sm-6 infoBar">{resource_key}</div>
-                            <div className="col-sm-6 infoBar"
-                                 style={(value > state[resource_key]) ? {color: '#982727'} : {color: ''}}>
-                                {value} / {state[resource_key].toFixed(0)} {(value > state[resource_key]) ?  <p>({-(state[resource_key] - value).toFixed(0)} left)</p> : ''}
-                            </div>
+                                <div className="col-sm-6 infoBar"
+                                     style={(value > state[resource_key]) ? {color: '#982727'} : {color: ''}}>
+                                    {value} / {state[resource_key].toFixed(0)} {(value > state[resource_key]) ?
+                                    <p>({-(state[resource_key] - value).toFixed(0)} left)</p> : ''}
+                                </div>
                         </div>
                 )}
+
+                    {item.temperature_effect
+                        ?
+                        <div className="row temperature_effect">
+                            <div className="col-sm-6 infoBar">Temperature effect</div>
+                            <div className="col-sm-6 infoBar">
+                                {item.temperature_effect(state)}
+                            </div>
+                        </div>
+                        : ''
+                    }
                 </div>
+
 
             </Tooltip>;
 
@@ -297,7 +271,6 @@ class App extends Component {
                 <div className="flex-container-column header" style={{backgroundImage: "url(https://steamuserimages-a.akamaihd.net/ugc/867361404264636705/B43EE084571441E838F65B6CB2E94F26C0D985FB/)"}}>
                     <div className="flex-element">
                         <h5>
-                            <div>Tick: {this.state.tick}</div>
                             <div className="flex-element">
                                 <span onClick={() => {
                                     if (this.state.game_paused) {
@@ -311,15 +284,15 @@ class App extends Component {
                                         style={{width: 28, height: 28}}> </span>
                                 </span>
                                 <span>
-                                    {[1, 4, 16, 64].map((speed, index) => {
+                                    {[1, 4, 16].map((speed, index) => {
                                         return <span key={index}>
                                             {this.state.game_speed_multiplier === speed
                                                 ? <button className="" style={{width: 42, height: 28}}>
-                                                <u>{{0: 'x1', 1: 'x4', 2: 'x16', 3: 'x64'}[index]}</u></button>
+                                                <u>{{0: 'x1', 1: 'x4', 2: 'x16'}[index]}</u></button>
                                                 : <button className="" style={{width: 42, height: 28}}
                                                           onClick={() => {
                                                               this.setGameSpeed(speed);
-                                                          }}>{{0: 'x1', 1: 'x4', 2: 'x16', 3: 'x64'}[index]}
+                                                          }}>{{0: 'x1', 1: 'x4', 2: 'x16'}[index]}
                                             </button>}
                                         </span>
                                     })}

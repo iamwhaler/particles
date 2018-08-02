@@ -11,6 +11,11 @@ export const automators = {
             cost: (state) => {
                 return {strings: Math.floor(Math.pow(1.2, state.strings_miner - 1) * 20)};
             },
+
+            temperature_effect: (state) => {
+                return Math.floor(Math.pow(1.2, state.strings_miner - 1) * 20);
+                },
+
             locked: (state) => state.tick < 10,
 
             toggle: (state) => {
@@ -126,6 +131,34 @@ export const automators = {
                 };
             },
             locked: (state) => !state.down_quarks_miner,
+            toggle: (state) => {
+                (state.toggle.neutrons_miner)
+                    ? state.toggle.neutrons_miner=false
+                    : state.toggle.neutrons_miner=true;
+
+                return state;
+            },
+            onClick: (state) => {
+                state.neutrons_miner++;
+                return state;
+            },
+            onTick: (state) => {
+                if (state.toggle.neutrons_miner && state.neutrons_miner >= 1) {
+                    state.neutrons += Math.round(_.random(state.neutrons_miner * 0.5, state.neutrons_miner));
+                }
+                return state;
+            }
+        },
+
+        electrons_miner: {
+            name: 'Electrons Miner',
+            cost: (state) => {
+                return {
+                    carbon: Math.floor(Math.pow(1.3, state.neutrons_miner - 1) * 90),
+                    nitrogen: Math.floor(Math.pow(1.3, state.neutrons_miner - 1) * 150)
+                };
+            },
+            locked: (state) => false,
             toggle: (state) => {
                 (state.toggle.neutrons_miner)
                     ? state.toggle.neutrons_miner=false
