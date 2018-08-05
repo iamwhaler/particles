@@ -9,12 +9,20 @@ let propName = function(prop, value){
 
 let checkAchievement = function(state,resource){
     if(!state.achievements.includes(propName(state, resource))){
-        let achieved = 0;
-        achieved += resource;
-        return (achieved > 1) // PLS ATTENTION and CHECK here
+        resource > 1
             ? state.achievements.push(propName(state, resource))
             : false
     }
 };
 
 export default checkAchievement;
+
+export const achievements = {
+    rising_star: {
+        rank: 'bronze',
+        type: 'breakthrough',
+        name: 'Rising Star',
+        text: 'Grow a couple of stars in your galaxy to get it started',
+        rule: (state) => {return state.stars.length === 4}
+    }
+};

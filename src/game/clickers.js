@@ -72,7 +72,7 @@ export const clickers = {
     atoms: {
         hydrogen_clicker: {
             name: 'Synth Hydrogen',
-            cost: {protons: 1, neutrons: 1, electrons: 1},
+            cost: {protons: 1, electrons: 1},
             locked: (state) => state.protons < 1 && state.neutrons < 1 && state.electrons < 1,
             onClick: (state) => {
                 state.hydrogen++;

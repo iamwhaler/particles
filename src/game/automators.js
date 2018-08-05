@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import toastr from "toastr";
 // import toastr from "toastr";
 
 // onClick effect costs item.cost
@@ -11,6 +12,11 @@ export const automators = {
             cost: (state) => {
                 return {strings: Math.floor(Math.pow(1.2, state.strings_miner - 1) * 20)};
             },
+
+            temperature_effect: (state) => {
+                return Math.floor(Math.pow(1.09, state.strings_miner - 1) * 10);
+                },
+
             locked: (state) => state.tick < 10,
 
             toggle: (state) => {
@@ -28,6 +34,7 @@ export const automators = {
 
             onTick: (state) => {
                 if(state.toggle.strings_miner) {
+                    state.temperature += Math.floor(Math.pow(1.09, state.strings_miner - 1) * 10);
                     state.strings += _.random(state.strings_miner / 3, state.strings_miner);
                 }
                 return state;
@@ -41,6 +48,10 @@ export const automators = {
                 return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_miner - 1) * 20)};
             },
             locked: (state) => !state.strings_miner,
+
+            temperature_effect: (state) => {
+                return Math.floor(Math.pow(1.09, state.strings_miner - 1) * 12);
+            },
 
             toggle: (state) => {
                 (state.toggle.up_quarks_miner)
@@ -56,6 +67,7 @@ export const automators = {
             },
             onTick: (state) => {
                 if(state.toggle.up_quarks_miner) {
+                    state.temperature += Math.floor(Math.pow(1.09, state.up_quarks_miner - 1) * 12);
                     state.up_quarks += Math.round(_.random(state.up_quarks_miner/4 , state.up_quarks_miner));
                 }
                 return state;
@@ -126,6 +138,34 @@ export const automators = {
                 };
             },
             locked: (state) => !state.down_quarks_miner,
+            toggle: (state) => {
+                (state.toggle.neutrons_miner)
+                    ? state.toggle.neutrons_miner=false
+                    : state.toggle.neutrons_miner=true;
+
+                return state;
+            },
+            onClick: (state) => {
+                state.neutrons_miner++;
+                return state;
+            },
+            onTick: (state) => {
+                if (state.toggle.neutrons_miner && state.neutrons_miner >= 1) {
+                    state.neutrons += Math.round(_.random(state.neutrons_miner * 0.5, state.neutrons_miner));
+                }
+                return state;
+            }
+        },
+
+        electrons_miner: {
+            name: 'Electrons Miner',
+            cost: (state) => {
+                return {
+                    carbon: Math.floor(Math.pow(1.3, state.neutrons_miner - 1) * 90),
+                    nitrogen: Math.floor(Math.pow(1.3, state.neutrons_miner - 1) * 150)
+                };
+            },
+            locked: (state) => !state.achievements.includes('nitrogen'),
             toggle: (state) => {
                 (state.toggle.neutrons_miner)
                     ? state.toggle.neutrons_miner=false
@@ -240,5 +280,32 @@ export const automators = {
 
             }
         },
+
+
+        temperature_converter: {
+            name: 'Temperature converter', text: 'Temperature gets lower consuming strings',
+            cost: {strings: 10},
+            locked: (state) => state.strings_miner<1,
+            toggle: (state) => {
+                (state.toggle.temperature_converter)
+                    ? state.toggle.temperature_converter=false
+                    : state.toggle.temperature_converter=true;
+
+                return state;
+            },
+            onClick: (state) => {
+                state.temperature_converter++;
+                return state;
+            },
+
+            onTick: (state) => {
+                    if(state.toggle.temperature_converter && state.strings>5) {
+                        state.strings -= _.random(1, 5);
+                        state.temperature -= _.random(30, 60);
+                    }
+
+                return state
+            }
+        }
     }
 };

@@ -31,8 +31,9 @@ export let nuclearReaction = (star_type, state) => {
             if (state.tick - item.star.born > 10) {
                 switch (item.star.type) {
                     case 'Hydrogen' :
-                        item.star.hydrogen -= _.random(0, (state.tick - item.star.born) / 100, true);
-                        item.star.carbon += _.random(0, 1, true);
+                        item.star.hydrogen -= _.random(0, (state.tick - item.star.born) / 10, true);
+                        item.star.carbon += _.random(0, 0.7, true);
+                        state.temperature+= item.star.mass/3;
 
                         if (item.star.hydrogen < 10 || (state.tick - item.star.born > 400) || item.star.hydrogen < 0) {
                             state.carbon += item.star.carbon;
@@ -49,10 +50,11 @@ export let nuclearReaction = (star_type, state) => {
 
 
                     case 'Helium' :
-                            item.star.helium -= _.random(0, ((state.tick - item.star.born) / 100), true);
-                            item.star.nitrogen += _.random(0, 1, true);
+                            item.star.helium -= _.random(0, ((state.tick - item.star.born) / 10), true);
+                            item.star.nitrogen += _.random(0, 0.3, true);
+                            state.temperature+= item.star.mass/3;
 
-                            if (item.star.helium < 10 || (state.tick - item.star.born > 400) || item.star.helium < 0) {
+                        if (item.star.helium < 10 || (state.tick - item.star.born > 400) || item.star.helium < 0) {
                                 state.nitrogen += item.star.nitrogen;
                                 let string = "Your star " + item.star.name + ' exploded and brought rewards';
                                 toastr.info(string, 'Be aware!', {

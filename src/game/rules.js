@@ -12,6 +12,8 @@ export const rules = {
             checkAchievement(state, state.helium);
             checkAchievement(state, state.H2);
             checkAchievement(state, state.He2);
+            checkAchievement(state, state.carbon);
+            checkAchievement(state, state.nitrogen);
 
             return state;
         }
@@ -19,8 +21,8 @@ export const rules = {
 
     temperature_rule: {
         onTick: (state) => {
-            if(!state.achievements.includes('strings')) {
-                state.temperature -= _.random(50, 100);
+            if(!state.achievements.includes('up_quarks')) {
+                state.temperature = Math.floor(state.temperature/2);
                 toastr.info("Your universe is cooling down, please wait a little", 'Welcome to the Game!', {
                     timeOut: 15000,
                     closeButton: true,
@@ -29,7 +31,7 @@ export const rules = {
                     escapeHtml: false
                 });
             }
-            else {state.temperature += _.random(1, 2) + state.stars.length}
+            else {state.temperature += _.random(0.4, 1.2) + state.stars.length}
 
             // clearInterval(state.timerID);
             // state.game_paused = true;
@@ -121,7 +123,7 @@ export const rules = {
                         color: getStarColor('Hydrogen'),
                         mass: _.random(state.H2/5, 30  ,true),
                         born: state.tick,
-                        hydrogen: _.random(this.mass, state.H2),
+                        hydrogen: _.random(state.hydrogen, state.H2),
                         carbon: 0,
                     }
                 };
