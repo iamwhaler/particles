@@ -41,10 +41,12 @@ const default_state = {
     neutrons_miner: 0,
     electrons_miner: 0,
 
-    H2_converter: 0,
-
     hydrogen_miner: 0,
     helium_miner: 0,
+
+
+    H2_converter: 0,
+    temperature_converter: 0,
 
     toggle: {
         strings_miner: false,
@@ -56,7 +58,8 @@ const default_state = {
         hydrogen_miner: false,
         helium_miner: false,
 
-        H2_converter: false
+        H2_converter: false,
+        temperature_converter: false,
     },
 
 
@@ -65,9 +68,11 @@ const default_state = {
 
     stars: [],
 
+    planets: [],
+
     achievements: [],
 
-    temperature: 356,
+    temperature: Math.pow(10, 32),
 
     game_speed: 1000,
     game_speed_multiplier: 1,

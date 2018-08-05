@@ -9,13 +9,14 @@ body {
   padding: 0;
   font-family: 'Roboto Condensed', sans-serif;
   overflow: auto;
+  filter: invert(2%);
 }
 
 
 .tooltip {
   padding-bottom: -70px;
   padding-top: -70px;
-  max-width: 200px;
+  max-width: 300px;
   text-align: justify;
 }
 
@@ -72,7 +73,7 @@ button {
 }
 
 .button-selector {
-  color: black;
+  color: white;
 }
 
 .button-selector-disabled {
@@ -81,8 +82,7 @@ button {
 
 .flex-element {
   padding-top: 2.5px;
-  padding-bottom: 2.5px
-
+  padding-bottom: 2.5px;
 }
 
 circle {
@@ -92,22 +92,22 @@ circle {
 img {
   width: 20px;
   height: 20px;
-  margin-bottom: 10px
+  margin-bottom: 10px;
 }
 
 .star-icon {
-  filter: invert(100%);
+  filter: invert(0%);
   width: 25px;
   height: 25px;
   margin-bottom: 5px;
 }
 
 .resource-icon {
-  filter: invert(100%);
+  filter: invert(40%);
 }
 
 .overlay {
-  filter: invert(100%);
+  filter: invert(60%);
 }
 
 .overlay:hover {
@@ -127,3 +127,5 @@ img {
   text-align: center;
   filter: invert(0%) !important;
 }
+
+.temperature_effect {}
