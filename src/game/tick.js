@@ -27,7 +27,12 @@ export const tick = (state) => {
         if (state.achievements[key] === true) return;
         if (achievement.rule(state)) {
             state.achievements[key] = true;
-            toastr.info(`${achievement.name} ${achievement.rank} achievement unlocked!`, {timeOut: 3000, extendedTimeOut: 2000});
+            toastr.info(achievement.name + achievement.rank + " achievement unlocked!", {
+                timeOut: 5000,
+                closeButton: true,
+                preventDuplicates: true,
+                extendedTimeOut: 4000,
+                escapeHtml: false});
         }
     });
 

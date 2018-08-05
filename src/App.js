@@ -384,7 +384,7 @@ class App extends Component {
                         </div>
 
 
-                        {!state.temperature>5000
+                        {state.temperature>5000
                             ? ''
                             :
                         <div className="flex-element">
