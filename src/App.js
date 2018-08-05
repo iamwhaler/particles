@@ -277,370 +277,368 @@ class App extends Component {
                 </Tooltip>;
 
 
+
+            const time_subcomponent =
+                <div className="flex-container-row time-machine">
+                    <span onClick={() => {
+                        if (this.state.game_paused) {
+                            this.playGame();
+                        } else {
+                            this.pauseGame();
+                        }
+                    }}>
+                        <span
+                            className={classNames('glyphicon', (this.state.game_paused ? 'glyphicon-play' : 'glyphicon-pause'))}
+                            style={{width: 28, height: 28}}> </span>
+                            </span>
+                    {[1, 4, 16].map((speed, index) => {
+                        return <span key={index}>
+                                {this.state.game_speed_multiplier === speed
+                                    ? <button className="" style={{width: 42, height: 28}}>
+                                    <u>{{0: 'x1', 1: 'x4', 2: 'x16'}[index]}</u></button>
+                                    : <button style={{width: 42, height: 28}}
+                                              onClick={() => {
+                                                  this.setGameSpeed(speed);
+                                              }}>{{0: 'x1', 1: 'x4', 2: 'x16'}[index]}
+                                </button>}
+                            </span>
+                    })}
+                </div>;
+
+
+            const temperature_subcomponent =
+                <div className="flex-container-row">
+                    <h5 className="flex-element"
+                        style={temperatureStyle}>
+                        Temperature: {Math.floor(state.temperature).toFixed(0)} K
+                    </h5>
+                    <div className="flex-element">
+                        <h5>Years: {this.state.tick}k</h5>
+                    </div>
+                </div>;
+
+
+            const basic_particles_subcomponent =
+                <div className="flex-element">
+                    <h6>Basic particles</h6>
+
+                    <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
+                        <img alt="" className="overlay resource-icon" src={"./img/basic_particles.png"}/>
+                    </OverlayTrigger>
+
+                    <div className="flex-container-row resource-tab" style={{maxWidth: '250px'}}>
+
+                        <div className="flex-element">
+                            {_.map(data.basic_particles, (item, key) =>
+                                (item.locked && item.locked(this.state))
+                                    ? ''
+                                    :
+                                    <div className="flex-element" style={{width: '150px', textAlign: 'right'}} key={key}>
+                                        <span className="flex-element">{item.name}: {state[key].toFixed(0)}</span>
+                                    </div>
+                            )}
+                        </div>
+
+                        <div className="flex-element col-xs clickers">
+                            {_.map(clickers.basic_particles, (item, key) =>
+                                (item.locked && item.locked(this.state))
+                                    ? ''
+                                    :
+                                    <div key={key}>
+                                        <OverlayTrigger delay={150} placement="top"
+                                                        overlay={tooltip(this.state, item)}>
+                                            <div>
+                                                <button
+                                                    className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
+                                                    onClick={() => {
+                                                        this.onClickWrapper(item);
+                                                    }}>
+                                                    +1
+                                                </button>
+
+
+                                                {(state.micro_swiper)
+                                                    ?
+                                                    <button
+                                                        className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
+                                                        onClick={() => {
+                                                            for(let i= 0; i<5; i++) {this.onClickWrapper(item)}
+                                                        }}>
+                                                        +5
+                                                    </button>
+                                                    : ''
+                                                }
+                                            </div>
+                                        </OverlayTrigger>
+                                    </div>
+                            )}
+                        </div>
+
+                    </div>
+                </div>;
+
+            const atoms_subcomponent =
+                <div className="flex-element">
+                    <h6>Atoms</h6>
+                    <img alt="" className="overlay resource-icon" src={"./img/atoms.png"}/>
+                    <div className="flex-container-row resource-tab" style={{maxWidth: '250px'}}у>
+
+                        <div className="flex-element">
+                            {_.map(data.atoms, (item, key) =>
+                                (item.locked && item.locked(this.state))
+                                    ? ''
+                                    :
+                                    <div className="flex-element" style={{width: '150px', textAlign: 'right'}} key={key}>
+                                        <span className="flex-element">{item.name}: {state[key].toFixed(0)}</span>
+                                    </div>
+                            )}
+                        </div>
+
+                        <div className="flex-element col-xs clickers">
+                            {_.map(clickers.atoms, (item, key) =>
+                                (item.locked && item.locked(this.state))
+                                    ? ''
+                                    :
+                                    <div key={key}>
+                                        <OverlayTrigger delay={150} placement="right"
+                                                        overlay={tooltip(this.state, item)}>
+                                            <button
+                                                className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
+                                                onClick={() => {
+                                                    this.onClickWrapper(item);
+                                                }}>
+                                                +1
+                                            </button>
+                                        </OverlayTrigger>
+                                    </div>
+                            )}
+                        </div>
+
+                    </div>
+                </div>;
+
+            const simple_molecules_subcomponent =
+                <div className="flex-element">
+                    <h6>Simple molecules</h6>
+                    <img alt="" className="overlay resource-icon" src={"./img/simple_molecules.png"}/>
+                    <div>
+                        {_.map(data.simple_molecules, (item, key) =>
+                            (item.locked && item.locked(this.state))
+                                ? ''
+                                :
+                                <div className="flex-element" key={key}>
+                                            <span className="flex-element">
+                                        {item.name}: {state[key].toFixed(2)}
+                                            </span>
+                                </div>
+                        )}
+                    </div>
+                </div>;
+
+            const stars_subcomponent =
+                <div className="flex-element">
+                    <h6>Stars</h6>
+                    <img alt="" className="overlay star-icon" src={"./img/star.png"}/>
+                    {_.map(data.stars, (item, key) =>
+                        <div className="flex-element" key={key}>
+                            {item.name}: {state[key].toFixed(2)}
+                        </div>
+                    )}
+                </div>;
+
+            const your_stars_subcomponent =
+                <div className="flex-element">
+                    <h6> Your stars: {state.stars.length} </h6>
+                    <div className="your-stars">
+                        {_.map(state.stars, (item, key) =>
+                            (item) ?
+                                <div key={key} style={{border: '0px solid #BDBDBD'}} className="flex-container-row">
+                                    <OverlayTrigger delay={150} placement="left"
+                                                    overlay={starTooltip(this.state, item)}>
+                                        <div className="flex-element star-circle">
+                                            <Circle r={1 + item.star.mass/4} fill={{color: '#4E4E9A'}}
+                                                    stroke={{color: item.star.color}} strokeWidth={4}/>
+                                        </div>
+                                    </OverlayTrigger>
+
+                                    <div className="flex-element">
+                                        {item.star.name}
+                                        <br/>
+                                        Type: {item.star.type}
+                                        <br/>
+                                        Mass: {item.star.mass.toFixed(2)}
+                                    </div>
+                                </div>
+                                : ''
+                        )}
+                    </div>
+                </div>;
+
+            const synthesizers_subcomponent =
+                <div className="flex-element">
+                    <h3>Synthesizers</h3>
+                    <img alt="" className="overlay" src={"./img/automation.png"}
+                         style={{width: '25px', height: '25px'}}/>
+                    <div className="flex-container-row">
+                        <div className="flex-element">
+                            {_.map(automators.miners, (item, key) =>
+                                (item.locked && item.locked(this.state))
+                                    ? ''
+                                    : <div key={key} className="flex-container-row automation">
+                                    <div className="flex-element" style={{textAlign: 'left'}}>
+                                        {item.name}: {state[key]}
+                                    </div>
+
+                                    <div className="flex-element" style={{textAlign: 'left'}}>
+                                        <OverlayTrigger delay={150} placement="top"
+                                                        overlay={tooltip(this.state, item)}>
+                                            <div>
+                                                { (item.toggle && state[key]>0)
+                                                    ?
+                                                    <button className={state.toggle[key] ? 'switchOn' : ''}
+                                                            onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
+                                                    : ''}
+                                                <button
+                                                    className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
+                                                    onClick={() => {
+                                                        this.onClickWrapper(item);
+                                                    }}>
+                                                    {state[key]>0 ? 'Upgrade' : 'Buy'}
+                                                </button>
+                                            </div>
+                                        </OverlayTrigger>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        {state.achievements.includes("hydrogen_star")
+                            ?
+                            <div className="flex-element">
+                                {_.map(automators.converters, (item, key) =>
+                                    (item.locked && item.locked(this.state))
+                                        ? ''
+                                        : <div key={key} className="flex-container-row automation">
+                                        <div className="flex-element">
+                                            <div className="col-sm-6"
+                                                 style={{textAlign: "right"}}>
+                                                {item.name}: {state[key]}
+                                            </div>
+
+                                            <div className="col-sm-6" style={{textAlign: 'left'}}>
+
+                                                <OverlayTrigger delay={150} placement="top"
+                                                                overlay={tooltip(this.state, item)}>
+                                                    <div>
+                                                        { (item.toggle && state[key]>0)
+                                                            ?
+                                                            <button className={state.toggle[key] ? 'switchOn' : ''}
+                                                                    onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
+                                                            : ''}
+
+                                                        <button
+                                                            className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
+                                                            onClick={() => {
+                                                                this.onClickWrapper(item);
+                                                            }}>
+                                                            {state[key]>0 ? 'Upgrade' : 'Buy'}
+                                                        </button>
+                                                    </div>
+
+                                                </OverlayTrigger>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                )}
+                            </div> : ''}
+                    </div>
+                </div>;
+
+            const research_subcomponent =
+                <div className="flex-element">
+                    <h3>Research</h3>
+                    <img alt="" className="overlay" src={"./img/upgrades.png"}/>
+
+                    {_.map(oneclickers, (item, key) =>
+                        (item.locked && item.locked(this.state))
+                            ? ''
+                            :
+                            <div key={key}>
+                                <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
+                                    {this.state[key]
+                                        ? <span className="badge">{item.name}</span>
+                                        :
+                                        <button id={key} key={key}
+                                                className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
+                                                onClick={() => {
+                                                    this.onClickWrapper(item);
+                                                }}>
+                                            {item.name}
+                                        </button>}
+
+                                </OverlayTrigger>
+                            </div>
+                    )}
+                </div>;
+
+            const planets_subcomponent =
+                <div className="flex-element">
+                    <div className="flex-container-row">
+                        <div className="flex-element">
+                            <h3>Planets</h3>
+                        </div>
+                    </div>
+
+                    <div className="flex-container-row">
+
+                        <div className="flex-element">
+                            <img alt="" className="overlay" src={"./img/basic_particles.png"}/>
+
+                        </div>
+
+                        <div className="flex-element">
+                            <img alt="" className="overlay" src={"./img/atom_nucleus.png"}/>
+                        </div>
+
+                        <div className="flex-element">
+                            <img alt="" className="overlay" src={"./img/atoms.png"}/>
+                        </div>
+                    </div>
+                </div>;
+
+
             return (
                 <div className="App">
                     {/* <Popup ref={(p) => this.popupHandler = p} /> -->
                     <button onClick={() => this.createPopup()}>MakeNewPopup</button> */}
                     <div className="flex-container-column header">
-                                <div className="flex-container-row time-machine">
-                                    <span onClick={() => {
-                                        if (this.state.game_paused) {
-                                            this.playGame();
-                                        } else {
-                                            this.pauseGame();
-                                        }
-                                    }}>
-                                        <span
-                                            className={classNames('glyphicon', (this.state.game_paused ? 'glyphicon-play' : 'glyphicon-pause'))}
-                                            style={{width: 28, height: 28}}> </span>
-                                    </span>
-                                        {[1, 4, 16].map((speed, index) => {
-                                            return <span key={index}>
-                                                {this.state.game_speed_multiplier === speed
-                                                    ? <button className="" style={{width: 42, height: 28}}>
-                                                    <u>{{0: 'x1', 1: 'x4', 2: 'x16'}[index]}</u></button>
-                                                    : <button style={{width: 42, height: 28}}
-                                                              onClick={() => {
-                                                                  this.setGameSpeed(speed);
-                                                              }}>{{0: 'x1', 1: 'x4', 2: 'x16'}[index]}
-                                                </button>}
-                                            </span>
-                                        })}
-                                </div>
-
-                        <div className="flex-container-row">
-                            <h5 className="flex-element"
-                                style={temperatureStyle}>
-                                Temperature: {Math.floor(state.temperature).toFixed(0)} K
-                            </h5>
-                            <div className="flex-element">
-                                <h5>Years: {this.state.tick}k</h5>
-                            </div>
-                        </div>
-
+                        {time_subcomponent}
+                        {temperature_subcomponent}
                     </div>
                     <div>
                         <ToastContainer className="toast-top-right"/>
                     </div>
 
-
                     <div className="flex-container-row resources">
-                        <div className="flex-element">
-                            <h6>Basic particles</h6>
+                        {basic_particles_subcomponent}
 
-                            <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
-                            <img alt="" className="overlay resource-icon" src={"./img/basic_particles.png"}/>
-                            </OverlayTrigger>
+                        {state.temperature > 5000 ? '' : atoms_subcomponent }
 
-                            <div className="flex-container-row resource-tab" style={{maxWidth: '250px'}}>
-
-                                <div className="flex-element">
-                                    {_.map(data.basic_particles, (item, key) =>
-                                        (item.locked && item.locked(this.state))
-                                            ? ''
-                                            :
-                                            <div className="flex-element" style={{width: '150px', textAlign: 'right'}} key={key}>
-                                                <span className="flex-element">{item.name}: {state[key].toFixed(0)}</span>
-                                            </div>
-                                    )}
-                                </div>
-
-                                <div className="flex-element col-xs clickers">
-                                    {_.map(clickers.basic_particles, (item, key) =>
-                                        (item.locked && item.locked(this.state))
-                                            ? ''
-                                            :
-                                            <div key={key}>
-                                                <OverlayTrigger delay={150} placement="top"
-                                                                overlay={tooltip(this.state, item)}>
-                                                    <div>
-                                                    <button
-                                                        className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
-                                                        onClick={() => {
-                                                            this.onClickWrapper(item);
-                                                        }}>
-                                                        +1
-                                                    </button>
-
-
-                                                        {(state.micro_swiper)
-                                                            ?
-                                                        <button
-                                                            className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
-                                                            onClick={() => {
-                                                            for(let i= 0; i<5; i++) {this.onClickWrapper(item)}
-                                                        }}>
-                                                            +5
-                                                            </button>
-                                                            : ''
-                                                        }
-                                                    </div>
-                                                </OverlayTrigger>
-                                            </div>
-                                    )}
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                        {state.temperature>5000
-                            ? ''
-                            :
-                        <div className="flex-element">
-                            <h6>Atoms</h6>
-                            <img alt="" className="overlay resource-icon" src={"./img/atoms.png"}/>
-                            <div className="flex-container-row resource-tab" style={{maxWidth: '250px'}}у>
-
-                                <div className="flex-element">
-                                    {_.map(data.atoms, (item, key) =>
-                                        (item.locked && item.locked(this.state))
-                                            ? ''
-                                            :
-                                            <div className="flex-element" style={{width: '150px', textAlign: 'right'}} key={key}>
-                                                <span className="flex-element">{item.name}: {state[key].toFixed(0)}</span>
-                                            </div>
-                                    )}
-                                </div>
-
-                                <div className="flex-element col-xs clickers">
-                                    {_.map(clickers.atoms, (item, key) =>
-                                        (item.locked && item.locked(this.state))
-                                            ? ''
-                                            :
-                                            <div key={key}>
-                                                <OverlayTrigger delay={150} placement="right"
-                                                                overlay={tooltip(this.state, item)}>
-                                                    <button
-                                                        className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
-                                                        onClick={() => {
-                                                            this.onClickWrapper(item);
-                                                        }}>
-                                                        +1
-                                                    </button>
-                                                </OverlayTrigger>
-                                            </div>
-                                    )}
-                                </div>
-
-                            </div>
-                        </div>
-                            }
-
-
-                        {state.H2<5
-                            ? ''
-                            :
-                            <div className="flex-element">
-                                <h6>Simple molecules</h6>
-                                <img alt="" className="overlay resource-icon" src={"./img/simple_molecules.png"}/>
-                                <div>
-                                    {_.map(data.simple_molecules, (item, key) =>
-                                        (item.locked && item.locked(this.state))
-                                            ? ''
-                                            :
-                                            <div className="flex-element" key={key}>
-                                            <span className="flex-element">
-                                        {item.name}: {state[key].toFixed(2)}
-                                            </span>
-                                            </div>
-                                    )}
-                                </div>
-                            </div>
-                        }
+                        {state.H2<5 ? '' : simple_molecules_subcomponent}
 
                         {(state.achievements.includes('hydrogen') || state.achievements.includes('helium'))
-                            ?
-                            <div className="flex-element">
-                                <h6>Stars</h6>
-                                <img alt="" className="overlay star-icon" src={"./img/star.png"}/>
-                                {_.map(data.stars, (item, key) =>
-                                    <div className="flex-element" key={key}>
-                                        {item.name}: {state[key].toFixed(2)}
-                                    </div>
-                                )}
-                            </div>
+                            ? stars_subcomponent : ''}
 
-                            : ''}
-
-
-                        {(state.achievements.includes('hydrogen_stars'))
-                            ?
-                            <div className="flex-element">
-                                <h6> Your stars: {state.stars.length} </h6>
-                                <div className="your-stars">
-                                    {_.map(state.stars, (item, key) =>
-                                        (item)
-                                        ?
-                                        <div key={key} style={{border: '0px solid #BDBDBD'}} className="flex-container-row">
-                                            <OverlayTrigger delay={150} placement="left"
-                                                            overlay={starTooltip(this.state, item)}>
-                                            <div className="flex-element star-circle">
-                                                    <Circle r={1 + item.star.mass/4} fill={{color: '#4E4E9A'}}
-                                                            stroke={{color: item.star.color}} strokeWidth={4}/>
-                                            </div>
-                                            </OverlayTrigger>
-
-
-                                            <div className="flex-element">
-                                                {item.star.name}
-                                                <br/>
-                                                Type: {item.star.type}
-                                                <br/>
-                                                Mass: {item.star.mass.toFixed(2)}
-                                            </div>
-                                        </div>
-                                            : ''
-                                    )}
-                                </div>
-                            </div>
-                            : ''}
-
+                        {(state.achievements.includes('hydrogen_stars')) ? your_stars_subcomponent : ''}
                     </div>
 
                     <div className="flex-container-row">
-                        <div className="flex-element">
-                            <h3>Synthesizers</h3>
-                            <img alt="" className="overlay" src={"./img/automation.png"}
-                                 style={{width: '25px', height: '25px'}}/>
-                            <div className="flex-container-row">
-                                <div className="flex-element">
-                                    {_.map(automators.miners, (item, key) =>
-                                        (item.locked && item.locked(this.state))
-                                            ? ''
-                                            : <div key={key} className="flex-container-row automation">
-                                                <div className="flex-element" style={{textAlign: 'left'}}>
-                                                    {item.name}: {state[key]}
-                                                </div>
+                        {synthesizers_subcomponent}
 
-                                                <div className="flex-element" style={{textAlign: 'left'}}>
+                        {state.achievements.includes('up_quarks') ? research_subcomponent : ''}
 
-                                                    <OverlayTrigger delay={150} placement="top"
-                                                                    overlay={tooltip(this.state, item)}>
-                                                        <div>
-                                                            { (item.toggle && state[key]>0)
-                                                                ?
-                                                                <button className={state.toggle[key] ? 'switchOn' : ''}
-                                                                        onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
-                                                                : ''}
-
-                                                            <button
-                                                                className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
-                                                                onClick={() => {
-                                                                    this.onClickWrapper(item);
-                                                                }}>
-                                                                {state[key]>0 ? 'Upgrade' : 'Buy'}
-                                                            </button>
-                                                        </div>
-
-                                                    </OverlayTrigger>
-                                                </div>
-
-                                            </div>
-                                    )}
-                                </div>
-
-                                {state.achievements.includes("hydrogen_star")
-                                    ?
-                                    <div className="flex-element">
-                                        {_.map(automators.converters, (item, key) =>
-                                            (item.locked && item.locked(this.state))
-                                                ? ''
-                                                : <div key={key} className="flex-container-row automation">
-                                                    <div className="flex-element">
-                                                        <div className="col-sm-6"
-                                                             style={{textAlign: "right"}}>
-                                                            {item.name}: {state[key]}
-                                                        </div>
-
-                                                        <div className="col-sm-6" style={{textAlign: 'left'}}>
-
-                                                            <OverlayTrigger delay={150} placement="top"
-                                                                            overlay={tooltip(this.state, item)}>
-                                                                <div>
-                                                                    { (item.toggle && state[key]>0)
-                                                                        ?
-                                                                        <button className={state.toggle[key] ? 'switchOn' : ''}
-                                                                                onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
-                                                                        : ''}
-
-                                                                    <button
-                                                                        className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
-                                                                        onClick={() => {
-                                                                            this.onClickWrapper(item);
-                                                                        }}>
-                                                                        {state[key]>0 ? 'Upgrade' : 'Buy'}
-                                                                    </button>
-                                                                </div>
-
-                                                            </OverlayTrigger>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                        )}
-                                    </div> : ''}
-                            </div>
-                        </div>
-
-                        {state.achievements.includes('up_quarks')
-                            ?
-                            <div className="flex-element">
-                            <h3>Research</h3>
-                            <img alt="" className="overlay" src={"./img/upgrades.png"}/>
-
-                            {_.map(oneclickers, (item, key) =>
-                                (item.locked && item.locked(this.state))
-                                    ? ''
-                                    :
-                                    <div key={key}>
-                                        <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
-                                            {this.state[key]
-                                                ? <span className="badge">{item.name}</span>
-                                                :
-                                                <button id={key} key={key}
-                                                        className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
-                                                        onClick={() => {
-                                                            this.onClickWrapper(item);
-                                                        }}>
-                                                    {item.name}
-                                                </button>}
-
-                                        </OverlayTrigger>
-                                    </div>
-                            )}
-                        </div> : ''}
-
-                        {state.planets.length<1
-                            ? ''
-                            :
-                            <div className="flex-element">
-                            <div className="flex-container-row">
-                                <div className="flex-element">
-                                    <h3>Planets</h3>
-                                </div>
-                            </div>
-
-                            <div className="flex-container-row">
-
-                                <div className="flex-element">
-                                    <img alt="" className="overlay" src={"./img/basic_particles.png"}/>
-
-                                </div>
-
-                                <div className="flex-element">
-                                    <img alt="" className="overlay" src={"./img/atom_nucleus.png"}/>
-                                </div>
-
-                                <div className="flex-element">
-                                    <img alt="" className="overlay" src={"./img/atoms.png"}/>
-                                </div>
-                            </div>
-                        </div>
-                        }
-
+                        {state.planets.length < 1 ? '' : planets_subcomponent }
                     </div>
-
 
                     <Footer newGame={this.newGame}/>
                     <div style={{height: '50px', width: '100%'}}> </div>
