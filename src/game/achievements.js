@@ -9,7 +9,7 @@ let propName = function(prop, value){
 
 let checkAchievement = function(state,resource){
     if(!state.achievements.includes(propName(state, resource))){
-        resource > 1
+        resource > 0.99
             ? state.achievements.push(propName(state, resource))
             : false
     }

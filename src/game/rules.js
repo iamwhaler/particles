@@ -1,9 +1,20 @@
 import _ from 'lodash';
+import {automators} from "./automators";
 import toastr from 'toastr';
 import {getStarName, getStarColor, nuclearReaction} from './stars';
 import checkAchievement from './achievements';
 
 export const rules = {
+
+    temperature_effect_tule: {
+        onTick: (state) => {
+            _.each(automators.miners, (value, resource_key) =>
+                value.temperature_effect && state.toggle[resource_key] ? state.temperature += value.temperature_effect(state)
+                    : false);
+            return state
+        }
+    },
+
     achievement_rule: {
         onTick: (state) => {
             checkAchievement(state, state.strings);
@@ -14,6 +25,8 @@ export const rules = {
             checkAchievement(state, state.He2);
             checkAchievement(state, state.carbon);
             checkAchievement(state, state.nitrogen);
+            checkAchievement(state, state.hydrogen_stars);
+
 
             return state;
         }
@@ -21,23 +34,9 @@ export const rules = {
 
     temperature_rule: {
         onTick: (state) => {
-            if(!state.achievements.includes('up_quarks')) {
-                state.temperature = Math.floor(state.temperature/2);
-                toastr.info("Your universe is cooling down, please wait a little", 'Welcome to the Game!', {
-                    timeOut: 15000,
-                    closeButton: true,
-                    preventDuplicates: true,
-                    extendedTimeOut: 15000,
-                    escapeHtml: false
-                });
-            }
-            else {state.temperature += _.random(0.4, 1.2) + state.stars.length}
-
-            // clearInterval(state.timerID);
-            // state.game_paused = true;
-            //  state.frame_rate = state.temperature;
-            //  state.game_paused = false;
-
+            state.temperature = Math.floor(
+                state.temperature *
+                (1 / (1 + Math.pow(state.temperature * 0.00000000000001 * Math.pow(state.tick, 10), 0.01)))); // Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(state.temperature * 0.000000001))))))));
             return state;
         }
     },

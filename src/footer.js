@@ -7,9 +7,11 @@ class Footer extends Component {
 
     render() {
         return (
-            <div className="footer">
+            <div className="flex-container-row footer">
+                <div className="flex-element">
                 <span className="pull-left"><a onClick={this.props.newGame}>New game</a></span>
-
+                </div>
+                <div className="flex-container-row">
                 &nbsp;
                 <a target="_blank" rel="noopener noreferrer" href={social_links.telegram}>
                     <img alt="" src="https://sagacoin.net/img/social_telegram.png" style={{width: '20px'}}/>
@@ -23,7 +25,7 @@ class Footer extends Component {
                     Wiki
                 </a>
                 &nbsp;&nbsp;&nbsp;
-                <a target="_blank" rel="noopener noreferrer" href={social_links.reddit}>
+                <a target="_blank" className="flex-element" rel="noopener noreferrer" href={social_links.reddit}>
                     <img alt="" src="https://images-na.ssl-images-amazon.com/images/I/418PuxYS63L.png" />
                     &nbsp;
                     Reddit
@@ -34,6 +36,7 @@ class Footer extends Component {
                     &nbsp;
                     Support
                 </a>
+                </div>
 
             </div>
         )

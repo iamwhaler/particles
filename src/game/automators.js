@@ -4,7 +4,9 @@ import toastr from "toastr";
 
 // onClick effect costs item.cost
 
-export const automators = {
+export let automators = {};
+
+automators = {
     miners: {
         strings_miner: {
             name: 'Strings Miner',
@@ -15,7 +17,7 @@ export const automators = {
 
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(1.09, state.strings_miner - 1) * 10);
-                },
+            },
 
             locked: (state) => state.tick < 10,
 
@@ -34,7 +36,6 @@ export const automators = {
 
             onTick: (state) => {
                 if(state.toggle.strings_miner) {
-                    state.temperature += Math.floor(Math.pow(1.09, state.strings_miner - 1) * 10);
                     state.strings += _.random(state.strings_miner / 3, state.strings_miner);
                 }
                 return state;
@@ -81,6 +82,11 @@ export const automators = {
                 return {down_quarks: Math.floor(Math.pow(1.5, state.down_quarks_miner - 1) * 20)};
             },
             locked: (state) => !state.strings_miner,
+
+            temperature_effect: (state) => {
+                return Math.floor(Math.pow(1.3, state.down_quarks_miner - 1) * 10);
+            },
+
             toggle: (state) => {
                 (state.toggle.down_quarks_miner)
                     ? state.toggle.down_quarks_miner=false
@@ -110,6 +116,11 @@ export const automators = {
                 };
             },
             locked: (state) => !state.up_quarks_miner,
+
+            temperature_effect: (state) => {
+                return Math.floor(Math.pow(1.2, state.protons_miner - 1) * 10);
+            },
+
             toggle: (state) => {
                 (state.toggle.protons_miner)
                     ? state.toggle.protons_miner=false
@@ -138,6 +149,10 @@ export const automators = {
                 };
             },
             locked: (state) => !state.down_quarks_miner,
+            temperature_effect: (state) => {
+                return Math.floor(Math.pow(1.3, state.neutrons_miner - 1) * 10);
+            },
+
             toggle: (state) => {
                 (state.toggle.neutrons_miner)
                     ? state.toggle.neutrons_miner=false
@@ -197,6 +212,9 @@ export const automators = {
                 };
             },
             locked: (state) => !state.achievements.includes('hydrogen'),
+            temperature_effect: (state) => {
+                return Math.floor(Math.pow(1.5, state.hydrogen_miner - 1) * 10);
+            },
             toggle: (state) => {
                 (state.toggle.hydrogen_miner)
                     ? state.toggle.hydrogen_miner=false
@@ -228,6 +246,9 @@ export const automators = {
                 };
             },
             locked: (state) => !state.achievements.includes('hydrogen'),
+            temperature_effect: (state) => {
+                return Math.floor(Math.pow(1.6, state.helium_miner - 1) * 10);
+            },
             toggle: (state) => {
                 (state.toggle.helium_miner)
                     ? state.toggle.helium_miner=false
@@ -281,31 +302,5 @@ export const automators = {
             }
         },
 
-
-        temperature_converter: {
-            name: 'Temperature converter', text: 'Temperature gets lower consuming strings',
-            cost: {strings: 10},
-            locked: (state) => state.strings_miner<1,
-            toggle: (state) => {
-                (state.toggle.temperature_converter)
-                    ? state.toggle.temperature_converter=false
-                    : state.toggle.temperature_converter=true;
-
-                return state;
-            },
-            onClick: (state) => {
-                state.temperature_converter++;
-                return state;
-            },
-
-            onTick: (state) => {
-                    if(state.toggle.temperature_converter && state.strings>5) {
-                        state.strings -= _.random(1, 5);
-                        state.temperature -= _.random(30, 60);
-                    }
-
-                return state
-            }
-        }
     }
 };
