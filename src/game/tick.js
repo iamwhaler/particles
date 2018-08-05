@@ -7,15 +7,15 @@ import {achievements} from "./achievements";
 import toastr from 'react-toastr';
 
 export const tick = (state) => {
-    _.each(rules, (item) => {
+    _.each(automators.miners, (item) => {
         if (item.onTick) state = item.onTick(state);
     });
 
-    _.each(automators.miners, (item) => {
-      if (item.onTick) state = item.onTick(state);
+    _.each(automators.converters, (item) => {
+        if (item.onTick) state = item.onTick(state);
     });
 
-    _.each(automators.converters, (item) => {
+    _.each(rules, (item) => {
         if (item.onTick) state = item.onTick(state);
     });
 
@@ -27,7 +27,7 @@ export const tick = (state) => {
         if (state.achievements[key] === true) return;
         if (achievement.rule(state)) {
             state.achievements[key] = true;
-            toastr.success(`${achievement.name} ${achievement.rank} achievement unlocked!`, {timeOut: 3000, extendedTimeOut: 2000});
+            toastr.info(`${achievement.name} ${achievement.rank} achievement unlocked!`, {timeOut: 3000, extendedTimeOut: 2000});
         }
     });
 

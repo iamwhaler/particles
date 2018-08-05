@@ -1,17 +1,22 @@
 .App {
   text-align: center;
-}
-
-body {
   color: white;
-  background-image: url('https://i.ytimg.com/vi/MajFWL0WECM/maxresdefault.jpg');
   margin: 0;
+  background-color: rgba(20, 0, 42, 0.42);
   padding: 0;
   font-family: 'Roboto Condensed', sans-serif;
   overflow: auto;
   filter: invert(2%);
 }
 
+body {
+  background-image: url('/born_of_a_star.jpg');
+
+}
+
+.time-machine {
+  text-align: justify;
+}
 
 .tooltip {
   padding-bottom: -70px;

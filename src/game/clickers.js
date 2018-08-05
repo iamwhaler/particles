@@ -14,6 +14,17 @@ export const clickers = {
             }
         },
 
+        gluons_clicker: {
+            name: 'Form gluon',
+            text: 'Gluon allows to connect quarks between each other',
+            cost: {strings: 1},
+            locked: (state) => state.strings < 4,
+            onClick: (state) => {
+                state.gluons++;
+                return state;
+            }
+        },
+
         up_quarks_clicker: {
             name: 'Gain Up Quark',
             cost: {strings: 1},
@@ -49,7 +60,7 @@ export const clickers = {
         protons_clicker: {
             name: 'Gain Proton',
             text: 'Proton has a positive electric charge and combined with neutron forms atom nuclei.',
-            cost: {up_quarks: 2, down_quarks: 1},
+            cost: {up_quarks: 2, down_quarks: 1, gluons: 1},
             locked: (state) => !state.achievements.includes('up_quarks'),
             onClick: (state) => {
                 state.protons++;
@@ -60,7 +71,7 @@ export const clickers = {
         neutrons_clicker: {
             name: 'Gain Neutron',
             text: 'Neutron has no net electric charge and forms atom nuclei.',
-            cost: {up_quarks: 1, down_quarks: 2},
+            cost: {up_quarks: 1, down_quarks: 2, gluons: 1},
             locked: (state) =>  !state.achievements.includes('up_quarks'),
             onClick: (state) => {
                 state.neutrons++;

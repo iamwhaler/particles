@@ -3,6 +3,7 @@ import {clickers} from "./clickers";
 export const data = {
     basic_particles: {
         strings: {name: 'Strings'},
+        gluons: {name: 'Gluons', locked: (state) => clickers.basic_particles.gluons_clicker.locked(state)},
         up_quarks: {name: 'Up Quarks'},
         down_quarks: {name: 'Down Quarks', locked: (state) => clickers.basic_particles.down_quarks_clicker.locked(state)},
         electrons: {name: 'Electrons', locked: (state) => clickers.basic_particles.electrons_clicker.locked(state)},
