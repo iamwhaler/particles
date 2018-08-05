@@ -7,6 +7,7 @@ const default_state = {
     gluons: 0,
     up_quarks: 0,
     down_quarks: 0,
+    photons: 0,
     electrons: 0,
 
     protons: 0,

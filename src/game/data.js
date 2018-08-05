@@ -6,6 +6,7 @@ export const data = {
         gluons: {name: 'Gluons', locked: (state) => clickers.basic_particles.gluons_clicker.locked(state)},
         up_quarks: {name: 'Up Quarks'},
         down_quarks: {name: 'Down Quarks', locked: (state) => clickers.basic_particles.down_quarks_clicker.locked(state)},
+        photons: {name: 'Photons', locked: (state) => clickers.basic_particles.photons_clicker.locked(state)},
         electrons: {name: 'Electrons', locked: (state) => clickers.basic_particles.electrons_clicker.locked(state)},
         protons: {name: 'Protons', locked: (state) => clickers.basic_particles.protons_clicker.locked(state)},
         neutrons: {name: 'Neutrons', locked: (state) => clickers.basic_particles.neutrons_clicker.locked(state)},

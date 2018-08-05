@@ -339,7 +339,7 @@ class App extends Component {
                                         (item.locked && item.locked(this.state))
                                             ? ''
                                             :
-                                            <div className="flex-element" style={{width: '150px'}} key={key}>
+                                            <div className="flex-element" style={{width: '150px', textAlign: 'right'}} key={key}>
                                                 <span className="flex-element">{item.name}: {state[key].toFixed(0)}</span>
                                             </div>
                                     )}
@@ -397,7 +397,7 @@ class App extends Component {
                                         (item.locked && item.locked(this.state))
                                             ? ''
                                             :
-                                            <div className="flex-element" style={{width: '150px'}} key={key}>
+                                            <div className="flex-element" style={{width: '150px', textAlign: 'right'}} key={key}>
                                                 <span className="flex-element">{item.name}: {state[key].toFixed(0)}</span>
                                             </div>
                                     )}

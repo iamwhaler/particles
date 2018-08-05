@@ -46,6 +46,17 @@ export const clickers = {
             }
         },
 
+        photons_clicker: {
+            name: 'Generate Photon',
+            cost: {strings: 1},
+            text: 'The photon is a type of elementary particle, the quantum of the electromagnetic field including electromagnetic radiation such as light, and the force carrier for the electromagnetic force',
+            locked: (state) => !state.up_quarks_miner,
+            onClick: (state) => {
+                state.photons++;
+                return state;
+            }
+        },
+
         electrons_clicker: {
             name: 'Gain Electron',
             text: 'Elementary particle, orbits the nuclei of atom',

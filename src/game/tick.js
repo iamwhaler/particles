@@ -4,7 +4,7 @@ import {rules} from './rules';
 import {automators} from './automators';
 import {oneclickers} from "./oneclickers";
 import {achievements} from "./achievements";
-import toastr from 'react-toastr';
+import toastr from "toastr";
 
 export const tick = (state) => {
     _.each(automators.miners, (item) => {
@@ -24,9 +24,9 @@ export const tick = (state) => {
     });
 
     _.each(achievements, (achievement, key) => {
-        if (state.achievements[key] === true) return;
+        if (state.achievements[achievement.name]) return;
         if (achievement.rule(state)) {
-            state.achievements[key] = true;
+            state.achievements.push(achievement.name);
             toastr.info(achievement.name + achievement.rank + " achievement unlocked!", {
                 timeOut: 5000,
                 closeButton: true,
