@@ -153,9 +153,15 @@ class App extends Component {
 
     render() {
             let state = this.state;
+            let gradient = (state) => {
+               if(state.temperature<10000) {
+                   return '127'
+               }
+                   else {return '0'}
+            };
 
             const temperatureStyle = {
-                color: 'rgb('+state.temperature/6+', 127, 0)'
+                color: 'rgb('+state.temperature/100+',' + gradient(state) + ', 0)'
             };
 
             const starTooltip = (state, item) =>
@@ -319,7 +325,7 @@ class App extends Component {
 
 
             const basic_particles_subcomponent =
-                <div className="flex-element">
+                    <div className="flex-element">
                     <h6>Basic particles</h6>
 
                     <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
@@ -619,7 +625,8 @@ class App extends Component {
                         <ToastContainer className="toast-top-right"/>
                     </div>
 
-                    <div className="flex-container-row resources">
+                    <div className="flex-container-column">
+                        <div className="flex-container-row">
                         {basic_particles_subcomponent}
 
                         {state.temperature > 5000 ? '' : atoms_subcomponent }
@@ -630,9 +637,10 @@ class App extends Component {
                             ? stars_subcomponent : ''}
 
                         {(state.achievements.includes('hydrogen_stars')) ? your_stars_subcomponent : ''}
+                        </div>
                     </div>
 
-                    <div className="flex-container-row">
+                    <div className="">
                         {synthesizers_subcomponent}
 
                         {state.achievements.includes('up_quarks') ? research_subcomponent : ''}

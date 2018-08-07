@@ -7,7 +7,7 @@ export const clickers = {
             name: 'Fluctuate String',
             text: 'String is one-dimensional extended objects',
             cost: false,
-            locked: (state) => state.tick < 4,
+            locked: (state) => state.temperature>3000,
             onClick: (state) => {
                 state.strings++;
                 return state;
@@ -18,7 +18,7 @@ export const clickers = {
             name: 'Form gluon',
             text: 'Gluon allows to connect quarks between each other',
             cost: {strings: 1},
-            locked: (state) => state.strings < 4,
+            locked: (state) => state.temperature>5000,
             onClick: (state) => {
                 state.gluons++;
                 return state;

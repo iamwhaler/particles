@@ -8,7 +8,7 @@ export const rules = {
 
     temperature_effect_tule: {
         onTick: (state) => {
-            _.each(automators.miners, (value, resource_key) =>
+            _.map(automators.miners, (value, resource_key) =>
                 value.temperature_effect && state.toggle[resource_key] ? state.temperature += value.temperature_effect(state)
                     : false);
             return state
@@ -36,7 +36,7 @@ export const rules = {
         onTick: (state) => {
             state.temperature = Math.floor(
                 state.temperature *
-                (1 / (1 + Math.pow(state.temperature * 0.00000000000001 * Math.pow(state.tick, 10), 0.01)))); // Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(state.temperature * 0.000000001))))))));
+                (1 / (1 + Math.pow(state.temperature * 0.0000001 * Math.pow(state.tick, 10), 0.01)))); // Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(state.temperature * 0.000000001))))))));
             return state;
         }
     },
