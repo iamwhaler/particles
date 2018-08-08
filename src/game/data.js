@@ -27,18 +27,25 @@ export const data = {
     },
 
     stars: {
-        hydrogen_stars: {name: 'Hydrogen stars'},
-        helium_stars: {name: 'Helium stars'}
+        hydrogen_stars: {name: 'Hydrogen star'},
+        helium_stars: {name: 'Helium star'}
 
     }
 };
 
 export const info = {
     basic_particles: {
+        name: 'Basic particles',
         info: 'Basic particles form a more complex structures. It is important to keep the stream of income of this elements since it will be the base of your galaxy',
         image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Calabi_yau_formatted.svg/1200px-Calabi_yau_formatted.svg.png'
     },
     atoms: {
-
+        name: 'Atoms',
+        info: 'Generating atoms you can raise more complex structures giving birth to stars and planets',
+        image: 'https://trello-attachments.s3.amazonaws.com/5b559fc5a46db88884558253/5b604d080d2a50cae8d6d548/94a322342e35a6261bae00203adc6b6f/Hydrogen_card_small_copy.png'
+    },
+    simple_molecules: {
+        name: 'Simple molecules',
+        info: 'Molecules will form stars and other objects in your universe. Mining of them will result in huge temperature raise'
     }
 };
