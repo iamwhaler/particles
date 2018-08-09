@@ -5,6 +5,12 @@ import {getStarName, getStarColor, nuclearReaction} from './stars';
 import checkAchievement from './achievements';
 
 export const rules = {
+    universe_size_rule: {
+        onTick: (state) => {
+            state.universe_size+= Math.pow(1, state.temperature)/(1 + 0.01 *state.temperature);
+            return state;
+        }
+    },
 
     temperature_effect_tule: {
         onTick: (state) => {

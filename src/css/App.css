@@ -14,6 +14,10 @@ body {
 
 }
 
+.universe-size {
+  width: 400px;
+}
+
 .time-machine {
   margin: 10px 0 0 45%;
 }

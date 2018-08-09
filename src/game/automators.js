@@ -16,7 +16,7 @@ automators = {
             },
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.1, state.strings_miner - 1) * 10);
+                return Math.floor(Math.pow(1.109, state.strings_miner - 1) * 10);
             },
 
             locked: (state) => state.tick < 10,
@@ -51,7 +51,7 @@ automators = {
             locked: (state) => !state.strings_miner,
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.4, state.up_quarks_miner - 1) * 12);
+                return Math.floor(Math.pow(1.19, state.up_quarks_miner - 1) * 12);
             },
 
             toggle: (state) => {
@@ -83,7 +83,7 @@ automators = {
             locked: (state) => !state.strings_miner,
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.6, state.down_quarks_miner - 1) * 10);
+                return Math.floor(Math.pow(1.3, state.down_quarks_miner - 1) * 10);
             },
 
             toggle: (state) => {
@@ -215,8 +215,8 @@ automators = {
             locked: (state) => !state.achievements.includes('hydrogen'),
 
             temperature_effect: (state) => {
-                console.log(Math.floor(Math.pow(2.5, state.hydrogen_miner - 1) * 10))
-                return Math.floor(Math.pow(2.5, state.hydrogen_miner - 1) * 10);
+                console.log(Math.floor(Math.pow(2.5, state.hydrogen_miner - 1) * 10));
+                return Math.floor(Math.pow(2.09, state.hydrogen_miner - 1) * 10);
             },
             toggle: (state) => {
                 (state.toggle.hydrogen_miner)
@@ -252,7 +252,7 @@ automators = {
             },
             locked: (state) => !state.achievements.includes('hydrogen'),
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(2, state.helium_miner - 1) * 10);
+                return Math.floor(Math.pow(2.2, state.helium_miner - 1) * 10);
             },
             toggle: (state) => {
                 (state.toggle.helium_miner)

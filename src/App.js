@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Circle} from 'react-shapes';
-import { Circle as ProgressCircle}  from 'rc-progress';
+import { Line, Circle as ProgressCircle}  from 'rc-progress';
 import classNames from 'classnames';
 import _ from 'lodash';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
@@ -21,6 +21,7 @@ import {automators} from './game/automators';
 import {ToastContainer} from 'react-toastr';
 import confirm from './components/confirm_launch';
 import toastr from "toastr";
+import {getStarColor} from "./game/stars";
 
 
 
@@ -165,6 +166,9 @@ class App extends Component {
                 color: 'rgb('+state.temperature/100+',' + gradient(state) + ', 0)'
             };
 
+
+
+
             const starTooltip = (state, item) =>
                 (item.star.type==='Hydrogen')
                     ?
@@ -285,6 +289,10 @@ class App extends Component {
                 </Tooltip>;
 
 
+            const universe_size_component =
+                <div className="universe-size">
+                    <Line percent={state.universe_size} />
+                </div>;
 
             const time_subcomponent =
                 <div className="flex-container-row time-machine">
@@ -456,12 +464,12 @@ class App extends Component {
                     <span style={{textAlign: 'right', fontSize: '8px'}}> Your stars: {state.stars.length} </span>
                     {_.map(data.stars, (item, key) =>
                         <div className="flex-element" key={key}>
-                            {item.name}: <ProgressCircle style=
+                            {item.name}: <ProgressCircle trailWidth={3} style=
                                                              {{width: '20px',
                                                                  height: '20px'
                                                              }}
-                                                         percent={state[key] * 100} strokeWidth="7.5"
-                                                         strokeColor="#D3D3D3"/>
+                                                         percent={state[key] * 100} strokeWidth="9"
+                                                         strokeColor={getStarColor('Hydrogen')}/>
                         </div>
                     )}
 
@@ -469,10 +477,10 @@ class App extends Component {
                         {_.map(state.stars, (item, key) =>
                             (item) ?
                                 <div key={key} style={{border: '0px solid #BDBDBD'}} className="flex-container-row">
-                                    <OverlayTrigger delay={150} placement="left"
+                                    <OverlayTrigger delay={150} placement="top"
                                                     overlay={starTooltip(this.state, item)}>
                                         <div className="flex-element star-circle">
-                                            <Circle r={1 + item.star.mass/4} fill={{color: '#4E4E9A'}}
+                                            <Circle className="overlay" r={1 + item.star.mass/4} fill={{color: '#4E4E9A'}}
                                                     stroke={{color: item.star.color}} strokeWidth={4}/>
                                         </div>
                                     </OverlayTrigger>
@@ -629,6 +637,7 @@ class App extends Component {
                     {/* <Popup ref={(p) => this.popupHandler = p} /> -->
                     <button onClick={() => this.createPopup()}>MakeNewPopup</button> */}
                     <div className="flex-container-column header">
+                        {universe_size_component}
                         {time_subcomponent}
                         {temperature_subcomponent}
                     </div>
