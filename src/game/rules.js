@@ -8,6 +8,10 @@ export const rules = {
     universe_size_rule: {
         onTick: (state) => {
             state.universe_size+= Math.pow(1, state.temperature)/(1 + 0.01 *state.temperature);
+            if(state.universe_size>=100){
+                state.universe_size-=_.random(90,100);
+                state.universe_level++;
+            }
             return state;
         }
     },
@@ -42,7 +46,7 @@ export const rules = {
         onTick: (state) => {
             state.temperature = Math.floor(
                 state.temperature *
-                (1 / (1 + Math.pow(state.temperature * 0.0000001 * Math.pow(state.tick, 10), 0.01)))); // Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(state.temperature * 0.000000001))))))));
+                (1 / (1 + Math.pow(state.temperature * (0.0000001 * state.universe_size) * Math.pow(state.tick, 10), 0.01)))); // Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(state.temperature * 0.000000001))))))));
             return state;
         }
     },
@@ -139,7 +143,7 @@ export const rules = {
             nuclearReaction('Hydrogen', state);
 
 
-            if (state.stars.length>30 && state.hydrogen_stars>0) {
+            if (state.stars.length>state.universe_size/100 && state.hydrogen_stars>0) {
                 state.hydrogen_stars -= (state.hydrogen_stars - (state.H2/100) );
                 state.H2 -= _.random(state.hydrogen_stars, state.H2);
                 state.stars.splice(0, _.random(1, state.H2/10));
@@ -165,7 +169,7 @@ export const rules = {
     helium_stars_rule: {
 
         onTick: (state) => {
-            if(state.helium>5) {
+            if(state.He2>20) {
                 state.helium_stars += state.He2 / 3333.33;
             }
 
@@ -187,7 +191,7 @@ export const rules = {
                 };
                 state.stars.push(parameters);
 
-                if (state.stars.length>30 && state.helium_stars>0) {
+                if (state.stars.length>state.universe_size/90 && state.helium_stars>0) {
                     state.helium_stars -= (state.helium_stars - (state.He2/100) );
                     state.He2 -= _.random(state.helium_stars, state.He2);
                     state.stars.splice(0, _.random(1, state.He2));

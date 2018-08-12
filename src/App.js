@@ -19,10 +19,8 @@ import {automators} from './game/automators';
 //import Popup from "./utils/Popup/Popup";
 
 import {ToastContainer} from 'react-toastr';
-import confirm from './components/confirm_launch';
+import confirm, {startGame} from './components/confirm_launch';
 import toastr from "toastr";
-import {getStarColor} from "./game/stars";
-
 
 
 
@@ -48,7 +46,11 @@ class App extends Component {
     componentDidMount() {
         console.log('App '+game_name+' componentDidMount');
         var app_state = JSON.parse(localStorage.getItem(game_name+"_app_state"));
-        this.setState(app_state ? app_state : getDefaultState());
+        if(!app_state) {
+            getDefaultState();
+            this.state.universe_name = prompt('Enter your universe name');
+        }
+        else {this.setState(app_state)}
         this.playGame();
     }
 
@@ -79,6 +81,7 @@ class App extends Component {
                 let new_state = getDefaultState();
                 this.setState(new_state);
                 this.playGame(new_state.game_speed_multiplier);
+                this.state.universe_name = prompt('Enter your universe name');
                 toastr.info("Your universe is cooling down, please wait a little", 'Welcome to the Game!', {
                     timeOut: 15000,
                     closeButton: true,
@@ -289,9 +292,19 @@ class App extends Component {
                 </Tooltip>;
 
 
-            const universe_size_component =
-                <div className="universe-size">
-                    <Line percent={state.universe_size} />
+            const universe_component =
+                <div className="flex-container-column">
+                    <div className="flex-container-row">
+                        <div className="flex-element">
+                             <div className="universe-size">
+                            <Line strokeColor='#83B18F' percent={state.universe_size} />
+                            <span style={{fontSize: '10px'}}>Expansion index: {state.universe_level}</span>
+                            </div>
+                        </div>
+                        <div className="flex-element">
+                            {state.universe_name}
+                        </div>
+                    </div>
                 </div>;
 
             const time_subcomponent =
@@ -354,7 +367,7 @@ class App extends Component {
                             )}
                         </div>
 
-                        <div className="flex-container-column col-xs clickers">
+                        <div className="flex-container-column clickers">
                             {_.map(clickers.basic_particles, (item, key) =>
                                     <div key={key}>
                                         {(item.locked && item.locked(this.state))
@@ -401,12 +414,12 @@ class App extends Component {
                     <img alt="" className="overlay resource-icon" src={"./img/atoms.png"}/>
                     </OverlayTrigger>
 
-                    <div className="flex-container-row resource-tab" style={{maxWidth: '250px'}}у>
+                    <div className="flex-container-row resource-tab" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
 
-                        <div className="flex-element">
+                        <div className="flex-container-column">
                             {_.map(data.atoms, (item, key) =>
                                 (item.locked && item.locked(this.state))
-                                    ? ''
+                                    ? <div className="flex-element"> </div>
                                     :
                                     <div className="flex-element" style={{width: '150px', textAlign: 'left'}} key={key}>
                                         <span className="flex-element">{item.name}: {state[key].toFixed(0)}</span>
@@ -414,10 +427,10 @@ class App extends Component {
                             )}
                         </div>
 
-                        <div className="flex-element col-xs clickers">
+                        <div className="flex-container-column clickers">
                             {_.map(clickers.atoms, (item, key) =>
                                 (item.locked && item.locked(this.state))
-                                    ? ''
+                                    ? <div className="flex-element"> </div>
                                     :
                                     <div key={key}>
                                         <OverlayTrigger delay={150} placement="right"
@@ -469,7 +482,7 @@ class App extends Component {
                                                                  height: '20px'
                                                              }}
                                                          percent={state[key] * 100} strokeWidth="9"
-                                                         strokeColor={getStarColor('Hydrogen')}/>
+                                                         strokeColor={"#4E4E9A"}/>
                         </div>
                     )}
 
@@ -637,9 +650,17 @@ class App extends Component {
                     {/* <Popup ref={(p) => this.popupHandler = p} /> -->
                     <button onClick={() => this.createPopup()}>MakeNewPopup</button> */}
                     <div className="flex-container-column header">
-                        {universe_size_component}
+                        <div className="flex-container-row">
+                       <div className="flex-element universe-tab">
+                           {universe_component}
+                       </div>
+                            <div className="flex-element">
+                            </div>
+                        </div>
+                        <div className="flex-element">
                         {time_subcomponent}
                         {temperature_subcomponent}
+                        </div>
                     </div>
                     <div>
                         <ToastContainer className="toast-top-right"/>

@@ -112,5 +112,15 @@ export const clickers = {
                 return state;
             }
         },
+
+        carbon_clicker: {
+            name: 'Synth Carbon',
+            cost: {protons: 6, neutrons: 6, electrons: 6, photons: 6},
+            locked: (state) => state.photons < 6 && state.temperature < 3000,
+            onClick: (state) => {
+                state.carbon++;
+                return state;
+            }
+        },
     },
-}
+};
