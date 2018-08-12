@@ -15,6 +15,7 @@ export const tick = (state) => {
         if (item.onTick) state = item.onTick(state);
     });
 
+
     _.each(rules, (item) => {
         if (item.onTick) state = item.onTick(state);
     });
@@ -25,10 +26,10 @@ export const tick = (state) => {
 
     _.each(achievements, (achievement, key) => {
         if (state.achievements[achievement.name]) return;
-        if (achievement.rule(state)) {
+        if (achievement.rule(state) && !state.achievements.includes(achievement.name)) {
             state.achievements.push(achievement.name);
             toastr.info(achievement.name + achievement.rank + " achievement unlocked!", {
-                timeOut: 5000,
+                timeOut: 20000,
                 closeButton: true,
                 preventDuplicates: true,
                 extendedTimeOut: 4000,

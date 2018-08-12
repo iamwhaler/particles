@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { confirmable } from 'react-confirm';
 import '../css/dialog.css';
 
-const YourDialog = ({show, proceed, dismiss, cancel, confirmation, options}) => (
+const YourDialog = ({show, proceed, dismiss, cancel, confirmation}) => (
     <div className="flex-container-column popup">
                 <h5 className="flex-element text-center">{confirmation}</h5>
         <img alt="" style={{width: '150px', height: '150px', margin: 'auto'}} src="https://cdn0.iconfinder.com/data/icons/game-line-icon-set-2/512/reset-512.png" />
@@ -23,4 +23,7 @@ YourDialog.propTypes = {
     options: PropTypes.object        // arguments of your confirm function
 };
 
+
+
 export default confirmable(YourDialog);
+

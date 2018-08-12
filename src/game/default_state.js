@@ -73,6 +73,9 @@ const default_state = {
     planets: [],
 
     achievements: [],
+    universe_name: '',
+    universe_size: 0,
+    universe_level: 0,
 
     temperature: Math.pow(10, 32),
 
