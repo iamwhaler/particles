@@ -210,6 +210,51 @@ export const rules = {
 
             return state;
         }
+    },
+
+    carbon_stars_rule: {
+
+        onTick: (state) => {
+            if(state.C2>10 && state.CH>10 && state.CN>10) {
+                state.carbon_stars += state.C2 / 2333.33;
+            }
+
+            if (state.carbon_stars >= 1) {
+                state.helium_stars--;
+                state.C2 -= _.random(3, state.stars.length);
+                let star_name = getStarName();
+                let parameters = {
+                    star: {
+                        name: star_name,
+                        color: getStarColor('Carbon'),
+                        type: 'Carbon',
+                        diameter: _.random(1, 10),
+                        born: state.tick,
+                        mass: _.random(state.He2/6, state.stars.length, true),
+                        silicium: _.random(state.temperature, state.C2)
+                    }
+                };
+                state.stars.push(parameters);
+
+                if (state.stars.length>state.universe_size/90 && state.carbon_stars>0) {
+                    state.carbon_stars -= (state.carbon_stars - (state.C2/100) );
+                    state.C2 -= _.random(state.carbon_stars, state.C2);
+                    state.stars.splice(0, _.random(1, state.C2));
+                    toastr.warning("Your planets were sucked by the blackhole", 'Too low level of galaxy!', {
+                        timeOut: 5000,
+                        closeButton: true,
+                        preventDuplicates: true,
+                        extendedTimeOut: 4000,
+                        escapeHtml: false
+                    });
+                }
+
+            }
+
+            nuclearReaction('Helium', state);
+
+            return state;
+        }
     }
 };
 

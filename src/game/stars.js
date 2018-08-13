@@ -14,6 +14,8 @@ export let getStarName = () => {
 
 const hydrogenStarColors = ['#6B4E90', '#8F78AD', '#1C053A', '#542493', '#23528E', '#2B3C51', '#1258B1'];
 const heliumStarColors = ['#0693A7', '#26464B'];
+const carbonStarColors = ['#542493'];
+
 
 export let getStarColor = (star_type) => {
     if (star_type === 'Hydrogen') {
@@ -21,6 +23,10 @@ export let getStarColor = (star_type) => {
     }
     else if (star_type === 'Helium') {
         return heliumStarColors[_.random(0, heliumStarColors.length)];
+    }
+
+    else if (star_type === 'Carbon') {
+        return carbonStarColors[_.random(0, carbonStarColors.length)];
     }
 };
 
