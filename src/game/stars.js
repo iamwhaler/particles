@@ -38,6 +38,7 @@ export let nuclearReaction = (star_type, state) => {
                         if (item.star.hydrogen < 10 || (state.tick - item.star.born > 400) || item.star.hydrogen < 0) {
                             state.carbon += item.star.carbon;
                             state.stars.splice(key, 1);
+                            state.chat.unshift({header: "Be aware!", text: "Your star exploded and brought rewards"});
                             toastr.info("Your star exploded and brought rewards", 'Be aware!', {
                                 timeOut: 2000,
                                 closeButton: true,
@@ -57,6 +58,7 @@ export let nuclearReaction = (star_type, state) => {
                         if (item.star.helium < 10 || (state.tick - item.star.born > 400) || item.star.helium < 0) {
                                 state.nitrogen += item.star.nitrogen;
                                 let string = "Your star " + item.star.name + ' exploded and brought rewards';
+                                state.chat.unshift({header: "Be aware!", text: string});
                                 toastr.info(string, 'Be aware!', {
                                     timeOut: 2000,
                                     closeButton: true,

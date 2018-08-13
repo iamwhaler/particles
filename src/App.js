@@ -79,9 +79,11 @@ class App extends Component {
             () => {
                 localStorage.setItem(game_name+"_app_state", null);
                 let new_state = getDefaultState();
+                new_state.chat.unshift({header: "Welcome to the Game!", text: "Your universe is cooling down, please wait a little"});
                 this.setState(new_state);
                 this.playGame(new_state.game_speed_multiplier);
                 this.state.universe_name = prompt('Enter your universe name');
+
                 toastr.info("Your universe is cooling down, please wait a little", 'Welcome to the Game!', {
                     timeOut: 15000,
                     closeButton: true,
@@ -359,7 +361,7 @@ class App extends Component {
                         <div className="flex-container-column">
                             {_.map(data.basic_particles, (item, key) =>
                                 (item.locked && item.locked(this.state))
-                                    ? <div className="flex-element"> </div>
+                                    ? <div className="flex-element" key={key}> </div>
                                     :
                                     <div className="flex-element" style={{width: '150px', textAlign: 'left'}} key={key}>
                                         <span className="flex-element">{item.name}: {state[key].toFixed(0)}</span>
@@ -419,7 +421,7 @@ class App extends Component {
                         <div className="flex-container-column">
                             {_.map(data.atoms, (item, key) =>
                                 (item.locked && item.locked(this.state))
-                                    ? <div className="flex-element"> </div>
+                                    ? <div className="flex-element" key={key}> </div>
                                     :
                                     <div className="flex-element" style={{width: '150px', textAlign: 'left'}} key={key}>
                                         <span className="flex-element">{item.name}: {state[key].toFixed(0)}</span>
@@ -430,7 +432,7 @@ class App extends Component {
                         <div className="flex-container-column clickers">
                             {_.map(clickers.atoms, (item, key) =>
                                 (item.locked && item.locked(this.state))
-                                    ? <div className="flex-element"> </div>
+                                    ? <div className="flex-element" key={key}> </div>
                                     :
                                     <div key={key}>
                                         <OverlayTrigger delay={150} placement="right"
@@ -645,21 +647,33 @@ class App extends Component {
                 </div>;
 
 
+        const chat_subcomponent =
+            <div className="flex-element">
+                <h3> History </h3>
+                {_.map(state.chat, (item, key) =>
+                    <div className="panel" key={key}>
+                        <h5>{item.header}</h5>
+                        <p>{item.text}</p>
+                    </div>
+                )}
+            </div>;
+
+
             return (
                 <div className="App">
                     {/* <Popup ref={(p) => this.popupHandler = p} /> -->
                     <button onClick={() => this.createPopup()}>MakeNewPopup</button> */}
                     <div className="flex-container-column header">
                         <div className="flex-container-row">
-                       <div className="flex-element universe-tab">
+                        <div className="flex-element universe-tab">
                            {universe_component}
-                       </div>
+                        </div>
                             <div className="flex-element">
                             </div>
                         </div>
                         <div className="flex-element">
-                        {time_subcomponent}
-                        {temperature_subcomponent}
+                            {time_subcomponent}
+                            {temperature_subcomponent}
                         </div>
                     </div>
                     <div>
@@ -671,13 +685,10 @@ class App extends Component {
                             <h3> Resources </h3>
                             <div className="flex-container-row">
                                 <div className="flex-element">
-                        {basic_particles_subcomponent}
-
-                        {state.temperature > 5000 ? '' : atoms_subcomponent }
+                                    {basic_particles_subcomponent}
+                                    {state.temperature > 5000 ? '' : atoms_subcomponent }
                                 </div>
-
-
-                                {state.H2<5 ? '' : simple_molecules_subcomponent}
+                                {state.H2 < 5 ? '' : simple_molecules_subcomponent}
                             </div>
                         </div>
 
@@ -686,16 +697,12 @@ class App extends Component {
                             {state.planets.length < 1 ? '' : planets_subcomponent }
                         </div>
 
-
                         {(state.achievements.includes('hydrogen') || state.achievements.includes('helium'))
                                 ? your_stars_subcomponent
                             : ''}
 
-
-
-                 </div>
-
-
+                        {chat_subcomponent}
+                    </div>
                     <Footer newGame={this.newGame}/>
                     <div style={{height: '50px', width: '100%'}}> </div>
                 </div>

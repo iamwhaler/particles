@@ -79,6 +79,8 @@ const default_state = {
 
     temperature: Math.pow(10, 32),
 
+    chat: [{header: "First Test Message!", text: "Your game is bugged down, please code a little"}],
+
     game_speed: 1000,
     game_speed_multiplier: 1,
     tick: 0,
