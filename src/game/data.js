@@ -24,12 +24,13 @@ export const data = {
         H2: {name: 'H2', locked: (state) => !state.achievements.includes('hydrogen')},
         He2: {name: 'He2', locked: (state) => !state.achievements.includes('helium')},
         N2: {name: 'N2', locked: (state) => !state.achievements.includes('nitrogen')},
+        C2: {name: 'C2', locked: (state) => !state.achievements.includes('carbon')}
     },
 
     stars: {
-        hydrogen_stars: {name: 'Hydrogen star'},
-        helium_stars: {name: 'Helium star'}
-
+        hydrogen_stars: {name: 'Hydrogen'},
+        helium_stars: {name: 'Helium'},
+        carbon_stars: {name: 'Carbon'}
     }
 };
 

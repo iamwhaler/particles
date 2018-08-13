@@ -17,13 +17,19 @@ const default_state = {
     helium: 0,
     carbon: 0,
     nitrogen: 0,
+    silicium: 0,
 
     H2: 0,
     He2: 0,
     N2: 0,
+    C2: 0,
+
+    CN: 0,
+    CH: 0,
 
     hydrogen_stars: 0,
     helium_stars: 0,
+    carbon_stars: 0,
 
     strings_rule: 0,
     up_quarks_rule: 0,

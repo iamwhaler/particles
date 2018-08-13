@@ -473,16 +473,19 @@ class App extends Component {
                 <div className="flex-element">
                     <h3>Stars</h3>
                     <img alt="" className="overlay star-icon" src={"./img/star.png"}/>
-                <div className="flex-element">
                     <span style={{textAlign: 'right', fontSize: '8px'}}> Your stars: {state.stars.length} </span>
+                    <div className="flex-container-row">
                     {_.map(data.stars, (item, key) =>
-                        <div className="flex-element" key={key}>
+                        <div className="flex-container-column" key={key}>
+                            <p>
                             {item.name}: <ProgressCircle trailWidth={3} style=
                                                              {{width: '20px',
                                                                  height: '20px'
                                                              }}
                                                          percent={state[key] * 100} strokeWidth="9"
                                                          strokeColor={"#4E4E9A"}/>
+                            </p>
+
                         </div>
                     )}
 
