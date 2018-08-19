@@ -215,7 +215,6 @@ automators = {
             locked: (state) => !state.achievements.includes('hydrogen'),
 
             temperature_effect: (state) => {
-                console.log(Math.floor(Math.pow(2.5, state.hydrogen_miner - 1) * 10));
                 return Math.floor(Math.pow(2.09, state.hydrogen_miner - 1) * 10);
             },
             toggle: (state) => {

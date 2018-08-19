@@ -13,6 +13,7 @@ export const data = {
     },
 
     atoms: {
+        beryllium: {name: 'Beryllium', locked: (state) => clickers.atoms.beryllium_clicker.locked(state)},
         hydrogen: {name: 'Hydrogen', locked: (state) => clickers.atoms.hydrogen_clicker.locked(state)},
         helium: {name: 'Helium', locked: (state) => clickers.atoms.helium_clicker.locked(state)},
         carbon: {name: 'Carbon', locked: (state) => state.carbon<10},

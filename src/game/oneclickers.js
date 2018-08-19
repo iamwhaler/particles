@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import toastr from 'toastr';
 
 toastr.options = {

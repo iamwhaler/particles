@@ -16,10 +16,10 @@ import {data, info} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {automators} from './game/automators';
-//import Popup from "./utils/Popup/Popup";
+import Popup from "./utils/Popup/Popup";
 
 import {ToastContainer} from 'react-toastr';
-import confirm, {startGame} from './components/confirm_launch';
+import confirm from './components/confirm_launch';
 import toastr from "toastr";
 
 
@@ -48,7 +48,7 @@ class App extends Component {
         var app_state = JSON.parse(localStorage.getItem(game_name+"_app_state"));
         if(!app_state) {
             getDefaultState();
-            this.state.universe_name = prompt('Enter your universe name');
+            this.setState({universe_name: prompt('Enter your universe name')});
         }
         else {this.setState(app_state)}
         this.playGame();
@@ -82,7 +82,7 @@ class App extends Component {
                 new_state.chat.unshift({header: "Welcome to the Game!", text: "Your universe is cooling down, please wait a little"});
                 this.setState(new_state);
                 this.playGame(new_state.game_speed_multiplier);
-                this.state.universe_name = prompt('Enter your universe name');
+                this.setState({universe_name: prompt('Enter your universe name')});
 
                 toastr.info("Your universe is cooling down, please wait a little", 'Welcome to the Game!', {
                     timeOut: 15000,
@@ -149,13 +149,10 @@ class App extends Component {
         return state;
     }
 
-    createPopup() {
+    createPopup(state, component) {
         //TODO REMOVE Used only for demonstrational purposes
-        if (!this.i) {
-            this.i = 0;
-        }
-        this.i = ++this.i;
-        this.popupHandler.createPopup(`POPUP №${this.i}`, <div>{'This is... You guessed it. A POPUP!!!'}</div>);
+        this.info = "Your universe size:" + state.universe_size;
+        this.popupHandler.createPopup(`${this.info}`, component);
     }
 
     render() {
@@ -171,14 +168,26 @@ class App extends Component {
                 color: 'rgb('+state.temperature/100+',' + gradient(state) + ', 0)'
             };
 
+        const GinButton = (props) => {
+            let item = props.item;
+            //console.log(item);
+            return (item.isLocked && item.isLocked(this.state))
+                ? ''
+                :
+                <button style={{padding: '4px 4px', width: '30%'}}
+                        className={(item.isDisabled && item.isDisabled(this.state)) ? 'disabled' : (item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
+                        onClick={() => { this.onClickWrapper(item); }}>
+                    {item.name}
+                </button>
+        };
 
 
 
             const starTooltip = (state, item) =>
+                item
+                    ?
                 (item.star.type==='Hydrogen')
                     ?
-                    (item)
-                            ?
                             <Tooltip id="tooltip">
                                 <div className="flex-container-column infoBar">
                                     <div className="flex element">
@@ -199,12 +208,10 @@ class App extends Component {
                                     </div>
                                 </div>
                             </Tooltip>
-                        : ''
                     :
                     (item.star.type==='Helium')
                 ?
-                        (item)
-                            ?
+
                             <Tooltip id="tooltip">
                                 <div className="flex-container-column infoBar">
                                     <div className="flex element">
@@ -225,8 +232,8 @@ class App extends Component {
                                     </div>
                                 </div>
                             </Tooltip>
-                            : ''
-                        : '';
+                        : ''
+            : '';
 
             const details = (item) =>
                 <Tooltip id="tooltip">
@@ -296,13 +303,21 @@ class App extends Component {
 
             const universe_component =
                 <div className="flex-container-column">
-                    <div className="flex-container-row">
+                    <div className="flex-container-column">
                         <div className="flex-element">
                              <div className="universe-size">
                             <Line strokeColor='#83B18F' percent={state.universe_size} />
-                            <span style={{fontSize: '10px'}}>Expansion index: {state.universe_level}</span>
+                            <span style={{fontSize: '10px'}}>Expansion index: {state.expansion_index}</span>
                             </div>
                         </div>
+
+                        <div className="flex-element">
+                            <div className="universe-size">
+                                <Line strokeColor='black' percent={state.wormhole_probability} />
+                                <span style={{fontSize: '10px'}}>Wormhole probability: {state.wormhole_probability.toFixed(3)}</span>
+                            </div>
+                        </div>
+
                         <div className="flex-element">
                             {state.universe_name}
                         </div>
@@ -334,6 +349,14 @@ class App extends Component {
                                 </button>}
                             </span>
                     })}
+
+
+                    <div className="flex-element">
+                        <button className="btn btn-sm" onClick={()=> this.createPopup(state, chat_subcomponent)}>
+                            History
+                        </button>
+                    </div>
+
                 </div>;
 
 
@@ -358,33 +381,30 @@ class App extends Component {
 
                     <div className="flex-container-row resource-tab" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
 
-                        <div className="flex-container-column">
-                            {_.map(data.basic_particles, (item, key) =>
-                                (item.locked && item.locked(this.state))
-                                    ? <div className="flex-element" key={key}> </div>
-                                    :
-                                    <div className="flex-element" style={{width: '150px', textAlign: 'left'}} key={key}>
-                                        <span className="flex-element">{item.name}: {state[key].toFixed(0)}</span>
-                                    </div>
-                            )}
-                        </div>
 
                         <div className="flex-container-column clickers">
                             {_.map(clickers.basic_particles, (item, key) =>
-                                    <div key={key}>
+                                    <div className="flex-container-row" key={key}>
                                         {(item.locked && item.locked(this.state))
                                             ? <div className="flex-element"> </div>
                                             :
-                                            <OverlayTrigger delay={150} placement="top"
+                                            <OverlayTrigger delay={1000} placement="top"
                                                             overlay={tooltip(this.state, item)}>
-                                                <div>
+                                                <div className="flex-container-row">
                                                     <button
                                                         className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
                                                         onClick={() => {
                                                             this.onClickWrapper(item);
                                                         }}>
-                                                        +1
+                                                        <div className="flex-element" style={{ textAlign: 'left'}} key={key}>
+                                                            <span className="flex-element">
+                                                            {item.resource ? data.basic_particles[item.resource].name : 'resource'}:  {item.resource ? state[item.resource].toFixed(0) : 'quantity'}
+                                                            </span>
+                                                        </div>
+
                                                     </button>
+
+
 
 
                                                     {(state.micro_swiper)
@@ -403,6 +423,19 @@ class App extends Component {
                                                 </div>
                                             </OverlayTrigger>
                                         }
+                                        {(item.locked && item.locked(this.state))
+                                            ? <div className="flex-element"> </div>
+                                            :
+                                        <div>
+                                            <OverlayTrigger delay={150} placement="right"
+                                                            overlay={tooltip(this.state, item)}>
+                                                <div>
+                                                    <button className="info">
+                                                        I
+                                                    </button>
+                                                </div>
+                                            </OverlayTrigger>
+                                        </div>}
                                     </div>
                             )}
                         </div>
@@ -418,34 +451,62 @@ class App extends Component {
 
                     <div className="flex-container-row resource-tab" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
 
-                        <div className="flex-container-column">
-                            {_.map(data.atoms, (item, key) =>
-                                (item.locked && item.locked(this.state))
-                                    ? <div className="flex-element" key={key}> </div>
-                                    :
-                                    <div className="flex-element" style={{width: '150px', textAlign: 'left'}} key={key}>
-                                        <span className="flex-element">{item.name}: {state[key].toFixed(0)}</span>
-                                    </div>
-                            )}
-                        </div>
-
                         <div className="flex-container-column clickers">
                             {_.map(clickers.atoms, (item, key) =>
-                                (item.locked && item.locked(this.state))
-                                    ? <div className="flex-element" key={key}> </div>
-                                    :
-                                    <div key={key}>
+                                <div className="flex-container-row" key={key}>
+                                    {(item.locked && item.locked(this.state))
+                                        ? <div className="flex-element"> </div>
+                                        :
+                                        <OverlayTrigger delay={1000} placement="top"
+                                                        overlay={tooltip(this.state, item)}>
+                                            <div className="flex-container-row">
+                                                <button
+                                                    className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
+                                                    onClick={() => {
+                                                        this.onClickWrapper(item);
+                                                    }}>
+                                                    <div className="flex-element" style={{ textAlign: 'left'}} key={key}>
+                                                            <span className="flex-element">
+                                                            {item.resource ? data.atoms[item.resource].name : 'resource'}:  {item.resource ? state[item.resource].toFixed(0) : 'quantity'}
+                                                            </span>
+                                                    </div>
+
+                                                </button>
+
+
+
+
+                                                {(state.micro_swiper)
+                                                    ?
+                                                    <button
+                                                        className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
+                                                        onClick={() => {
+                                                            for (let i = 0; i < 5; i++) {
+                                                                this.onClickWrapper(item)
+                                                            }
+                                                        }}>
+                                                        +5
+                                                    </button>
+                                                    : ''
+                                                }
+                                            </div>
+                                        </OverlayTrigger>
+                                    }
+
+                                    {(item.locked && item.locked(this.state))
+                                        ? <div className="flex-element"> </div>
+                                        :
+                                    <div>
                                         <OverlayTrigger delay={150} placement="right"
                                                         overlay={tooltip(this.state, item)}>
-                                            <button
-                                                className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
-                                                onClick={() => {
-                                                    this.onClickWrapper(item);
-                                                }}>
-                                                +1
-                                            </button>
+                                            <div>
+                                                <button className="info">
+                                                    I
+                                                </button>
+                                            </div>
                                         </OverlayTrigger>
-                                    </div>
+                                    </div>}
+                                </div>
                             )}
                         </div>
 
@@ -476,7 +537,7 @@ class App extends Component {
                     <h3>Stars</h3>
                     <img alt="" className="overlay star-icon" src={"./img/star.png"}/>
                     <span style={{textAlign: 'right', fontSize: '8px'}}> Your stars: {state.stars.length} </span>
-                    <div className="flex-container-row">
+                    <div className="flex-container-column">
                     {_.map(data.stars, (item, key) =>
                         <div className="flex-container-column" key={key}>
                             <p>
@@ -490,6 +551,9 @@ class App extends Component {
 
                         </div>
                     )}
+
+
+                    <GinButton item={clickers.black_holes.black_hole}/>
 
                     <div className="your-stars">
                         {_.map(state.stars, (item, key) =>
@@ -653,31 +717,31 @@ class App extends Component {
         const chat_subcomponent =
             <div className="flex-element">
                 <h3> History </h3>
+                <div className="flex-container-column history">
                 {_.map(state.chat, (item, key) =>
-                    <div className="panel" key={key}>
-                        <h5>{item.header}</h5>
-                        <p>{item.text}</p>
+                    <div className="flex-element panel" key={key} style={{color: 'black'}}>
+                        <p>{item.header} {item.text}</p>
                     </div>
                 )}
+                </div>
             </div>;
 
 
             return (
                 <div className="App">
-                    {/* <Popup ref={(p) => this.popupHandler = p} /> -->
-                    <button onClick={() => this.createPopup()}>MakeNewPopup</button> */}
+                    <div className="wrap">
                     <div className="flex-container-column header">
-                        <div className="flex-container-row">
-                        <div className="flex-element universe-tab">
-                           {universe_component}
-                        </div>
-                            <div className="flex-element">
-                            </div>
-                        </div>
                         <div className="flex-element">
                             {time_subcomponent}
                             {temperature_subcomponent}
                         </div>
+
+                        <div className="flex-container-row">
+                        <div className="flex-element universe-tab">
+                           {universe_component}
+                        </div>
+                        </div>
+
                     </div>
                     <div>
                         <ToastContainer className="toast-top-right"/>
@@ -700,14 +764,19 @@ class App extends Component {
                             {state.planets.length < 1 ? '' : planets_subcomponent }
                         </div>
 
-                        {(state.achievements.includes('hydrogen') || state.achievements.includes('helium'))
+                        {(state.achievements.includes('H2') && state.achievements.includes('He2'))
                                 ? your_stars_subcomponent
                             : ''}
 
-                        {chat_subcomponent}
                     </div>
+
+                    <Popup ref={(p) => this.popupHandler = p} />
+
                     <Footer newGame={this.newGame}/>
                     <div style={{height: '50px', width: '100%'}}> </div>
+
+                    </div>
+
                 </div>
             );
     }

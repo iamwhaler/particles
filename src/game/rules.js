@@ -10,7 +10,7 @@ export const rules = {
             state.universe_size+= Math.pow(1, state.temperature)/(1 + 0.01 *state.temperature);
             if(state.universe_size>=100){
                 state.universe_size-=_.random(90,100);
-                state.universe_level++;
+                state.expansion_index++;
             }
             return state;
         }
@@ -29,15 +29,27 @@ export const rules = {
         onTick: (state) => {
             checkAchievement(state, state.strings);
             checkAchievement(state, state.up_quarks);
+            checkAchievement(state, state.down_quarks);
+            checkAchievement(state, state.neutrons);
+            checkAchievement(state, state.protons);
+            checkAchievement(state, state.electrons);
             checkAchievement(state, state.hydrogen);
             checkAchievement(state, state.helium);
             checkAchievement(state, state.H2);
             checkAchievement(state, state.He2);
+            checkAchievement(state, state.C2);
             checkAchievement(state, state.carbon);
             checkAchievement(state, state.nitrogen);
             checkAchievement(state, state.hydrogen_stars);
 
 
+            return state;
+        }
+    },
+
+    wormhole_probability_rule: {
+        onTick: (state) => {
+            state.wormhole_probability=Math.pow(Math.sin(0.0092 * state.temperature) + Math.cos(10*state.temperature),2); // (sin^2 0.0092x + cos10x)*x^3/0.2x , x from 0 to 5000
             return state;
         }
     },
@@ -53,11 +65,9 @@ export const rules = {
 
     strings_rule: {
         onTick: (state) => {
-            state.strings++;
+            state.strings+=_.random(1,2);
 
-       //  state.hydrogen+=10; state.helium+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
-            if (state.fluctuating) {
-
+         state.hydrogen+=10; state.helium+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
                 let randomNumber = Math.random() * (100 - 1) + 1;
 
                 if (randomNumber < 33.3) {
@@ -72,10 +82,6 @@ export const rules = {
 
                 state.strings--;
 
-            }
-            else {
-                return state
-            }
             return state;
 
         }
@@ -143,11 +149,15 @@ export const rules = {
             nuclearReaction('Hydrogen', state);
 
 
-            if (state.stars.length>state.universe_size/100 && state.hydrogen_stars>0) {
+            if (state.stars.length>state.universe_size/10 && state.hydrogen_stars>0) {
+
+                let starsToSuck = _.random(1, Math.min(state.stars.length, state.H2));
+                let suckedStars = state.stars.splice(0, starsToSuck);
+                state.black_hole = _.concat(state.black_hole, suckedStars);
+                state.stars.splice(0, starsToSuck);
                 state.hydrogen_stars -= (state.hydrogen_stars - (state.H2/100) );
                 state.H2 -= _.random(state.hydrogen_stars, state.H2);
-                state.stars.splice(0, _.random(1, state.H2/10));
-                toastr.warning("Your planets were sucked by the blackhole", 'Too low level of galaxy!', {
+                toastr.warning("Your planets were sucked by the blackhole", 'Expansion index is too low!', {
                     timeOut: 5000,
                     closeButton: true,
                     preventDuplicates: true,
@@ -191,11 +201,14 @@ export const rules = {
                 };
                 state.stars.push(parameters);
 
-                if (state.stars.length>state.universe_size/90 && state.helium_stars>0) {
-                    state.helium_stars -= (state.helium_stars - (state.He2/100) );
+                if (state.stars.length>state.expansion_index/10 && state.helium_stars>0) {
+                    let starsToSuck = _.random(1, Math.min(state.stars.length, state.He2));
+                    let suckedStars = state.stars.splice(0, starsToSuck);
+                    state.black_hole = _.concat(state.black_hole, suckedStars);
+                    state.stars.splice(0, starsToSuck);
+                    state.helium_stars -= (state.helium_stars - (state.He2/100));
                     state.He2 -= _.random(state.helium_stars, state.He2);
-                    state.stars.splice(0, _.random(1, state.He2));
-                    toastr.warning("Your planets were sucked by the blackhole", 'Too low level of galaxy!', {
+                    toastr.warning("Your planets were sucked by the blackhole", 'Expansion index is too low!', {
                         timeOut: 5000,
                         closeButton: true,
                         preventDuplicates: true,
@@ -235,19 +248,6 @@ export const rules = {
                     }
                 };
                 state.stars.push(parameters);
-
-                if (state.stars.length>state.universe_size/90 && state.carbon_stars>0) {
-                    state.carbon_stars -= (state.carbon_stars - (state.C2/100) );
-                    state.C2 -= _.random(state.carbon_stars, state.C2);
-                    state.stars.splice(0, _.random(1, state.C2));
-                    toastr.warning("Your planets were sucked by the blackhole", 'Too low level of galaxy!', {
-                        timeOut: 5000,
-                        closeButton: true,
-                        preventDuplicates: true,
-                        extendedTimeOut: 4000,
-                        escapeHtml: false
-                    });
-                }
 
             }
 

@@ -31,6 +31,7 @@ export let getStarColor = (star_type) => {
 };
 
 
+
 export let nuclearReaction = (star_type, state) => {
     _.map(state.stars, (item, key) => {
         if (item) {
@@ -77,6 +78,28 @@ export let nuclearReaction = (star_type, state) => {
 
                         }
                         break;
+
+                    case 'Carbon' :
+                        item.star.helium -= _.random(0, ((state.tick - item.star.born) / 10), true);
+                        item.star.nitrogen += _.random(0, 0.3, true);
+                        state.temperature+= item.star.mass/3;
+
+                        if (item.star.helium < 10 || (state.tick - item.star.born > 400) || item.star.helium < 0) {
+                            state.nitrogen += item.star.nitrogen;
+                            let string = "Your star " + item.star.name + ' exploded and brought rewards';
+                            state.chat.unshift({header: "Be aware!", text: string});
+                            toastr.info(string, 'Be aware!', {
+                                timeOut: 2000,
+                                closeButton: true,
+                                preventDuplicates: false,
+                                extendedTimeOut: 2000,
+                                escapeHtml: false
+                            });
+                            state.stars.splice(key, 1);
+                        }
+                        break;
+
+
                     default:
                         console.log('Unknown star type: ', item.star.type);
                 }

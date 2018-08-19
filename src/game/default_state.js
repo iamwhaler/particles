@@ -13,6 +13,7 @@ const default_state = {
     protons: 0,
     neutrons: 0,
 
+    beryllium: 0,
     hydrogen: 0,
     helium: 0,
     carbon: 0,
@@ -49,6 +50,8 @@ const default_state = {
     neutrons_miner: 0,
     electrons_miner: 0,
 
+
+    beryllium_miner: 0,
     hydrogen_miner: 0,
     helium_miner: 0,
 
@@ -78,14 +81,17 @@ const default_state = {
 
     planets: [],
 
+    black_hole: [],
+
     achievements: [],
     universe_name: '',
     universe_size: 0,
-    universe_level: 0,
+    expansion_index: 0,
+    wormhole_probability: 0,
 
     temperature: Math.pow(10, 32),
 
-    chat: [{header: "First Test Message!", text: "Your game is bugged down, please code a little"}],
+    chat: [],
 
     game_speed: 1000,
     game_speed_multiplier: 1,
