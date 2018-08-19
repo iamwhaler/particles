@@ -67,7 +67,7 @@ export const rules = {
         onTick: (state) => {
             state.strings+=_.random(1,2);
 
-         state.hydrogen+=10; state.helium+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
+       //  state.hydrogen+=10; state.helium+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
                 let randomNumber = Math.random() * (100 - 1) + 1;
 
                 if (randomNumber < 33.3) {
