@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 const default_state = {
 
-    strings: 0,
+    strings: 420000,
     gluons: 0,
     up_quarks: 0,
     down_quarks: 0,

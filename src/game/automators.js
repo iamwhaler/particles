@@ -19,7 +19,7 @@ automators = {
                 return Math.floor(Math.pow(1.109, state.strings_miner - 1) * 10);
             },
 
-            locked: (state) => state.tick < 10,
+            locked: (state) => true,
 
             toggle: (state) => {
                 (state.toggle.strings_miner)
@@ -46,7 +46,8 @@ automators = {
             name: 'Up Quarks Miner',
             text: 'Synths Up Quarks once in a tick',
             cost: (state) => {
-                return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_miner - 1) * 20)};
+                return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_miner - 1) * 20),
+                    strings: Math.floor(Math.pow(1.2, state.up_quarks_miner - 1) * 15)};
             },
             locked: (state) => !state.strings_miner,
 
@@ -132,8 +133,8 @@ automators = {
                 return state;
             },
             onTick: (state) => {
-                if (state.toggle.protons_miner && state.protons_miner >= 1) {
-                    state.protons += Math.round(_.random(0, state.protons_miner * 0.5));
+                if (state.toggle.protons_miner &&   state.protons_miner >= 1) {
+                    state.protons += _.random(0, state.protons_miner * 0.5);
                 }
                 return state;
             }
@@ -245,7 +246,8 @@ automators = {
                     electrons: Math.floor(Math.pow(1.6, state.helium_miner - 1) * 10),
                     protons: Math.floor(Math.pow(1.5, state.helium_miner - 1) * 5),
                     neutrons: Math.floor(Math.pow(1.5, state.helium_miner - 1) * 17.5),
-                    photons: Math.floor(Math.pow(1.2, state.helium_miner - 1) * 35)
+                    photons: Math.floor(Math.pow(1.2, state.helium_miner - 1) * 35),
+                    beryllium: Math.floor(Math.pow(1.1, state.helium_miner - 1) * 5)
 
                 };
             },

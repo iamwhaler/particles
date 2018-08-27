@@ -24,7 +24,7 @@ export const achievements = {
         rank: 'bronze',
         type: 'breakthrough',
         name: 'Rising Star',
-        text: 'Grow a couple of stars in your galaxy to get it started',
-        rule: (state) => {return state.stars.length === 4}
+        text: 'Grow a star in your galaxy to get it started',
+        rule: (state) => {return state.stars.length === 1}
     }
 };

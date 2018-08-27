@@ -82,7 +82,6 @@ class App extends Component {
                 new_state.chat.unshift({header: "Welcome to the Game!", text: "Your universe is cooling down, please wait a little"});
                 this.setState(new_state);
                 this.playGame(new_state.game_speed_multiplier);
-                this.setState({universe_name: prompt('Enter your universe name')});
 
                 toastr.info("Your universe is cooling down, please wait a little", 'Welcome to the Game!', {
                     timeOut: 15000,
@@ -144,7 +143,12 @@ class App extends Component {
     chargeCost(state, cost) {
         if (!this.isEnough(this.state, cost)) return false;
         _.each(cost, (value, resource_key) => {
-            state[resource_key] -= value;
+            if (resource_key === 'tick') {
+                _.times(value, this.tick());
+            }
+            else {
+                state[resource_key] -= value;
+            }
         });
         return state;
     }
@@ -203,7 +207,7 @@ class App extends Component {
                                             Hydrogen: {item.star.hydrogen.toFixed(0)}
                                         </div>
                                         <div className="col-md infoBar">
-                                            Carbon: {item.star.carbon.toFixed(0)}
+                                            Helium: {item.star.helium.toFixed(0)}
                                         </div>
                                     </div>
                                 </div>
@@ -227,7 +231,7 @@ class App extends Component {
                                             Helium: {item.star.helium.toFixed(0)}
                                         </div>
                                         <div className="col-md infoBar">
-                                            Nitrogen: {item.star.nitrogen.toFixed(0)}
+                                            Carbon: {item.star.carbon.toFixed(0)}
                                         </div>
                                     </div>
                                 </div>
@@ -374,7 +378,6 @@ class App extends Component {
 
             const basic_particles_subcomponent =
                     <div className="flex-element">
-
                     <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
                         <img alt="" className="overlay resource-icon" src={"./img/basic_particles.png"}/>
                     </OverlayTrigger>
@@ -386,10 +389,8 @@ class App extends Component {
                             {_.map(clickers.basic_particles, (item, key) =>
                                     <div className="flex-container-row" key={key}>
                                         {(item.locked && item.locked(this.state))
-                                            ? <div className="flex-element"> </div>
+                                            ? ''
                                             :
-                                            <OverlayTrigger delay={1000} placement="top"
-                                                            overlay={tooltip(this.state, item)}>
                                                 <div className="flex-container-row">
                                                     <button
                                                         className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
@@ -403,28 +404,10 @@ class App extends Component {
                                                         </div>
 
                                                     </button>
-
-
-
-
-                                                    {(state.micro_swiper)
-                                                        ?
-                                                        <button
-                                                            className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
-                                                            onClick={() => {
-                                                                for (let i = 0; i < 5; i++) {
-                                                                    this.onClickWrapper(item)
-                                                                }
-                                                            }}>
-                                                            +5
-                                                        </button>
-                                                        : ''
-                                                    }
                                                 </div>
-                                            </OverlayTrigger>
                                         }
                                         {(item.locked && item.locked(this.state))
-                                            ? <div className="flex-element"> </div>
+                                            ? ''
                                             :
                                         <div>
                                             <OverlayTrigger delay={150} placement="right"
@@ -455,10 +438,8 @@ class App extends Component {
                             {_.map(clickers.atoms, (item, key) =>
                                 <div className="flex-container-row" key={key}>
                                     {(item.locked && item.locked(this.state))
-                                        ? <div className="flex-element"> </div>
+                                        ? ''
                                         :
-                                        <OverlayTrigger delay={1000} placement="top"
-                                                        overlay={tooltip(this.state, item)}>
                                             <div className="flex-container-row">
                                                 <button
                                                     className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
@@ -473,28 +454,11 @@ class App extends Component {
 
                                                 </button>
 
-
-
-
-                                                {(state.micro_swiper)
-                                                    ?
-                                                    <button
-                                                        className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
-                                                        onClick={() => {
-                                                            for (let i = 0; i < 5; i++) {
-                                                                this.onClickWrapper(item)
-                                                            }
-                                                        }}>
-                                                        +5
-                                                    </button>
-                                                    : ''
-                                                }
                                             </div>
-                                        </OverlayTrigger>
                                     }
 
                                     {(item.locked && item.locked(this.state))
-                                        ? <div className="flex-element"> </div>
+                                        ? ''
                                         :
                                     <div>
                                         <OverlayTrigger delay={150} placement="right"
@@ -537,6 +501,7 @@ class App extends Component {
                     <h3>Stars</h3>
                     <img alt="" className="overlay star-icon" src={"./img/star.png"}/>
                     <span style={{textAlign: 'right', fontSize: '8px'}}> Your stars: {state.stars.length} </span>
+                    <GinButton item={clickers.black_holes.black_hole}/>
                     <div className="flex-container-column">
                     {_.map(data.stars, (item, key) =>
                         <div className="flex-container-column" key={key}>
@@ -551,9 +516,6 @@ class App extends Component {
 
                         </div>
                     )}
-
-
-                    <GinButton item={clickers.black_holes.black_hole}/>
 
                     <div className="your-stars">
                         {_.map(state.stars, (item, key) =>
@@ -581,16 +543,16 @@ class App extends Component {
                 </div>
                 </div>;
 
-            const synthesizers_subcomponent =
+            const dust_subcomponent =
                 <div className="flex-element">
-                    <h3>Synthesizers</h3>
+                    <h3>Dust</h3>
                     <img alt="" className="overlay" src={"./img/automation.png"}
                          style={{width: '25px', height: '25px'}}/>
                     <div className="flex-container-row">
                         <div className="flex-element">
                             {_.map(automators.miners, (item, key) =>
                                 (item.locked && item.locked(this.state))
-                                    ? ''
+                                    ? <div className="flex-element"> </div>
                                     : <div key={key} className="flex-container-row automation">
                                     <div className="flex-element" style={{textAlign: 'left'}}>
                                         {item.name}: {state[key]}
@@ -760,11 +722,11 @@ class App extends Component {
                         </div>
 
                         <div className="flex-element">
-                            {synthesizers_subcomponent}
+                            {dust_subcomponent}
                             {state.planets.length < 1 ? '' : planets_subcomponent }
                         </div>
 
-                        {(state.achievements.includes('H2') && state.achievements.includes('He2'))
+                        {(state.achievements.includes('H2'))
                                 ? your_stars_subcomponent
                             : ''}
 

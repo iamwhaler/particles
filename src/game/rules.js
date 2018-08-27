@@ -65,22 +65,23 @@ export const rules = {
 
     strings_rule: {
         onTick: (state) => {
-            state.strings+=_.random(1,2);
-
        //  state.hydrogen+=10; state.helium+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
-                let randomNumber = Math.random() * (100 - 1) + 1;
+               if(state.temperature<Math.pow(10, 4)) {
 
-                if (randomNumber < 33.3) {
-                    state.up_quarks += 1
-                }
-                else if (randomNumber < 66.6 && randomNumber > 33.3) {
-                    state.down_quarks += 1
-                }
-                else if(randomNumber>66.6){
-                    state.electrons += 1
-                }
+                   let randomNumber = Math.random() * (100 - 1) + 1;
 
-                state.strings--;
+                   if (randomNumber < 33.3) {
+                       state.up_quarks += 1
+                   }
+                   else if (randomNumber < 66.6 && randomNumber > 33.3) {
+                       state.down_quarks += 1
+                   }
+                   else if (randomNumber > 66.6) {
+                       state.electrons += 1
+                   }
+
+                   state.strings--;
+               }
 
             return state;
 
@@ -136,10 +137,10 @@ export const rules = {
                         type: 'Hydrogen',
                         diameter: 0, // this will be used to describe what's going on inside the star (all h2 turned into other more weight elements
                         color: getStarColor('Hydrogen'),
-                        mass: _.random(state.H2/5, 30  ,true),
+                          mass: _.random(state.H2/5, 30  ,true),
                         born: state.tick,
-                        hydrogen: _.random(state.hydrogen, state.H2),
-                        carbon: 0,
+                        hydrogen: _.random(state.hydrogen, Math.max(state.H2, state.strings/100)),
+                        helium: 0,
                     }
                 };
                 //  let pushed_value = JSON.stringify(parameters);
@@ -149,7 +150,7 @@ export const rules = {
             nuclearReaction('Hydrogen', state);
 
 
-            if (state.stars.length>state.universe_size/10 && state.hydrogen_stars>0) {
+            if (state.stars.length>1 && state.hydrogen_stars>0) {
 
                 let starsToSuck = _.random(1, Math.min(state.stars.length, state.H2));
                 let suckedStars = state.stars.splice(0, starsToSuck);
@@ -196,7 +197,7 @@ export const rules = {
                         born: state.tick,
                         mass: _.random(state.He2/6, state.stars.length, true),
                         helium: _.random(state.helium, state.He2),
-                        nitrogen: 0
+                        carbon: 0
                     }
                 };
                 state.stars.push(parameters);
