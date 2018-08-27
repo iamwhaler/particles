@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import confirm from '../components/confirm_launch';
 import {getDefaultState} from '../game/default_state';
 
 export const clickers = {
@@ -9,7 +10,7 @@ export const clickers = {
             resource: 'strings',
             text: 'String is one-dimensional extended objects',
             cost: false,
-            locked: (state) => state.temperature>3000,
+            locked: (state) => state.temperature>Math.pow(10, 6),
             onClick: (state) => {
                 state.strings++;
                 return state;
@@ -20,8 +21,8 @@ export const clickers = {
             name: 'Form gluon',
             resource: 'gluons',
             text: 'Gluon allows to connect quarks between each other',
-            cost: {strings: 1},
-            locked: (state) => state.temperature>5000,
+            cost: {strings: 1, tick: 1},
+            locked: (state) => state.temperature>Math.pow(10, 4),
             onClick: (state) => {
                 state.gluons++;
                 return state;
@@ -33,7 +34,7 @@ export const clickers = {
             resource: 'up_quarks',
             cost: {strings: 1},
             text: 'The lightest of all quarks, forms protons and neutrons',
-            locked: (state) => state.tick < 6,
+            locked: (state) => state.temperature>Math.pow(10, 4),
             onClick: (state) => {
                 state.up_quarks++;
                 return state;
@@ -44,7 +45,7 @@ export const clickers = {
             resource: 'down_quarks',
             cost: {strings: 1},
             text: 'The second-lightest all quarks, forms protons and neutrons',
-            locked: (state) => !state.up_quarks_miner,
+            locked: (state) => state.temperature>Math.pow(10, 4),
             onClick: (state) => {
                 state.down_quarks++;
                 return state;
@@ -101,16 +102,6 @@ export const clickers = {
     },
 
     atoms: {
-        beryllium_clicker: {
-            name: 'Synth Beryllium',
-            resource: 'beryllium',
-            cost: {protons: 4, electrons: 4, neutrons: 4, photons: 4},
-            locked: (state) => state.protons < 1 && state.neutrons < 1 && state.electrons < 1,
-            onClick: (state) => {
-                state.beryllium++;
-                return state;
-            }
-        },
 
         hydrogen_clicker: {
             name: 'Synth Hydrogen',
@@ -128,9 +119,20 @@ export const clickers = {
             name: 'Synth Helium',
             resource: 'helium',
             cost: {protons: 2, neutrons: 2, electrons: 2, photons: 2},
-            locked: (state) => state.protons < 2 && state.neutrons < 2 && state.electrons < 2,
+            locked: (state) => state.achievements.includes('Rising Star'),
             onClick: (state) => {
                 state.helium++;
+                return state;
+            }
+        },
+
+        beryllium_clicker: {
+            name: 'Synth Beryllium',
+            resource: 'beryllium',
+            cost: {protons: 4, electrons: 4, neutrons: 4, photons: 4},
+            locked: (state) => state.achievements.includes('hydrogen'),
+            onClick: (state) => {
+                state.beryllium++;
                 return state;
             }
         },
@@ -162,18 +164,27 @@ export const clickers = {
         black_hole: {
             name: 'Retrieve stars from the Black Hole',
             cost: false,
-            locked: (state) => state.black_hole.length<1,
+            isLocked: (state) => state.black_hole.length<1,
             onClick: (state) => {
-                let saved_stars = _.cloneDeep(state.black_hole);
-                let saved_tick = state.tick;
-                console.log(state.black_hole);
-                state = getDefaultState();
-                state.game_paused = false;
-                state.tick = saved_tick;
-                state.stars = saved_stars;
-                state.black_hole = [];
-                console.log(state);
-                return state;
+                confirm('Do you really want to retrieve your stars from the black hole? Your other progress will be lost').then(
+
+                    () => {
+                        let saved_stars = _.cloneDeep(state.black_hole);
+                        let saved_tick = state.tick;
+                        let saved_achievement = _.cloneDeep(state.achievements);
+                        console.log(state.black_hole);
+                        state = getDefaultState();
+                        state.tick = saved_tick;
+                        state.stars = saved_stars;
+                        state.achievements = saved_achievement;
+                        state.black_hole = [];
+                        state.game_paused = false;
+                        console.log(state);
+                        return state
+                    },
+                    () => {return state}
+                )
+
             }
         },
     },
