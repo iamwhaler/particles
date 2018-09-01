@@ -57,7 +57,7 @@ export const clickers = {
             resource: 'photons',
             cost: {strings: 1},
             text: 'The photon is a type of elementary particle, the quantum of the electromagnetic field including electromagnetic radiation such as light, and the force carrier for the electromagnetic force',
-            locked: (state) => !state.up_quarks_miner,
+            locked: (state) => false,
             onClick: (state) => {
                 state.photons++;
                 return state;

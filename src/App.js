@@ -15,7 +15,7 @@ import {tick} from './game/tick';
 import {data, info} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
-import {automators} from './game/automators';
+import {fluctuators} from './game/fluctuators';
 import Popup from "./utils/Popup/Popup";
 
 import {ToastContainer} from 'react-toastr';
@@ -316,13 +316,6 @@ class App extends Component {
                         </div>
 
                         <div className="flex-element">
-                            <div className="universe-size">
-                                <Line strokeColor='black' percent={state.wormhole_probability} />
-                                <span style={{fontSize: '10px'}}>Wormhole probability: {state.wormhole_probability.toFixed(3)}</span>
-                            </div>
-                        </div>
-
-                        <div className="flex-element">
                             {state.universe_name}
                         </div>
                     </div>
@@ -354,13 +347,6 @@ class App extends Component {
                             </span>
                     })}
 
-
-                    <div className="flex-element">
-                        <button className="btn btn-sm" onClick={()=> this.createPopup(state, chat_subcomponent)}>
-                            History
-                        </button>
-                    </div>
-
                 </div>;
 
 
@@ -374,6 +360,27 @@ class App extends Component {
                         <h5>Years: {this.state.tick}k</h5>
                     </div>
                 </div>;
+
+             const header_subcomponent =
+                 <div className="flex-container-row header">
+                     <div className="flex-element">
+                        {temperature_subcomponent}
+                     </div>
+
+                     <div className="flex-element">
+                         {time_subcomponent}
+                     </div>
+
+                     <div className="flex-element universe-tab">
+                         {universe_component}
+                     </div>
+
+                     <div className="flex-element">
+                         <button className="btn btn-sm" onClick={()=> this.createPopup(state, chat_subcomponent)}>
+                             History
+                         </button>
+                     </div>
+                 </div>;
 
 
             const basic_particles_subcomponent =
@@ -543,14 +550,14 @@ class App extends Component {
                 </div>
                 </div>;
 
-            const dust_subcomponent =
+            const fluctuators_subcomponent =
                 <div className="flex-element">
-                    <h3>Dust</h3>
+                    <h3>Fluctuators</h3>
                     <img alt="" className="overlay" src={"./img/automation.png"}
                          style={{width: '25px', height: '25px'}}/>
                     <div className="flex-container-row">
                         <div className="flex-element">
-                            {_.map(automators.miners, (item, key) =>
+                            {_.map(fluctuators.miners, (item, key) =>
                                 (item.locked && item.locked(this.state))
                                     ? <div className="flex-element"> </div>
                                     : <div key={key} className="flex-container-row automation">
@@ -583,7 +590,7 @@ class App extends Component {
                         {state.achievements.includes("hydrogen_star")
                             ?
                             <div className="flex-element">
-                                {_.map(automators.converters, (item, key) =>
+                                {_.map(fluctuators.converters, (item, key) =>
                                     (item.locked && item.locked(this.state))
                                         ? ''
                                         : <div key={key} className="flex-container-row automation">
@@ -693,17 +700,7 @@ class App extends Component {
                 <div className="App">
                     <div className="wrap">
                     <div className="flex-container-column header">
-                        <div className="flex-element">
-                            {time_subcomponent}
-                            {temperature_subcomponent}
-                        </div>
-
-                        <div className="flex-container-row">
-                        <div className="flex-element universe-tab">
-                           {universe_component}
-                        </div>
-                        </div>
-
+                        {header_subcomponent}
                     </div>
                     <div>
                         <ToastContainer className="toast-top-right"/>
@@ -711,28 +708,42 @@ class App extends Component {
 
                     <div className="flex-container-row">
                         <div className="flex-element">
-                            <h3> Resources </h3>
+                            <h3> Particles </h3>
                             <div className="flex-container-row">
                                 <div className="flex-element">
                                     {basic_particles_subcomponent}
-                                    {state.temperature > 5000 ? '' : atoms_subcomponent }
                                 </div>
-                                {state.H2 < 5 ? '' : simple_molecules_subcomponent}
                             </div>
                         </div>
 
                         <div className="flex-element">
-                            {dust_subcomponent}
-                            {state.planets.length < 1 ? '' : planets_subcomponent }
+                            {fluctuators_subcomponent}
                         </div>
 
-                        {(state.achievements.includes('H2'))
-                                ? your_stars_subcomponent
-                            : ''}
+                        <div className="flex-element">
+                            <h3>Matter</h3>
+                            {state.temperature > 5000 ? '' : atoms_subcomponent }
+                            {state.H2 < 5 ? '' : simple_molecules_subcomponent}
+                        </div>
+
+
+                        <div className="flex-element">
+                            <div className="flex-container-column">
+                                <h3>Rules</h3>
+                            </div>
+                        </div>
 
                     </div>
 
-                    <Popup ref={(p) => this.popupHandler = p} />
+                     <div className="flex-container-row">
+                         <div className="flex-element">
+                         <h3 style={{textAlign: 'center'}}>Dust</h3>
+                             {(state.achievements.includes('H2')) ? your_stars_subcomponent : ''}
+                             {state.planets.length < 1 ? '' : planets_subcomponent }
+                         </div>
+                     </div>
+
+                        <Popup ref={(p) => this.popupHandler = p} />
 
                     <Footer newGame={this.newGame}/>
                     <div style={{height: '50px', width: '100%'}}> </div>

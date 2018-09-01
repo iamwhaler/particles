@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {automators} from "./automators";
+import {fluctuators} from "./fluctuators";
 import toastr from 'toastr';
 import {getStarName, getStarColor, nuclearReaction} from './stars';
 import checkAchievement from './achievements';
@@ -18,7 +18,7 @@ export const rules = {
 
     temperature_effect_tule: {
         onTick: (state) => {
-            _.map(automators.miners, (value, resource_key) =>
+            _.map(fluctuators.miners, (value, resource_key) =>
                 value.temperature_effect && state.toggle[resource_key] ? state.temperature += value.temperature_effect(state)
                     : false);
             return state

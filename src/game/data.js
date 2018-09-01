@@ -51,3 +51,7 @@ export const info = {
         info: 'Molecules will form stars and other objects in your universe. Mining of them will result in huge temperature raise'
     }
 };
+
+export const orchestra = {
+    strings: 'https://storage.googleapis.com/magentadata/js/checkpoints/music_vae/multitrack_med_chords'
+};

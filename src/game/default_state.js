@@ -42,9 +42,9 @@ const default_state = {
     down_quarks_clicker: 0,
     electrons_clicker: 0,
 
-    strings_miner: 0,
-    up_quarks_miner: 0,
-    down_quarks_miner: 0,
+    strings_fluctuator: 0,
+    up_quarks_fluctuator: 0,
+    down_quarks_fluctuator: 0,
 
     protons_miner: 0,
     neutrons_miner: 0,
@@ -60,9 +60,9 @@ const default_state = {
     temperature_converter: 0,
 
     toggle: {
-        strings_miner: false,
-        up_quarks_miner: false,
-        down_quarks_miner: false,
+        strings_fluctuator: false,
+        up_quarks_fluctuator: false,
+        down_quarks_fluctuator: false,
         protons_miner: false,
         neutrons_miner: false,
         electrons_miner: false,
