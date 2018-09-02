@@ -47,12 +47,29 @@ export const rules = {
         }
     },
 
+    new_star: {
+        condition: state => true,
+        onTick: state => {
+            _.each(state.universe, (galaxy, galaxy_key) =>  {
+                _.each(galaxy.systems, (system, system_key) => {
+                    if (_.random(1, 10) === 1 && weight({'H2': system.mater.H2, 'He2': system.mater.He2}) > 100) {
+                        let H2 = Math.ceil(5 * Math.sqrt(system.mater.H2));
+                        let He2 = Math.ceil(5 * Math.sqrt(system.mater.He2));
+                        state.universe[galaxy_key].systems[system_key].mater.H2 -= H2;
+                        state.universe[galaxy_key].systems[system_key].mater.He2 -= He2;
+                        state.universe[galaxy_key].systems[system_key].stars.push({name: 'Star ' + (system.stars.length + 1),  mater: {'H2': H2, 'He2': He2}});
+                    }
+                });
+            });
+            return state;
+        }
+    },
     new_planet: {
         condition: state => true,
         onTick: state => {
             _.each(state.universe, (galaxy, galaxy_key) =>  {
                 _.each(galaxy.systems, (system, system_key) => {
-                    if (_.random(1, 10) === 1 && weight({'H2': system.mater.H2, 'He2': system.mater.He2}) > 10) {
+                    if (_.random(1, 100) === 1 && weight({'H2': system.mater.H2, 'He2': system.mater.He2}) > 10) {
                         let H2 = Math.ceil(Math.sqrt(system.mater.H2));
                         let He2 = Math.ceil(Math.sqrt(system.mater.He2));
                         state.universe[galaxy_key].systems[system_key].mater.H2 -= H2;
