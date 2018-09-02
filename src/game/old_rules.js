@@ -54,13 +54,6 @@ export const old_rules = {
         }
     },
 
-    wormhole_probability_rule: {
-        onTick: (state) => {
-            state.wormhole_probability=Math.pow(Math.sin(0.0092 * state.temperature) + Math.cos(10*state.temperature),2); // (sin^2 0.0092x + cos10x)*x^3/0.2x , x from 0 to 5000
-            return state;
-        }
-    },
-
     temperature_rule: {
         onTick: (state) => {
             state.temperature = Math.floor(
@@ -157,29 +150,6 @@ export const old_rules = {
             nuclearReaction('Hydrogen', state);
 
 
-            if (state.stars.length>1 && state.hydrogen_stars>0) {
-
-                let starsToSuck = _.random(1, Math.min(state.stars.length, state.H2));
-                let suckedStars = state.stars.splice(0, starsToSuck);
-                state.black_hole = _.concat(state.black_hole, suckedStars);
-                state.stars.splice(0, starsToSuck);
-                state.hydrogen_stars -= (state.hydrogen_stars - (state.H2/100) );
-                state.H2 -= _.random(state.hydrogen_stars, state.H2);
-                toastr.warning("Your planets were sucked by the blackhole", 'Expansion index is too low!', {
-                    timeOut: 5000,
-                    closeButton: true,
-                    preventDuplicates: true,
-                    extendedTimeOut: 4000,
-                    escapeHtml: false
-                });
-            }
-
-          /*  if (state.H2>150 && state.temperature>3000) {
-                state.stars.splice(0, _.random(0, state.H2/100));
-            }
-
-            */ // too fucked
-
             return state;
         }
     },
@@ -208,23 +178,6 @@ export const old_rules = {
                     }
                 };
                 state.stars.push(parameters);
-
-                if (state.stars.length>state.expansion_index/10 && state.helium_stars>0) {
-                    let starsToSuck = _.random(1, Math.min(state.stars.length, state.He2));
-                    let suckedStars = state.stars.splice(0, starsToSuck);
-                    state.black_hole = _.concat(state.black_hole, suckedStars);
-                    state.stars.splice(0, starsToSuck);
-                    state.helium_stars -= (state.helium_stars - (state.He2/100));
-                    state.He2 -= _.random(state.helium_stars, state.He2);
-                    toastr.warning("Your planets were sucked by the blackhole", 'Expansion index is too low!', {
-                        timeOut: 5000,
-                        closeButton: true,
-                        preventDuplicates: true,
-                        extendedTimeOut: 4000,
-                        escapeHtml: false
-                    });
-                }
-
             }
 
             nuclearReaction('Helium', state);
