@@ -1,13 +1,3 @@
-import toastr from 'toastr';
-
-toastr.options = {
-    timeOut: 2500,
-    closeButton: true,
-    preventDuplicates: false,
-    extendedTimeOut: 1000,
-    escapeHtml: false
-};
-
 export const oneclickers = {
     fluctuating: {
         name: 'String convertor', text: 'Strings will automatically convert into quarks or leptons',
@@ -25,6 +15,4 @@ export const oneclickers = {
             return state;
         }
     },
-
-
 };

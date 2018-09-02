@@ -1,4 +1,3 @@
-
 import _ from 'lodash';
 
 import {old_rules} from './old_rules';
@@ -10,6 +9,17 @@ export const rules = {
     old_rules: { name: 'Rules ', text: 'Rule Text',
         locked: state => false,
         onTick: state => _.reduce(old_rules, (sum, rule) => rule.onTick ? rule.onTick(sum) : sum, state)
+    },
+
+    H2_rule: {name: 'H2 merge', text: 'Rule Text',
+        locked: state => state.hydrogen === 0,
+        onTick: (state) => {
+            if (state.hydrogen >= 5) {
+                state.H2 += 1;
+                state.hydrogen -= 2;
+            }
+            return state;
+        }
     },
 
     /*
@@ -36,6 +46,7 @@ export const rules = {
     new_system: { name: 'New System', text: 'Rule Text',
         locked: state => state.universe.length === 0,
         onTick: state => {
+            console.log(state.universe);
             _.each(state.universe, (galaxy, galaxy_key) =>  {
                 if (_.random(1, 100) === 1 && weight({'H2': galaxy.mater.H2, 'He2': galaxy.mater.He2}) > 100) {
                     let H2 = Math.ceil(Math.sqrt(galaxy.mater.H2));

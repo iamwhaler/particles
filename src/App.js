@@ -47,7 +47,6 @@ class App extends Component {
         var app_state = JSON.parse(localStorage.getItem(game_name + "_app_state"));
         if (!app_state) {
             getDefaultState();
-            this.setState({universe_name: prompt('Enter your universe name')});
         }
         else {
             this.setState(app_state)
@@ -307,23 +306,6 @@ class App extends Component {
 
             </Tooltip>;
 
-
-        const universe_component =
-            <div className="flex-container-column">
-                <div className="flex-container-column">
-                    <div className="flex-element">
-                        <div className="universe-size">
-                            <Line strokeColor='#83B18F' percent={state.universe_size}/>
-                            <span style={{fontSize: '10px'}}>Expansion index: {state.expansion_index}</span>
-                        </div>
-                    </div>
-
-                    <div className="flex-element">
-                        {state.universe_name}
-                    </div>
-                </div>
-            </div>;
-
         const time_subcomponent =
             <div className="flex-container-row time-machine">
                     <span onClick={() => {
@@ -374,10 +356,6 @@ class App extends Component {
                     {time_subcomponent}
                 </div>
 
-                <div className="flex-element universe-tab">
-                    {universe_component}
-                </div>
-
                 <div className="flex-element">
                     <button className="btn btn-sm" onClick={()=> this.createPopup(state, chat_subcomponent)}>
                         History
@@ -393,7 +371,6 @@ class App extends Component {
                 </OverlayTrigger>
 
                 <div className="flex-container-row resource-tab" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
-
 
                     <div className="flex-container-column clickers">
                         {_.map(clickers.basic_particles, (item, key) =>
@@ -594,7 +571,8 @@ class App extends Component {
                     {state.achievements.includes("hydrogen_star")
                         ?
                         <div className="flex-element">
-                            {_.map(fluctuators.converters, (item, key) =>
+                            {_.map(fluctuators.fluctuators, (item, key) =>
+
                                 (item.locked && item.locked(this.state))
                                     ? ''
                                     : <div key={key} className="flex-container-row automation">
