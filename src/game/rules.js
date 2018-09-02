@@ -18,7 +18,9 @@ export const rules = {
                 state.H2 += 1;
                 state.hydrogen -= 2;
             }
-        },
+            return state;
+        }
+    },
 
     clean_rule: {
          condition: state => true,
@@ -42,6 +44,7 @@ export const rules = {
     new_system: {
         condition: state => true,
         onTick: state => {
+            console.log(state.universe);
             _.each(state.universe, (galaxy, galaxy_key) =>  {
                 if (_.random(1, 100) === 1 && weight({'H2': galaxy.mater.H2, 'He2': galaxy.mater.He2}) > 100) {
                     let H2 = Math.ceil(Math.sqrt(galaxy.mater.H2));
