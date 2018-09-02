@@ -593,7 +593,8 @@ class App extends Component {
                     {state.achievements.includes("hydrogen_star")
                         ?
                         <div className="flex-element">
-                            {_.map(fluctuators.converters, (item, key) =>
+                            {_.map(fluctuators.fluctuators, (item, key) =>
+
                                 (item.locked && item.locked(this.state))
                                     ? ''
                                     : <div key={key} className="flex-container-row automation">

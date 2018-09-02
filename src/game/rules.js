@@ -1,4 +1,3 @@
-
 import _ from 'lodash';
 
 import {old_rules} from './old_rules';
@@ -11,6 +10,15 @@ export const rules = {
         condition: state => true,
         onTick: state => _.reduce(old_rules, (sum, rule) => rule.onTick ? rule.onTick(sum) : sum, state)
     },
+
+
+    H2_rule: {
+        onTick: (state) => {
+            if (state.hydrogen >= 5) {
+                state.H2 += 1;
+                state.hydrogen -= 2;
+            }
+        },
 
     clean_rule: {
          condition: state => true,
