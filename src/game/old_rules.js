@@ -5,20 +5,9 @@ import {getStarName, getStarColor, nuclearReaction} from './stars';
 import checkAchievement from './achievements';
 
 export const old_rules = {
-    old_tick_test_rule: {
-        onTick: (state) => {
-            //console.log('old_tick_test');
-            return state;
-        }
-    },
-
     universe_size_rule: {
         onTick: (state) => {
             state.universe_size+= Math.pow(1, state.temperature)/(1 + 0.01 *state.temperature);
-            if(state.universe_size>=100){
-                state.universe_size-=_.random(90,100);
-                state.expansion_index++;
-            }
             return state;
         }
     },
@@ -87,19 +76,6 @@ export const old_rules = {
 
         }
     },
-
-    up_quarks_rule: {
-        onTick: (state) => {
-            if (state.fluctuating) {
-                if (state.strings > 4 && _.random(1, 2) === 1) {
-                    state.strings -= 4;
-                    state.up_quarks++;
-                }
-            }
-            return state;
-        }
-    },
-
 
     H2_rule: {
         onTick: (state) => {
