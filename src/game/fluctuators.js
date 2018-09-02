@@ -201,7 +201,7 @@ fluctuators = {
         },
 
         photons_fluctuator: {
-            name: 'Electrons Miner',
+            name: 'Photons Miner',
             cost: (state) => {
                 return {
                     photons: Math.floor(Math.pow(1.3, state.photons_fluctuator - 1) * 90),

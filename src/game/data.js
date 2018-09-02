@@ -10,6 +10,7 @@ export const data = {
         electrons: {name: 'Electrons', locked: (state) => clickers.basic_particles.electrons_clicker.locked(state)},
         protons: {name: 'Protons', locked: (state) => clickers.basic_particles.protons_clicker.locked(state)},
         neutrons: {name: 'Neutrons', locked: (state) => clickers.basic_particles.neutrons_clicker.locked(state)},
+        neutrino: {name: 'Neutrino', locked: (state) => clickers.basic_particles.neutrino_clicker.locked(state)},
     },
 
     atoms: {

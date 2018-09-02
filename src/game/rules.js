@@ -6,13 +6,13 @@ import {weight} from './physics';
 
 export const rules = {
 
-    old_rules: {
-        condition: state => true,
+    old_rules: { name: 'Rules ', text: 'Rule Text',
+        locked: state => false,
         onTick: state => _.reduce(old_rules, (sum, rule) => rule.onTick ? rule.onTick(sum) : sum, state)
     },
 
-
-    H2_rule: {
+    H2_rule: {name: 'H2 merge', text: 'Rule Text',
+        locked: state => state.hydrogen === 0,
         onTick: (state) => {
             if (state.hydrogen >= 5) {
                 state.H2 += 1;
@@ -22,13 +22,15 @@ export const rules = {
         }
     },
 
-    clean_rule: {
-         condition: state => true,
+    /*
+    clean_rule: { name: 'Rules ', text: 'Rule Text',
+         locked: state => true,
          onTick: state => false ? ({...state, state}) : state
     },
+    */
 
-    new_galaxy: {
-        condition: state => true,
+    new_galaxy: { name: 'New Galaxy', text: 'Rule Text',
+        locked: state => state.H2 === 0,
         onTick: state => {
             if (_.random(1, 100) === 1 && weight({'H2': state.H2, 'He2': state.He2}) > 1000) {
                 let H2 = Math.ceil(Math.sqrt(state.H2));
@@ -41,8 +43,8 @@ export const rules = {
         }
     },
 
-    new_system: {
-        condition: state => true,
+    new_system: { name: 'New System', text: 'Rule Text',
+        locked: state => state.universe.length === 0,
         onTick: state => {
             console.log(state.universe);
             _.each(state.universe, (galaxy, galaxy_key) =>  {
@@ -58,8 +60,8 @@ export const rules = {
         }
     },
 
-    new_star: {
-        condition: state => true,
+    new_star: { name: 'New Star', text: 'Rule Text',
+        locked: state => state.universe.length === 0,
         onTick: state => {
             _.each(state.universe, (galaxy, galaxy_key) =>  {
                 _.each(galaxy.systems, (system, system_key) => {
@@ -75,8 +77,9 @@ export const rules = {
             return state;
         }
     },
-    new_planet: {
-        condition: state => true,
+
+    new_planet: { name: 'New Planet', text: 'Rule Text',
+        locked: state => state.universe.length === 0,
         onTick: state => {
             _.each(state.universe, (galaxy, galaxy_key) =>  {
                 _.each(galaxy.systems, (system, system_key) => {
@@ -92,6 +95,30 @@ export const rules = {
             return state;
         }
     },
+
+    proton_proton_chain_reaction: { name: 'Proton Proton Chain Reaction', text: 'Rule Text',
+        locked: state => state.universe.length === 0,
+        onTick: state => {
+            _.each(state.universe, (galaxy, galaxy_key) =>  {
+                _.each(galaxy.systems, (system, system_key) => {
+                    _.each(system.stars, (star, star_key) => {
+                        if (star.mater.H2 > 2 && state.electrons > 1) {
+                            let H2 = Math.ceil(star.mater.H2 / 100) * 2;
+                            let He2 = Math.ceil(H2 / 2);
+                            let electrons = Math.min(state.electrons, He2);
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.H2 -= electrons * 2;
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.He2 += electrons;
+                            state.electrons -= electrons;
+                            state.neutrino += electrons;
+                        }
+                    });
+                });
+            });
+            return state;
+        }
+    },
+
+
 
 };
 
