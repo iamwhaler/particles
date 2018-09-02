@@ -93,6 +93,28 @@ const default_state = {
 
     chat: [],
 
+    universe: [
+        {name: 'Galaxy 1', mater: {'H2': 16200000, 'He': 4200000}, systems: [
+            {name: 'System 1', mater: {'H2': 1620000, 'He': 420000},
+                stars: [
+                    {name: 'Star 1', mater: {'H2': 162000, 'He': 42000}},
+                    {name: 'Star 2', mater: {'H2': 16200, 'He': 4200}},
+                ],
+                planets: [
+                    {name: 'Planet 1', mater: {'carbon': 162, 'nitrogen': 42}},
+                    {name: 'Planet 2', mater: {'H2': 1620, 'He': 420}},
+                ]
+            }
+        ]},
+        {name: 'Galaxy 2', mater: {'H2': 16200000, 'He': 4200000}, systems: []}
+    ],
+
+    selected_galaxy: null,
+    selected_system: null,
+    selected_star: null,
+    selected_planet: null,
+
+
     game_speed: 1000,
     game_speed_multiplier: 1,
     tick: 0,
