@@ -1,17 +1,17 @@
 import _ from 'lodash';
 
 import {rules} from './rules';
-import {automators} from './automators';
+import {fluctuators} from './fluctuators';
 import {oneclickers} from "./oneclickers";
 import {achievements} from "./achievements";
 import toastr from "toastr";
 
 export const tick = (state) => {
-    _.each(automators.miners, (item) => {
+    _.each(fluctuators.miners, (item) => {
         if (item.onTick) state = item.onTick(state);
     });
 
-    _.each(automators.converters, (item) => {
+    _.each(fluctuators.converters, (item) => {
         if (item.onTick) state = item.onTick(state);
     });
 

@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 const default_state = {
 
-    strings: 0,
+    strings: 420000,
     gluons: 0,
     up_quarks: 0,
     down_quarks: 0,
@@ -13,6 +13,7 @@ const default_state = {
     protons: 0,
     neutrons: 0,
 
+    beryllium: 0,
     hydrogen: 0,
     helium: 0,
     carbon: 0,
@@ -41,14 +42,16 @@ const default_state = {
     down_quarks_clicker: 0,
     electrons_clicker: 0,
 
-    strings_miner: 0,
-    up_quarks_miner: 0,
-    down_quarks_miner: 0,
+    strings_fluctuator: 0,
+    up_quarks_fluctuator: 0,
+    down_quarks_fluctuator: 0,
 
     protons_miner: 0,
     neutrons_miner: 0,
     electrons_miner: 0,
 
+
+    beryllium_miner: 0,
     hydrogen_miner: 0,
     helium_miner: 0,
 
@@ -57,9 +60,9 @@ const default_state = {
     temperature_converter: 0,
 
     toggle: {
-        strings_miner: false,
-        up_quarks_miner: false,
-        down_quarks_miner: false,
+        strings_fluctuator: false,
+        up_quarks_fluctuator: false,
+        down_quarks_fluctuator: false,
         protons_miner: false,
         neutrons_miner: false,
         electrons_miner: false,
@@ -78,14 +81,17 @@ const default_state = {
 
     planets: [],
 
+    black_hole: [],
+
     achievements: [],
     universe_name: '',
     universe_size: 0,
-    universe_level: 0,
+    expansion_index: 0,
+    wormhole_probability: 0,
 
     temperature: Math.pow(10, 32),
 
-    chat: [{header: "First Test Message!", text: "Your game is bugged down, please code a little"}],
+    chat: [],
 
     game_speed: 1000,
     game_speed_multiplier: 1,

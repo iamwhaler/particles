@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import toastr from 'toastr';
 
 toastr.options = {
@@ -12,7 +11,7 @@ toastr.options = {
 export const oneclickers = {
     fluctuating: {
         name: 'String convertor', text: 'Strings will automatically convert into quarks or leptons',
-        cost: {strings: 10}, locked: (state) => !state.strings_miner, onClick: (state) => {
+        cost: {strings: 10}, locked: (state) => !state.strings_fluctuator, onClick: (state) => {
             state.fluctuating = true;
             return state;
         }

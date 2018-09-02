@@ -13,6 +13,7 @@ export const data = {
     },
 
     atoms: {
+        beryllium: {name: 'Beryllium', locked: (state) => clickers.atoms.beryllium_clicker.locked(state)},
         hydrogen: {name: 'Hydrogen', locked: (state) => clickers.atoms.hydrogen_clicker.locked(state)},
         helium: {name: 'Helium', locked: (state) => clickers.atoms.helium_clicker.locked(state)},
         carbon: {name: 'Carbon', locked: (state) => state.carbon<10},
@@ -49,4 +50,8 @@ export const info = {
         name: 'Simple molecules',
         info: 'Molecules will form stars and other objects in your universe. Mining of them will result in huge temperature raise'
     }
+};
+
+export const orchestra = {
+    strings: 'https://storage.googleapis.com/magentadata/js/checkpoints/music_vae/multitrack_med_chords'
 };

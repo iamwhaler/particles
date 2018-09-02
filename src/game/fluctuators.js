@@ -4,25 +4,25 @@ import toastr from "toastr";
 
 // onClick effect costs item.cost
 
-export let automators = {};
+export let fluctuators = {};
 
-automators = {
+fluctuators = {
     miners: {
-        strings_miner: {
-            name: 'Strings Miner',
+        strings_fluctuator: {
+            name: 'Strings Fluctuator',
             text: 'Generates strings once in a tick',
             cost: (state) => {
-                return {strings: Math.floor(Math.pow(1.2, state.strings_miner - 1) * 20)};
+                return {strings: Math.floor(Math.pow(1.2, state.strings_fluctuator - 1) * 20)};
             },
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.109, state.strings_miner - 1) * 10);
+                return Math.floor(Math.pow(1.109, state.strings_fluctuator - 1) * 10);
             },
 
-            locked: (state) => state.tick < 10,
+            locked: (state) => true,
 
             toggle: (state) => {
-                (state.toggle.strings_miner)
+                (state.toggle.strings_fluctuator)
                  ? state.toggle.strings_miner=false
                      : state.toggle.strings_miner=true;
 
@@ -30,32 +30,33 @@ automators = {
             },
 
             onClick: (state) => {
-                state.strings_miner++;
+                state.strings_fluctuator++;
                 return state;
             },
 
             onTick: (state) => {
-                if(state.toggle.strings_miner) {
-                    state.strings += _.random(state.strings_miner / 3, state.strings_miner);
+                if(state.toggle.strings_fluctuator) {
+                    state.strings += _.random(state.strings_fluctuator / 3, state.strings_fluctuator);
                 }
                 return state;
             }
         },
 
-        up_quarks_miner: {
+        up_quarks_fluctuator: {
             name: 'Up Quarks Miner',
             text: 'Synths Up Quarks once in a tick',
             cost: (state) => {
-                return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_miner - 1) * 20)};
+                return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_fluctuator - 1) * 20),
+                    strings: Math.floor(Math.pow(1.2, state.up_quarks_fluctuator - 1) * 15)};
             },
-            locked: (state) => !state.strings_miner,
+            locked: (state) => !state.strings_fluctuator,
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.19, state.up_quarks_miner - 1) * 12);
+                return Math.floor(Math.pow(1.19, state.up_quarks_fluctuator - 1) * 12);
             },
 
             toggle: (state) => {
-                (state.toggle.up_quarks_miner)
+                (state.toggle.up_quarks_fluctuator)
                     ? state.toggle.up_quarks_miner=false
                     : state.toggle.up_quarks_miner=true;
 
@@ -63,43 +64,43 @@ automators = {
             },
 
             onClick: (state) => {
-                state.up_quarks_miner++;
+                state.up_quarks_fluctuator++;
                 return state;
             },
             onTick: (state) => {
-                if(state.toggle.up_quarks_miner) {
-                    state.up_quarks += Math.round(_.random(state.up_quarks_miner/4 , state.up_quarks_miner));
+                if(state.toggle.up_quarks_fluctuator) {
+                    state.up_quarks += Math.round(_.random(state.up_quarks_fluctuator/4 , state.up_quarks_fluctuator));
                 }
                 return state;
             }
         },
 
-        down_quarks_miner: {
+        down_quarks_fluctuator: {
             name: 'Down Quarks Miner',
             text: 'Synths Down Quarks once in a tick',
             cost: (state) => {
-                return {down_quarks: Math.floor(Math.pow(1.4, state.down_quarks_miner - 1) * 20)};
+                return {down_quarks: Math.floor(Math.pow(1.4, state.down_quarks_fluctuator - 1) * 20)};
             },
-            locked: (state) => !state.strings_miner,
+            locked: (state) => !state.strings_fluctuator,
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.3, state.down_quarks_miner - 1) * 10);
+                return Math.floor(Math.pow(1.3, state.down_quarks_fluctuator - 1) * 10);
             },
 
             toggle: (state) => {
-                (state.toggle.down_quarks_miner)
+                (state.toggle.down_quarks_fluctuator)
                     ? state.toggle.down_quarks_miner=false
                     : state.toggle.down_quarks_miner=true;
 
                 return state;
             },
             onClick: (state) => {
-                state.down_quarks_miner++;
+                state.down_quarks_fluctuator++;
                 return state;
             },
             onTick: (state) => {
-                if (state.toggle.down_quarks_miner && state.down_quarks_miner >= 1) {
-                    state.down_quarks += Math.round(_.random(state.down_quarks_miner/3, state.down_quarks_miner));
+                if (state.toggle.down_quarks_fluctuator && state.down_quarks_fluctuator >= 1) {
+                    state.down_quarks += Math.round(_.random(state.down_quarks_fluctuator/3, state.down_quarks_fluctuator));
                 }
 
                 return state;
@@ -114,7 +115,7 @@ automators = {
                     down_quarks: Math.floor(Math.pow(1.5, state.protons_miner - 1) * 35),
                 };
             },
-            locked: (state) => !state.up_quarks_miner,
+            locked: (state) => true,
 
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(1.5, state.protons_miner - 1) * 10);
@@ -132,8 +133,8 @@ automators = {
                 return state;
             },
             onTick: (state) => {
-                if (state.toggle.protons_miner && state.protons_miner >= 1) {
-                    state.protons += Math.round(_.random(0, state.protons_miner * 0.5));
+                if (state.toggle.protons_miner &&   state.protons_miner >= 1) {
+                    state.protons += _.random(0, state.protons_miner * 0.5);
                 }
                 return state;
             }
@@ -147,7 +148,7 @@ automators = {
                     down_quarks: Math.floor(Math.pow(1.5, state.neutrons_miner - 1) * 150)
                 };
             },
-            locked: (state) => !state.down_quarks_miner,
+            locked: (state) => true,
 
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(1.5, state.neutrons_miner - 1) * 10);
@@ -180,7 +181,7 @@ automators = {
                     nitrogen: Math.floor(Math.pow(1.3, state.neutrons_miner - 1) * 150)
                 };
             },
-            locked: (state) => !state.achievements.includes('nitrogen'),
+            locked: (state) => true,
             toggle: (state) => {
                 (state.toggle.neutrons_miner)
                     ? state.toggle.neutrons_miner=false
@@ -212,10 +213,9 @@ automators = {
                     photons: Math.floor(Math.pow(1.09, state.hydrogen_miner - 1) * 35)
                 };
             },
-            locked: (state) => !state.achievements.includes('hydrogen'),
+            locked: (state) => true,
 
             temperature_effect: (state) => {
-                console.log(Math.floor(Math.pow(2.5, state.hydrogen_miner - 1) * 10));
                 return Math.floor(Math.pow(2.09, state.hydrogen_miner - 1) * 10);
             },
             toggle: (state) => {
@@ -246,11 +246,12 @@ automators = {
                     electrons: Math.floor(Math.pow(1.6, state.helium_miner - 1) * 10),
                     protons: Math.floor(Math.pow(1.5, state.helium_miner - 1) * 5),
                     neutrons: Math.floor(Math.pow(1.5, state.helium_miner - 1) * 17.5),
-                    photons: Math.floor(Math.pow(1.2, state.helium_miner - 1) * 35)
+                    photons: Math.floor(Math.pow(1.2, state.helium_miner - 1) * 35),
+                    beryllium: Math.floor(Math.pow(1.1, state.helium_miner - 1) * 5)
 
                 };
             },
-            locked: (state) => !state.achievements.includes('hydrogen'),
+            locked: (state) => true,
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(2.2, state.helium_miner - 1) * 10);
             },
@@ -286,7 +287,7 @@ automators = {
                     H2: Math.floor(Math.pow(1.5, state.neutrons_miner - 1) * 5)
                 };
             },
-            locked: (state) => !state.achievements.includes('H2'),
+            locked: (state) => false,
             toggle: (state) => {
                 (state.toggle.H2_converter)
                     ? state.toggle.H2_converter=false

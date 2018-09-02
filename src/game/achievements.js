@@ -9,9 +9,11 @@ let propName = function(prop, value){
 
 let checkAchievement = function(state,resource){
     if(!state.achievements.includes(propName(state, resource))){
-        resource > 0.99
+        (resource > 0.99)
             ? state.achievements.push(propName(state, resource))
-            : false
+            && state.chat.unshift({header: "Achievement:",
+                text: "You've explored " + propName(state, resource)})
+    : false
     }
 };
 
@@ -22,7 +24,7 @@ export const achievements = {
         rank: 'bronze',
         type: 'breakthrough',
         name: 'Rising Star',
-        text: 'Grow a couple of stars in your galaxy to get it started',
-        rule: (state) => {return state.stars.length === 4}
+        text: 'Grow a star in your galaxy to get it started',
+        rule: (state) => {return state.stars.length === 1}
     }
 };
