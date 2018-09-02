@@ -12,6 +12,7 @@ import './css/App.css';
 import {game_name} from './game/app_config';
 import {getDefaultState} from './game/default_state';
 import {tick} from './game/tick';
+import {rules} from './game/rules';
 import {data, info} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
@@ -572,11 +573,6 @@ class App extends Component {
                                     <OverlayTrigger delay={150} placement="top"
                                                     overlay={tooltip(this.state, item)}>
                                         <div>
-                                            { (item.toggle && state[key] > 0)
-                                                ?
-                                                <button className={state.toggle[key] ? 'switchOn' : ''}
-                                                        onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
-                                                : ''}
                                             <button
                                                 className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
                                                 onClick={() => {
@@ -584,6 +580,11 @@ class App extends Component {
                                                 }}>
                                                 {state[key] > 0 ? 'Upgrade' : 'Buy'}
                                             </button>
+                                            { (item.toggle && state[key] > 0)
+                                                ?
+                                                <button className={state.toggle[key] ? 'switchOn' : ''}
+                                                        onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
+                                                : ''}
                                         </div>
                                     </OverlayTrigger>
                                 </div>
@@ -632,35 +633,6 @@ class App extends Component {
                         </div> : ''}
                 </div>
             </div>;
-        /*
-
-        const research_subcomponent =
-            <div className="flex-element">
-                <h3>Research</h3>
-                <img alt="" className="overlay" src={"./img/upgrades.png"}/>
-
-                {_.map(oneclickers, (item, key) =>
-                    (item.locked && item.locked(this.state))
-                        ? ''
-                        :
-                        <div key={key}>
-                            <OverlayTrigger delay={150} placement="right" overlay={tooltip(this.state, item)}>
-                                {this.state[key]
-                                    ? <span className="badge">{item.name}</span>
-                                    :
-                                    <button id={key} key={key}
-                                            className={(item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
-                                            onClick={() => {
-                                                this.onClickWrapper(item);
-                                            }}>
-                                        {item.name}
-                                    </button>}
-
-                            </OverlayTrigger>
-                        </div>
-                )}
-            </div>;
-            */
 
         const planets_subcomponent =
             <div className="flex-element">
@@ -699,6 +671,17 @@ class App extends Component {
                     )}
                 </div>
             </div>;
+
+        const rules_subcomponent =
+        <div className="flex-container-column">
+            <h3>Rules</h3>
+            {_.map(rules, (item, key) => (item.locked && item.locked(this.state))
+                ? ''
+                :
+                <div className="flex-element panel" key={key} style={{color: 'black'}}>
+                    <p>{item.name} {item.text}</p>
+                </div>  )}
+        </div>;
 
         const object_drawer = (obj) =>
         <div>
@@ -839,9 +822,7 @@ class App extends Component {
 
 
                         <div className="flex-element">
-                            <div className="flex-container-column">
-                                <h3>Rules</h3>
-                            </div>
+                            {rules_subcomponent}
                         </div>
 
                     </div>

@@ -3,12 +3,13 @@ import _ from 'lodash';
 
 const default_state = {
 
-    strings: 420000,
+    strings: Math.pow(2, 42),
     gluons: 0,
     up_quarks: 0,
     down_quarks: 0,
     photons: 0,
     electrons: 0,
+    neutrino: 0,
 
     protons: 0,
     neutrons: 0,
@@ -20,8 +21,8 @@ const default_state = {
     nitrogen: 0,
     silicium: 0,
 
-    H2: 10000,
-    He2: 1000,
+    H2: 0,
+    He2: 0,
     N2: 0,
     C2: 0,
 
@@ -41,6 +42,7 @@ const default_state = {
     up_quarks_clicker: 0,
     down_quarks_clicker: 0,
     electrons_clicker: 0,
+    neutrino_clicker: 0,
 
     gluons_fluctuator: 0,
     up_quarks_fluctuator: 0,
@@ -59,19 +61,19 @@ const default_state = {
     temperature_converter: 0,
 
     toggle: {
-        gluons_fluctuator: false,
-        up_quarks_fluctuator: false,
-        down_quarks_fluctuator: false,
-        photons_fluctuator: false,
-        electrons_fluctuator: false,
-        protons_miner: false,
-        neutrons_miner: false,
-        electrons_miner: false,
-        hydrogen_miner: false,
-        helium_miner: false,
+        gluons_fluctuator: true,
+        up_quarks_fluctuator: true,
+        down_quarks_fluctuator: true,
+        photons_fluctuator: true,
+        electrons_fluctuator: true,
+        protons_miner: true,
+        neutrons_miner: true,
+        electrons_miner: true,
+        hydrogen_miner: true,
+        helium_miner: true,
 
-        H2_converter: false,
-        temperature_converter: false,
+        H2_converter: true,
+        temperature_converter: true,
     },
 
 
@@ -94,12 +96,13 @@ const default_state = {
 
     chat: [],
 
+    /*
     universe: [
-        {name: 'Galaxy 1', mater: {'H2': 16200000, 'He2': 4200000}, systems: [
-            {name: 'System 1', mater: {'H2': 1620000, 'He2': 420000},
+        {name: 'Galaxy 1', mater: {'H2': 1620000, 'He2': 420000}, systems: [
+            {name: 'System 1', mater: {'H2': 162000, 'He2': 42000},
                 stars: [
-                    {name: 'Star 1', mater: {'H2': 162000, 'He2': 42000}},
-                    {name: 'Star 2', mater: {'H2': 16200, 'He2': 4200}},
+                    {name: 'Star 1', mater: {'H2': 16200, 'He2': 4200}},
+                    {name: 'Star 2', mater: {'H2': 1620, 'He2': 420}},
                 ],
                 planets: [
                     {name: 'Planet 1', mater: {'carbon': 162, 'nitrogen': 42}},
@@ -107,9 +110,11 @@ const default_state = {
                 ]
             }
         ]},
-        {name: 'Galaxy 2', mater: {'H2': 16200000, 'He2': 4200000}, systems: []}
+        {name: 'Galaxy 2', mater: {'H2': 16200, 'He2': 4200}, systems: []}
     ],
+    */
 
+    universe: [],
     selected_galaxy: null,
     selected_system: null,
     selected_star: null,

@@ -18,7 +18,7 @@ export const tick = (state) => {
    // console.log(state);
 
     _.each(rules, (item) => {
-        if (item.onTick && (!item.condition || item.condition(state) === true)) state = item.onTick(state);
+        if (item.onTick && (!item.locked || item.locked(state) === false)) state = item.onTick(state);
     });
 
   //  console.log(state);

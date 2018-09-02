@@ -76,6 +76,18 @@ export const clickers = {
             }
         },
 
+        neutrino_clicker: {
+            name: 'Generate Neutrino',
+            resource: 'neutrino',
+            cost: {strings: 1},
+            text: 'A neutrino is a fermion that interacts only via the weak subatomic force and gravity. The mass of the neutrino is much smaller than that of the other known elementary particles.',
+            locked: (state) => state.temperature>Math.pow(10, 10),
+            onClick: (state) => {
+                state.neutrino++;
+                return state;
+            }
+        },
+
         protons_clicker: {
             name: 'Gain Proton',
             resource: 'protons',
