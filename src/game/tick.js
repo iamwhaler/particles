@@ -14,14 +14,10 @@ export const tick = (state) => {
     _.each(fluctuators.converters, (item) => {
         if (item.onTick) state = item.onTick(state);
     });
-
-   // console.log(state);
-
+    
     _.each(rules, (item) => {
         if (item.onTick && (!item.locked || item.locked(state) === false)) state = item.onTick(state);
     });
-
-  //  console.log(state);
 
     _.each(oneclickers, (item) => {
         if (item.onTick) state = item.onTick(state);
