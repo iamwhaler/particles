@@ -423,7 +423,7 @@ class App extends Component {
                                                         overlay={tooltip(this.state, item)}>
                                             <div>
                                                 <button className="info">
-                                                    I
+                                                    i
                                                 </button>
                                             </div>
                                         </OverlayTrigger>
@@ -632,6 +632,7 @@ class App extends Component {
                         </div> : ''}
                 </div>
             </div>;
+        /*
 
         const research_subcomponent =
             <div className="flex-element">
@@ -659,6 +660,7 @@ class App extends Component {
                         </div>
                 )}
             </div>;
+            */
 
         const planets_subcomponent =
             <div className="flex-element">
@@ -702,7 +704,13 @@ class App extends Component {
         <div>
             <h3> Object </h3>
             <div className="panel" style={{color: 'black'}}>
-                <p>{obj.name}</p>
+                <h4> {obj.name} </h4>
+                <p>
+                    {state.selected_galaxy !== null ? state.universe[state.selected_galaxy].name : ''} {state.selected_system !== null ? state.universe[state.selected_galaxy].systems[state.selected_system].name : ''}
+                </p>
+                <p>
+                    {this.drawCost(obj.mater)}
+                </p>
             </div>
         </div>;
 
@@ -725,7 +733,6 @@ class App extends Component {
                             <h3> Universe </h3>
                             {_.map(state.universe, (galaxy, key) =>
                                 <div onClick={() => {
-                                    console.log('click', galaxy, key);
                                     let state = this.state;
                                     state.selected_galaxy = key;
                                     state.selected_system = null;
