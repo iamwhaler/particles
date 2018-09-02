@@ -15,10 +15,13 @@ export const tick = (state) => {
         if (item.onTick) state = item.onTick(state);
     });
 
+   // console.log(state);
 
     _.each(rules, (item) => {
-        if (item.onTick) state = item.onTick(state);
+        if (item.onTick && (!item.condition || item.condition(state) === true)) state = item.onTick(state);
     });
+
+  //  console.log(state);
 
     _.each(oneclickers, (item) => {
         if (item.onTick) state = item.onTick(state);

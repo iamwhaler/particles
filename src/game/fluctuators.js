@@ -12,31 +12,30 @@ fluctuators = {
             name: 'Strings Fluctuator',
             text: 'Generates strings once in a tick',
             cost: (state) => {
-                return {strings: Math.floor(Math.pow(1.2, state.strings_fluctuator - 1) * 20)};
+                return {gluons: Math.floor(Math.pow(1.3, state.gluons_fluctuator - 1) * 10),
+                    strings: Math.floor(Math.pow(1.2, state.gluons_fluctuator - 1) * 15)};
             },
+            locked: (state) => state.temperature>Math.pow(10, 21),
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.109, state.strings_fluctuator - 1) * 10);
+                return Math.floor(Math.pow(1.19, state.gluons_fluctuator - 1) * 12);
             },
 
-            locked: (state) => true,
-
             toggle: (state) => {
-                (state.toggle.strings_fluctuator)
-                 ? state.toggle.strings_miner=false
-                     : state.toggle.strings_miner=true;
+                (state.toggle.gluons_fluctuator)
+                    ? state.toggle.gluons_fluctuator=false
+                    : state.toggle.gluons_fluctuator=true;
 
                 return state;
             },
 
             onClick: (state) => {
-                state.strings_fluctuator++;
+                state.gluons_fluctuator++;
                 return state;
             },
-
             onTick: (state) => {
-                if(state.toggle.strings_fluctuator) {
-                    state.strings += _.random(state.strings_fluctuator / 3, state.strings_fluctuator);
+                if(state.toggle.gluons_fluctuator) {
+                    state.gluons += Math.round(_.random(state.gluons_fluctuator/4 , state.gluons_fluctuator));
                 }
                 return state;
             }
@@ -49,7 +48,7 @@ fluctuators = {
                 return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_fluctuator - 1) * 20),
                     strings: Math.floor(Math.pow(1.2, state.up_quarks_fluctuator - 1) * 15)};
             },
-            locked: (state) => !state.strings_fluctuator,
+            locked: (state) => state.temperature>Math.pow(10, 27),
 
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(1.19, state.up_quarks_fluctuator - 1) * 12);
@@ -57,8 +56,8 @@ fluctuators = {
 
             toggle: (state) => {
                 (state.toggle.up_quarks_fluctuator)
-                    ? state.toggle.up_quarks_miner=false
-                    : state.toggle.up_quarks_miner=true;
+                    ? state.toggle.up_quarks_fluctuator=false
+                    : state.toggle.up_quarks_fluctuator=true;
 
                 return state;
             },
@@ -81,7 +80,7 @@ fluctuators = {
             cost: (state) => {
                 return {down_quarks: Math.floor(Math.pow(1.4, state.down_quarks_fluctuator - 1) * 20)};
             },
-            locked: (state) => !state.strings_fluctuator,
+            locked: (state) => state.temperature>Math.pow(10, 27),
 
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(1.3, state.down_quarks_fluctuator - 1) * 10);
@@ -89,8 +88,8 @@ fluctuators = {
 
             toggle: (state) => {
                 (state.toggle.down_quarks_fluctuator)
-                    ? state.toggle.down_quarks_miner=false
-                    : state.toggle.down_quarks_miner=true;
+                    ? state.toggle.down_quarks_fluctuator=false
+                    : state.toggle.down_quarks_fluctuator=true;
 
                 return state;
             },
@@ -173,29 +172,57 @@ fluctuators = {
             }
         },
 
-        electrons_miner: {
+        electrons_fluctuator: {
             name: 'Electrons Miner',
             cost: (state) => {
                 return {
-                    carbon: Math.floor(Math.pow(1.3, state.neutrons_miner - 1) * 90),
-                    nitrogen: Math.floor(Math.pow(1.3, state.neutrons_miner - 1) * 150)
+                    electrons: Math.floor(Math.pow(1.3, state.electrons_fluctuator - 1) * 90),
+                    strings: Math.floor(Math.pow(1.3, state.electrons_fluctuator - 1) * 150)
                 };
             },
-            locked: (state) => true,
+            locked: (state) => state.temperature>Math.pow(10, 27),
             toggle: (state) => {
-                (state.toggle.neutrons_miner)
-                    ? state.toggle.neutrons_miner=false
-                    : state.toggle.neutrons_miner=true;
+                (state.toggle.electrons_fluctuator)
+                    ? state.toggle.electrons_fluctuator=false
+                    : state.toggle.electrons_fluctuator=true;
 
                 return state;
             },
             onClick: (state) => {
-                state.neutrons_miner++;
+                state.electrons_fluctuator++;
                 return state;
             },
             onTick: (state) => {
-                if (state.toggle.neutrons_miner && state.neutrons_miner >= 1) {
-                    state.neutrons += Math.round(_.random(state.neutrons_miner * 0.5, state.neutrons_miner));
+                if (state.toggle.electrons_fluctuator && state.electrons_fluctuator >= 1) {
+                    state.electrons += Math.round(_.random(state.electrons_fluctuator * 0.5, state.electrons_fluctuator));
+                }
+                return state;
+            }
+        },
+
+        photons_fluctuator: {
+            name: 'Electrons Miner',
+            cost: (state) => {
+                return {
+                    photons: Math.floor(Math.pow(1.3, state.photons_fluctuator - 1) * 90),
+                    strings: Math.floor(Math.pow(1.3, state.photons_fluctuator - 1) * 150)
+                };
+            },
+            locked: (state) => state.temperature>Math.pow(10, 21),
+            toggle: (state) => {
+                (state.toggle.photons_fluctuator)
+                    ? state.toggle.photons_fluctuator=false
+                    : state.toggle.photons_fluctuator=true;
+
+                return state;
+            },
+            onClick: (state) => {
+                state.photons_fluctuator++;
+                return state;
+            },
+            onTick: (state) => {
+                if (state.toggle.photons_fluctuator && state.photons_fluctuator >= 1) {
+                    state.photons += Math.round(_.random(state.photons_fluctuator * 0.5, state.photons_fluctuator));
                 }
                 return state;
             }

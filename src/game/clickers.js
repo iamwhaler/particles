@@ -10,9 +10,9 @@ export const clickers = {
             resource: 'strings',
             text: 'String is one-dimensional extended objects',
             cost: false,
-            locked: (state) => state.temperature>Math.pow(10, 6),
+            locked: (state) => false,
             onClick: (state) => {
-                state.strings++;
+                //state.strings++;
                 return state;
             }
         },
@@ -22,7 +22,7 @@ export const clickers = {
             resource: 'gluons',
             text: 'Gluon allows to connect quarks between each other',
             cost: {strings: 1, tick: 1},
-            locked: (state) => state.temperature>Math.pow(10, 4),
+            locked: (state) => state.temperature>Math.pow(10, 27),
             onClick: (state) => {
                 state.gluons++;
                 return state;
@@ -34,7 +34,7 @@ export const clickers = {
             resource: 'up_quarks',
             cost: {strings: 1},
             text: 'The lightest of all quarks, forms protons and neutrons',
-            locked: (state) => state.temperature>Math.pow(10, 4),
+            locked: (state) => state.temperature>Math.pow(10, 27),
             onClick: (state) => {
                 state.up_quarks++;
                 return state;
@@ -45,21 +45,9 @@ export const clickers = {
             resource: 'down_quarks',
             cost: {strings: 1},
             text: 'The second-lightest all quarks, forms protons and neutrons',
-            locked: (state) => state.temperature>Math.pow(10, 4),
+            locked: (state) => state.temperature>Math.pow(10, 27),
             onClick: (state) => {
                 state.down_quarks++;
-                return state;
-            }
-        },
-
-        photons_clicker: {
-            name: 'Generate Photon',
-            resource: 'photons',
-            cost: {strings: 1},
-            text: 'The photon is a type of elementary particle, the quantum of the electromagnetic field including electromagnetic radiation such as light, and the force carrier for the electromagnetic force',
-            locked: (state) => false,
-            onClick: (state) => {
-                state.photons++;
                 return state;
             }
         },
@@ -69,9 +57,21 @@ export const clickers = {
             resource: 'electrons',
             text: 'Elementary particle, orbits the nuclei of atom',
             cost: {strings: 1},
-            locked: (state) =>  !state.achievements.includes('up_quarks'),
+            locked: (state) => state.temperature>Math.pow(10, 27),
             onClick: (state) => {
                 state.electrons++;
+                return state;
+            }
+        },
+
+        photons_clicker: {
+            name: 'Generate Photon',
+            resource: 'photons',
+            cost: {strings: 1},
+            text: 'The photon is a type of elementary particle, the quantum of the electromagnetic field including electromagnetic radiation such as light, and the force carrier for the electromagnetic force',
+            locked: (state) => state.temperature>Math.pow(10, 21),
+            onClick: (state) => {
+                state.photons++;
                 return state;
             }
         },
