@@ -7,7 +7,7 @@ import toastr from "toastr";
 export let fluctuators = {};
 
 fluctuators = {
-    miners: {
+    fluctuators: {
         strings_fluctuator: {
             name: 'Strings Fluctuator',
             text: 'Generates strings once in a tick',
@@ -232,43 +232,6 @@ fluctuators = {
             onTick: (state) => {
                 if (state.toggle.hydrogen_miner && state.hydrogen_miner >= 1) {
                     state.hydrogen += Math.round(_.random(1, state.hydrogen_miner / 3.14));
-                }
-                return state;
-
-            }
-        },
-
-        helium_miner: {
-            name: 'Helium Miner',
-            text: 'The only way to get Helium in this Universe.',
-            cost: (state) => {
-                return {
-                    electrons: Math.floor(Math.pow(1.6, state.helium_miner - 1) * 10),
-                    protons: Math.floor(Math.pow(1.5, state.helium_miner - 1) * 5),
-                    neutrons: Math.floor(Math.pow(1.5, state.helium_miner - 1) * 17.5),
-                    photons: Math.floor(Math.pow(1.2, state.helium_miner - 1) * 35),
-                    beryllium: Math.floor(Math.pow(1.1, state.helium_miner - 1) * 5)
-
-                };
-            },
-            locked: (state) => true,
-            temperature_effect: (state) => {
-                return Math.floor(Math.pow(2.2, state.helium_miner - 1) * 10);
-            },
-            toggle: (state) => {
-                (state.toggle.helium_miner)
-                    ? state.toggle.helium_miner=false
-                    : state.toggle.helium_miner=true;
-
-                return state;
-            },
-            onClick: (state) => {
-                state.helium_miner++;
-                return state;
-            },
-            onTick: (state) => {
-                if (state.toggle.helium_miner && state.helium_miner >= 1) {
-                    state.helium += Math.round(_.random(1, state.helium_miner / 3.33));
                 }
                 return state;
 

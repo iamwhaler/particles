@@ -18,7 +18,7 @@ export const rules = {
 
     temperature_effect_tule: {
         onTick: (state) => {
-            _.map(fluctuators.miners, (value, resource_key) =>
+            _.map(fluctuators.fluctuators, (value, resource_key) =>
                 value.temperature_effect && state.toggle[resource_key] ? state.temperature += value.temperature_effect(state)
                     : false);
             return state
@@ -88,22 +88,10 @@ export const rules = {
         }
     },
 
-    up_quarks_rule: {
-        onTick: (state) => {
-            if (state.fluctuating) {
-                if (state.strings > 4 && _.random(1, 2) === 1) {
-                    state.strings -= 4;
-                    state.up_quarks++;
-                }
-            }
-            return state;
-        }
-    },
-
 
     H2_rule: {
         onTick: (state) => {
-            if (state.hydrogen >= 10) {
+            if (state.hydrogen >= 5) {
                 state.H2 += 1;
                 state.hydrogen -= 2;
             }
