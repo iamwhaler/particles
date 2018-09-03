@@ -89,8 +89,6 @@ const default_state = {
     achievements: [],
     universe_name: '',
     universe_size: 0,
-    expansion_index: 0,
-    wormhole_probability: 0,
 
     temperature: Math.pow(10, 32),
 
