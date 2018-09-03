@@ -493,10 +493,6 @@ class App extends Component {
                                 ? <div key={key} className="flex-element"></div>
                                 : <div key={key} className="flex-container-row automation">
                                 <div className="flex-element" style={{textAlign: 'left'}}>
-                                    {item.name}: {state[key]}
-                                </div>
-
-                                <div className="flex-element" style={{textAlign: 'left'}}>
                                     <OverlayTrigger delay={150} placement="top"
                                                     overlay={tooltip(this.state, item)}>
                                         <div>
@@ -505,7 +501,9 @@ class App extends Component {
                                                 onClick={() => {
                                                     this.onClickWrapper(item);
                                                 }}>
-                                                {state[key] > 0 ? 'Upgrade' : 'Buy'}
+                                                {state[key] > 0
+                                                    ? item.name + ': lvl ' + state[key]
+                                                    : item.name}
                                             </button>
                                             { (item.toggle && state[key] > 0)
                                                 ?
@@ -518,47 +516,6 @@ class App extends Component {
                             </div>
                         )}
                     </div>
-                    {state.achievements.includes("hydrogen_star")
-                        ?
-                        <div className="flex-element">
-                            {_.map(fluctuators.fluctuators, (item, key) =>
-
-                                (item.locked && item.locked(this.state))
-                                    ? ''
-                                    : <div key={key} className="flex-container-row automation">
-                                    <div className="flex-element">
-                                        <div className="col-sm-6"
-                                             style={{textAlign: "right"}}>
-                                            {item.name}: {state[key]}
-                                        </div>
-
-                                        <div className="col-sm-6" style={{textAlign: 'left'}}>
-
-                                            <OverlayTrigger delay={150} placement="top"
-                                                            overlay={tooltip(this.state, item)}>
-                                                <div>
-                                                    { (item.toggle && state[key] > 0)
-                                                        ?
-                                                        <button className={state.toggle[key] ? 'switchOn' : ''}
-                                                                onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
-                                                        : ''}
-
-                                                    <button
-                                                        className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
-                                                        onClick={() => {
-                                                            this.onClickWrapper(item);
-                                                        }}>
-                                                        {state[key] > 0 ? 'Upgrade' : 'Buy'}
-                                                    </button>
-                                                </div>
-
-                                            </OverlayTrigger>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            )}
-                        </div> : ''}
                 </div>
             </div>;
 

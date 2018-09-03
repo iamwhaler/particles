@@ -119,7 +119,7 @@ export const clickers = {
             name: 'Synth Hydrogen',
             resource: 'hydrogen',
             cost: {protons: 1, electrons: 1, photons: 1},
-            locked: (state) => state.protons < 1 && state.neutrons < 1 && state.electrons < 1,
+            locked: (state) => state.protons < 1 && state.electrons < 1 && state.photons < 2,
             onClick: (state) => {
                 state.hydrogen++;
                 return state;
@@ -131,7 +131,7 @@ export const clickers = {
             name: 'Synth Helium',
             resource: 'helium',
             cost: {protons: 2, neutrons: 2, electrons: 2, photons: 2},
-            locked: (state) => state.achievements.includes('Rising Star'),
+            locked: (state) => state.protons < 2 && state.neutrons < 2 && state.electrons < 2 && state.photons < 2,
             onClick: (state) => {
                 state.helium++;
                 return state;
@@ -142,7 +142,7 @@ export const clickers = {
             name: 'Synth Beryllium',
             resource: 'beryllium',
             cost: {protons: 4, electrons: 4, neutrons: 4, photons: 4},
-            locked: (state) => state.achievements.includes('hydrogen'),
+            locked: (state) => state.protons < 4 && state.neutrons < 4 && state.electrons < 4 && state.photons < 4,
             onClick: (state) => {
                 state.beryllium++;
                 return state;
@@ -153,7 +153,7 @@ export const clickers = {
             name: 'Synth Carbon',
             resource: 'carbon',
             cost: {protons: 6, neutrons: 6, electrons: 6, photons: 6},
-            locked: (state) => state.carbon<100,
+            locked: (state) => state.protons < 6 && state.neutrons < 6 && state.electrons < 6 && state.photons < 6,
             onClick: (state) => {
                 state.carbon++;
                 return state;
@@ -164,7 +164,29 @@ export const clickers = {
             name: 'Synth Nitrogen',
             resource: 'nitrogen',
             cost: {protons: 7, neutrons: 7, electrons: 7, photons: 7},
-            locked: (state) => state.nitrogen<50,
+            locked: (state) => state.protons < 7 && state.neutrons < 7 && state.electrons < 7 && state.photons < 7,
+            onClick: (state) => {
+                state.nitrogen++;
+                return state;
+            }
+        },
+
+        silicon_clicker: {
+            name: 'Synth Silicon',
+            resource: 'silicon',
+            cost: {protons: 7, neutrons: 7, electrons: 7, photons: 7},
+            locked: (state) => state.protons < 7 && state.neutrons < 7 && state.electrons < 7 && state.photons < 7,
+            onClick: (state) => {
+                state.nitrogen++;
+                return state;
+            }
+        },
+
+        neon_clicker: {
+            name: 'Synth Neon',
+            resource: 'neon',
+            cost: {protons: 5, neutrons: 5, electrons: 5, photons: 5},
+            locked: (state) => state.protons < 5 && state.neutrons < 5 && state.electrons < 5 && state.photons < 5,
             onClick: (state) => {
                 state.nitrogen++;
                 return state;

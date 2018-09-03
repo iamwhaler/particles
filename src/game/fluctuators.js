@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import toastr from "toastr";
 // import toastr from "toastr";
 
 // onClick effect costs item.cost
@@ -72,7 +71,6 @@ fluctuators = {
                 return state;
             }
         },
-
 
         photons_fluctuator: {
             name: 'Photons Miner',

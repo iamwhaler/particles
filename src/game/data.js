@@ -17,8 +17,10 @@ export const data = {
         beryllium: {name: 'Beryllium', locked: (state) => clickers.atoms.beryllium_clicker.locked(state)},
         hydrogen: {name: 'Hydrogen', locked: (state) => clickers.atoms.hydrogen_clicker.locked(state)},
         helium: {name: 'Helium', locked: (state) => clickers.atoms.helium_clicker.locked(state)},
-        carbon: {name: 'Carbon', locked: (state) => state.carbon<10},
-        nitrogen: {name: 'Nitrogen', locked: (state) => state.nitrogen<15}
+        carbon: {name: 'Carbon', locked: (state) => clickers.atoms.carbon_clicker.locked(state)},
+        nitrogen: {name: 'Nitrogen', locked: (state) => clickers.atoms.nitrogen_clicker.locked(state)},
+        silicon: {name: 'Silicon', locked: (state) => clickers.atoms.silicon_clicker.locked(state)},
+        neon: {name: 'Neon', locked: (state) => clickers.atoms.neon_clicker.locked(state)},
 
     },
 
@@ -27,12 +29,6 @@ export const data = {
         He2: {name: 'He2', locked: (state) => !state.achievements.includes('helium')},
         N2: {name: 'N2', locked: (state) => !state.achievements.includes('nitrogen')},
         C2: {name: 'C2', locked: (state) => !state.achievements.includes('carbon')}
-    },
-
-    stars: {
-        hydrogen_stars: {name: 'Hydrogen'},
-        helium_stars: {name: 'Helium'},
-        carbon_stars: {name: 'Carbon'}
     }
 };
 

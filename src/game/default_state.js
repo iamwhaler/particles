@@ -19,7 +19,8 @@ const default_state = {
     helium: 0,
     carbon: 0,
     nitrogen: 0,
-    silicium: 0,
+    neon: 0,
+    silicon: 0,
 
     H2: 0,
     He2: 0,
