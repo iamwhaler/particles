@@ -178,7 +178,7 @@ export const clickers = {
             cost: false,
             isLocked: (state) => state.black_hole.length<1,
             onClick: (state) => {
-                confirm('Do you really want to retrieve your stars from the black hole? Your other progress will be lost').then(
+                confirm('Do you really want to retrieve your stars from the black hole? Your progress will be lost').then(
 
                     () => {
                         let saved_stars = _.cloneDeep(state.black_hole);

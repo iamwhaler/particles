@@ -488,7 +488,7 @@ class App extends Component {
                      style={{width: '25px', height: '25px'}}/>
                 <div className="flex-container-row info-block">
                     <div className="flex-element">
-                        {_.map(fluctuators.miners, (item, key) =>
+                        {_.map(fluctuators.fluctuators, (item, key) =>
                             (item.locked && item.locked(this.state))
                                 ? <div key={key} className="flex-element"></div>
                                 : <div key={key} className="flex-container-row automation">
