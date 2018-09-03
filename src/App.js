@@ -11,7 +11,7 @@ import {game_name} from './game/app_config';
 import {getDefaultState} from './game/default_state';
 import {tick} from './game/tick';
 import {rules} from './game/rules';
-import {data, info} from './game/data';
+import {data, info, wiki} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {fluctuators} from './game/fluctuators';
@@ -264,13 +264,15 @@ class App extends Component {
             <Tooltip id="tooltip">
                 <div>
                     <div className="flex-container-row">
-                        <div className="flex-element">
-                            <span>{item.name}</span>
-                            <br/>
-                            {(!item.text)
-                                ? ''
-                                :
-                                <span style={{fontSize: '11px'}}> {item.text ? item.text : ''}</span>}
+                        <div className="flex-container-row">
+                            <div className="flex-element">
+                                <span>{item.name}</span>
+                                <br/>
+                                {(!item.text)
+                                    ? ''
+                                    :
+                                    <span style={{fontSize: '11px'}}>{item.text}</span>}
+                            </div>
                         </div>
                     </div>
 
@@ -299,9 +301,17 @@ class App extends Component {
                         </div>
                         : ''
                     }
+
+                    <div className="flex-container-row">
+                        <div className="flex-element">
+                        </div>
+                        <div className="flex-element">
+                        </div>
+                        <div className="flex-element">
+                            <a target="_blank" href={wiki[item.resource]}>Wiki</a>
+                        </div>
+                    </div>
                 </div>
-
-
             </Tooltip>;
 
         const time_subcomponent =
@@ -396,7 +406,7 @@ class App extends Component {
                                     :
                                     <div>
                                         <OverlayTrigger delay={150} placement="right"
-                                                        overlay={tooltip(this.state, item)}>
+                                                        overlay={tooltip(this.state, item)} trigger="focus">
                                             <div>
                                                 <button className="info">
                                                     i

@@ -14,7 +14,6 @@ const default_state = {
     protons: 0,
     neutrons: 0,
 
-    beryllium: 0,
     hydrogen: 0,
     helium: 0,
     carbon: 0,

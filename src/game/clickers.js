@@ -138,16 +138,6 @@ export const clickers = {
             }
         },
 
-        beryllium_clicker: {
-            name: 'Synth Beryllium',
-            resource: 'beryllium',
-            cost: {protons: 4, electrons: 4, neutrons: 4, photons: 4},
-            locked: (state) => state.protons < 4 && state.neutrons < 4 && state.electrons < 4 && state.photons < 4,
-            onClick: (state) => {
-                state.beryllium++;
-                return state;
-            }
-        },
 
         carbon_clicker: {
             name: 'Synth Carbon',

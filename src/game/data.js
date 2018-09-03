@@ -48,5 +48,28 @@ export const info = {
     simple_molecules: {
         name: 'Simple molecules',
         info: 'Molecules will form stars and other objects in your universe. Mining of them will result in huge temperature raise'
-    }
+    },
 };
+
+export const wiki = {
+    strings:  'https://en.wikipedia.org/wiki/String_(physics)',
+    gluons: 'https://en.wikipedia.org/wiki/Gluon',
+
+    up_quarks: 'https://en.wikipedia.org/wiki/Up_quark',
+    down_quarks: 'https://en.wikipedia.org/wiki/Down_quark',
+    photons: 'https://en.wikipedia.org/wiki/Photon',
+    electrons: 'https://en.wikipedia.org/wiki/Electron',
+    neutrino: 'https://en.wikipedia.org/wiki/Neutrino',
+
+    protons: 'https://en.wikipedia.org/wiki/Proton',
+    neutrons: 'https://en.wikipedia.org/wiki/Neutron',
+
+    hydrogen: 0,
+    helium: 0,
+    carbon: 0,
+    oxygen: 0,
+    nitrogen: 0,
+    ferrum: 0,
+    neon: 0,
+    silicon: 0,
+}
