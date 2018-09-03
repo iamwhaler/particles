@@ -18,8 +18,10 @@ export const data = {
         hydrogen: {name: 'Hydrogen', locked: (state) => clickers.atoms.hydrogen_clicker.locked(state)},
         helium: {name: 'Helium', locked: (state) => clickers.atoms.helium_clicker.locked(state)},
         carbon: {name: 'Carbon', locked: (state) => clickers.atoms.carbon_clicker.locked(state)},
+        oxygen: {name: 'Oxygen', locked: (state) => clickers.atoms.oxygen_clicker.locked(state)},
         nitrogen: {name: 'Nitrogen', locked: (state) => clickers.atoms.nitrogen_clicker.locked(state)},
         silicon: {name: 'Silicon', locked: (state) => clickers.atoms.silicon_clicker.locked(state)},
+        ferrum: {name: 'Ferrum', locked: (state) => clickers.atoms.ferrum_clicker.locked(state)},
         neon: {name: 'Neon', locked: (state) => clickers.atoms.neon_clicker.locked(state)},
 
     },

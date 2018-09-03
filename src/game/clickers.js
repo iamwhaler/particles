@@ -160,6 +160,17 @@ export const clickers = {
             }
         },
 
+        oxygen_clicker: {
+            name: 'Synth Oxygen',
+            resource: 'oxygen',
+            cost: {protons: 8, neutrons: 8, electrons: 8, photons: 8},
+            locked: (state) => state.protons < 8 && state.neutrons < 8 && state.electrons < 8 && state.photons < 8,
+            onClick: (state) => {
+                state.oxygen++;
+                return state;
+            }
+        },
+
         nitrogen_clicker: {
             name: 'Synth Nitrogen',
             resource: 'nitrogen',
@@ -177,7 +188,18 @@ export const clickers = {
             cost: {protons: 7, neutrons: 7, electrons: 7, photons: 7},
             locked: (state) => state.protons < 7 && state.neutrons < 7 && state.electrons < 7 && state.photons < 7,
             onClick: (state) => {
-                state.nitrogen++;
+                state.silicon++;
+                return state;
+            }
+        },
+
+        ferrum_clicker: {
+            name: 'Synth Ferrum',
+            resource: 'ferrum',
+            cost: {protons: 13, neutrons: 13, electrons: 13, photons: 13},
+            locked: (state) => state.protons < 13 && state.neutrons < 13 && state.electrons < 13 && state.photons < 13,
+            onClick: (state) => {
+                state.ferrum++;
                 return state;
             }
         },
@@ -188,7 +210,7 @@ export const clickers = {
             cost: {protons: 5, neutrons: 5, electrons: 5, photons: 5},
             locked: (state) => state.protons < 5 && state.neutrons < 5 && state.electrons < 5 && state.photons < 5,
             onClick: (state) => {
-                state.nitrogen++;
+                state.neon++;
                 return state;
             }
         },

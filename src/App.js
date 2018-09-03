@@ -490,7 +490,7 @@ class App extends Component {
                     <div className="flex-element">
                         {_.map(fluctuators.fluctuators, (item, key) =>
                             (item.locked && item.locked(this.state))
-                                ? <div key={key} className="flex-element"></div>
+                                ? <div key={key} className="flex-element"> </div>
                                 : <div key={key} className="flex-container-row automation">
                                 <div className="flex-element" style={{textAlign: 'left'}}>
                                     <OverlayTrigger delay={150} placement="top"
