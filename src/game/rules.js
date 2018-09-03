@@ -118,6 +118,26 @@ export const rules = {
         }
     },
 
+    triple_alpha_process: { name: 'Triple-alpha process', text: 'Rule Text',
+        locked: state => state.universe.length === 0,
+        onTick: state => {
+            _.each(state.universe, (galaxy, galaxy_key) =>  {
+                _.each(galaxy.systems, (system, system_key) => {
+                    _.each(system.stars, (star, star_key) => {
+                        if (star.mater.He2 > 3) {
+                            let carbon = Math.ceil(star.mater.He2 / 100);
+                            let He2 = carbon * 3;
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.He2 -= He2;
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.carbon += carbon;
+                            state.photons -= carbon * 2;
+                        }
+                    });
+                });
+            });
+            return state;
+        }
+    },
+
 
 
 };
