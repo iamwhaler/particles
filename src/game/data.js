@@ -28,7 +28,7 @@ export const data = {
 
     simple_molecules: {
         H2: {name: 'H2', locked: (state) => !state.achievements.includes('hydrogen')},
-        He2: {name: 'He2', locked: (state) => !state.achievements.includes('helium')},
+        He: {name: 'He', locked: (state) => !state.achievements.includes('helium')},
         N2: {name: 'N2', locked: (state) => !state.achievements.includes('nitrogen')},
         C2: {name: 'C2', locked: (state) => !state.achievements.includes('carbon')}
     }
@@ -72,4 +72,4 @@ export const wiki = {
     ferrum: 0,
     neon: 0,
     silicon: 0,
-}
+};

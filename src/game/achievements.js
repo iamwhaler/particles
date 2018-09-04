@@ -8,10 +8,9 @@ let propName = function(prop, value){
 };
 
 let checkAchievement = function(state,resource){
-    if(!state.achievements.includes(propName(state, resource)) && resource >= 1){
+    if(!state.achievements.includes(propName(state, resource) && resource >= 1)){
             state.achievements.push(propName(state, resource));
-            state.chat.unshift({header: "Achievement:",
-                text: "You've explored " + propName(state, resource)})
+            state.chat.unshift({header: "Achievement:", text: "You've explored " + propName(state, resource)})
     }
 };
 
