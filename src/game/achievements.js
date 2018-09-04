@@ -7,16 +7,6 @@ let propName = function(prop, value){
     return false;
 };
 
-let WRONG_checkAchievement = function(state,resource){
-    if(!state.achievements.includes(propName(state, resource))){
-        (resource > 0.99)
-            ? state.achievements.push(propName(state, resource))
-            && state.chat.unshift({header: "Achievement:",
-                text: "You've explored " + propName(state, resource)})
-    : false
-    }
-};
-
 let checkAchievement = function(state,resource){
     if(!state.achievements.includes(propName(state, resource) && resource >= 1)){
             state.achievements.push(propName(state, resource));
