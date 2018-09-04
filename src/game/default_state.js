@@ -24,7 +24,7 @@ const default_state = {
     silicon: 0,
 
     H2: 0,
-    He2: 0,
+    He: 0,
     N2: 0,
     C2: 0,
 
@@ -98,19 +98,19 @@ const default_state = {
 
     /*
     universe: [
-        {name: 'Galaxy 1', mater: {'H2': 1620000, 'He2': 420000}, systems: [
-            {name: 'System 1', mater: {'H2': 162000, 'He2': 42000},
+        {name: 'Galaxy 1', mater: {'H2': 1620000, 'He': 420000}, systems: [
+            {name: 'System 1', mater: {'H2': 162000, 'He': 42000},
                 stars: [
-                    {name: 'Star 1', mater: {'H2': 16200, 'He2': 4200}},
-                    {name: 'Star 2', mater: {'H2': 1620, 'He2': 420}},
+                    {name: 'Star 1', mater: {'H2': 16200, 'He': 4200}},
+                    {name: 'Star 2', mater: {'H2': 1620, 'He': 420}},
                 ],
                 planets: [
                     {name: 'Planet 1', mater: {'carbon': 162, 'nitrogen': 42}},
-                    {name: 'Planet 2', mater: {'H2': 1620, 'He2': 420}},
+                    {name: 'Planet 2', mater: {'H2': 1620, 'He': 420}},
                 ]
             }
         ]},
-        {name: 'Galaxy 2', mater: {'H2': 16200, 'He2': 4200}, systems: []}
+        {name: 'Galaxy 2', mater: {'H2': 16200, 'He': 4200}, systems: []}
     ],
     */
 

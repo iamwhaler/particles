@@ -31,7 +31,7 @@ export const old_rules = {
             checkAchievement(state, state.hydrogen);
             checkAchievement(state, state.helium);
             checkAchievement(state, state.H2);
-            checkAchievement(state, state.He2);
+            checkAchievement(state, state.He);
             checkAchievement(state, state.C2);
             checkAchievement(state, state.carbon);
             checkAchievement(state, state.nitrogen);
@@ -86,10 +86,10 @@ export const old_rules = {
         }
     },
 
-    He2_rule: {
+    He_rule: {
         onTick: (state) => {
             if(state.helium >= 5){
-                state.He2 += state.helium/10;
+                state.He += state.helium/10;
                 state.helium-= state.helium/5;
             }
             return state;
