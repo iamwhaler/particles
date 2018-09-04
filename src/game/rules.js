@@ -32,12 +32,12 @@ export const rules = {
     new_galaxy: { name: 'New Galaxy', text: 'Rule Text',
         locked: state => state.H2 === 0,
         onTick: state => {
-            if (_.random(1, 100) === 1 && weight({'H2': state.H2, 'He2': state.He2}) > 1000) {
+            if (_.random(1, 100) === 1 && weight({'H2': state.H2, 'He': state.He}) > 1000) {
                 let H2 = Math.ceil(Math.sqrt(state.H2));
-                let He2 = Math.ceil(Math.sqrt(state.He2));
+                let He = Math.ceil(Math.sqrt(state.He));
                 state.H2 -= H2;
-                state.He2 -= He2;
-                state.universe.push({name: 'Galaxy ' + (state.universe.length + 1), mater: {'H2': H2, 'He2': He2}, systems: []});
+                state.He -= He;
+                state.universe.push({name: 'Galaxy ' + (state.universe.length + 1), mater: {'H2': H2, 'He': He}, systems: []});
             }
             return state;
         }
@@ -48,12 +48,12 @@ export const rules = {
         onTick: state => {
             console.log(state.universe);
             _.each(state.universe, (galaxy, galaxy_key) =>  {
-                if (_.random(1, 100) === 1 && weight({'H2': galaxy.mater.H2, 'He2': galaxy.mater.He2}) > 100) {
+                if (_.random(1, 100) === 1 && weight({'H2': galaxy.mater.H2, 'He': galaxy.mater.He}) > 100) {
                     let H2 = Math.ceil(Math.sqrt(galaxy.mater.H2));
-                    let He2 = Math.ceil(Math.sqrt(galaxy.mater.He2));
+                    let He = Math.ceil(Math.sqrt(galaxy.mater.He));
                     state.universe[galaxy_key].mater.H2 -= H2;
-                    state.universe[galaxy_key].mater.He2 -= He2;
-                    state.universe[galaxy_key].systems.push({name: 'System ' + (galaxy.systems.length + 1), mater: {'H2': H2, 'He2': He2}, stars: [], planets: []});
+                    state.universe[galaxy_key].mater.He -= He;
+                    state.universe[galaxy_key].systems.push({name: 'System ' + (galaxy.systems.length + 1), mater: {'H2': H2, 'He': He}, stars: [], planets: []});
                 }
             });
             return state;
@@ -65,12 +65,12 @@ export const rules = {
         onTick: state => {
             _.each(state.universe, (galaxy, galaxy_key) =>  {
                 _.each(galaxy.systems, (system, system_key) => {
-                    if (_.random(1, 10) === 1 && weight({'H2': system.mater.H2, 'He2': system.mater.He2}) > 100) {
+                    if (_.random(1, 10) === 1 && weight({'H2': system.mater.H2, 'He': system.mater.He}) > 100) {
                         let H2 = Math.ceil(5 * Math.sqrt(system.mater.H2));
-                        let He2 = Math.ceil(5 * Math.sqrt(system.mater.He2));
+                        let He = Math.ceil(5 * Math.sqrt(system.mater.He));
                         state.universe[galaxy_key].systems[system_key].mater.H2 -= H2;
-                        state.universe[galaxy_key].systems[system_key].mater.He2 -= He2;
-                        state.universe[galaxy_key].systems[system_key].stars.push({name: 'Star ' + (system.stars.length + 1),  mater: {'H2': H2, 'He2': He2}});
+                        state.universe[galaxy_key].systems[system_key].mater.He -= He;
+                        state.universe[galaxy_key].systems[system_key].stars.push({name: 'Star ' + (system.stars.length + 1),  mater: {'H2': H2, 'He': He}});
                     }
                 });
             });
@@ -83,12 +83,12 @@ export const rules = {
         onTick: state => {
             _.each(state.universe, (galaxy, galaxy_key) =>  {
                 _.each(galaxy.systems, (system, system_key) => {
-                    if (_.random(1, 100) === 1 && weight({'H2': system.mater.H2, 'He2': system.mater.He2}) > 10) {
+                    if (_.random(1, 100) === 1 && weight({'H2': system.mater.H2, 'He': system.mater.He}) > 10) {
                         let H2 = Math.ceil(Math.sqrt(system.mater.H2));
-                        let He2 = Math.ceil(Math.sqrt(system.mater.He2));
+                        let He = Math.ceil(Math.sqrt(system.mater.He));
                         state.universe[galaxy_key].systems[system_key].mater.H2 -= H2;
-                        state.universe[galaxy_key].systems[system_key].mater.He2 -= He2;
-                        state.universe[galaxy_key].systems[system_key].planets.push({name: 'Planet ' + (system.planets.length + 1),  mater: {'H2': H2, 'He2': He2}});
+                        state.universe[galaxy_key].systems[system_key].mater.He -= He;
+                        state.universe[galaxy_key].systems[system_key].planets.push({name: 'Planet ' + (system.planets.length + 1),  mater: {'H2': H2, 'He': He}});
                     }
                 });
             });
@@ -102,14 +102,12 @@ export const rules = {
             _.each(state.universe, (galaxy, galaxy_key) =>  {
                 _.each(galaxy.systems, (system, system_key) => {
                     _.each(system.stars, (star, star_key) => {
-                        if (star.mater.H2 > 2 && state.electrons > 1) {
-                            let H2 = Math.ceil(star.mater.H2 / 100) * 2;
-                            let He2 = Math.ceil(H2 / 2);
-                            let electrons = Math.min(state.electrons, He2);
-                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.H2 -= electrons * 2;
-                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.He2 += electrons;
-                            state.electrons -= electrons;
-                            state.neutrino += electrons;
+                        if (star.mater.H2 >= 2 && state.electrons >= 1) {
+                            let count = Math.min(state.electrons, Math.ceil(star.mater.H2 / 100));
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.H2 -= count * 2;
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.He += count;
+                            state.electrons -= count;
+                            state.neutrino += count;
                         }
                     });
                 });
@@ -124,12 +122,71 @@ export const rules = {
             _.each(state.universe, (galaxy, galaxy_key) =>  {
                 _.each(galaxy.systems, (system, system_key) => {
                     _.each(system.stars, (star, star_key) => {
-                        if (star.mater.He2 > 3) {
-                            let carbon = Math.ceil(star.mater.He2 / 100);
-                            let He2 = carbon * 3;
-                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.He2 -= He2;
-                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.carbon += carbon;
-                            state.photons -= carbon * 2;
+                        if (star.mater.He >= 3) {
+                            let count = Math.ceil(star.mater.He / 100);
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.He -= count * 3;
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.carbon += count;
+                            state.photons += count * 2;
+                        }
+                    });
+                });
+            });
+            return state;
+        }
+    },
+
+    carbon_fusion: { name: 'Carbon fusion', text: 'Rule Text',
+        locked: state => state.universe.length === 0,
+        onTick: state => {
+            _.each(state.universe, (galaxy, galaxy_key) =>  {
+                _.each(galaxy.systems, (system, system_key) => {
+                    _.each(system.stars, (star, star_key) => {
+                        if (star.mater.carbon >= 2) {
+                            let count = Math.ceil(star.mater.carbon / 100);
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.He += count;
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.neon += count;
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.carbon -= count * 2;
+                            state.photons += count;
+                        }
+                    });
+                });
+            });
+            return state;
+        }
+    },
+
+    neon_fusion: { name: 'Neon fusion', text: 'Rule Text',
+        locked: state => state.universe.length === 0,
+        onTick: state => {
+            _.each(state.universe, (galaxy, galaxy_key) =>  {
+                _.each(galaxy.systems, (system, system_key) => {
+                    _.each(system.stars, (star, star_key) => {
+                        if (star.mater.neon >= 1) {
+                            let count = Math.ceil(star.mater.neon / 100);
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.neon -= count;
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.He += count;
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.oxygen += count;
+                            state.photons += count;
+                        }
+                    });
+                });
+            });
+            return state;
+        }
+    },
+
+    oxygen_fusion: { name: 'Oxygen fusion', text: 'Rule Text',
+        locked: state => state.universe.length === 0,
+        onTick: state => {
+            _.each(state.universe, (galaxy, galaxy_key) =>  {
+                _.each(galaxy.systems, (system, system_key) => {
+                    _.each(system.stars, (star, star_key) => {
+                        if (star.mater.oxygen >= 2) {
+                            let count = Math.ceil(star.mater.neon / 100);
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.oxygen -= count * 2;
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.silicon += count;
+                            state.universe[galaxy_key].systems[system_key].stars[star_key].mater.He += count;
+                            state.photons += count;
                         }
                     });
                 });
