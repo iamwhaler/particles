@@ -17,8 +17,12 @@ export const data = {
         beryllium: {name: 'Beryllium', locked: (state) => clickers.atoms.beryllium_clicker.locked(state)},
         hydrogen: {name: 'Hydrogen', locked: (state) => clickers.atoms.hydrogen_clicker.locked(state)},
         helium: {name: 'Helium', locked: (state) => clickers.atoms.helium_clicker.locked(state)},
-        carbon: {name: 'Carbon', locked: (state) => state.carbon<10},
-        nitrogen: {name: 'Nitrogen', locked: (state) => state.nitrogen<15}
+        carbon: {name: 'Carbon', locked: (state) => clickers.atoms.carbon_clicker.locked(state)},
+        oxygen: {name: 'Oxygen', locked: (state) => clickers.atoms.oxygen_clicker.locked(state)},
+        nitrogen: {name: 'Nitrogen', locked: (state) => clickers.atoms.nitrogen_clicker.locked(state)},
+        silicon: {name: 'Silicon', locked: (state) => clickers.atoms.silicon_clicker.locked(state)},
+        ferrum: {name: 'Ferrum', locked: (state) => clickers.atoms.ferrum_clicker.locked(state)},
+        neon: {name: 'Neon', locked: (state) => clickers.atoms.neon_clicker.locked(state)},
 
     },
 
@@ -27,12 +31,6 @@ export const data = {
         He2: {name: 'He2', locked: (state) => !state.achievements.includes('helium')},
         N2: {name: 'N2', locked: (state) => !state.achievements.includes('nitrogen')},
         C2: {name: 'C2', locked: (state) => !state.achievements.includes('carbon')}
-    },
-
-    stars: {
-        hydrogen_stars: {name: 'Hydrogen'},
-        helium_stars: {name: 'Helium'},
-        carbon_stars: {name: 'Carbon'}
     }
 };
 
@@ -50,5 +48,28 @@ export const info = {
     simple_molecules: {
         name: 'Simple molecules',
         info: 'Molecules will form stars and other objects in your universe. Mining of them will result in huge temperature raise'
-    }
+    },
 };
+
+export const wiki = {
+    strings:  'https://en.wikipedia.org/wiki/String_(physics)',
+    gluons: 'https://en.wikipedia.org/wiki/Gluon',
+
+    up_quarks: 'https://en.wikipedia.org/wiki/Up_quark',
+    down_quarks: 'https://en.wikipedia.org/wiki/Down_quark',
+    photons: 'https://en.wikipedia.org/wiki/Photon',
+    electrons: 'https://en.wikipedia.org/wiki/Electron',
+    neutrino: 'https://en.wikipedia.org/wiki/Neutrino',
+
+    protons: 'https://en.wikipedia.org/wiki/Proton',
+    neutrons: 'https://en.wikipedia.org/wiki/Neutron',
+
+    hydrogen: 0,
+    helium: 0,
+    carbon: 0,
+    oxygen: 0,
+    nitrogen: 0,
+    ferrum: 0,
+    neon: 0,
+    silicon: 0,
+}

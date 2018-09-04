@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import {fluctuators} from "./fluctuators";
 import toastr from 'toastr';
-import {getStarName, getStarColor, nuclearReaction} from './stars';
 import checkAchievement from './achievements';
 
 export const old_rules = {
@@ -93,103 +92,6 @@ export const old_rules = {
                 state.He2 += state.helium/10;
                 state.helium-= state.helium/5;
             }
-            return state;
-        }
-    },
-
-    hydrogen_stars_rule: {
-        onTick: (state) => {
-            if(state.H2>20 && state.H2 !== 0 && state.temperature<2000) {
-                    state.H2 -= _.random(1, state.H2/10);
-                    state.hydrogen_stars += (state.H2 / 333.33) / state.H2 * 10;
-            }
-
-            if (state.hydrogen_stars >= 1) {
-                state.hydrogen_stars--;
-                let star_name = getStarName();
-                let parameters = {
-                    star: {
-                        name: star_name,
-                        type: 'Hydrogen',
-                        diameter: 0, // this will be used to describe what's going on inside the star (all h2 turned into other more weight elements
-                        color: getStarColor('Hydrogen'),
-                          mass: _.random(state.H2/5, 30  ,true),
-                        born: state.tick,
-                        hydrogen: _.random(state.hydrogen, Math.max(state.H2, state.strings/100)),
-                        helium: 0,
-                    }
-                };
-                //  let pushed_value = JSON.stringify(parameters);
-                state.stars.push(parameters);
-            }
-
-            nuclearReaction('Hydrogen', state);
-
-
-            return state;
-        }
-    },
-
-    helium_stars_rule: {
-
-        onTick: (state) => {
-            if(state.He2>20) {
-                state.helium_stars += state.He2 / 3333.33;
-            }
-
-            if (state.helium_stars >= 1) {
-                state.helium_stars--;
-                state.He2 -= _.random(3, state.stars.length);
-                let star_name = getStarName();
-                let parameters = {
-                    star: {
-                        name: star_name,
-                        color: getStarColor('Helium'),
-                        type: 'Helium',
-                        diameter: _.random(1, 10),
-                        born: state.tick,
-                        mass: _.random(state.He2/6, state.stars.length, true),
-                        helium: _.random(state.helium, state.He2),
-                        carbon: 0
-                    }
-                };
-                state.stars.push(parameters);
-            }
-
-            nuclearReaction('Helium', state);
-
-            return state;
-        }
-    },
-
-    carbon_stars_rule: {
-
-        onTick: (state) => {
-            if(state.C2>10 && state.CH>10 && state.CN>10) {
-                state.carbon_stars += state.C2 / 2333.33;
-            }
-
-            if (state.carbon_stars >= 1) {
-                state.helium_stars--;
-                state.C2 -= _.random(3, state.stars.length);
-                let star_name = getStarName();
-                let parameters = {
-                    star: {
-                        name: star_name,
-                        color: getStarColor('Carbon'),
-                        type: 'Carbon',
-                        diameter: _.random(1, 10),
-                        born: state.tick,
-                        mass: _.random(state.He2/6, state.stars.length, true),
-                        silicium: _.random(state.temperature, state.C2)
-                    }
-                };
-                state.stars.push(parameters);
-
-            }
-
-            nuclearReaction('Helium', state);
-
             return state;
         }
     }

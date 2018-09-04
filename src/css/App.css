@@ -51,7 +51,6 @@ body {
   text-align: justify;
 }
 
-
 #tooltip > .tooltip-inner {
   max-width: 300px;
   background-color: #EFEEEE;
@@ -70,17 +69,15 @@ body {
   border-radius: 10px;
 }
 
-.resource-tab {
-  text-align: left;
-  padding-left: 30px;
-
+.info-block {
+  max-height: 250px;
+  overflow-y: scroll;
 }
 
 .clickers {
   justify-content: flex-end;
   align-items: flex-end;
   text-align: right;
-  margin-bottom: 5px;
   white-space: nowrap;
   width: 110px;
   font-size: 10px;
