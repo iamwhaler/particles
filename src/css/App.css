@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   color: white;
-  height: 100vm;
+  height: 100vh;
   background-color: rgba(20, 0, 42, 0.42);
   margin-bottom: -50px;
   padding: 0;
@@ -11,9 +11,15 @@
 }
 
 body {
-  height: auto;
+  height: 100%;
+  width: 100%;
   background-image: url('/born_of_a_star.jpg');
 
+}
+
+html {
+  width: 100vm;
+  height: 100vm;
 }
 
 .universe-tab {
