@@ -14,15 +14,14 @@ export const data = {
     },
 
     atoms: {
-        beryllium: {name: 'Beryllium', locked: (state) => clickers.atoms.beryllium_clicker.locked(state)},
         hydrogen: {name: 'Hydrogen', locked: (state) => clickers.atoms.hydrogen_clicker.locked(state)},
         helium: {name: 'Helium', locked: (state) => clickers.atoms.helium_clicker.locked(state)},
         carbon: {name: 'Carbon', locked: (state) => clickers.atoms.carbon_clicker.locked(state)},
-        oxygen: {name: 'Oxygen', locked: (state) => clickers.atoms.oxygen_clicker.locked(state)},
         nitrogen: {name: 'Nitrogen', locked: (state) => clickers.atoms.nitrogen_clicker.locked(state)},
+        oxygen: {name: 'Oxygen', locked: (state) => clickers.atoms.oxygen_clicker.locked(state)},
+        neon: {name: 'Neon', locked: (state) => clickers.atoms.neon_clicker.locked(state)},
         silicon: {name: 'Silicon', locked: (state) => clickers.atoms.silicon_clicker.locked(state)},
         ferrum: {name: 'Ferrum', locked: (state) => clickers.atoms.ferrum_clicker.locked(state)},
-        neon: {name: 'Neon', locked: (state) => clickers.atoms.neon_clicker.locked(state)},
 
     },
 
@@ -49,27 +48,61 @@ export const info = {
         name: 'Simple molecules',
         info: 'Molecules will form stars and other objects in your universe. Mining of them will result in huge temperature raise'
     },
+
+    strings:  {
+        link: 'https://en.wikipedia.org/wiki/String_(physics)',
+        icon: './img/strings.png'
+    },
+
+    gluons: {
+        link: 'https://en.wikipedia.org/wiki/Gluon'
+    },
+
+    up_quarks: {
+        link: 'https://en.wikipedia.org/wiki/Up_quark'
+    },
+    down_quarks: {
+        link: 'https://en.wikipedia.org/wiki/Down_quark'
+    },
+    photons: {
+        link: 'https://en.wikipedia.org/wiki/Photon'
+    },
+    electrons: {
+        link: 'https://en.wikipedia.org/wiki/Electron'
+    },
+    neutrino: {
+        link: 'https://en.wikipedia.org/wiki/Neutrino'
+    },
+
+    protons: {
+        link: 'https://en.wikipedia.org/wiki/Proton'
+    },
+    neutrons: {
+        link: 'https://en.wikipedia.org/wiki/Neutron'
+    },
+    hydrogen: {
+        link: 'https://en.wikipedia.org/wiki/Hydrogen'
+    },
+    helium: {
+        link: 'https://en.wikipedia.org/wiki/Helium'
+    },
+    carbon: {
+        link: 'https://en.wikipedia.org/wiki/Carbon'
+    },
+    oxygen: {
+        link: 'https://en.wikipedia.org/wiki/Oxygen'
+    },
+    nitrogen: {
+        link: 'https://en.wikipedia.org/wiki/Nitrogen'
+    },
+    ferrum: {
+        link: 'https://en.wikipedia.org/wiki/Iron'
+    },
+    neon: {
+        link: 'https://en.wikipedia.org/wiki/Neon'
+    },
+    silicon: {
+        link: 'https://en.wikipedia.org/wiki/Silicon'
+    },
 };
 
-export const wiki = {
-    strings:  'https://en.wikipedia.org/wiki/String_(physics)',
-    gluons: 'https://en.wikipedia.org/wiki/Gluon',
-
-    up_quarks: 'https://en.wikipedia.org/wiki/Up_quark',
-    down_quarks: 'https://en.wikipedia.org/wiki/Down_quark',
-    photons: 'https://en.wikipedia.org/wiki/Photon',
-    electrons: 'https://en.wikipedia.org/wiki/Electron',
-    neutrino: 'https://en.wikipedia.org/wiki/Neutrino',
-
-    protons: 'https://en.wikipedia.org/wiki/Proton',
-    neutrons: 'https://en.wikipedia.org/wiki/Neutron',
-
-    hydrogen: 0,
-    helium: 0,
-    carbon: 0,
-    oxygen: 0,
-    nitrogen: 0,
-    ferrum: 0,
-    neon: 0,
-    silicon: 0,
-};

@@ -79,12 +79,7 @@ const default_state = {
     },
 
 
-    fluctuating: false,
     micro_swiper: false,
-
-    stars: [],
-
-    planets: [],
 
     black_hole: [],
 

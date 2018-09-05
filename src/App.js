@@ -5,13 +5,14 @@ import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import Footer from './footer.js'
 
 import './css/App.css';
+import './css/particles.css'
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {game_name} from './game/app_config';
 import {getDefaultState} from './game/default_state';
 import {tick} from './game/tick';
 import {rules} from './game/rules';
-import {data, info, wiki} from './game/data';
+import {data, info} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {fluctuators} from './game/fluctuators';
@@ -157,6 +158,7 @@ class App extends Component {
         this.popupHandler.createPopup(`${this.info}`, component);
     }
 
+
     render() {
         let state = this.state;
         let gradient = (state) => {
@@ -187,59 +189,6 @@ class App extends Component {
                 </button>
         };
 
-
-        const starTooltip = (state, item) =>
-            item
-                ?
-                (item.star.type === 'Hydrogen')
-                    ?
-                    <Tooltip id="tooltip">
-                        <div className="flex-container-column infoBar">
-                            <div className="flex element">
-                                <div className="col-md infoBar">
-                                    <h6>{item.star.name}</h6>
-                                </div>
-
-                                <div className="col-md infoBar">
-                                    Old: {this.state.tick - item.star.born}
-                                </div>
-
-                                <div className="col-md infoBar">
-                                    Hydrogen: {item.star.hydrogen.toFixed(0)}
-                                </div>
-                                <div className="col-md infoBar">
-                                    Helium: {item.star.helium.toFixed(0)}
-                                </div>
-                            </div>
-                        </div>
-                    </Tooltip>
-                    :
-                    (item.star.type === 'Helium')
-                        ?
-
-                        <Tooltip id="tooltip">
-                            <div className="flex-container-column infoBar">
-                                <div className="flex element">
-                                    <div className="col-md infoBar">
-                                        <h6>{item.star.name}</h6>
-                                    </div>
-
-                                    <div className="col-md infoBar">
-                                        Old: {this.state.tick - item.star.born}
-                                    </div>
-
-                                    <div className="col-md infoBar">
-                                        Helium: {item.star.helium.toFixed(0)}
-                                    </div>
-                                    <div className="col-md infoBar">
-                                        Carbon: {item.star.carbon.toFixed(0)}
-                                    </div>
-                                </div>
-                            </div>
-                        </Tooltip>
-                        : ''
-                : '';
-
         const details = (item) =>
             <Tooltip id="tooltip">
                 <div className="flex-container-row">
@@ -263,31 +212,41 @@ class App extends Component {
         const tooltip = (state, item) =>
             <Tooltip id="tooltip">
                 <div>
-                    <div className="flex-container-row">
+                    <div className="flex-container-column">
                         <div className="flex-container-row">
                             <div className="flex-element">
+                                <img src={ !item.toggle ? info[item.resource].icon : ''} />
+                            </div>
+                            <div className="flex-element">
                                 <span>{item.name}</span>
-                                <br/>
+                            </div>
+                        </div>
+                        <div className="flex-element">
                                 {(!item.text)
                                     ? ''
                                     :
                                     <span style={{fontSize: '11px'}}>{item.text}</span>}
                             </div>
-                        </div>
-                    </div>
-
 
                     {_.map(_.isFunction(item.cost) ? item.cost(this.state) : item.cost, (value, resource_key) =>
                         (!item.cost)
                             ? ''
                             :
-                            <div className="row" key={resource_key}>
-                                <div className="col-sm-6 infoBar">{resource_key}</div>
-                                <div className="col-sm-6 infoBar"
-                                     style={(value > state[resource_key]) ? {color: '#982727'} : {color: ''}}>
-                                    {value} / {state[resource_key].toFixed(0)} {(value > state[resource_key]) ?
-                                    <p>({-(state[resource_key] - value).toFixed(0)} left)</p> : ''}
+                            <div className="flex-container-row" key={resource_key}>
+                                <div className="flex-element" style={{textAlign: 'left', justifyContent: 'flex-start'}}>
+                                <span>{resource_key}: </span>
                                 </div>
+                                    <div className="flex-element" style={{textAlign: 'right', justifyContent: 'flex-end'}}>
+                                    <span
+                                     style={(value > state[resource_key]) ? {color: '#982727'} : {color: ''}}>
+                                    {value} / {state[resource_key]>Math.pow(10, 9)
+                                                                    ? (state[resource_key]/Math.pow(10, 9)).toFixed(1) + ' B'
+                                                                    : state[resource_key].toFixed(0)}
+                                    {(value > state[resource_key]) ?
+                                    <span> ({-(state[resource_key] - value).toFixed(0)} left)</span> : ''}
+                                </span>
+                                </div>
+
                             </div>
                     )}
 
@@ -302,15 +261,20 @@ class App extends Component {
                         : ''
                     }
 
-                    <div className="flex-container-row">
+                    {!item.toggle
+                    ? <div className="flex-container-row">
                         <div className="flex-element">
                         </div>
+
                         <div className="flex-element">
                         </div>
+
                         <div className="flex-element">
-                            <a target="_blank" href={wiki[item.resource]}>Wiki</a>
+                            <a target="_blank" href={!item.toggle ? info[item.resource].link : ''}>Wiki</a>
                         </div>
                     </div>
+                        :''}
+                </div>
                 </div>
             </Tooltip>;
 
@@ -394,7 +358,10 @@ class App extends Component {
                                             }}>
                                             <div className="flex-element" style={{textAlign: 'left'}} key={key}>
                                                             <span className="flex-element">
-                                                            {item.resource ? data.basic_particles[item.resource].name : 'resource'}: {item.resource ? state[item.resource].toFixed(0) : 'quantity'}
+                                                            {item.resource ? data.basic_particles[item.resource].name : 'resource'}: {item.resource ?
+                                                                state[item.resource]>Math.pow(10, 9)
+                                                                    ? (state[item.resource]/Math.pow(10, 9)).toFixed(5) + 'B'
+                                                                    : state[item.resource].toFixed(0) : 'quantity'}
                                                             </span>
                                             </div>
 
@@ -456,7 +423,7 @@ class App extends Component {
                                     ? ''
                                     :
                                     <div>
-                                        <OverlayTrigger delay={150} placement="right"
+                                        <OverlayTrigger delay={150} trigger="focus" placement="right"
                                                         overlay={tooltip(this.state, item)}>
                                             <div>
                                                 <button className="info">
@@ -503,11 +470,11 @@ class App extends Component {
                                 ? <div key={key} className="flex-element"> </div>
                                 : <div key={key} className="flex-container-row automation">
                                 <div className="flex-element" style={{textAlign: 'left'}}>
-                                    <OverlayTrigger delay={150} placement="top"
+                                    <OverlayTrigger delay={150} placement="left"
                                                     overlay={tooltip(this.state, item)}>
                                         <div>
                                             <button
-                                                className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
+                                                className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) && (item.disabled && !item.isDisabled(this.state)) ? '' : 'disabled' : '')}
                                                 onClick={() => {
                                                     this.onClickWrapper(item);
                                                 }}>
@@ -665,10 +632,125 @@ class App extends Component {
                 </div>
             </div>;
 
+         const molecules_arts = <div>
+                 <ul className='atoms set'>
+                     <li className='atom O'></li>
+                     <li className='atom H'></li>
+                     <li className='atom C'></li>
+                     <li className='atom N'></li>
+                     <li className='atom Cl'></li>
+                 </ul>
+                 <ul className='molecules set'>
+                     <li className='molecule-wrap'>
+                         <div className='info'>water (H<sub>2</sub>O)</div>
+                         <ul className='molecule H2O'>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom O'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>carbon dioxide (CO<sub>2</sub>)</div>
+                         <ul className='molecule CO2'>
+                             <li className='atom C'></li>
+                             <li className='atom O'></li>
+                             <li className='atom O'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>hydrogen cyanide (HCN)</div>
+                         <ul className='molecule HCN'>
+                             <li className='atom H'></li>
+                             <li className='atom C'></li>
+                             <li className='atom N'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>ammonia (NH<sub>3</sub>)</div>
+                         <ul className='molecule NH3'>
+                             <li className='atom N'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>methane (CH<sub>4</sub>)</div>
+                         <ul className='molecule CH4'>
+                             <li className='atom C'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>formaldehyde (CH<sub>2</sub>O)</div>
+                         <ul className='molecule CH2O'>
+                             <li className='atom C'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom O'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>carbon tetrachloride (CCl<sub>4</sub>)</div>
+                         <ul className='molecule CCl4'>
+                             <li className='atom C'></li>
+                             <li className='atom Cl'></li>
+                             <li className='atom Cl'></li>
+                             <li className='atom Cl'></li>
+                             <li className='atom Cl'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>methyl chloride (CH<sub>3</sub>Cl)</div>
+                         <ul className='molecule CH3Cl'>
+                             <li className='atom C'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom Cl'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>acetylene (C<sub>2</sub>H<sub>2</sub>)</div>
+                         <ul className='molecule C2H2'>
+                             <li className='atom C'></li>
+                             <li className='atom C'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>ethylene (C<sub>2</sub>H<sub>4)</sub></div>
+                         <ul className='molecule C2H4'>
+                             <li className='atom C'></li>
+                             <li className='atom C'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>ethane (C<sub>2</sub>H<sub>6)</sub></div>
+                         <ul className='molecule C2H6'>
+                             <li className='atom C'></li>
+                             <li className='atom C'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                         </ul>
+                     </li>
+                 </ul></div>;
+
 
         return (
             <div className="App">
-                <div className="wrap">
                     <div className="flex-container-column header">
                         {header_subcomponent}
                     </div>
@@ -713,8 +795,6 @@ class App extends Component {
 
                     <Footer newGame={this.newGame}/>
                     <div style={{height: '50px', width: '100%'}}> </div>
-
-                </div>
 
             </div>
         );

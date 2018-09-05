@@ -7,14 +7,49 @@ export let fluctuators = {};
 
 fluctuators = {
     fluctuators: {
+        gluons_fluctuator: {
+            name: 'Gluons Fluctuator',
+            text: 'Fluctuates string to get gluons once in a tick',
+            cost: (state) => {
+                return {gluons: Math.floor(Math.pow(1.2, state.gluons_fluctuator - 1) * 8)}
+            },
+
+            locked: (state) => false,
+
+            isDisabled: (state) => state.gluons<10,
+
+            temperature_effect: (state) => {
+                return Math.floor(Math.pow(1.19, state.gluons_fluctuator - 1) * 8);
+            },
+
+            toggle: (state) => {
+                (state.toggle.gluons_fluctuator)
+                    ? state.toggle.gluons_fluctuator=false
+                    : state.toggle.gluons_fluctuator=true;
+
+                return state;
+            },
+
+            onClick: (state) => {
+                state.gluons_fluctuator++;
+                return state;
+            },
+            onTick: (state) => {
+                if(state.toggle.gluons_fluctuator) {
+                    state.gluons += Math.round(_.random(state.gluons_fluctuator/4 , state.gluons_fluctuator));
+                }
+                return state;
+            }
+        },
+
         up_quarks_fluctuator: {
-            name: 'Up Quarks Miner',
+            name: 'Up Quarks Fluctuator',
             text: 'Synths Up Quarks once in a tick',
             cost: (state) => {
                 return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_fluctuator - 1) * 20),
                     strings: Math.floor(Math.pow(1.2, state.up_quarks_fluctuator - 1) * 15)};
             },
-            locked: (state) => state.temperature>Math.pow(10, 27),
+            locked: (state) => state.up_quarks<3,
 
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(1.19, state.up_quarks_fluctuator - 1) * 12);
@@ -41,12 +76,12 @@ fluctuators = {
         },
 
         down_quarks_fluctuator: {
-            name: 'Down Quarks Miner',
+            name: 'Down Quarks Fluctuator',
             text: 'Synths Down Quarks once in a tick',
             cost: (state) => {
                 return {down_quarks: Math.floor(Math.pow(1.4, state.down_quarks_fluctuator - 1) * 20)};
             },
-            locked: (state) => state.temperature>Math.pow(10, 27),
+            locked: (state) => state.down_quarks<3,
 
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(1.3, state.down_quarks_fluctuator - 1) * 10);
@@ -73,7 +108,7 @@ fluctuators = {
         },
 
         photons_fluctuator: {
-            name: 'Photons Miner',
+            name: 'Photons Fluctuator',
             cost: (state) => {
                 return {
                     photons: Math.floor(Math.pow(1.3, state.photons_fluctuator - 1) * 90),

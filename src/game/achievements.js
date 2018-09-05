@@ -7,8 +7,9 @@ let propName = function(prop, value){
     return false;
 };
 
-let checkAchievement = function(state,resource){
-    if(!state.achievements.includes(propName(state, resource) && resource >= 1)){
+export let checkAchievement = function(state,resource){
+    let name = propName(state, resource);
+    if(!state.achievements.includes(name) && resource >= 1){
             state.achievements.push(propName(state, resource));
             state.chat.unshift({header: "Achievement:", text: "You've explored " + propName(state, resource)})
     }
@@ -17,28 +18,36 @@ let checkAchievement = function(state,resource){
 export default checkAchievement;
 
 export const achievements = {
-    rising_star: {
+    it_matters: {
         rank: 'bronze',
         type: 'breakthrough',
-        name: 'Rising Star',
-        text: 'Grow a star in your galaxy to get it started',
-        rule: (state) => {return state.stars.length === 1}
+        name: 'It matters',
+        text: 'First matter gained',
+        rule: (state) => {return state.hydrogen === 1}
     },
 
-    rising_star_2: {
+    galaxy_born: {
+        rank: 'bronze',
+        type: 'breakthrough',
+        name: 'Galaxy born',
+        text: 'Grow a star in your galaxy to get it started',
+        rule: (state) => {return state.universe.length === 1}
+    },
+
+    rising_star: {
         rank: 'silver',
+        type: 'breakthrough',
+        name: 'Rising star',
+        text: 'Grow a star in your galaxy to get it started',
+        rule: (state) => {return false}
+    },
+
+
+    abnormal_space_activity: {
+        rank: 'gold',
         type: 'breakthrough',
         name: 'Abnormal space activity',
         text: 'Seems like you are getting it',
-        rule: (state) => {return state.stars.length === 6}
-    },
-
-
-    rising_star_3: {
-        rank: 'gold',
-        type: 'breakthrough',
-        name: 'Superstar',
-        text: 'Seems like you are getting it',
-        rule: (state) => {return state.stars.length === 6}
+        rule: (state) => {return false}
     },
 };
