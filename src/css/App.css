@@ -158,7 +158,8 @@ img {
 }
 
 .panel {
-  background-color: lightblue;
+  background-color: #EBEBEB;
+  opacity: 0.8;
 }
 
 .history {

@@ -14,7 +14,7 @@ fluctuators = {
                 return {gluons: Math.floor(Math.pow(1.2, state.gluons_fluctuator - 1) * 8)}
             },
 
-            locked: (state) => false,
+            locked: (state) => !state.achievements.includes('gluons'),
 
             isDisabled: (state) => state.gluons<10,
 
@@ -103,6 +103,35 @@ fluctuators = {
                     state.down_quarks += Math.round(_.random(state.down_quarks_fluctuator/3, state.down_quarks_fluctuator));
                 }
 
+                return state;
+            }
+        },
+
+        electrons_miner: {
+            name: 'Electrons Miner',
+            cost: (state) => {
+                return {
+                    carbon: Math.floor(Math.pow(1.3, state.neutrons_miner - 1) * 90),
+                    nitrogen: Math.floor(Math.pow(1.3, state.neutrons_miner - 1) * 150)
+                };
+            },
+            locked: (state) => !state.achievements.includes('protons'),
+
+            toggle: (state) => {
+                (state.toggle.neutrons_miner)
+                    ? state.toggle.neutrons_miner=false
+                    : state.toggle.neutrons_miner=true;
+
+                return state;
+            },
+            onClick: (state) => {
+                state.neutrons_miner++;
+                return state;
+            },
+            onTick: (state) => {
+                if (state.toggle.neutrons_miner && state.neutrons_miner >= 1) {
+                    state.neutrons += Math.round(_.random(state.neutrons_miner * 0.5, state.neutrons_miner));
+                }
                 return state;
             }
         },
