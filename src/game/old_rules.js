@@ -6,6 +6,7 @@ import checkAchievement from './achievements';
 export const old_rules = {
     universe_size_rule: {
         onTick: (state) => {
+           // state.H2+=1000; state.hydrogen+=1000;
             state.universe_size+= Math.pow(1, state.temperature)/(1 + 0.01 *state.temperature);
             return state;
         }

@@ -1,10 +1,8 @@
-
 import _ from 'lodash';
 
 const default_state = {
 
     strings: Math.pow(2, 42),
-    gluons: 0,
     up_quarks: 0,
     down_quarks: 0,
     photons: 0,
@@ -120,6 +118,7 @@ const default_state = {
     game_speed_multiplier: 1,
     tick: 0,
     game_paused: true,
+    music_paused: false,
     game_end: false
 };
 

@@ -12,11 +12,13 @@ import {game_name} from './game/app_config';
 import {getDefaultState} from './game/default_state';
 import {tick} from './game/tick';
 import {rules} from './game/rules';
-import {data, info} from './game/data';
+import {data, info, epochs} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {fluctuators} from './game/fluctuators';
 import Popup from "./utils/Popup/Popup";
+
+import { Orchestrator } from './game/orchestrator';
 
 import {ToastContainer} from 'react-toastr';
 import confirm from './components/confirm_launch';
@@ -159,6 +161,22 @@ class App extends Component {
     }
 
 
+    roundNumber(number) {
+        let units = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'],
+            decimal;
+
+        for(let i=units.length-1; i>=0; i--) {
+            decimal = Math.pow(1000, i+1);
+
+            if(number <= -decimal || number >= decimal) {
+                return +(number / decimal).toFixed(4) + units[i];
+            }
+        }
+
+        return Math.round(number);
+    }
+
+
     render() {
         let state = this.state;
         let gradient = (state) => {
@@ -239,11 +257,10 @@ class App extends Component {
                                     <div className="flex-element" style={{textAlign: 'right', justifyContent: 'flex-end'}}>
                                     <span
                                      style={(value > state[resource_key]) ? {color: '#982727'} : {color: ''}}>
-                                    {value} / {state[resource_key]>Math.pow(10, 9)
-                                                                    ? (state[resource_key]/Math.pow(10, 9)).toFixed(1) + ' B'
-                                                                    : state[resource_key].toFixed(0)}
+                                    {this.roundNumber(value)}
+                                        / {this.roundNumber(state[resource_key])}
                                     {(value > state[resource_key]) ?
-                                    <span> ({-(state[resource_key] - value).toFixed(0)} left)</span> : ''}
+                                    <span> ({this.roundNumber(-(state[resource_key] - value))} left)</span> : ''}
                                 </span>
                                 </div>
 
@@ -311,7 +328,7 @@ class App extends Component {
             <div className="flex-container-row">
                 <h5 className="flex-element"
                     style={temperatureStyle}>
-                    Temperature: {Math.floor(state.temperature).toFixed(0)} K
+                    Temperature: {Math.floor(state.temperature)} K
                 </h5>
                 <div className="flex-element">
                     <h5>Years: {this.state.tick}k</h5>
@@ -333,6 +350,18 @@ class App extends Component {
                         History
                     </button>
                 </div>
+
+                <div className="flex-element">
+                    <span onClick={() =>
+                        this.state.music_paused ? this.state.music_paused=false : this.state.music_paused=true
+                    }> Sound
+                        <span
+                            className={classNames('glyphicon', (this.state.music_paused ? 'glyphicon-play' : 'glyphicon-pause'))}
+                            style={{width: 28, height: 28}}> </span>
+                            </span>
+                </div>
+
+                <Orchestrator state={this.state}/>
             </div>;
 
 
@@ -359,9 +388,7 @@ class App extends Component {
                                             <div className="flex-element" style={{textAlign: 'left'}} key={key}>
                                                             <span className="flex-element">
                                                             {item.resource ? data.basic_particles[item.resource].name : 'resource'}: {item.resource ?
-                                                                state[item.resource]>Math.pow(10, 9)
-                                                                    ? (state[item.resource]/Math.pow(10, 9)).toFixed(5) + 'B'
-                                                                    : state[item.resource].toFixed(0) : 'quantity'}
+                                                                this.roundNumber(state[item.resource]) : 'quantity'}
                                                             </span>
                                             </div>
 
@@ -427,7 +454,7 @@ class App extends Component {
                                                         overlay={tooltip(this.state, item)}>
                                             <div>
                                                 <button className="info">
-                                                    I
+                                                    i
                                                 </button>
                                             </div>
                                         </OverlayTrigger>
@@ -474,7 +501,7 @@ class App extends Component {
                                                     overlay={tooltip(this.state, item)}>
                                         <div>
                                             <button
-                                                className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) && (item.disabled && !item.isDisabled(this.state)) ? '' : 'disabled' : '')}
+                                                className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost)  ? '' : 'disabled' : '')}
                                                 onClick={() => {
                                                     this.onClickWrapper(item);
                                                 }}>
@@ -482,7 +509,7 @@ class App extends Component {
                                                     ? item.name + ': lvl ' + state[key]
                                                     : item.name}
                                             </button>
-                                            { (item.toggle && state[key] > 0)
+                                            {(item.toggle && state[key] > 0)
                                                 ?
                                                 <button className={state.toggle[key] ? 'switchOn' : ''}
                                                         onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
@@ -751,6 +778,7 @@ class App extends Component {
 
         return (
             <div className="App">
+                <div className="wrapper">
                     <div className="flex-container-column header">
                         {header_subcomponent}
                     </div>
@@ -774,8 +802,14 @@ class App extends Component {
 
                         <div className="flex-element">
                             <h3>Matter</h3>
-                            {state.temperature > 5000 ? '' : atoms_subcomponent }
-                            {state.H2 < 5 ? '' : simple_molecules_subcomponent}
+                            {epochs.atom_epoch.locked(this.state)
+                                ? <div className="blocked">{epochs.atom_epoch.condition_text}
+                                    <br />
+                                    <img src="http://www.iconhot.com/icon/png/devine/256/blocked.png" /></div>
+                                :
+                                atoms_subcomponent
+                            && state.H2 < 5 ? '' : simple_molecules_subcomponent
+                            }
                         </div>
 
 
@@ -785,16 +819,23 @@ class App extends Component {
 
                     </div>
 
-                    <div className="flex-container-row">
-                        <div className="flex-element">
-                            {universe_subcomponent}
+
+                        <div className="flex-container-row">
+                            <div className="flex-element">
+                                { epochs.galaxy_epoch.locked(this.state)
+                                    ? <div className="blocked">{epochs.galaxy_epoch.condition_text}
+                                        <br />
+                                        <img src="http://www.iconhot.com/icon/png/devine/256/blocked.png" /></div>
+                                    : universe_subcomponent}
+                            </div>
                         </div>
-                    </div>
 
                     <Popup ref={(p) => this.popupHandler = p}/>
 
-                    <Footer newGame={this.newGame}/>
-                    <div style={{height: '50px', width: '100%'}}> </div>
+                <div style={{height: '50px', width: '100%'}}> </div>
+                </div>
+
+                <Footer newGame={this.newGame}/>
 
             </div>
         );

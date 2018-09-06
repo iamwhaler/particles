@@ -3,23 +3,21 @@
   color: white;
   height: 100vh;
   background-color: rgba(20, 0, 42, 0.42);
-  margin-bottom: -50px;
   padding: 0;
   font-family: 'Roboto Condensed', sans-serif;
   overflow: auto;
   filter: invert(2%);
 }
 
-body {
-  height: 100%;
-  width: 100%;
-  background-image: url('/born_of_a_star.jpg');
-
+.wrapper {
+  margin-bottom: -35px;
 }
 
-html {
-  width: 100vm;
-  height: 100vm;
+
+html, body {
+  height: 100%;
+  background-image: url('/born_of_a_star.jpg');
+
 }
 
 .universe-tab {
@@ -171,4 +169,12 @@ img {
 .history {
   overflow-y: auto;
   height: 350px;
+}
+
+.blocked {
+  opacity: 0.6;
+  height: 70px;
+  vertical-align: 50%;
+  color: black;
+  background-image: linear-gradient(gainsboro, lightsteelblue, #EBEBEB);
 }

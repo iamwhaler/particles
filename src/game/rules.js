@@ -46,7 +46,6 @@ export const rules = {
     new_system: { name: 'New System', text: 'Rule Text',
         locked: state => state.universe.length === 0,
         onTick: state => {
-            console.log(state.universe);
             _.each(state.universe, (galaxy, galaxy_key) =>  {
                 if (_.random(1, 100) === 1 && weight({'H2': galaxy.mater.H2, 'He': galaxy.mater.He}) > 100) {
                     let H2 = Math.ceil(Math.sqrt(galaxy.mater.H2));

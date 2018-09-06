@@ -3,7 +3,6 @@ import {clickers} from "./clickers";
 export const data = {
     basic_particles: {
         strings: {name: 'Strings'},
-        gluons: {name: 'Gluons', locked: (state) => clickers.basic_particles.gluons_clicker.locked(state)},
         up_quarks: {name: 'Up Quarks'},
         down_quarks: {name: 'Down Quarks', locked: (state) => clickers.basic_particles.down_quarks_clicker.locked(state)},
         photons: {name: 'Photons', locked: (state) => clickers.basic_particles.photons_clicker.locked(state)},
@@ -33,6 +32,24 @@ export const data = {
     }
 };
 
+export const epochs = {
+    quark_gluon_plasm_epoch: {
+        condition_text: '',
+        locked: () => false,
+    },
+    atom_epoch: {
+        condition_text: 'You can not start to form atoms unless you managed a great basic particles supply',
+        locked: (state) => !state.achievements.includes('up_quarks') && !state.achievements.includes('photons') && !state.achievements.includes('electrons')
+    },
+
+    galaxy_epoch: {
+        condition_text: 'Galaxies will not accelerate while Hydrogen molecules supply is low',
+        locked: (state) => !state.achievements.includes('protons') && !state.achievements.includes('neutrons') && !state.achievements.includes('H2')
+    },
+
+
+};
+
 export const info = {
     basic_particles: {
         name: 'Basic particles',
@@ -52,10 +69,6 @@ export const info = {
     strings:  {
         link: 'https://en.wikipedia.org/wiki/String_(physics)',
         icon: './img/strings.png'
-    },
-
-    gluons: {
-        link: 'https://en.wikipedia.org/wiki/Gluon'
     },
 
     up_quarks: {

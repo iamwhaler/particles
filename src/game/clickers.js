@@ -17,18 +17,6 @@ export const clickers = {
             }
         },
 
-        gluons_clicker: {
-            name: 'Form gluon',
-            resource: 'gluons',
-            text: 'Gluon allows to connect quarks between each other',
-            cost: {strings: 1, tick: 1},
-            locked: (state) => state.temperature>Math.pow(10, 23),
-            onClick: (state) => {
-                state.gluons++;
-                return state;
-            }
-        },
-
         up_quarks_clicker: {
             name: 'Gain Up Quark',
             resource: 'up_quarks',
@@ -92,7 +80,7 @@ export const clickers = {
             name: 'Gain Proton',
             resource: 'protons',
             text: 'Proton has a positive electric charge and combined with neutron forms atom nuclei.',
-            cost: {up_quarks: 2, down_quarks: 1, gluons: 1},
+            cost: {up_quarks: 2, down_quarks: 1},
             locked: (state) => state.up_quarks<5 && state.down_quarks<3,
             onClick: (state) => {
                 state.protons++;
@@ -104,7 +92,7 @@ export const clickers = {
             name: 'Gain Neutron',
             resource: 'neutrons',
             text: 'Neutron has no net electric charge and forms atom nuclei.',
-            cost: {up_quarks: 1, down_quarks: 2, gluons: 1},
+            cost: {up_quarks: 1, down_quarks: 2},
             locked: (state) =>  state.down_quarks<5 && state.up_quarks<3,
             onClick: (state) => {
                 state.neutrons++;

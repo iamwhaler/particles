@@ -7,49 +7,15 @@ export let fluctuators = {};
 
 fluctuators = {
     fluctuators: {
-        gluons_fluctuator: {
-            name: 'Gluons Fluctuator',
-            text: 'Fluctuates string to get gluons once in a tick',
-            cost: (state) => {
-                return {gluons: Math.floor(Math.pow(1.2, state.gluons_fluctuator - 1) * 8)}
-            },
-
-            locked: (state) => !state.achievements.includes('gluons'),
-
-            isDisabled: (state) => state.gluons<10,
-
-            temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.19, state.gluons_fluctuator - 1) * 8);
-            },
-
-            toggle: (state) => {
-                (state.toggle.gluons_fluctuator)
-                    ? state.toggle.gluons_fluctuator=false
-                    : state.toggle.gluons_fluctuator=true;
-
-                return state;
-            },
-
-            onClick: (state) => {
-                state.gluons_fluctuator++;
-                return state;
-            },
-            onTick: (state) => {
-                if(state.toggle.gluons_fluctuator) {
-                    state.gluons += Math.round(_.random(state.gluons_fluctuator/4 , state.gluons_fluctuator));
-                }
-                return state;
-            }
-        },
 
         up_quarks_fluctuator: {
             name: 'Up Quarks Fluctuator',
             text: 'Synths Up Quarks once in a tick',
             cost: (state) => {
-                return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_fluctuator - 1) * 20),
-                    strings: Math.floor(Math.pow(1.2, state.up_quarks_fluctuator - 1) * 15)};
+                return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_fluctuator - 1) * 2),
+                    strings: Math.floor(Math.pow(1.9, state.up_quarks_fluctuator - 1) * 42)};
             },
-            locked: (state) => state.up_quarks<3,
+            locked: (state) => (!state.achievements.includes('up_quarks') && !state.achievements.includes('down_quarks') && !state.achievements.includes('photons')) ,
 
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(1.19, state.up_quarks_fluctuator - 1) * 12);
@@ -59,7 +25,6 @@ fluctuators = {
                 (state.toggle.up_quarks_fluctuator)
                     ? state.toggle.up_quarks_fluctuator=false
                     : state.toggle.up_quarks_fluctuator=true;
-
                 return state;
             },
 
@@ -69,7 +34,9 @@ fluctuators = {
             },
             onTick: (state) => {
                 if(state.toggle.up_quarks_fluctuator) {
-                    state.up_quarks += Math.round(_.random(state.up_quarks_fluctuator/4 , state.up_quarks_fluctuator));
+                    let count = Math.round(_.random(state.up_quarks_fluctuator/4 , state.up_quarks_fluctuator));
+                    state.strings-= count;
+                    state.up_quarks += count;
                 }
                 return state;
             }
@@ -79,8 +46,11 @@ fluctuators = {
             name: 'Down Quarks Fluctuator',
             text: 'Synths Down Quarks once in a tick',
             cost: (state) => {
-                return {down_quarks: Math.floor(Math.pow(1.4, state.down_quarks_fluctuator - 1) * 20)};
+                return {
+                    down_quarks: Math.floor(Math.pow(1.2, state.down_quarks_fluctuator - 1) * 4),
+                    strings: Math.floor(Math.pow(2.4, state.down_quarks_fluctuator - 1) * 42)}
             },
+
             locked: (state) => state.down_quarks<3,
 
             temperature_effect: (state) => {
@@ -107,30 +77,30 @@ fluctuators = {
             }
         },
 
-        electrons_miner: {
-            name: 'Electrons Miner',
+        electrons_fluctuator: {
+            name: 'Electrons Fluctuator',
             cost: (state) => {
                 return {
-                    carbon: Math.floor(Math.pow(1.3, state.neutrons_miner - 1) * 90),
-                    nitrogen: Math.floor(Math.pow(1.3, state.neutrons_miner - 1) * 150)
+                    electrons: Math.floor(Math.pow(1.09, state.electrons_fluctuator - 1) * 15),
+                    strings: Math.floor(Math.pow(2.8, state.electrons_fluctuator - 1) * 42)
                 };
             },
             locked: (state) => !state.achievements.includes('protons'),
 
             toggle: (state) => {
-                (state.toggle.neutrons_miner)
-                    ? state.toggle.neutrons_miner=false
-                    : state.toggle.neutrons_miner=true;
+                (state.toggle.electrons_fluctuator)
+                    ? state.toggle.electrons_fluctuator=false
+                    : state.toggle.electrons_fluctuator=true;
 
                 return state;
             },
             onClick: (state) => {
-                state.neutrons_miner++;
+                state.electrons_fluctuator++;
                 return state;
             },
             onTick: (state) => {
-                if (state.toggle.neutrons_miner && state.neutrons_miner >= 1) {
-                    state.neutrons += Math.round(_.random(state.neutrons_miner * 0.5, state.neutrons_miner));
+                if (state.toggle.electrons_fluctuator && state.electrons_fluctuator >= 1) {
+                    state.electrons += Math.round(_.random(state.electrons_fluctuator * 0.5, state.electrons_fluctuator));
                 }
                 return state;
             }
