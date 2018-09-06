@@ -70,7 +70,9 @@ fluctuators = {
             },
             onTick: (state) => {
                 if (state.toggle.down_quarks_fluctuator && state.down_quarks_fluctuator >= 1) {
-                    state.down_quarks += Math.round(_.random(state.down_quarks_fluctuator/3, state.down_quarks_fluctuator));
+                    let count = Math.round(_.random(state.down_quarks_fluctuator/3, state.down_quarks_fluctuator))
+                    state.strings-= count;
+                    state.down_quarks += count;
                 }
 
                 return state;
