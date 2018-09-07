@@ -13,7 +13,7 @@ fluctuators = {
             text: 'Synths Up Quarks once in a tick',
             cost: (state) => {
                 return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_fluctuator - 1) * 2),
-                    strings: Math.floor(Math.pow(1.9, state.up_quarks_fluctuator - 1) * 42)};
+                    strings: Math.floor(Math.pow(1.5, state.up_quarks_fluctuator - 1) * 2)};
             },
             locked: (state) => (!state.achievements.includes('up_quarks') && !state.achievements.includes('down_quarks') && !state.achievements.includes('photons')) ,
 
@@ -44,11 +44,11 @@ fluctuators = {
 
         down_quarks_fluctuator: {
             name: 'D Quarks Fluctuator',
-            text: 'Synths Down Quarks once in a tick',
+            text: 'When found in mesons (particles made of one quark and one antiquark) or baryons (particles made of three quarks), the \'effective mass\' (or \'dressed\' mass) of quarks becomes greater because of the binding energy caused by the gluon field between quarks ',
             cost: (state) => {
                 return {
                     down_quarks: Math.floor(Math.pow(1.2, state.down_quarks_fluctuator - 1) * 4),
-                    strings: Math.floor(Math.pow(2.4, state.down_quarks_fluctuator - 1) * 42)}
+                    strings: Math.floor(Math.pow(1.5, state.down_quarks_fluctuator - 1) * 2)}
             },
 
             locked: (state) => state.down_quarks<3,
@@ -86,7 +86,7 @@ fluctuators = {
             cost: (state) => {
                 return {
                     electrons: Math.floor(Math.pow(1.09, state.electrons_fluctuator - 1) * 15),
-                    strings: Math.floor(Math.pow(2.8, state.electrons_fluctuator - 1) * 42)
+                    strings: Math.floor(Math.pow(1.6, state.electrons_fluctuator - 1) * 3)
                 };
             },
             locked: (state) => !state.achievements.includes('protons'),
@@ -104,7 +104,9 @@ fluctuators = {
             },
             onTick: (state) => {
                 if (state.toggle.electrons_fluctuator && state.electrons_fluctuator >= 1) {
-                    state.electrons += Math.round(_.random(state.electrons_fluctuator * 0.5, state.electrons_fluctuator));
+                    let count = Math.round(_.random(state.electrons_fluctuator * 0.5, state.electrons_fluctuator));
+                    state.strings-=count;
+                    state.electrons += count;
                 }
                 return state;
             }
@@ -115,7 +117,7 @@ fluctuators = {
             cost: (state) => {
                 return {
                     photons: Math.floor(Math.pow(1.3, state.photons_fluctuator - 1) * 90),
-                    strings: Math.floor(Math.pow(1.3, state.photons_fluctuator - 1) * 150)
+                    strings: Math.floor(Math.pow(1.7, state.photons_fluctuator - 1) * 4)
                 };
             },
             locked: (state) => state.temperature>Math.pow(10, 21),
@@ -132,7 +134,9 @@ fluctuators = {
             },
             onTick: (state) => {
                 if (state.toggle.photons_fluctuator && state.photons_fluctuator >= 1) {
-                    state.photons += Math.round(_.random(state.photons_fluctuator * 0.5, state.photons_fluctuator));
+                    let count=Math.round(_.random(state.photons_fluctuator * 0.5, state.photons_fluctuator));
+                    state.strings-=count;
+                    state.photons+=count;
                 }
                 return state;
             }

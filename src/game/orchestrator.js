@@ -57,9 +57,7 @@ export class Orchestrator extends React.Component {
                       volume={this.props.state.achievements.length/1.4}
                       playStatus={this.props.state.music_paused ? Sound.status.PAUSED: Sound.status.PLAYING}
                       playbackRate={1.02-(this.props.state.strings/Math.pow(10,14))}
-                      loop={true}
-               onFinishedPlaying={i++}
-               onBufferChange={true}/>
+               onFinishedPlaying={() => i++}/>
         </div>);
     }
 }

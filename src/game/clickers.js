@@ -21,7 +21,11 @@ export const clickers = {
             name: 'Gain Up Quark',
             resource: 'up_quarks',
             cost: {strings: 1},
-            text: 'The lightest of all quarks, forms protons and neutrons',
+            text: 'Like all quarks, the up quark is an elementary fermion with spin \n' +
+            '1\n' +
+            '/\n' +
+            '2\n' +
+            ', and experiences all four fundamental interactions: gravitation, electromagnetism, weak interactions, and strong interactions. Forms protons and neutrons.',
             locked: (state) => state.temperature>Math.pow(10, 21),
             onClick: (state) => {
                 state.up_quarks++;

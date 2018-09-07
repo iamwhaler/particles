@@ -787,7 +787,7 @@ class App extends Component {
                     </div>
 
                     <div className="flex-container-row">
-                        <div className="flex-element">
+                        <div className="flex-element big-tab">
                             <h3> Particles </h3>
                             <div className="flex-container-row">
                                 <div className="flex-element">
@@ -796,11 +796,11 @@ class App extends Component {
                             </div>
                         </div>
 
-                        <div className="flex-element">
+                        <div className="flex-element big-tab">
                             {fluctuators_subcomponent}
                         </div>
 
-                        <div className="flex-element">
+                        <div className="flex-element big-tab">
                             <h3>Matter</h3>
                             {epochs.atom_epoch.locked(this.state)
                                 ? <div className="blocked">{epochs.atom_epoch.condition_text}
@@ -814,7 +814,7 @@ class App extends Component {
                         </div>
 
 
-                        <div className="flex-element">
+                        <div className="flex-element big-tab">
                             {rules_subcomponent}
                         </div>
 
@@ -822,7 +822,7 @@ class App extends Component {
 
 
                         <div className="flex-container-row">
-                            <div className="flex-element">
+                            <div className="flex-element bit-tab">
                                 { epochs.galaxy_epoch.locked(this.state)
                                     ? <div className="blocked">{epochs.galaxy_epoch.condition_text}
                                         <br />
@@ -833,12 +833,11 @@ class App extends Component {
 
                     <Popup ref={(p) => this.popupHandler = p}/>
 
-                <div style={{height: '130px', width: '100%'}}> </div>
+                <div style={{height: '40px', width: '100%'}}> </div>
                 </div>
-
                 <Footer newGame={this.newGame}/>
-
             </div>
+
         );
     }
 }

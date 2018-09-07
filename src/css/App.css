@@ -1,5 +1,6 @@
 
 .App {
+  margin: 0 auto;
   text-align: center;
   color: white;
   height: 100vh;
@@ -10,14 +11,26 @@
   filter: invert(2%);
 }
 
-.wrapper {
-  margin-bottom: -35px;
+
+.App :after{
+  content: "";
+  display: flex;
 }
 
 
 html, body {
   background-image: url('/born_of_a_star.jpg');
 
+}
+
+.big-tab {
+  padding: 2px 4px 2px 4px;
+  border: 1px solid #BDBDBD;
+  border-radius: 3px;
+  margin: 2px 2px 2px 2px;
+}
+.big-tab:hover {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .universe-tab {
@@ -35,13 +48,22 @@ html, body {
   margin: 10px 0 0 45%;
 }
 
-.info {
+button.info {
   height: 24px;
   max-width: 3px;
   justify-content: flex-end;
   align-items: flex-end;
   white-space: nowrap;
   background-color: #83B18F;
+}
+
+button.info:hover {
+  height: 24px;
+  max-width: 3px;
+  justify-content: flex-end;
+  align-items: flex-end;
+  white-space: nowrap;
+  background-color: #5A966A;
 }
 
 #tooltip {
@@ -91,11 +113,22 @@ html, body {
 
 
 button {
-  color: black;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  height: 25px;
+  color: white;
   font-size: 11px;
   border-radius: 3.5px;
   margin-bottom: 2.5px;
   margin-top: 2.5px;
+}
+
+button:hover {
+  background-color: rgba(127, 127, 127, 0.4);
 }
 
 .disabled {
