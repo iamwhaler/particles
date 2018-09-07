@@ -15,7 +15,7 @@ fluctuators = {
                 return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_fluctuator - 1) * 2),
                     strings: Math.floor(Math.pow(1.9, state.up_quarks_fluctuator - 1) * 42)};
             },
-            locked: (state) => (state.achievements.includes('up_quarks') && state.achievements.includes('down_quarks') && state.achievements.includes('photons')) ,
+            locked: (state) => (!state.achievements.includes('up_quarks') && !state.achievements.includes('down_quarks') && !state.achievements.includes('photons')) ,
 
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(1.19, state.up_quarks_fluctuator - 1) * 12);

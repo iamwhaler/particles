@@ -355,13 +355,11 @@ class App extends Component {
                     <span onClick={() =>
                         this.state.music_paused ? this.state.music_paused=false : this.state.music_paused=true
                     }> Sound
-                        <span
-                            className={classNames('glyphicon', (this.state.music_paused ? 'glyphicon-play' : 'glyphicon-pause'))}
-                            style={{width: 28, height: 28}}> </span>
+                                        <Orchestrator state={this.state}/>
+
                             </span>
                 </div>
 
-                <Orchestrator state={this.state}/>
             </div>;
 
 
