@@ -81,6 +81,8 @@ fluctuators = {
 
         electrons_fluctuator: {
             name: 'Electrons Fluctuator',
+            text: 'For reasons that remain uncertain, during the annihilation process there was an excess in the number of particles over antiparticles. Hence, about one electron for every billion electron-positron pairs survived.',
+            link: 'https://en.wikipedia.org/wiki/Electron#Formation',
             cost: (state) => {
                 return {
                     electrons: Math.floor(Math.pow(1.09, state.electrons_fluctuator - 1) * 15),

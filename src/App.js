@@ -278,8 +278,7 @@ class App extends Component {
                         : ''
                     }
 
-                    {!item.toggle
-                    ? <div className="flex-container-row">
+                    <div className="flex-container-row">
                         <div className="flex-element">
                         </div>
 
@@ -290,7 +289,6 @@ class App extends Component {
                             <a target="_blank" href={!item.toggle ? info[item.resource].link : ''}>Wiki</a>
                         </div>
                     </div>
-                        :''}
                 </div>
                 </div>
             </Tooltip>;
@@ -355,9 +353,7 @@ class App extends Component {
                     <span onClick={() =>
                         this.state.music_paused ? this.state.music_paused=false : this.state.music_paused=true
                     }> Sound
-                                        <Orchestrator state={this.state}/>
-
-                            </span>
+                     <Orchestrator state={this.state}/></span>
                 </div>
 
             </div>;
@@ -429,7 +425,7 @@ class App extends Component {
                                     :
                                     <div className="flex-container-row clickers">
                                         <button
-                                            className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
+                                            className={(item.cost ? this.isEnough(this.state, item.cost) && item.resource=='hydrogen' ? 'clickers' : 'clickers disabled' : 'clickers')}
                                             onClick={() => {
                                                 this.onClickWrapper(item);
                                             }}>
@@ -541,9 +537,14 @@ class App extends Component {
             {_.map(rules, (item, key) => (item.locked && item.locked(this.state))
                 ? ''
                 :
-                <div className="flex-element panel" key={key} style={{color: 'black'}}>
-                    <p>{item.name} {item.text}</p>
-                </div>  )}
+                item.name
+                ?
+                    <div className="flex-container-column-reverse">
+                <div className="panel" key={key} style={{color: 'black'}}>
+                    <h5>{item.name}</h5>
+                    <p>{item.text}</p>
+                </div>
+                    </div>: '')}
             </div>
         </div>;
 
@@ -807,8 +808,9 @@ class App extends Component {
                                     <img src="http://www.iconhot.com/icon/png/devine/256/blocked.png" /></div>
                                 :
                                 atoms_subcomponent
-                            && state.H2 < 5 ? '' : simple_molecules_subcomponent
                             }
+
+                            {this.state.H2>2 ? simple_molecules_subcomponent : ''}
                         </div>
 
 
@@ -831,7 +833,7 @@ class App extends Component {
 
                     <Popup ref={(p) => this.popupHandler = p}/>
 
-                <div style={{height: '50px', width: '100%'}}> </div>
+                <div style={{height: '130px', width: '100%'}}> </div>
                 </div>
 
                 <Footer newGame={this.newGame}/>

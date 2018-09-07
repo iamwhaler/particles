@@ -72,16 +72,20 @@ export const info = {
     },
 
     up_quarks: {
-        link: 'https://en.wikipedia.org/wiki/Up_quark'
+        link: 'https://en.wikipedia.org/wiki/Up_quark',
+        fluctuator_link: ''
     },
     down_quarks: {
-        link: 'https://en.wikipedia.org/wiki/Down_quark'
+        link: 'https://en.wikipedia.org/wiki/Down_quark',
+        fluctuator_link: ''
     },
     photons: {
-        link: 'https://en.wikipedia.org/wiki/Photon'
+        link: 'https://en.wikipedia.org/wiki/Photon',
+        fluctuator_link: ''
     },
     electrons: {
-        link: 'https://en.wikipedia.org/wiki/Electron'
+        link: 'https://en.wikipedia.org/wiki/Electron',
+        fluctuator_link: ''
     },
     neutrino: {
         link: 'https://en.wikipedia.org/wiki/Neutrino'

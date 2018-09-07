@@ -1,20 +1,33 @@
 import React from 'react';
 import Sound from 'react-sound';
+import _ from 'lodash';
 import classNames from "classnames";
 
-const SOUNDBANK = {
-    calm: {
-        path:'./sound/wormhole.mp3',
+export let SOUNDBANK = [
+     {
+        path: './sound/wormhole.mp3',
         speed: '',
         volume: ''
     },
-    lit: {
+    {
+        path: './sound/postintro.mp3',
+        speed: '',
+        volume: ''
+    },
+
+     {
         path: './sound/ripple-ether.mp3'
     },
-    speed: {
+
+    {
         path: './sound/speed.mp3'
-    }
-};
+    },
+
+    {
+        path: './sound/miracle.mp3'
+    },
+
+];
 
 
 
@@ -24,16 +37,17 @@ export class Orchestrator extends React.Component {
         super(props);
     }
 
-    getTrack() {
-        return this.props.state.down_quarks_fluctuator>10 && this.props.state.electrons_fluctuator>15
-            ? SOUNDBANK.speed
-            :
-                this.props.state.hydrogen<10 ?
-                SOUNDBANK.calm : SOUNDBANK.lit
+    getTrack(track) {
+        _.map(SOUNDBANK, (item, key) => {
+
+        })
+
     }
 
     render() {
-        let current_track = this.getTrack();
+        let i = 0;
+        let current_track = SOUNDBANK[i];
+
         return (
         <div>
         <span
@@ -44,6 +58,7 @@ export class Orchestrator extends React.Component {
                       playStatus={this.props.state.music_paused ? Sound.status.PAUSED: Sound.status.PLAYING}
                       playbackRate={1.02-(this.props.state.strings/Math.pow(10,14))}
                       loop={true}
+               onFinishedPlaying={i++}
                onBufferChange={true}/>
         </div>);
     }

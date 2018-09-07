@@ -4,22 +4,6 @@ import toastr from 'toastr';
 import checkAchievement from './achievements';
 
 export const old_rules = {
-    universe_size_rule: {
-        onTick: (state) => {
-           // state.H2+=1000; state.hydrogen+=1000;
-            state.universe_size+= Math.pow(1, state.temperature)/(1 + 0.01 *state.temperature);
-            return state;
-        }
-    },
-
-    temperature_effect_tule: {
-        onTick: (state) => {
-            _.map(fluctuators.miners, (value, resource_key) =>
-                value.temperature_effect && state.toggle[resource_key] ? state.temperature += value.temperature_effect(state)
-                    : false);
-            return state
-        }
-    },
 
     achievement_rule: {
         onTick: (state) => {

@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
   color: white;
@@ -15,7 +16,6 @@
 
 
 html, body {
-  height: 100%;
   background-image: url('/born_of_a_star.jpg');
 
 }
@@ -99,7 +99,7 @@ button {
 }
 
 .disabled {
-  background-color: #979797;
+  background-color: #B7B7B7;
 }
 
 .switchOn {
