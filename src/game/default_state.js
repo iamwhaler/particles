@@ -113,10 +113,10 @@ const default_state = {
     selected_star: null,
     selected_planet: null,
 
-
     game_speed: 1000,
     game_speed_multiplier: 1,
     tick: 0,
+    game_started: false,
     game_paused: true,
     music_paused: false,
     game_end: false
