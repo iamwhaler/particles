@@ -778,7 +778,24 @@ class App extends Component {
 
         return (
             <div className="App">
-                <div className="wrapper">
+                {!state.game_started ?
+                    <div>
+                        <div className="panel" style={{color: 'black', margin: '100px', padding: '100px'}}>
+                            <p>Particles: the game about music, nuclear and quantum physics, astronomy and evolution.</p>
+                            <p>We want to create a kind of simulation-encyclopedia.</p>
+                            <GinButton item={{
+                                name: 'Start Game',
+                                onClick: state => {
+                                    state.game_started = true;
+                                    state.game_paused = false;
+                                    return state;
+                                }
+                            }}/>
+                            <p>Disclaimer the game on the early stages of development, bugs are possible!</p>
+                            <p>Developers will be grateful if in case of any problem you write to the Support.</p>
+                        </div>
+                    </div>
+                    : <div className="wrapper">
                     <div className="flex-container-column header">
                         {header_subcomponent}
                     </div>
@@ -804,15 +821,14 @@ class App extends Component {
                             <h3>Matter</h3>
                             {epochs.atom_epoch.locked(this.state)
                                 ? <div className="blocked">{epochs.atom_epoch.condition_text}
-                                    <br />
-                                    <img src="http://www.iconhot.com/icon/png/devine/256/blocked.png" /></div>
+                                <br />
+                                <img src="http://www.iconhot.com/icon/png/devine/256/blocked.png"/></div>
                                 :
                                 atoms_subcomponent
                             }
 
-                            {this.state.H2>2 ? simple_molecules_subcomponent : ''}
+                            {this.state.H2 > 2 ? simple_molecules_subcomponent : ''}
                         </div>
-
 
                         <div className="flex-element">
                             {rules_subcomponent}
@@ -820,24 +836,23 @@ class App extends Component {
 
                     </div>
 
-
-                        <div className="flex-container-row">
-                            <div className="flex-element">
-                                { epochs.galaxy_epoch.locked(this.state)
-                                    ? <div className="blocked">{epochs.galaxy_epoch.condition_text}
-                                        <br />
-                                        <img src="http://www.iconhot.com/icon/png/devine/256/blocked.png" /></div>
-                                    : universe_subcomponent}
-                            </div>
+                    <div className="flex-container-row">
+                        <div className="flex-element">
+                            { epochs.galaxy_epoch.locked(this.state)
+                                ? <div className="blocked">{epochs.galaxy_epoch.condition_text}
+                                <br />
+                                <img src="http://www.iconhot.com/icon/png/devine/256/blocked.png"/></div>
+                                : universe_subcomponent}
                         </div>
+                    </div>
 
                     <Popup ref={(p) => this.popupHandler = p}/>
 
-                <div style={{height: '130px', width: '100%'}}> </div>
+                    <div style={{height: '130px', width: '100%'}}></div>
+
+                    <Footer newGame={this.newGame}/>
                 </div>
-
-                <Footer newGame={this.newGame}/>
-
+                }
             </div>
         );
     }
