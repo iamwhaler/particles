@@ -28,6 +28,7 @@ export const old_rules = {
             checkAchievement(state, state.down_quarks);
             checkAchievement(state, state.neutrons);
             checkAchievement(state, state.protons);
+            checkAchievement(state, state.photons);
             checkAchievement(state, state.electrons);
             checkAchievement(state, state.hydrogen);
             checkAchievement(state, state.helium);
@@ -36,7 +37,6 @@ export const old_rules = {
             checkAchievement(state, state.C2);
             checkAchievement(state, state.carbon);
             checkAchievement(state, state.nitrogen);
-            checkAchievement(state, state.hydrogen_stars);
 
 
             return state;

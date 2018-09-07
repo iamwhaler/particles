@@ -379,7 +379,7 @@ class App extends Component {
                                 {(item.locked && item.locked(this.state))
                                     ? ''
                                     :
-                                    <div className="flex-container-row clickers">
+                                    <div className="clickers">
                                         <button
                                             className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
                                             onClick={() => {
@@ -490,36 +490,37 @@ class App extends Component {
                 <h3>Fluctuators</h3>
                 <img alt="" className="overlay" src={"./img/automation.png"}
                      style={{width: '25px', height: '25px'}}/>
-                <div className="flex-container-row info-block">
-                    <div className="flex-element">
+                <div className="flex-container-column info-block">
                         {_.map(fluctuators.fluctuators, (item, key) =>
-                            (item.locked && item.locked(this.state))
-                                ? <div key={key} className="flex-element"> </div>
-                                : <div key={key} className="flex-container-row automation">
-                                <div className="flex-element" style={{textAlign: 'left'}}>
-                                    <OverlayTrigger delay={150} placement="left"
-                                                    overlay={tooltip(this.state, item)}>
-                                        <div>
-                                            <button
-                                                className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost)  ? '' : 'disabled' : '')}
-                                                onClick={() => {
-                                                    this.onClickWrapper(item);
-                                                }}>
-                                                {state[key] > 0
-                                                    ? item.name + ': lvl ' + state[key]
-                                                    : item.name}
-                                            </button>
-                                            {(item.toggle && state[key] > 0)
-                                                ?
-                                                <button className={state.toggle[key] ? 'switchOn' : ''}
-                                                        onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
-                                                : ''}
-                                        </div>
-                                    </OverlayTrigger>
-                                </div>
+                            <div key={key}>
+                                {(item.locked && item.locked(this.state))
+                                    ? <div className="flex-element"> </div>
+                                    : <div className="flex-container-row automation">
+                                        <OverlayTrigger delay={150} placement="left"
+                                                        overlay={tooltip(this.state, item)}>
+                                            <div className="flex-element fluctuators">
+                                                <button style={{minWidth: '140px', maxHeight: '110px'}}
+                                                        className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
+                                                        onClick={() => {
+                                                            this.onClickWrapper(item);
+                                                        }}>
+                                                <span>
+                                                    {state[key] > 0
+                                                        ? item.name + ': lvl ' + state[key]
+                                                        : item.name}
+                                                </span>
+                                                </button>
+                                                {(item.toggle && state[key] > 0)
+                                                    ?
+                                                    <button className={state.toggle[key] ? 'switchOn' : ''}
+                                                            onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
+                                                    : ''}
+                                            </div>
+                                        </OverlayTrigger>
+                                    </div>
+                                }
                             </div>
                         )}
-                    </div>
                 </div>
             </div>;
 

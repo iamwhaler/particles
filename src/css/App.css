@@ -83,11 +83,12 @@ html, body {
   font-size: 10px;
 }
 
-
-.automation  .col-md-6 {
-  padding-left: 0;
-  padding-right: 0;
+.fluctuators {
+  text-align: left;
+  width: 110px;
+  font-size: 10px;
 }
+
 
 button {
   color: black;

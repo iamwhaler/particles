@@ -16,18 +16,19 @@ export class Orchestrator extends React.Component {
         super(props);
     }
 
-    getTrack(state) {
-        if(state.hydrogen<30){
-            return SOUNDBANK.calm;
-        }
-        else if(state.down_quarks_fluctuator>10 && state.electrons_fluctuator>15){
-            return SOUNDBANK.speed;
-        }
-
+    getTrack() {
+        return this.props.state.down_quarks_fluctuator>10 && this.props.state.electrons_fluctuator>15
+            ? SOUNDBANK.speed
+            :
+            this.props.state.hydrogen<10
+        ?
+            SOUNDBANK.calm
+                : SOUNDBANK.lit
     }
 
     render() {
-        return <Sound url={this.props.state.down_quarks_fluctuator>10 && this.props.state.electrons_fluctuator>15 ? SOUNDBANK.speed : SOUNDBANK.calm}
+        return <Sound url={this.getTrack()}
+                      volume={this.props.state.achievements.length}
                       playStatus={this.props.state.music_paused ? Sound.status.PAUSED: Sound.status.PLAYING}
                       playbackRate={1-(this.props.state.strings/Math.pow(10,14))}
                       onFinishedPlaying={Sound.status.STOPPED && Sound.status.PLAYING}

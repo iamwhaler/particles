@@ -9,13 +9,13 @@ fluctuators = {
     fluctuators: {
 
         up_quarks_fluctuator: {
-            name: 'Up Quarks Fluctuator',
+            name: 'U Quarks Fluctuator',
             text: 'Synths Up Quarks once in a tick',
             cost: (state) => {
                 return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_fluctuator - 1) * 2),
                     strings: Math.floor(Math.pow(1.9, state.up_quarks_fluctuator - 1) * 42)};
             },
-            locked: (state) => (!state.achievements.includes('up_quarks') && !state.achievements.includes('down_quarks') && !state.achievements.includes('photons')) ,
+            locked: (state) => (state.achievements.includes('up_quarks') && state.achievements.includes('down_quarks') && state.achievements.includes('photons')) ,
 
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(1.19, state.up_quarks_fluctuator - 1) * 12);
@@ -43,7 +43,7 @@ fluctuators = {
         },
 
         down_quarks_fluctuator: {
-            name: 'Down Quarks Fluctuator',
+            name: 'D Quarks Fluctuator',
             text: 'Synths Down Quarks once in a tick',
             cost: (state) => {
                 return {
