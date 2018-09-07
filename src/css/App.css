@@ -1,21 +1,21 @@
+
 .App {
   text-align: center;
   color: white;
-  height: 100vm;
+  height: 100vh;
   background-color: rgba(20, 0, 42, 0.42);
-  margin-bottom: -50px;
   padding: 0;
   font-family: 'Roboto Condensed', sans-serif;
   overflow: auto;
   filter: invert(2%);
 }
 
-.wrap {
-  position: relative;
+.wrapper {
+  margin-bottom: -35px;
 }
 
-body {
-  height: auto;
+
+html, body {
   background-image: url('/born_of_a_star.jpg');
 
 }
@@ -44,7 +44,7 @@ body {
   background-color: #83B18F;
 }
 
-.tooltip {
+#tooltip {
   padding-bottom: -70px;
   padding-top: -70px;
   max-width: 300px;
@@ -83,11 +83,12 @@ body {
   font-size: 10px;
 }
 
-
-.automation  .col-md-6 {
-  padding-left: 0;
-  padding-right: 0;
+.fluctuators {
+  text-align: left;
+  width: 110px;
+  font-size: 10px;
 }
+
 
 button {
   color: black;
@@ -98,7 +99,7 @@ button {
 }
 
 .disabled {
-  background-color: #979797;
+  background-color: #B7B7B7;
 }
 
 .switchOn {
@@ -162,10 +163,19 @@ img {
 }
 
 .panel {
-  background-color: lightblue;
+  background-color: #EBEBEB;
+  opacity: 0.8;
 }
 
 .history {
   overflow-y: auto;
   height: 350px;
+}
+
+.blocked {
+  opacity: 0.6;
+  height: 70px;
+  vertical-align: 50%;
+  color: black;
+  background-image: linear-gradient(gainsboro, lightsteelblue, #EBEBEB);
 }

@@ -5,17 +5,20 @@ import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import Footer from './footer.js'
 
 import './css/App.css';
+import './css/particles.css'
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {game_name} from './game/app_config';
 import {getDefaultState} from './game/default_state';
 import {tick} from './game/tick';
 import {rules} from './game/rules';
-import {data, info, wiki} from './game/data';
+import {data, info, epochs} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {fluctuators} from './game/fluctuators';
 import Popup from "./utils/Popup/Popup";
+
+import { Orchestrator } from './game/orchestrator';
 
 import {ToastContainer} from 'react-toastr';
 import confirm from './components/confirm_launch';
@@ -157,6 +160,23 @@ class App extends Component {
         this.popupHandler.createPopup(`${this.info}`, component);
     }
 
+
+    roundNumber(number) {
+        let units = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'],
+            decimal;
+
+        for(let i=units.length-1; i>=0; i--) {
+            decimal = Math.pow(1000, i+1);
+
+            if(number <= -decimal || number >= decimal) {
+                return +(number / decimal).toFixed(4) + units[i];
+            }
+        }
+
+        return Math.round(number);
+    }
+
+
     render() {
         let state = this.state;
         let gradient = (state) => {
@@ -187,59 +207,6 @@ class App extends Component {
                 </button>
         };
 
-
-        const starTooltip = (state, item) =>
-            item
-                ?
-                (item.star.type === 'Hydrogen')
-                    ?
-                    <Tooltip id="tooltip">
-                        <div className="flex-container-column infoBar">
-                            <div className="flex element">
-                                <div className="col-md infoBar">
-                                    <h6>{item.star.name}</h6>
-                                </div>
-
-                                <div className="col-md infoBar">
-                                    Old: {this.state.tick - item.star.born}
-                                </div>
-
-                                <div className="col-md infoBar">
-                                    Hydrogen: {item.star.hydrogen.toFixed(0)}
-                                </div>
-                                <div className="col-md infoBar">
-                                    Helium: {item.star.helium.toFixed(0)}
-                                </div>
-                            </div>
-                        </div>
-                    </Tooltip>
-                    :
-                    (item.star.type === 'Helium')
-                        ?
-
-                        <Tooltip id="tooltip">
-                            <div className="flex-container-column infoBar">
-                                <div className="flex element">
-                                    <div className="col-md infoBar">
-                                        <h6>{item.star.name}</h6>
-                                    </div>
-
-                                    <div className="col-md infoBar">
-                                        Old: {this.state.tick - item.star.born}
-                                    </div>
-
-                                    <div className="col-md infoBar">
-                                        Helium: {item.star.helium.toFixed(0)}
-                                    </div>
-                                    <div className="col-md infoBar">
-                                        Carbon: {item.star.carbon.toFixed(0)}
-                                    </div>
-                                </div>
-                            </div>
-                        </Tooltip>
-                        : ''
-                : '';
-
         const details = (item) =>
             <Tooltip id="tooltip">
                 <div className="flex-container-row">
@@ -263,31 +230,40 @@ class App extends Component {
         const tooltip = (state, item) =>
             <Tooltip id="tooltip">
                 <div>
-                    <div className="flex-container-row">
+                    <div className="flex-container-column">
                         <div className="flex-container-row">
                             <div className="flex-element">
+                                <img src={ !item.toggle ? info[item.resource].icon : ''} />
+                            </div>
+                            <div className="flex-element">
                                 <span>{item.name}</span>
-                                <br/>
+                            </div>
+                        </div>
+                        <div className="flex-element">
                                 {(!item.text)
                                     ? ''
                                     :
                                     <span style={{fontSize: '11px'}}>{item.text}</span>}
                             </div>
-                        </div>
-                    </div>
-
 
                     {_.map(_.isFunction(item.cost) ? item.cost(this.state) : item.cost, (value, resource_key) =>
                         (!item.cost)
                             ? ''
                             :
-                            <div className="row" key={resource_key}>
-                                <div className="col-sm-6 infoBar">{resource_key}</div>
-                                <div className="col-sm-6 infoBar"
-                                     style={(value > state[resource_key]) ? {color: '#982727'} : {color: ''}}>
-                                    {value} / {state[resource_key].toFixed(0)} {(value > state[resource_key]) ?
-                                    <p>({-(state[resource_key] - value).toFixed(0)} left)</p> : ''}
+                            <div className="flex-container-row" key={resource_key}>
+                                <div className="flex-element" style={{textAlign: 'left', justifyContent: 'flex-start'}}>
+                                <span>{resource_key}: </span>
                                 </div>
+                                    <div className="flex-element" style={{textAlign: 'right', justifyContent: 'flex-end'}}>
+                                    <span
+                                     style={(value > state[resource_key]) ? {color: '#982727'} : {color: ''}}>
+                                    {this.roundNumber(value)}
+                                        / {this.roundNumber(state[resource_key])}
+                                    {(value > state[resource_key]) ?
+                                    <span> ({this.roundNumber(-(state[resource_key] - value))} left)</span> : ''}
+                                </span>
+                                </div>
+
                             </div>
                     )}
 
@@ -305,12 +281,15 @@ class App extends Component {
                     <div className="flex-container-row">
                         <div className="flex-element">
                         </div>
+
                         <div className="flex-element">
                         </div>
+
                         <div className="flex-element">
-                            <a target="_blank" href={wiki[item.resource]}>Wiki</a>
+                            <a target="_blank" href={!item.toggle ? info[item.resource].link : ''}>Wiki</a>
                         </div>
                     </div>
+                </div>
                 </div>
             </Tooltip>;
 
@@ -347,7 +326,7 @@ class App extends Component {
             <div className="flex-container-row">
                 <h5 className="flex-element"
                     style={temperatureStyle}>
-                    Temperature: {Math.floor(state.temperature).toFixed(0)} K
+                    Temperature: {Math.floor(state.temperature)} K
                 </h5>
                 <div className="flex-element">
                     <h5>Years: {this.state.tick}k</h5>
@@ -369,6 +348,14 @@ class App extends Component {
                         History
                     </button>
                 </div>
+
+                <div className="flex-element">
+                    <span onClick={() =>
+                        this.state.music_paused ? this.state.music_paused=false : this.state.music_paused=true
+                    }> Sound
+                     <Orchestrator state={this.state}/></span>
+                </div>
+
             </div>;
 
 
@@ -386,7 +373,7 @@ class App extends Component {
                                 {(item.locked && item.locked(this.state))
                                     ? ''
                                     :
-                                    <div className="flex-container-row clickers">
+                                    <div className="clickers">
                                         <button
                                             className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
                                             onClick={() => {
@@ -394,7 +381,8 @@ class App extends Component {
                                             }}>
                                             <div className="flex-element" style={{textAlign: 'left'}} key={key}>
                                                             <span className="flex-element">
-                                                            {item.resource ? data.basic_particles[item.resource].name : 'resource'}: {item.resource ? state[item.resource].toFixed(0) : 'quantity'}
+                                                            {item.resource ? data.basic_particles[item.resource].name : 'resource'}: {item.resource ?
+                                                                this.roundNumber(state[item.resource]) : 'quantity'}
                                                             </span>
                                             </div>
 
@@ -437,7 +425,7 @@ class App extends Component {
                                     :
                                     <div className="flex-container-row clickers">
                                         <button
-                                            className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
+                                            className={(item.cost ? this.isEnough(this.state, item.cost) && item.resource=='hydrogen' ? 'clickers' : 'clickers disabled' : 'clickers')}
                                             onClick={() => {
                                                 this.onClickWrapper(item);
                                             }}>
@@ -456,11 +444,11 @@ class App extends Component {
                                     ? ''
                                     :
                                     <div>
-                                        <OverlayTrigger delay={150} placement="right"
+                                        <OverlayTrigger delay={150} trigger="focus" placement="right"
                                                         overlay={tooltip(this.state, item)}>
                                             <div>
                                                 <button className="info">
-                                                    I
+                                                    i
                                                 </button>
                                             </div>
                                         </OverlayTrigger>
@@ -496,36 +484,37 @@ class App extends Component {
                 <h3>Fluctuators</h3>
                 <img alt="" className="overlay" src={"./img/automation.png"}
                      style={{width: '25px', height: '25px'}}/>
-                <div className="flex-container-row info-block">
-                    <div className="flex-element">
+                <div className="flex-container-column info-block">
                         {_.map(fluctuators.fluctuators, (item, key) =>
-                            (item.locked && item.locked(this.state))
-                                ? <div key={key} className="flex-element"> </div>
-                                : <div key={key} className="flex-container-row automation">
-                                <div className="flex-element" style={{textAlign: 'left'}}>
-                                    <OverlayTrigger delay={150} placement="top"
-                                                    overlay={tooltip(this.state, item)}>
-                                        <div>
-                                            <button
-                                                className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
-                                                onClick={() => {
-                                                    this.onClickWrapper(item);
-                                                }}>
-                                                {state[key] > 0
-                                                    ? item.name + ': lvl ' + state[key]
-                                                    : item.name}
-                                            </button>
-                                            { (item.toggle && state[key] > 0)
-                                                ?
-                                                <button className={state.toggle[key] ? 'switchOn' : ''}
-                                                        onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
-                                                : ''}
-                                        </div>
-                                    </OverlayTrigger>
-                                </div>
+                            <div key={key}>
+                                {(item.locked && item.locked(this.state))
+                                    ? <div className="flex-element"> </div>
+                                    : <div className="flex-container-row automation">
+                                        <OverlayTrigger delay={150} placement="left"
+                                                        overlay={tooltip(this.state, item)}>
+                                            <div className="flex-element fluctuators">
+                                                <button style={{minWidth: '140px', maxHeight: '110px'}}
+                                                        className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
+                                                        onClick={() => {
+                                                            this.onClickWrapper(item);
+                                                        }}>
+                                                <span>
+                                                    {state[key] > 0
+                                                        ? item.name + ': lvl ' + state[key]
+                                                        : item.name}
+                                                </span>
+                                                </button>
+                                                {(item.toggle && state[key] > 0)
+                                                    ?
+                                                    <button className={state.toggle[key] ? 'switchOn' : ''}
+                                                            onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
+                                                    : ''}
+                                            </div>
+                                        </OverlayTrigger>
+                                    </div>
+                                }
                             </div>
                         )}
-                    </div>
                 </div>
             </div>;
 
@@ -548,9 +537,14 @@ class App extends Component {
             {_.map(rules, (item, key) => (item.locked && item.locked(this.state))
                 ? ''
                 :
-                <div className="flex-element panel" key={key} style={{color: 'black'}}>
-                    <p>{item.name} {item.text}</p>
-                </div>  )}
+                item.name
+                ?
+                    <div className="flex-container-column-reverse">
+                <div className="panel" key={key} style={{color: 'black'}}>
+                    <h5>{item.name}</h5>
+                    <p>{item.text}</p>
+                </div>
+                    </div>: '')}
             </div>
         </div>;
 
@@ -665,10 +659,126 @@ class App extends Component {
                 </div>
             </div>;
 
+         const molecules_arts = <div>
+                 <ul className='atoms set'>
+                     <li className='atom O'></li>
+                     <li className='atom H'></li>
+                     <li className='atom C'></li>
+                     <li className='atom N'></li>
+                     <li className='atom Cl'></li>
+                 </ul>
+                 <ul className='molecules set'>
+                     <li className='molecule-wrap'>
+                         <div className='info'>water (H<sub>2</sub>O)</div>
+                         <ul className='molecule H2O'>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom O'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>carbon dioxide (CO<sub>2</sub>)</div>
+                         <ul className='molecule CO2'>
+                             <li className='atom C'></li>
+                             <li className='atom O'></li>
+                             <li className='atom O'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>hydrogen cyanide (HCN)</div>
+                         <ul className='molecule HCN'>
+                             <li className='atom H'></li>
+                             <li className='atom C'></li>
+                             <li className='atom N'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>ammonia (NH<sub>3</sub>)</div>
+                         <ul className='molecule NH3'>
+                             <li className='atom N'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>methane (CH<sub>4</sub>)</div>
+                         <ul className='molecule CH4'>
+                             <li className='atom C'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>formaldehyde (CH<sub>2</sub>O)</div>
+                         <ul className='molecule CH2O'>
+                             <li className='atom C'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom O'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>carbon tetrachloride (CCl<sub>4</sub>)</div>
+                         <ul className='molecule CCl4'>
+                             <li className='atom C'></li>
+                             <li className='atom Cl'></li>
+                             <li className='atom Cl'></li>
+                             <li className='atom Cl'></li>
+                             <li className='atom Cl'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>methyl chloride (CH<sub>3</sub>Cl)</div>
+                         <ul className='molecule CH3Cl'>
+                             <li className='atom C'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom Cl'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>acetylene (C<sub>2</sub>H<sub>2</sub>)</div>
+                         <ul className='molecule C2H2'>
+                             <li className='atom C'></li>
+                             <li className='atom C'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>ethylene (C<sub>2</sub>H<sub>4)</sub></div>
+                         <ul className='molecule C2H4'>
+                             <li className='atom C'></li>
+                             <li className='atom C'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                         </ul>
+                     </li>
+                     <li className='molecule-wrap'>
+                         <div className='info'>ethane (C<sub>2</sub>H<sub>6)</sub></div>
+                         <ul className='molecule C2H6'>
+                             <li className='atom C'></li>
+                             <li className='atom C'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                             <li className='atom H'></li>
+                         </ul>
+                     </li>
+                 </ul></div>;
+
 
         return (
             <div className="App">
-                <div className="wrap">
+                <div className="wrapper">
                     <div className="flex-container-column header">
                         {header_subcomponent}
                     </div>
@@ -692,8 +802,15 @@ class App extends Component {
 
                         <div className="flex-element">
                             <h3>Matter</h3>
-                            {state.temperature > 5000 ? '' : atoms_subcomponent }
-                            {state.H2 < 5 ? '' : simple_molecules_subcomponent}
+                            {epochs.atom_epoch.locked(this.state)
+                                ? <div className="blocked">{epochs.atom_epoch.condition_text}
+                                    <br />
+                                    <img src="http://www.iconhot.com/icon/png/devine/256/blocked.png" /></div>
+                                :
+                                atoms_subcomponent
+                            }
+
+                            {this.state.H2>2 ? simple_molecules_subcomponent : ''}
                         </div>
 
 
@@ -703,18 +820,23 @@ class App extends Component {
 
                     </div>
 
-                    <div className="flex-container-row">
-                        <div className="flex-element">
-                            {universe_subcomponent}
+
+                        <div className="flex-container-row">
+                            <div className="flex-element">
+                                { epochs.galaxy_epoch.locked(this.state)
+                                    ? <div className="blocked">{epochs.galaxy_epoch.condition_text}
+                                        <br />
+                                        <img src="http://www.iconhot.com/icon/png/devine/256/blocked.png" /></div>
+                                    : universe_subcomponent}
+                            </div>
                         </div>
-                    </div>
 
                     <Popup ref={(p) => this.popupHandler = p}/>
 
-                    <Footer newGame={this.newGame}/>
-                    <div style={{height: '50px', width: '100%'}}> </div>
-
+                <div style={{height: '130px', width: '100%'}}> </div>
                 </div>
+
+                <Footer newGame={this.newGame}/>
 
             </div>
         );

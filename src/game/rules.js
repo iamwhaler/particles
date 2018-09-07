@@ -2,16 +2,63 @@ import _ from 'lodash';
 
 import {old_rules} from './old_rules';
 import {weight} from './physics';
+import {fluctuators} from "./fluctuators";
 
 
 export const rules = {
 
-    old_rules: { name: 'Rules ', text: 'Rule Text',
+    old_rules: {
         locked: state => false,
         onTick: state => _.reduce(old_rules, (sum, rule) => rule.onTick ? rule.onTick(sum) : sum, state)
     },
 
-    H2_rule: {name: 'H2 merge', text: 'Rule Text',
+    universe_size_rule: {
+        name: 'Universe Expansion', text: 'Universe is expanding on the lower temperatures',
+        locked: false,
+        onTick: (state) => {
+            // state.H2+=1000; state.hydrogen+=1000;
+            state.universe_size+= Math.pow(1, state.temperature)/(1 + 0.01 *state.temperature);
+            return state;
+        }
+    },
+
+    temperature_effect_rule: {
+        name: 'Temperature fluctuation',
+        text: 'Fluctuators slightly increase your temperature',
+        onTick: (state) => {
+            _.map(fluctuators.fluctuators, (value, resource_key) =>
+                value.temperature_effect && state.toggle[resource_key] ? state.temperature += value.temperature_effect(state)
+                    : false);
+            return state
+        }
+    },
+
+
+    protons_rule: {name: 'Protons Merge', text: 'Protons form from existing quarks',
+        locked: state => state.protons === 0,
+        onTick: (state) => {
+            if (state.up_quarks >= 5 && state.down_quarks >= 5) {
+                state.up_quarks -= 2;
+                state.down_quarks -= 1;
+                state.protons += 1;
+            }
+            return state;
+        }
+    },
+
+    neutrons_rule: {name: 'Neutrons Merge', text: 'Neutrons form from existing quarks',
+        locked: state => state.neutrons === 0,
+        onTick: (state) => {
+            if (state.up_quarks >= 5 && state.down_quarks >= 5) {
+                state.up_quarks -= 1;
+                state.down_quarks -= 2;
+                state.neutrons += 1;
+            }
+            return state;
+        }
+    },
+
+    H2_rule: {name: 'H2 merge', text: 'Hydrogen forms a molecule once appeared',
         locked: state => state.hydrogen === 0,
         onTick: (state) => {
             if (state.hydrogen >= 5) {
@@ -46,7 +93,6 @@ export const rules = {
     new_system: { name: 'New System', text: 'Rule Text',
         locked: state => state.universe.length === 0,
         onTick: state => {
-            console.log(state.universe);
             _.each(state.universe, (galaxy, galaxy_key) =>  {
                 if (_.random(1, 100) === 1 && weight({'H2': galaxy.mater.H2, 'He': galaxy.mater.He}) > 100) {
                     let H2 = Math.ceil(Math.sqrt(galaxy.mater.H2));

@@ -21,6 +21,11 @@ div {
   flex-direction: column;
 }
 
+.flex-container-column-reverse {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .flex-container-row {
   display: flex;
   flex-direction: row;

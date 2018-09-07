@@ -3,7 +3,6 @@ import {clickers} from "./clickers";
 export const data = {
     basic_particles: {
         strings: {name: 'Strings'},
-        gluons: {name: 'Gluons', locked: (state) => clickers.basic_particles.gluons_clicker.locked(state)},
         up_quarks: {name: 'Up Quarks'},
         down_quarks: {name: 'Down Quarks', locked: (state) => clickers.basic_particles.down_quarks_clicker.locked(state)},
         photons: {name: 'Photons', locked: (state) => clickers.basic_particles.photons_clicker.locked(state)},
@@ -14,15 +13,14 @@ export const data = {
     },
 
     atoms: {
-        beryllium: {name: 'Beryllium', locked: (state) => clickers.atoms.beryllium_clicker.locked(state)},
         hydrogen: {name: 'Hydrogen', locked: (state) => clickers.atoms.hydrogen_clicker.locked(state)},
         helium: {name: 'Helium', locked: (state) => clickers.atoms.helium_clicker.locked(state)},
         carbon: {name: 'Carbon', locked: (state) => clickers.atoms.carbon_clicker.locked(state)},
-        oxygen: {name: 'Oxygen', locked: (state) => clickers.atoms.oxygen_clicker.locked(state)},
         nitrogen: {name: 'Nitrogen', locked: (state) => clickers.atoms.nitrogen_clicker.locked(state)},
+        oxygen: {name: 'Oxygen', locked: (state) => clickers.atoms.oxygen_clicker.locked(state)},
+        neon: {name: 'Neon', locked: (state) => clickers.atoms.neon_clicker.locked(state)},
         silicon: {name: 'Silicon', locked: (state) => clickers.atoms.silicon_clicker.locked(state)},
         ferrum: {name: 'Ferrum', locked: (state) => clickers.atoms.ferrum_clicker.locked(state)},
-        neon: {name: 'Neon', locked: (state) => clickers.atoms.neon_clicker.locked(state)},
 
     },
 
@@ -32,6 +30,24 @@ export const data = {
         N2: {name: 'N2', locked: (state) => !state.achievements.includes('nitrogen')},
         C2: {name: 'C2', locked: (state) => !state.achievements.includes('carbon')}
     }
+};
+
+export const epochs = {
+    quark_gluon_plasm_epoch: {
+        condition_text: '',
+        locked: () => false,
+    },
+    atom_epoch: {
+        condition_text: 'You can not start to form atoms unless you managed a great basic particles supply',
+        locked: (state) => !state.achievements.includes('up_quarks') && !state.achievements.includes('photons') && !state.achievements.includes('electrons')
+    },
+
+    galaxy_epoch: {
+        condition_text: 'Galaxies will not accelerate while Hydrogen molecules supply is low',
+        locked: (state) => !state.achievements.includes('protons') && !state.achievements.includes('neutrons') && !state.achievements.includes('H2')
+    },
+
+
 };
 
 export const info = {
@@ -49,27 +65,61 @@ export const info = {
         name: 'Simple molecules',
         info: 'Molecules will form stars and other objects in your universe. Mining of them will result in huge temperature raise'
     },
+
+    strings:  {
+        link: 'https://en.wikipedia.org/wiki/String_(physics)',
+        icon: './img/strings.png'
+    },
+
+    up_quarks: {
+        link: 'https://en.wikipedia.org/wiki/Up_quark',
+        fluctuator_link: ''
+    },
+    down_quarks: {
+        link: 'https://en.wikipedia.org/wiki/Down_quark',
+        fluctuator_link: ''
+    },
+    photons: {
+        link: 'https://en.wikipedia.org/wiki/Photon',
+        fluctuator_link: ''
+    },
+    electrons: {
+        link: 'https://en.wikipedia.org/wiki/Electron',
+        fluctuator_link: ''
+    },
+    neutrino: {
+        link: 'https://en.wikipedia.org/wiki/Neutrino'
+    },
+
+    protons: {
+        link: 'https://en.wikipedia.org/wiki/Proton'
+    },
+    neutrons: {
+        link: 'https://en.wikipedia.org/wiki/Neutron'
+    },
+    hydrogen: {
+        link: 'https://en.wikipedia.org/wiki/Hydrogen'
+    },
+    helium: {
+        link: 'https://en.wikipedia.org/wiki/Helium'
+    },
+    carbon: {
+        link: 'https://en.wikipedia.org/wiki/Carbon'
+    },
+    oxygen: {
+        link: 'https://en.wikipedia.org/wiki/Oxygen'
+    },
+    nitrogen: {
+        link: 'https://en.wikipedia.org/wiki/Nitrogen'
+    },
+    ferrum: {
+        link: 'https://en.wikipedia.org/wiki/Iron'
+    },
+    neon: {
+        link: 'https://en.wikipedia.org/wiki/Neon'
+    },
+    silicon: {
+        link: 'https://en.wikipedia.org/wiki/Silicon'
+    },
 };
 
-export const wiki = {
-    strings:  'https://en.wikipedia.org/wiki/String_(physics)',
-    gluons: 'https://en.wikipedia.org/wiki/Gluon',
-
-    up_quarks: 'https://en.wikipedia.org/wiki/Up_quark',
-    down_quarks: 'https://en.wikipedia.org/wiki/Down_quark',
-    photons: 'https://en.wikipedia.org/wiki/Photon',
-    electrons: 'https://en.wikipedia.org/wiki/Electron',
-    neutrino: 'https://en.wikipedia.org/wiki/Neutrino',
-
-    protons: 'https://en.wikipedia.org/wiki/Proton',
-    neutrons: 'https://en.wikipedia.org/wiki/Neutron',
-
-    hydrogen: 0,
-    helium: 0,
-    carbon: 0,
-    oxygen: 0,
-    nitrogen: 0,
-    ferrum: 0,
-    neon: 0,
-    silicon: 0,
-};

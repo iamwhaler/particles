@@ -7,14 +7,15 @@ export let fluctuators = {};
 
 fluctuators = {
     fluctuators: {
+
         up_quarks_fluctuator: {
-            name: 'Up Quarks Miner',
+            name: 'U Quarks Fluctuator',
             text: 'Synths Up Quarks once in a tick',
             cost: (state) => {
-                return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_fluctuator - 1) * 20),
-                    strings: Math.floor(Math.pow(1.2, state.up_quarks_fluctuator - 1) * 15)};
+                return {up_quarks: Math.floor(Math.pow(1.5, state.up_quarks_fluctuator - 1) * 2),
+                    strings: Math.floor(Math.pow(1.9, state.up_quarks_fluctuator - 1) * 42)};
             },
-            locked: (state) => state.temperature>Math.pow(10, 27),
+            locked: (state) => (!state.achievements.includes('up_quarks') && !state.achievements.includes('down_quarks') && !state.achievements.includes('photons')) ,
 
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(1.19, state.up_quarks_fluctuator - 1) * 12);
@@ -24,7 +25,6 @@ fluctuators = {
                 (state.toggle.up_quarks_fluctuator)
                     ? state.toggle.up_quarks_fluctuator=false
                     : state.toggle.up_quarks_fluctuator=true;
-
                 return state;
             },
 
@@ -34,19 +34,24 @@ fluctuators = {
             },
             onTick: (state) => {
                 if(state.toggle.up_quarks_fluctuator) {
-                    state.up_quarks += Math.round(_.random(state.up_quarks_fluctuator/4 , state.up_quarks_fluctuator));
+                    let count = Math.round(_.random(state.up_quarks_fluctuator/4 , state.up_quarks_fluctuator));
+                    state.strings-= count;
+                    state.up_quarks += count;
                 }
                 return state;
             }
         },
 
         down_quarks_fluctuator: {
-            name: 'Down Quarks Miner',
+            name: 'D Quarks Fluctuator',
             text: 'Synths Down Quarks once in a tick',
             cost: (state) => {
-                return {down_quarks: Math.floor(Math.pow(1.4, state.down_quarks_fluctuator - 1) * 20)};
+                return {
+                    down_quarks: Math.floor(Math.pow(1.2, state.down_quarks_fluctuator - 1) * 4),
+                    strings: Math.floor(Math.pow(2.4, state.down_quarks_fluctuator - 1) * 42)}
             },
-            locked: (state) => state.temperature>Math.pow(10, 27),
+
+            locked: (state) => state.down_quarks<3,
 
             temperature_effect: (state) => {
                 return Math.floor(Math.pow(1.3, state.down_quarks_fluctuator - 1) * 10);
@@ -65,15 +70,48 @@ fluctuators = {
             },
             onTick: (state) => {
                 if (state.toggle.down_quarks_fluctuator && state.down_quarks_fluctuator >= 1) {
-                    state.down_quarks += Math.round(_.random(state.down_quarks_fluctuator/3, state.down_quarks_fluctuator));
+                    let count = Math.round(_.random(state.down_quarks_fluctuator/3, state.down_quarks_fluctuator))
+                    state.strings-= count;
+                    state.down_quarks += count;
                 }
 
                 return state;
             }
         },
 
+        electrons_fluctuator: {
+            name: 'Electrons Fluctuator',
+            text: 'For reasons that remain uncertain, during the annihilation process there was an excess in the number of particles over antiparticles. Hence, about one electron for every billion electron-positron pairs survived.',
+            link: 'https://en.wikipedia.org/wiki/Electron#Formation',
+            cost: (state) => {
+                return {
+                    electrons: Math.floor(Math.pow(1.09, state.electrons_fluctuator - 1) * 15),
+                    strings: Math.floor(Math.pow(2.8, state.electrons_fluctuator - 1) * 42)
+                };
+            },
+            locked: (state) => !state.achievements.includes('protons'),
+
+            toggle: (state) => {
+                (state.toggle.electrons_fluctuator)
+                    ? state.toggle.electrons_fluctuator=false
+                    : state.toggle.electrons_fluctuator=true;
+
+                return state;
+            },
+            onClick: (state) => {
+                state.electrons_fluctuator++;
+                return state;
+            },
+            onTick: (state) => {
+                if (state.toggle.electrons_fluctuator && state.electrons_fluctuator >= 1) {
+                    state.electrons += Math.round(_.random(state.electrons_fluctuator * 0.5, state.electrons_fluctuator));
+                }
+                return state;
+            }
+        },
+
         photons_fluctuator: {
-            name: 'Photons Miner',
+            name: 'Photons Fluctuator',
             cost: (state) => {
                 return {
                     photons: Math.floor(Math.pow(1.3, state.photons_fluctuator - 1) * 90),

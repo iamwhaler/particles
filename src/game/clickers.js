@@ -17,24 +17,12 @@ export const clickers = {
             }
         },
 
-        gluons_clicker: {
-            name: 'Form gluon',
-            resource: 'gluons',
-            text: 'Gluon allows to connect quarks between each other',
-            cost: {strings: 1, tick: 1},
-            locked: (state) => state.temperature>Math.pow(10, 27),
-            onClick: (state) => {
-                state.gluons++;
-                return state;
-            }
-        },
-
         up_quarks_clicker: {
             name: 'Gain Up Quark',
             resource: 'up_quarks',
             cost: {strings: 1},
             text: 'The lightest of all quarks, forms protons and neutrons',
-            locked: (state) => state.temperature>Math.pow(10, 27),
+            locked: (state) => state.temperature>Math.pow(10, 21),
             onClick: (state) => {
                 state.up_quarks++;
                 return state;
@@ -45,7 +33,7 @@ export const clickers = {
             resource: 'down_quarks',
             cost: {strings: 1},
             text: 'The second-lightest all quarks, forms protons and neutrons',
-            locked: (state) => state.temperature>Math.pow(10, 27),
+            locked: (state) => state.temperature>Math.pow(10, 21),
             onClick: (state) => {
                 state.down_quarks++;
                 return state;
@@ -57,7 +45,7 @@ export const clickers = {
             resource: 'electrons',
             text: 'Elementary particle, orbits the nuclei of atom',
             cost: {strings: 1},
-            locked: (state) => state.temperature>Math.pow(10, 27),
+            locked: (state) => state.temperature>Math.pow(10, 12),
             onClick: (state) => {
                 state.electrons++;
                 return state;
@@ -69,7 +57,7 @@ export const clickers = {
             resource: 'photons',
             cost: {strings: 1},
             text: 'The photon is a type of elementary particle, the quantum of the electromagnetic field including electromagnetic radiation such as light, and the force carrier for the electromagnetic force',
-            locked: (state) => state.temperature>Math.pow(10, 21),
+            locked: (state) => state.temperature>Math.pow(10, 12),
             onClick: (state) => {
                 state.photons++;
                 return state;
@@ -81,7 +69,7 @@ export const clickers = {
             resource: 'neutrino',
             cost: {strings: 1},
             text: 'A neutrino is a fermion that interacts only via the weak subatomic force and gravity. The mass of the neutrino is much smaller than that of the other known elementary particles.',
-            locked: (state) => state.temperature>Math.pow(10, 10),
+            locked: (state) => state.neutrino<1,
             onClick: (state) => {
                 state.neutrino++;
                 return state;
@@ -92,8 +80,8 @@ export const clickers = {
             name: 'Gain Proton',
             resource: 'protons',
             text: 'Proton has a positive electric charge and combined with neutron forms atom nuclei.',
-            cost: {up_quarks: 2, down_quarks: 1, gluons: 1},
-            locked: (state) => !state.achievements.includes('up_quarks'),
+            cost: {up_quarks: 2, down_quarks: 1},
+            locked: (state) => state.up_quarks<5 && state.down_quarks<3,
             onClick: (state) => {
                 state.protons++;
                 return state;
@@ -104,8 +92,8 @@ export const clickers = {
             name: 'Gain Neutron',
             resource: 'neutrons',
             text: 'Neutron has no net electric charge and forms atom nuclei.',
-            cost: {up_quarks: 1, down_quarks: 2, gluons: 1},
-            locked: (state) =>  !state.achievements.includes('up_quarks'),
+            cost: {up_quarks: 1, down_quarks: 2},
+            locked: (state) =>  state.down_quarks<5 && state.up_quarks<3,
             onClick: (state) => {
                 state.neutrons++;
                 return state;
@@ -118,6 +106,7 @@ export const clickers = {
         hydrogen_clicker: {
             name: 'Synth Hydrogen',
             resource: 'hydrogen',
+            text: 'Hydrogen is basic atom which will form your first stars and new atoms as a result. It is the most common atom in the universe',
             cost: {protons: 1, electrons: 1, photons: 1},
             locked: (state) => state.protons < 1 && state.electrons < 1 && state.photons < 2,
             onClick: (state) => {
@@ -130,6 +119,7 @@ export const clickers = {
         helium_clicker: {
             name: 'Synth Helium',
             resource: 'helium',
+            text: 'Colorless, odorless, tasteless, non-toxic, inert, monatomic nobel gas. It is the second most common atom in the universe',
             cost: {protons: 2, neutrons: 2, electrons: 2, photons: 2},
             locked: (state) => state.protons < 2 && state.neutrons < 2 && state.electrons < 2 && state.photons < 2,
             onClick: (state) => {
@@ -142,6 +132,7 @@ export const clickers = {
         carbon_clicker: {
             name: 'Synth Carbon',
             resource: 'carbon',
+            text: 'It is nonmetallic and tetravalent — making four electrons available to form covalent chemical bonds.  its unique diversity of organic compounds, and its unusual ability to form polymers at the temperatures commonly encountered on the planet Earth',
             cost: {protons: 6, neutrons: 6, electrons: 6, photons: 6},
             locked: (state) => state.protons < 6 && state.neutrons < 6 && state.electrons < 6 && state.photons < 6,
             onClick: (state) => {
@@ -150,9 +141,23 @@ export const clickers = {
             }
         },
 
+        nitrogen_clicker: {
+            name: 'Synth Nitrogen',
+            resource: 'nitrogen',
+            text: 'It is a common element in the universe, estimated at about seventh in total abundance in the Milky Way and the Solar System. It will probably play a huge role in life forms creation',
+            cost: {protons: 7, neutrons: 7, electrons: 7, photons: 7},
+            locked: (state) => state.protons < 7 && state.neutrons < 7 && state.electrons < 7 && state.photons < 7,
+            onClick: (state) => {
+                state.nitrogen++;
+                return state;
+            }
+        },
+
+
         oxygen_clicker: {
             name: 'Synth Oxygen',
             resource: 'oxygen',
+            text: '',
             cost: {protons: 8, neutrons: 8, electrons: 8, photons: 8},
             locked: (state) => state.protons < 8 && state.neutrons < 8 && state.electrons < 8 && state.photons < 8,
             onClick: (state) => {
@@ -161,13 +166,13 @@ export const clickers = {
             }
         },
 
-        nitrogen_clicker: {
-            name: 'Synth Nitrogen',
-            resource: 'nitrogen',
-            cost: {protons: 7, neutrons: 7, electrons: 7, photons: 7},
-            locked: (state) => state.protons < 7 && state.neutrons < 7 && state.electrons < 7 && state.photons < 7,
+        neon_clicker: {
+            name: 'Synth Neon',
+            resource: 'neon',
+            cost: {protons: 5, neutrons: 5, electrons: 5, photons: 5},
+            locked: (state) => state.protons < 5 && state.neutrons < 5 && state.electrons < 5 && state.photons < 5,
             onClick: (state) => {
-                state.nitrogen++;
+                state.neon++;
                 return state;
             }
         },
@@ -194,16 +199,6 @@ export const clickers = {
             }
         },
 
-        neon_clicker: {
-            name: 'Synth Neon',
-            resource: 'neon',
-            cost: {protons: 5, neutrons: 5, electrons: 5, photons: 5},
-            locked: (state) => state.protons < 5 && state.neutrons < 5 && state.electrons < 5 && state.photons < 5,
-            onClick: (state) => {
-                state.neon++;
-                return state;
-            }
-        },
     },
 
     black_holes: {
