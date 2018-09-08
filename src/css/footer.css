@@ -1,17 +1,22 @@
 .footer {
+    opacity: 0.7;
     box-sizing: border-box;
     padding: 7px 15px;
-    background-color:rgba(0,4,0,0.5);
+    background-color:rgba(5,3,12,8);
     color: #BCC5D6;
     text-align: right;
     font-family: Helvetica, Arial, Sans-Serif;
     font-weight: 100;
     width: 100vw;
-    position:fixed;
-    bottom:0;
+    position:absolute;
+    left: 0;
+    bottom: 0;
     z-index:50000;
     font-size: 12px;
+    height: 35px;
 }
+
+
 
 .footer a {
     color: #D8DCE6;

@@ -1,4 +1,5 @@
 .popup {
+
   position: fixed;
   z-index: 1024;
   min-width: 480px;
