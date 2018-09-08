@@ -358,7 +358,7 @@ class App extends Component {
             </div>;
 
 
-        const basic_particles_subcomponent =
+        const cosmos_subcomponent =
             <div className="flex-element">
                 <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
                     <img alt="" className="overlay resource-icon" src={"./img/basic_particles.png"}/>
@@ -401,6 +401,44 @@ class App extends Component {
                                             </div>
                                         </OverlayTrigger>
                                     </div>}
+                            </div>
+                        )}
+                    </div>
+
+                </div>
+            </div>;
+
+        const resources_subcomponent =
+            <div className="flex-element">
+                <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
+                    <img alt="" className="overlay resource-icon" src={"./img/basic_particles.png"}/>
+                </OverlayTrigger>
+
+                <div className="flex-container-row" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
+
+                    <div className="flex-container-column info-block">
+                        {_.map(clickers.basic_particles, (item, key) =>
+                            <div className="flex-container-row" key={key}>
+                                    <div className="clickers">
+                                            <div className="flex-element" style={{textAlign: 'left'}} key={key}>
+                                                            <span className="flex-element">
+                                                            {item.resource ? data.basic_particles[item.resource].name : 'resource'}: {item.resource ?
+                                                                this.roundNumber(state[item.resource]) : 'quantity'}
+                                                            </span>
+                                            </div>
+
+                                    </div>
+
+                                    <div>
+                                        <OverlayTrigger delay={150} placement="right"
+                                                        overlay={tooltip(this.state, item)} trigger="focus">
+                                            <div>
+                                                <button className="info">
+                                                    i
+                                                </button>
+                                            </div>
+                                        </OverlayTrigger>
+                                    </div>
                             </div>
                         )}
                     </div>
@@ -459,32 +497,53 @@ class App extends Component {
                 </div>
             </div>;
 
-        const simple_molecules_subcomponent =
+        const storage_subcomponent =
             <div className="flex-element">
-                <OverlayTrigger delay={250} placement="bottom" overlay={details(info.simple_molecules)}>
-                    <img alt="" className="overlay resource-icon" src={"./img/simple_molecules.png"}/>
+                <OverlayTrigger delay={250} placement="bottom" overlay={details(info.atoms)}>
+                    <img alt="" className="overlay resource-icon" src={"./img/atoms.png"}/>
                 </OverlayTrigger>
-                <div className="info-block">
-                    {_.map(data.simple_molecules, (item, key) =>
-                        (item.locked && item.locked(this.state))
-                            ? ''
-                            :
-                            <div className="flex-element" key={key}>
-                                            <span className="flex-element">
-                                        {item.name}: {state[key].toFixed(2)}
-                                            </span>
+
+                <div className="flex-container-row info-block" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
+
+                    <div className="flex-container-column">
+                        {_.map(clickers.atoms, (item, key) =>
+                            <div className="flex-container-row" key={key}>
+                                    <div className="flex-container-row clickers">
+
+                                            <div className="flex-element" style={{textAlign: 'left'}} key={key}>
+                                                            <span className="flex-element">
+                                                            {item.resource ? data.atoms[item.resource].name : 'resource'}: {item.resource ? state[item.resource].toFixed(0) : 'quantity'}
+                                                            </span>
+                                            </div>
+
+
+                                    </div>
+
+
+                                    <div>
+                                        <OverlayTrigger delay={150} trigger="focus" placement="right"
+                                                        overlay={tooltip(this.state, item)}>
+                                            <div>
+                                                <button className="info">
+                                                    i
+                                                </button>
+                                            </div>
+                                        </OverlayTrigger>
+                                    </div>
                             </div>
-                    )}
+                        )}
+                    </div>
+
                 </div>
             </div>;
 
-        const fluctuators_subcomponent =
+
+        const modules_subcomponent =
             <div className="flex-element">
-                <h3>Fluctuators</h3>
                 <img alt="" className="overlay" src={"./img/automation.png"}
                      style={{width: '25px', height: '25px'}}/>
                 <div className="flex-container-column info-block">
-                        {_.map(fluctuators.fluctuators, (item, key) =>
+                        {_.map(fluctuators.modules, (item, key) =>
                             <div key={key}>
                                 {(item.locked && item.locked(this.state))
                                     ? <div className="flex-element"> </div>
@@ -514,6 +573,45 @@ class App extends Component {
                                 }
                             </div>
                         )}
+                </div>
+            </div>;
+
+
+        const assemblers_subcomponent =
+            <div className="flex-element">
+                <img alt="" className="overlay" src={"./img/automation.png"}
+                     style={{width: '25px', height: '25px'}}/>
+                <div className="flex-container-column info-block">
+                    {_.map(fluctuators.assemblers, (item, key) =>
+                        <div key={key}>
+                            {(item.locked && item.locked(this.state))
+                                ? <div className="flex-element"> </div>
+                                : <div className="flex-container-row automation">
+                                    <OverlayTrigger delay={150} placement="left"
+                                                    overlay={tooltip(this.state, item)}>
+                                        <div className="flex-element fluctuators">
+                                            <button style={{minWidth: '140px', maxHeight: '110px'}}
+                                                    className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
+                                                    onClick={() => {
+                                                        this.onClickWrapper(item);
+                                                    }}>
+                                                <span>
+                                                    {state[key] > 0
+                                                        ? item.name + ': lvl ' + state[key]
+                                                        : item.name}
+                                                </span>
+                                            </button>
+                                            {(item.toggle && state[key] > 0)
+                                                ?
+                                                <button className={state.toggle[key] ? 'switchOn' : ''}
+                                                        onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
+                                                : ''}
+                                        </div>
+                                    </OverlayTrigger>
+                                </div>
+                            }
+                        </div>
+                    )}
                 </div>
             </div>;
 
@@ -812,10 +910,10 @@ class App extends Component {
                             <div className="flex-container-row">
                                 <div className="flex-element">
                                     <h4>Cosmos</h4>
-                                    {basic_particles_subcomponent}
+                                    {cosmos_subcomponent}
 
                                     <h4>Dust</h4>
-                                    {atoms_subcomponent} {simple_molecules_subcomponent}
+                                    {atoms_subcomponent}
                                 </div>
                             </div>
                             </div>
@@ -825,7 +923,9 @@ class App extends Component {
                             <div className="flex-container-row">
                                 <div className="flex-element">
                                     <h4>Field</h4>
+                                    {resources_subcomponent}
                                     <h4>Storage</h4>
+                                    {storage_subcomponent}
                                 </div>
                             </div>
                             </div>
@@ -835,11 +935,12 @@ class App extends Component {
 
                             <div className="flex-container-column">
                                 <div className="flex-element">
-                                    {fluctuators_subcomponent}
+                                    <h4>Machinery</h4>
+                                    {modules_subcomponent}
                                 </div>
                                 <div className="flex-element">
                                     <h4>Assemblers</h4>
-                                    {fluctuators_subcomponent}
+                                    {assemblers_subcomponent}
                                 </div>
                             </div>
 
@@ -851,6 +952,7 @@ class App extends Component {
                             <div className="flex-container-column">
                                 <div className="flex-element">
                                     <h4>Systems</h4>
+                                    {universe_subcomponent}
                                 </div>
                             </div>
 

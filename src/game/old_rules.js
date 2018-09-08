@@ -1,6 +1,4 @@
-import _ from 'lodash';
-import {fluctuators} from "./fluctuators";
-import toastr from 'toastr';
+
 import checkAchievement from './achievements';
 
 export const old_rules = {
@@ -36,30 +34,6 @@ export const old_rules = {
         }
     },
 
-    strings_rule: {
-        onTick: (state) => {
-       //  state.hydrogen+=10; state.helium+=10; state.down_quarks += 10; state.up_quarks += 10; state.electrons += 10; state.protons +=10; state.neutrons+=10;// for test purposes
-               if(state.temperature<Math.pow(10, 4)) {
-
-                   let randomNumber = Math.random() * (100 - 1) + 1;
-
-                   if (randomNumber < 33.3) {
-                       state.up_quarks += 1
-                   }
-                   else if (randomNumber < 66.6 && randomNumber > 33.3) {
-                       state.down_quarks += 1
-                   }
-                   else if (randomNumber > 66.6) {
-                       state.electrons += 1
-                   }
-
-                   state.strings--;
-               }
-
-            return state;
-
-        }
-    },
 
     H2_rule: {
         onTick: (state) => {

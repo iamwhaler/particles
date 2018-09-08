@@ -2,17 +2,13 @@ import _ from 'lodash';
 
 const default_state = {
 
-    strings: Math.pow(2, 42),
-    up_quarks: 0,
-    down_quarks: 0,
-    photons: 0,
-    electrons: 0,
-    neutrino: 0,
+    photons: 12000,
+    electrons: 18000,
+    neutrino: 20000,
+    protons: 25000,
+    neutrons: 26000,
 
-    protons: 0,
-    neutrons: 0,
-
-    hydrogen: 0,
+    hydrogen: 24000,
     helium: 0,
     carbon: 0,
     oxygen: 0,
@@ -38,15 +34,9 @@ const default_state = {
     down_quarks_rule: 0,
     electrons_rule: 0,
 
-    strings_clicker: 0,
-    up_quarks_clicker: 0,
-    down_quarks_clicker: 0,
-    electrons_clicker: 0,
-    neutrino_clicker: 0,
 
-    gluons_fluctuator: 0,
-    up_quarks_fluctuator: 0,
-    down_quarks_fluctuator: 0,
+    pump: 0,
+    riddle: 0,
     photons_fluctuator: 0,
     electrons_fluctuator: 0,
 
@@ -57,23 +47,12 @@ const default_state = {
     helium_miner: 0,
 
 
-    H2_converter: 0,
-    temperature_converter: 0,
+    hydrogen_assembler: 0,
 
     toggle: {
-        gluons_fluctuator: true,
-        up_quarks_fluctuator: true,
-        down_quarks_fluctuator: true,
-        photons_fluctuator: true,
-        electrons_fluctuator: true,
-        protons_miner: true,
-        neutrons_miner: true,
-        electrons_miner: true,
-        hydrogen_miner: true,
-        helium_miner: true,
-
-        H2_converter: true,
-        temperature_converter: true,
+       pump: true,
+       riddle: true,
+       hydrogen_assembler: true,
     },
 
 
