@@ -141,14 +141,10 @@ class App extends Component {
     }
 
     chargeCost(state, cost) {
-        if (!this.isEnough(this.state, cost)) return false;
+        if (!this.isEnough(state, cost)) return false;
         _.each(cost, (value, resource_key) => {
-            if (resource_key === 'tick') {
-                _.times(value, this.tick());
-            }
-            else {
-                state[resource_key] -= value;
-            }
+            let result = _.get(state, resource_key) - value;
+            _.set(state, resource_key, result);
         });
         return state;
     }
@@ -232,9 +228,6 @@ class App extends Component {
                     <div className="flex-container-column">
                         <div className="flex-container-row">
                             <div className="flex-element">
-                                <img src={ !item.toggle ? info[item.resource].icon : ''} />
-                            </div>
-                            <div className="flex-element">
                                 <span>{item.name}</span>
                             </div>
                         </div>
@@ -255,11 +248,11 @@ class App extends Component {
                                 </div>
                                     <div className="flex-element" style={{textAlign: 'right', justifyContent: 'flex-end'}}>
                                     <span
-                                     style={(value > state[resource_key]) ? {color: '#982727'} : {color: ''}}>
-                                    {this.roundNumber(value)}
-                                        / {this.roundNumber(state[resource_key])}
-                                    {(value > state[resource_key]) ?
-                                    <span> ({this.roundNumber(-(state[resource_key] - value))} left)</span> : ''}
+                                     style={(value > _.get(state, resource_key)) ? {color: '#982727'} : {color: ''}}>
+                                        {this.roundNumber(value)}
+                                        / {this.roundNumber(_.get(state, resource_key))}
+                                    {(value > _.get(state, resource_key)) ?
+                                    <span> ({this.roundNumber(-(_.get(state, resource_key) - value))} left)</span> : ''}
                                 </span>
                                 </div>
 
@@ -277,17 +270,6 @@ class App extends Component {
                         : ''
                     }
 
-                    <div className="flex-container-row">
-                        <div className="flex-element">
-                        </div>
-
-                        <div className="flex-element">
-                        </div>
-
-                        <div className="flex-element">
-                            <a target="_blank" href={!item.toggle ? info[item.resource].link : ''}>Wiki</a>
-                        </div>
-                    </div>
                 </div>
                 </div>
             </Tooltip>;
@@ -365,32 +347,19 @@ class App extends Component {
                 </OverlayTrigger>
 
                 <div className="flex-container-row" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
-
                     <div className="flex-container-column info-block">
-                        {_.map(clickers.basic_particles, (item, key) =>
+                        {_.map(state.space, (item, key) =>
                             <div className="flex-container-row" key={key}>
-                                {(item.locked && item.locked(this.state))
-                                    ? ''
-                                    :
+
                                     <div className="clickers">
-                                        <button
-                                            className={(item.cost ? this.isEnough(this.state, item.cost) ? 'clickers' : 'clickers disabled' : 'clickers')}
-                                            onClick={() => {
-                                                this.onClickWrapper(item);
-                                            }}>
                                             <div className="flex-element" style={{textAlign: 'left'}} key={key}>
                                                             <span className="flex-element">
-                                                            {item.resource ? data.basic_particles[item.resource].name : 'resource'}: {item.resource ?
-                                                                this.roundNumber(state[item.resource]) : 'quantity'}
+                                                            {data.basic_particles[key] ? data.basic_particles[key].name : 'resource'}: {state.space[key] ?
+                                                                this.roundNumber(state.space[key]) : 'quantity'}
                                                             </span>
                                             </div>
-
-                                        </button>
                                     </div>
-                                }
-                                {(item.locked && item.locked(this.state))
-                                    ? ''
-                                    :
+
                                     <div>
                                         <OverlayTrigger delay={150} placement="right"
                                                         overlay={tooltip(this.state, item)} trigger="focus">
@@ -400,7 +369,7 @@ class App extends Component {
                                                 </button>
                                             </div>
                                         </OverlayTrigger>
-                                    </div>}
+                                    </div>
                             </div>
                         )}
                     </div>
@@ -408,37 +377,36 @@ class App extends Component {
                 </div>
             </div>;
 
-        const resources_subcomponent =
+        const field_subcomponent =
             <div className="flex-element">
                 <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
                     <img alt="" className="overlay resource-icon" src={"./img/basic_particles.png"}/>
                 </OverlayTrigger>
 
                 <div className="flex-container-row" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
-
                     <div className="flex-container-column info-block">
-                        {_.map(clickers.basic_particles, (item, key) =>
+                        {_.map(state.field, (item, key) =>
                             <div className="flex-container-row" key={key}>
-                                    <div className="clickers">
-                                            <div className="flex-element" style={{textAlign: 'left'}} key={key}>
+
+                                <div className="clickers">
+                                    <div className="flex-element" style={{textAlign: 'left'}} key={key}>
                                                             <span className="flex-element">
-                                                            {item.resource ? data.basic_particles[item.resource].name : 'resource'}: {item.resource ?
-                                                                this.roundNumber(state[item.resource]) : 'quantity'}
+                                                            {data.basic_particles[key] ? data.basic_particles[key].name : 'resource'}: {state.field[key] ?
+                                                                this.roundNumber(state.field[key]) : '0'}
                                                             </span>
-                                            </div>
-
                                     </div>
+                                </div>
 
-                                    <div>
-                                        <OverlayTrigger delay={150} placement="right"
-                                                        overlay={tooltip(this.state, item)} trigger="focus">
-                                            <div>
-                                                <button className="info">
-                                                    i
-                                                </button>
-                                            </div>
-                                        </OverlayTrigger>
-                                    </div>
+                                <div>
+                                    <OverlayTrigger delay={150} placement="right"
+                                                    overlay={tooltip(this.state, item)} trigger="focus">
+                                        <div>
+                                            <button className="info">
+                                                i
+                                            </button>
+                                        </div>
+                                    </OverlayTrigger>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -446,7 +414,7 @@ class App extends Component {
                 </div>
             </div>;
 
-        const atoms_subcomponent =
+        const dust_subcomponent =
             <div className="flex-element">
                 <OverlayTrigger delay={250} placement="bottom" overlay={details(info.atoms)}>
                     <img alt="" className="overlay resource-icon" src={"./img/atoms.png"}/>
@@ -455,31 +423,17 @@ class App extends Component {
                 <div className="flex-container-row info-block" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
 
                     <div className="flex-container-column">
-                        {_.map(clickers.atoms, (item, key) =>
+                        {_.map(state.dust, (item, key) =>
                             <div className="flex-container-row" key={key}>
-                                {(item.locked && item.locked(this.state))
-                                    ? ''
-                                    :
                                     <div className="flex-container-row clickers">
-                                        <button
-                                            className={(item.cost ? this.isEnough(this.state, item.cost) && item.resource=='hydrogen' ? 'clickers' : 'clickers disabled' : 'clickers')}
-                                            onClick={() => {
-                                                this.onClickWrapper(item);
-                                            }}>
                                             <div className="flex-element" style={{textAlign: 'left'}} key={key}>
                                                             <span className="flex-element">
-                                                            {item.resource ? data.atoms[item.resource].name : 'resource'}: {item.resource ? state[item.resource].toFixed(0) : 'quantity'}
+                                                            {data.atoms[key] ? data.atoms[key].name : 'resource'}: {state.dust[key] ?
+                                                                this.roundNumber(state.dust[key]) : '0'}
                                                             </span>
                                             </div>
-
-                                        </button>
-
                                     </div>
-                                }
 
-                                {(item.locked && item.locked(this.state))
-                                    ? ''
-                                    :
                                     <div>
                                         <OverlayTrigger delay={150} trigger="focus" placement="right"
                                                         overlay={tooltip(this.state, item)}>
@@ -489,7 +443,7 @@ class App extends Component {
                                                 </button>
                                             </div>
                                         </OverlayTrigger>
-                                    </div>}
+                                    </div>
                             </div>
                         )}
                     </div>
@@ -506,37 +460,33 @@ class App extends Component {
                 <div className="flex-container-row info-block" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
 
                     <div className="flex-container-column">
-                        {_.map(clickers.atoms, (item, key) =>
+                        {_.map(state.storage, (item, key) =>
                             <div className="flex-container-row" key={key}>
-                                    <div className="flex-container-row clickers">
-
-                                            <div className="flex-element" style={{textAlign: 'left'}} key={key}>
+                                <div className="flex-container-row clickers">
+                                    <div className="flex-element" style={{textAlign: 'left'}} key={key}>
                                                             <span className="flex-element">
-                                                            {item.resource ? data.atoms[item.resource].name : 'resource'}: {item.resource ? state[item.resource].toFixed(0) : 'quantity'}
+                                                            {data.atoms[key] ? data.atoms[key].name : 'resource'}: {state.storage[key] ?
+                                                                this.roundNumber(state.storage[key]) : '0'}
                                                             </span>
-                                            </div>
-
-
                                     </div>
+                                </div>
 
-
-                                    <div>
-                                        <OverlayTrigger delay={150} trigger="focus" placement="right"
-                                                        overlay={tooltip(this.state, item)}>
-                                            <div>
-                                                <button className="info">
-                                                    i
-                                                </button>
-                                            </div>
-                                        </OverlayTrigger>
-                                    </div>
+                                <div>
+                                    <OverlayTrigger delay={150} trigger="focus" placement="right"
+                                                    overlay={tooltip(this.state, item)}>
+                                        <div>
+                                            <button className="info">
+                                                i
+                                            </button>
+                                        </div>
+                                    </OverlayTrigger>
+                                </div>
                             </div>
                         )}
                     </div>
 
                 </div>
             </div>;
-
 
         const modules_subcomponent =
             <div className="flex-element">
@@ -897,7 +847,7 @@ class App extends Component {
                     <div className="wrapper">
                         <div className="flex-container-row">
                             <div className="flex-element">
-                                Header
+                                {header_subcomponent}
                             </div>
                         </div>
 
@@ -913,7 +863,7 @@ class App extends Component {
                                     {cosmos_subcomponent}
 
                                     <h4>Dust</h4>
-                                    {atoms_subcomponent}
+                                    {dust_subcomponent}
                                 </div>
                             </div>
                             </div>
@@ -923,7 +873,7 @@ class App extends Component {
                             <div className="flex-container-row">
                                 <div className="flex-element">
                                     <h4>Field</h4>
-                                    {resources_subcomponent}
+                                    {field_subcomponent}
                                     <h4>Storage</h4>
                                     {storage_subcomponent}
                                 </div>

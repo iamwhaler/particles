@@ -2,11 +2,44 @@ import _ from 'lodash';
 
 const default_state = {
 
-    photons: 12000,
-    electrons: 18000,
-    neutrino: 20000,
-    protons: 25000,
-    neutrons: 26000,
+    space: {
+        photons: 12000,
+        electrons: 18000,
+        neutrino: 20000,
+        protons: 25000,
+        neutrons: 26000,
+    },
+
+    field: {
+        photons: 1,
+        electrons: 4,
+        neutrino: 2,
+        protons: 4,
+        neutrons: 20,
+    },
+
+    dust: {
+        hydrogen: 24000,
+        helium: 25000,
+        carbon: 25000,
+        oxygen: 0,
+        nitrogen: 0,
+        ferrum: 0,
+        neon: 0,
+        silicon: 0,
+    },
+
+    storage: {
+        hydrogen: 1400,
+        helium: 1200,
+        carbon: 13000,
+        oxygen: 21000,
+        nitrogen: 0,
+        ferrum: 0,
+        neon: 0,
+        silicon: 0,
+    },
+
 
     hydrogen: 24000,
     helium: 0,
@@ -53,6 +86,8 @@ const default_state = {
        pump: true,
        riddle: true,
        hydrogen_assembler: true,
+        helium_assembler: true,
+
     },
 
 
