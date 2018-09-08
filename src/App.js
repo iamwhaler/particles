@@ -586,7 +586,7 @@ class App extends Component {
                 :
                 item.name
                 ?
-                    <div className="flex-container-column-reverse">
+                    <div key={key} className="flex-container-column-reverse">
                 <div className="panel" key={key} style={{color: 'black'}}>
                     <h5>{item.name}</h5>
                     <p>{item.text}</p>
@@ -602,7 +602,7 @@ class App extends Component {
             <div className="panel info-block" style={{color: 'black'}}>
                 <h4> {obj.name} </h4>
                 <p>
-                    {state.selected_galaxy !== null ? state.universe[state.selected_galaxy].name : ''} {state.selected_system !== null ? state.universe[state.selected_galaxy].systems[state.selected_system].name : ''}
+                    {state.selected_system !== null ? state.systems[state.selected_system].name : ''}
                 </p>
                 <p>
                     {this.drawCost(obj.mater)}
@@ -611,20 +611,79 @@ class App extends Component {
         </div>;
 
         const object_subcomponent = () => {
-            if (state.selected_planet !== null) return object_drawer(state.universe[state.selected_galaxy].systems[state.selected_system].planets[state.selected_planet]);
-            if (state.selected_star !== null)   return object_drawer(state.universe[state.selected_galaxy].systems[state.selected_system].stars[state.selected_star]);
-            if (state.selected_system !== null) return object_drawer(state.universe[state.selected_galaxy].systems[state.selected_system]);
-            if (state.selected_galaxy !== null) return object_drawer(state.universe[state.selected_galaxy]);
+            if (state.selected_planet !== null) return object_drawer(state.systems[state.selected_system].planets[state.selected_planet]);
+            if (state.selected_star !== null)   return object_drawer(state.systems[state.selected_system].stars[state.selected_star]);
+            if (state.selected_system !== null) return object_drawer(state.systems[state.selected_system]);
             return '';
         };
 
 
+        const systems_subcomponent =
+            <div className="flex-element flex-container-row">
+                <div className="flex-element">
+                    {state.systems.length ?
+                        <div className="flex-container-column">
+                            <h3> Galaxy </h3>
+                            <div className="info-block">
+                                {_.map(state.systems, (system, key) =>
+                                    <div onClick={() => {
+                                        let state = this.state;
+                                        state.selected_system = key;
+                                        state.selected_star = null;
+                                        state.selected_planet = null;
+                                        this.setState(state);
+                                    }}
+                                         className="flex-element panel" key={key} style={{color: 'black'}}>
+                                        <p>{system.name}</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        : ''
+                    }
+                </div>
+            </div>;
+
+        const sustem_subcomponent =
+            <div className="flex-element flex-container-row">
+
+                <div className="flex-element">
+                    {state.selected_system !== null ?
+                        <div className="flex-container-column">
+                            <h3> System </h3>
+                            <div className="info-block">
+                            {_.map(state.systems[state.selected_system].stars, (star, key) =>
+                                    <div onClick={() => {
+                                        let state = this.state;
+                                        state.selected_star = key;
+                                        state.selected_planet = null;
+                                        this.setState(state);
+                                    }}
+                                         className="flex-element panel" key={key} style={{color: 'black'}}>
+                                        <p>{star.name}</p>
+                                    </div>
+                                )}
+                                {_.map(state.systems[state.selected_system].planets, (planet, key) =>
+                                    <div onClick={() => {
+                                        let state = this.state;
+                                        state.selected_star = null;
+                                        state.selected_planet = key;
+                                        this.setState(state);
+                                    }}
+                                         className="flex-element panel" key={key} style={{color: 'black'}}>
+                                        <p>{planet.name}</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div> : ''}
+                </div>
+            </div>;
 
         const universe_subcomponent =
             <div className="flex-element flex-container-row">
 
                 <div className="flex-element">
-                    {state.universe.length ?
+                    {false && state.universe.length ?
                         <div className="flex-container-column">
                             <h3> Universe </h3>
                             <div className="info-block">
@@ -648,11 +707,11 @@ class App extends Component {
                 </div>
 
                 <div className="flex-element">
-                    {state.selected_galaxy !== null && state.universe[state.selected_galaxy].systems.length ?
+                    {state.selected_galaxy !== null && state.systems.length ?
                         <div className="flex-container-column">
                             <h3> Galaxy </h3>
                             <div className="info-block">
-                            {_.map(state.universe[state.selected_galaxy].systems, (system, key) =>
+                            {_.map(state.systems, (system, key) =>
                                 <div onClick={() => {
                                     let state = this.state;
                                     state.selected_system = key;
@@ -675,7 +734,7 @@ class App extends Component {
                         <div className="flex-container-column">
                             <h3> System </h3>
                             <div className="info-block">
-                            {_.map(state.universe[state.selected_galaxy].systems[state.selected_system].stars, (star, key) =>
+                            {_.map(state.systems[state.selected_system].stars, (star, key) =>
                                     <div onClick={() => {
                                         let state = this.state;
                                         state.selected_star = key;
@@ -686,7 +745,7 @@ class App extends Component {
                                         <p>{star.name}</p>
                                     </div>
                                 )}
-                                {_.map(state.universe[state.selected_galaxy].systems[state.selected_system].planets, (planet, key) =>
+                                {_.map(state.systems[state.selected_system].planets, (planet, key) =>
                                     <div onClick={() => {
                                         let state = this.state;
                                         state.selected_star = null;
@@ -706,237 +765,232 @@ class App extends Component {
                 </div>
             </div>;
 
-            const molecules_arts = <div>
-                 <ul className='atoms set'>
-                     <li className='atom O'></li>
-                     <li className='atom H'></li>
-                     <li className='atom C'></li>
-                     <li className='atom N'></li>
-                     <li className='atom Cl'></li>
-                 </ul>
-                 <ul className='molecules set'>
-                     <li className='molecule-wrap'>
-                         <div className='info'>water (H<sub>2</sub>O)</div>
-                         <ul className='molecule H2O'>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom O'></li>
-                         </ul>
-                     </li>
-                     <li className='molecule-wrap'>
-                         <div className='info'>carbon dioxide (CO<sub>2</sub>)</div>
-                         <ul className='molecule CO2'>
-                             <li className='atom C'></li>
-                             <li className='atom O'></li>
-                             <li className='atom O'></li>
-                         </ul>
-                     </li>
-                     <li className='molecule-wrap'>
-                         <div className='info'>hydrogen cyanide (HCN)</div>
-                         <ul className='molecule HCN'>
-                             <li className='atom H'></li>
-                             <li className='atom C'></li>
-                             <li className='atom N'></li>
-                         </ul>
-                     </li>
-                     <li className='molecule-wrap'>
-                         <div className='info'>ammonia (NH<sub>3</sub>)</div>
-                         <ul className='molecule NH3'>
-                             <li className='atom N'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                         </ul>
-                     </li>
-                     <li className='molecule-wrap'>
-                         <div className='info'>methane (CH<sub>4</sub>)</div>
-                         <ul className='molecule CH4'>
-                             <li className='atom C'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                         </ul>
-                     </li>
-                     <li className='molecule-wrap'>
-                         <div className='info'>formaldehyde (CH<sub>2</sub>O)</div>
-                         <ul className='molecule CH2O'>
-                             <li className='atom C'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom O'></li>
-                         </ul>
-                     </li>
-                     <li className='molecule-wrap'>
-                         <div className='info'>carbon tetrachloride (CCl<sub>4</sub>)</div>
-                         <ul className='molecule CCl4'>
-                             <li className='atom C'></li>
-                             <li className='atom Cl'></li>
-                             <li className='atom Cl'></li>
-                             <li className='atom Cl'></li>
-                             <li className='atom Cl'></li>
-                         </ul>
-                     </li>
-                     <li className='molecule-wrap'>
-                         <div className='info'>methyl chloride (CH<sub>3</sub>Cl)</div>
-                         <ul className='molecule CH3Cl'>
-                             <li className='atom C'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom Cl'></li>
-                         </ul>
-                     </li>
-                     <li className='molecule-wrap'>
-                         <div className='info'>acetylene (C<sub>2</sub>H<sub>2</sub>)</div>
-                         <ul className='molecule C2H2'>
-                             <li className='atom C'></li>
-                             <li className='atom C'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                         </ul>
-                     </li>
-                     <li className='molecule-wrap'>
-                         <div className='info'>ethylene (C<sub>2</sub>H<sub>4)</sub></div>
-                         <ul className='molecule C2H4'>
-                             <li className='atom C'></li>
-                             <li className='atom C'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                         </ul>
-                     </li>
-                     <li className='molecule-wrap'>
-                         <div className='info'>ethane (C<sub>2</sub>H<sub>6)</sub></div>
-                         <ul className='molecule C2H6'>
-                             <li className='atom C'></li>
-                             <li className='atom C'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                             <li className='atom H'></li>
-                         </ul>
-                     </li>
-                 </ul></div>;
+        const molecules_arts = <div>
+             <ul className='atoms set'>
+                 <li className='atom O'></li>
+                 <li className='atom H'></li>
+                 <li className='atom C'></li>
+                 <li className='atom N'></li>
+                 <li className='atom Cl'></li>
+             </ul>
+             <ul className='molecules set'>
+                 <li className='molecule-wrap'>
+                     <div className='info'>water (H<sub>2</sub>O)</div>
+                     <ul className='molecule H2O'>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom O'></li>
+                     </ul>
+                 </li>
+                 <li className='molecule-wrap'>
+                     <div className='info'>carbon dioxide (CO<sub>2</sub>)</div>
+                     <ul className='molecule CO2'>
+                         <li className='atom C'></li>
+                         <li className='atom O'></li>
+                         <li className='atom O'></li>
+                     </ul>
+                 </li>
+                 <li className='molecule-wrap'>
+                     <div className='info'>hydrogen cyanide (HCN)</div>
+                     <ul className='molecule HCN'>
+                         <li className='atom H'></li>
+                         <li className='atom C'></li>
+                         <li className='atom N'></li>
+                     </ul>
+                 </li>
+                 <li className='molecule-wrap'>
+                     <div className='info'>ammonia (NH<sub>3</sub>)</div>
+                     <ul className='molecule NH3'>
+                         <li className='atom N'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                     </ul>
+                 </li>
+                 <li className='molecule-wrap'>
+                     <div className='info'>methane (CH<sub>4</sub>)</div>
+                     <ul className='molecule CH4'>
+                         <li className='atom C'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                     </ul>
+                 </li>
+                 <li className='molecule-wrap'>
+                     <div className='info'>formaldehyde (CH<sub>2</sub>O)</div>
+                     <ul className='molecule CH2O'>
+                         <li className='atom C'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom O'></li>
+                     </ul>
+                 </li>
+                 <li className='molecule-wrap'>
+                     <div className='info'>carbon tetrachloride (CCl<sub>4</sub>)</div>
+                     <ul className='molecule CCl4'>
+                         <li className='atom C'></li>
+                         <li className='atom Cl'></li>
+                         <li className='atom Cl'></li>
+                         <li className='atom Cl'></li>
+                         <li className='atom Cl'></li>
+                     </ul>
+                 </li>
+                 <li className='molecule-wrap'>
+                     <div className='info'>methyl chloride (CH<sub>3</sub>Cl)</div>
+                     <ul className='molecule CH3Cl'>
+                         <li className='atom C'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom Cl'></li>
+                     </ul>
+                 </li>
+                 <li className='molecule-wrap'>
+                     <div className='info'>acetylene (C<sub>2</sub>H<sub>2</sub>)</div>
+                     <ul className='molecule C2H2'>
+                         <li className='atom C'></li>
+                         <li className='atom C'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                     </ul>
+                 </li>
+                 <li className='molecule-wrap'>
+                     <div className='info'>ethylene (C<sub>2</sub>H<sub>4)</sub></div>
+                     <ul className='molecule C2H4'>
+                         <li className='atom C'></li>
+                         <li className='atom C'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                     </ul>
+                 </li>
+                 <li className='molecule-wrap'>
+                     <div className='info'>ethane (C<sub>2</sub>H<sub>6)</sub></div>
+                     <ul className='molecule C2H6'>
+                         <li className='atom C'></li>
+                         <li className='atom C'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                         <li className='atom H'></li>
+                     </ul>
+                 </li>
+             </ul></div>;
 
 
         return (
             <div>
-            <div className="App">
-                {!state.game_started ?
-                    <div>
-                        <div className="panel" style={{color: 'black', margin: '100px', padding: '100px'}}>
-                            <p>Particles: the game about music, nuclear and quantum physics, astronomy and evolution.</p>
-                            <p>We want to create a kind of simulation-encyclopedia.</p>
-                            <GinButton item={{
-                                name:    'Start Game',
-                                onClick: state => {
-                                    state.game_started = true;
-                                    state.game_paused = false;
-                                    return state;
-                                }
-                            }}/>
-                            <p>Disclaimer the game on the early stages of development, bugs are possible!</p>
-                            <p>Developers will be grateful if in case of any problem you write to the Support.</p>
-                        </div>
-                    </div>
-                    :
-                    <div className="wrapper">
-                        <div className="flex-container-row">
-                            <div className="flex-element">
-                                {header_subcomponent}
+                <div className="App">
+                    {!state.game_started ?
+                        <div>
+                            <div className="panel" style={{color: 'black', margin: '100px', padding: '100px'}}>
+                                <p>Particles: the game about music, nuclear and quantum physics, astronomy and evolution.</p>
+                                <p>We want to create a kind of simulation-encyclopedia.</p>
+                                <GinButton item={{
+                                    name:    'Start Game',
+                                    onClick: state => {
+                                        state.game_started = true;
+                                        state.game_paused = false;
+                                        return state;
+                                    }
+                                }}/>
+                                <p>Disclaimer the game on the early stages of development, bugs are possible!</p>
+                                <p>Developers will be grateful if in case of any problem you write to the Support.</p>
                             </div>
                         </div>
+                        :
+                        <div className="wrapper">
+                            <div className="flex-container-row">
+                                <div className="flex-element">
+                                    {header_subcomponent}
+                                </div>
+                            </div>
 
-
-                   <div className="flex-container-row">
-                       <div className="flex-element">
-                        <div className="flex-container-row">
-                            <div className="flex-element">
 
                             <div className="flex-container-row">
                                 <div className="flex-element">
-                                    <h4>Cosmos</h4>
-                                    {cosmos_subcomponent}
+                                    <div className="flex-container-row">
+                                        <div className="flex-element">
+                                            <div className="flex-container-row">
+                                                <div className="flex-element">
+                                                    <h4>Cosmos</h4>
+                                                    {cosmos_subcomponent}
 
-                                    <h4>Dust</h4>
-                                    {dust_subcomponent}
+                                                    <h4>Dust</h4>
+                                                    {dust_subcomponent}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex-element">
+                                            <div className="flex-container-row">
+                                                <div className="flex-element">
+                                                    <h4>Field</h4>
+                                                    {field_subcomponent}
+                                                    <h4>Storage</h4>
+                                                    {storage_subcomponent}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex-element">
+                                            <div className="flex-container-column">
+                                                <div className="flex-element">
+                                                    <h4>Machinery</h4>
+                                                    {modules_subcomponent}
+                                                </div>
+                                                <div className="flex-element">
+                                                    <h4>Assemblers</h4>
+                                                    {assemblers_subcomponent}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex-element">
+                                            <div className="flex-container-column">
+                                                <div className="flex-element">
+                                                    <h4>Systems</h4>
+                                                    {systems_subcomponent}
+                                                    <div>
+                                                        <GinButton item={rules.new_system}/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex-container-column">
+                                        <div className="flex-element">
+                                            <h4>Selected System</h4>
+                                            {sustem_subcomponent}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex-element info">
+
+                                    <div className="flex-element">
+                                        <div className="flex-container-row">
+
+                                            <div className="flex-element info">
+                                                <h4>Info</h4>
+
+                                                <div className="flex-element">
+                                                    {object_subcomponent()}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            </div>
 
-                            <div className="flex-element">
+                            <Popup ref={(p) => this.popupHandler = p}/>
 
-                            <div className="flex-container-row">
-                                <div className="flex-element">
-                                    <h4>Field</h4>
-                                    {field_subcomponent}
-                                    <h4>Storage</h4>
-                                    {storage_subcomponent}
-                                </div>
-                            </div>
-                            </div>
-
-                            <div className="flex-element">
-
-
-                            <div className="flex-container-column">
-                                <div className="flex-element">
-                                    <h4>Machinery</h4>
-                                    {modules_subcomponent}
-                                </div>
-                                <div className="flex-element">
-                                    <h4>Assemblers</h4>
-                                    {assemblers_subcomponent}
-                                </div>
-                            </div>
-
-                            </div>
-
-                            <div className="flex-element">
-
-
-                            <div className="flex-container-column">
-                                <div className="flex-element">
-                                    <h4>Systems</h4>
-                                    {universe_subcomponent}
-                                </div>
-                            </div>
-
-                            </div>
+                            <div style={{height: '130px', width: '100%'}}></div>
 
                         </div>
-
-                           <div className="flex-container-column">
-                               <div className="flex-element">
-                                   <h4>Selected System</h4>
-                               </div>
-                           </div>
-                       </div>
-
-                       <div className="flex-element info">
-
-                        <div className="flex-element">
-                            <div className="flex-container-row">
-
-                            <div className="flex-element info">
-                                <h4>Info</h4>
-                            </div>
-                            </div>
-                        </div>
-                       </div>
-                   </div>
-
-                        <Popup ref={(p) => this.popupHandler = p}/>
-
-                        <div style={{height: '130px', width: '100%'}}> </div>
-
-                    </div>
-                }
-            </div>
+                    }
+                </div>
                 <Footer newGame={this.newGame}/>
             </div>);
     }
