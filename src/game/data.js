@@ -66,19 +66,7 @@ export const info = {
         info: 'Molecules will form stars and other objects in your universe. Mining of them will result in huge temperature raise'
     },
 
-    strings:  {
-        link: 'https://en.wikipedia.org/wiki/String_(physics)',
-        icon: './img/strings.png'
-    },
 
-    up_quarks: {
-        link: 'https://en.wikipedia.org/wiki/Up_quark',
-        fluctuator_link: ''
-    },
-    down_quarks: {
-        link: 'https://en.wikipedia.org/wiki/Down_quark',
-        fluctuator_link: ''
-    },
     photons: {
         link: 'https://en.wikipedia.org/wiki/Photon',
         fluctuator_link: ''
@@ -98,28 +86,36 @@ export const info = {
         link: 'https://en.wikipedia.org/wiki/Neutron'
     },
     hydrogen: {
-        link: 'https://en.wikipedia.org/wiki/Hydrogen'
+        link: 'https://en.wikipedia.org/wiki/Hydrogen',
+        mass: 1.00794
     },
     helium: {
-        link: 'https://en.wikipedia.org/wiki/Helium'
+        link: 'https://en.wikipedia.org/wiki/Helium',
+        mass: 4.002602
     },
     carbon: {
-        link: 'https://en.wikipedia.org/wiki/Carbon'
+        link: 'https://en.wikipedia.org/wiki/Carbon',
+        mass: 12.0107
     },
     oxygen: {
-        link: 'https://en.wikipedia.org/wiki/Oxygen'
+        link: 'https://en.wikipedia.org/wiki/Oxygen',
+        mass: 16
     },
     nitrogen: {
-        link: 'https://en.wikipedia.org/wiki/Nitrogen'
+        link: 'https://en.wikipedia.org/wiki/Nitrogen',
+        mass: 14.0067
     },
     ferrum: {
-        link: 'https://en.wikipedia.org/wiki/Iron'
+        link: 'https://en.wikipedia.org/wiki/Iron',
+        mass: 55.845
     },
     neon: {
-        link: 'https://en.wikipedia.org/wiki/Neon'
+        link: 'https://en.wikipedia.org/wiki/Neon',
+        mass: 20.1797
     },
     silicon: {
-        link: 'https://en.wikipedia.org/wiki/Silicon'
+        link: 'https://en.wikipedia.org/wiki/Silicon',
+        mass: 28.0855
     },
 };
 

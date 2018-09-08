@@ -16,7 +16,7 @@
     "prop-types": "^15.6.2",
     "rc-dialog": "7.1.7",
     "rc-progress": "2.2.5",
-    "react": "^16.4.2",
+    "react": "^16.5.0",
     "react-bootstrap": "^0.32.1",
     "react-confirm": "0.1.17",
     "react-dom": "^16.4.2",

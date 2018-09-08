@@ -54,9 +54,9 @@ export class Orchestrator extends React.Component {
             className={classNames('glyphicon', (this.props.state.music_paused ? 'glyphicon-play' : 'glyphicon-pause'))}
             style={{width: 28, height: 28}}> </span>
         <Sound url={current_track.path}
-                      volume={this.props.state.achievements.length/1.4}
+                      volume={this.props.state.achievements.length*10}
                       playStatus={this.props.state.music_paused ? Sound.status.PAUSED: Sound.status.PLAYING}
-                      playbackRate={1.02-(this.props.state.strings/Math.pow(10,14))}
+                      playbackRate={1.02-(this.props.state.field.electrons/Math.pow(10,14))}
                onFinishedPlaying={() => i++}/>
         </div>);
     }

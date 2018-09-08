@@ -17,6 +17,11 @@
   display: flex;
 }
 
+.info {
+  max-width: 100px;
+  height: 100vh;
+}
+
 
 html, body {
   background-image: url('/born_of_a_star.jpg');
@@ -97,6 +102,7 @@ button.info:hover {
 }
 
 .clickers {
+  border: 1px solid auto;
   justify-content: flex-end;
   align-items: flex-end;
   text-align: right;

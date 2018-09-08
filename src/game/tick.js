@@ -7,11 +7,11 @@ import {achievements} from "./achievements";
 import toastr from "toastr";
 
 export const tick = (state) => {
-    _.each(fluctuators.fluctuators, (item) => {
+    _.each(fluctuators.modules, (item) => {
         if (item.onTick) state = item.onTick(state);
     });
 
-    _.each(fluctuators.converters, (item) => {
+    _.each(fluctuators.assemblers, (item) => {
         if (item.onTick) state = item.onTick(state);
     });
     
