@@ -39,7 +39,6 @@ class App extends Component {
         this.createPopup = this.createPopup.bind(this);
 
         this.state = getDefaultState();
-
     }
 
 
@@ -777,6 +776,7 @@ class App extends Component {
 
 
         return (
+            <div>
             <div className="App">
                 {!state.game_started ?
                     <div>
@@ -797,67 +797,96 @@ class App extends Component {
                     </div>
                     :
                     <div className="wrapper">
-                        <div className="flex-container-column header">
-                            {header_subcomponent}
-                        </div>
-                        <div>
-                            <ToastContainer className="toast-top-right"/>
+                        <div className="flex-container-row">
+                            <div className="flex-element">
+                                Header
+                            </div>
                         </div>
 
+
+                   <div className="flex-container-row">
+                       <div className="flex-element">
                         <div className="flex-container-row">
-                            <div className="flex-element big-tab">
-                                <h3> Particles </h3>
-                                <div className="flex-container-row">
-                                    <div className="flex-element">
-                                        {basic_particles_subcomponent}
-                                    </div>
+                            <div className="flex-element">
+
+                            <div className="flex-container-row">
+                                <div className="flex-element">
+                                    <h4>Cosmos</h4>
+                                    {basic_particles_subcomponent}
+
+                                    <h4>Dust</h4>
+                                    {atoms_subcomponent} {simple_molecules_subcomponent}
+                                </div>
+                            </div>
+                            </div>
+
+                            <div className="flex-element">
+
+                            <div className="flex-container-row">
+                                <div className="flex-element">
+                                    <h4>Field</h4>
+                                    <h4>Storage</h4>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div className="flex-element">
+
+
+                            <div className="flex-container-column">
+                                <div className="flex-element">
+                                    {fluctuators_subcomponent}
+                                </div>
+                                <div className="flex-element">
+                                    <h4>Assemblers</h4>
+                                    {fluctuators_subcomponent}
                                 </div>
                             </div>
 
-                            <div className="flex-element big-tab">
-                                {fluctuators_subcomponent}
                             </div>
 
-                            <div className="flex-element big-tab">
-                                <h3>Matter</h3>
-                                {epochs.atom_epoch.locked(this.state)
-                                    ? <div className="blocked">{epochs.atom_epoch.condition_text}
-                                    <br />
-                                    <img src="http://www.iconhot.com/icon/png/devine/256/blocked.png"/></div>
-                                    :
-                                    atoms_subcomponent
-                                }
+                            <div className="flex-element">
 
-                                {this.state.H2 > 2 ? simple_molecules_subcomponent : ''}
+
+                            <div className="flex-container-column">
+                                <div className="flex-element">
+                                    <h4>Systems</h4>
+                                </div>
                             </div>
 
-                            <div className="flex-element big-tab">
-
-                                {rules_subcomponent}
                             </div>
 
                         </div>
 
-                        <div className="flex-container-row">
-                            <div className="flex-element bit-tab">
-                                { epochs.galaxy_epoch.locked(this.state)
-                                    ? <div className="blocked">{epochs.galaxy_epoch.condition_text}
-                                    <br />
-                                    <img src="http://www.iconhot.com/icon/png/devine/256/blocked.png"/></div>
-                                    : universe_subcomponent}
+                           <div className="flex-container-column">
+                               <div className="flex-element">
+                                   <h4>Selected System</h4>
+                               </div>
+                           </div>
+                       </div>
+
+                       <div className="flex-element info">
+
+                        <div className="flex-element">
+                            <div className="flex-container-row">
+
+                            <div className="flex-element info">
+                                <h4>Info</h4>
                             </div>
-
+                            </div>
                         </div>
+                       </div>
+                   </div>
 
-                        < Popup ref={(p) => this.popupHandler = p}/>
+                        <Popup ref={(p) => this.popupHandler = p}/>
 
-                        <div style={{height: '130px', width: '100%'}}></div>
+                        <div style={{height: '130px', width: '100%'}}> </div>
 
-                        <Footer newGame={this.newGame}/>
                     </div>
                 }
             </div>
-        );
+                <Footer newGame={this.newGame}/>
+            </div>);
     }
 }
 

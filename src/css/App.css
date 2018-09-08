@@ -17,6 +17,20 @@
   display: flex;
 }
 
+.info {
+  max-width: 100px;
+  height: 100vh;
+}
+
+.flex-container-column {
+  border: 1px solid white;
+}
+
+
+.flex-container-row {
+  border: 1px solid white;
+}
+
 
 html, body {
   background-image: url('/born_of_a_star.jpg');
