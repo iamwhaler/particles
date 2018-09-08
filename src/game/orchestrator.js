@@ -45,8 +45,7 @@ export class Orchestrator extends React.Component {
     }
 
     render() {
-        let next_track = this.props.state.track_playing;
-        let current_track = SOUNDBANK[next_track];
+        let current_track = SOUNDBANK[this.props.state.track_playing];
 
         return (
         <div>
@@ -57,7 +56,7 @@ export class Orchestrator extends React.Component {
                       volume={this.props.state.achievements.length*20}
                       playStatus={this.props.state.music_paused ? Sound.status.PAUSED: Sound.status.PLAYING}
                       playbackRate={1.02-(this.props.state.field.electrons/Math.pow(10,14))}
-               onFinishedPlaying={next_track>3 ? this.props.state.track_playing=0:this.props.state.track_playing++}/>
+               onFinishedPlaying={() => {if(this.props.state.track_playing>3){this.props.state.track_playing=0} else{this.props.state.track_playing++}}}/>
         </div>);
     }
 }

@@ -73,6 +73,7 @@ const default_state = {
         protonator: true,
        hydrogen_assembler: true,
         helium_assembler: true,
+        carbon_assembler: true,
 
     },
 
@@ -113,7 +114,6 @@ const default_state = {
             }
         ],
     // */
-
     //universe: [],
     selected_galaxy: null,
     selected_system: null,

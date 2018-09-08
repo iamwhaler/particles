@@ -17,9 +17,8 @@
   display: flex;
 }
 
-.info {
-  max-width: 100px;
-  height: 100vh;
+.info-container {
+  max-width: 300px;
 }
 
 

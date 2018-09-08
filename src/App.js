@@ -17,6 +17,7 @@ import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {fluctuators} from './game/fluctuators';
 import Popup from "./utils/Popup/Popup";
+import {Circle} from 'react-shapes';
 
 import { Orchestrator } from './game/orchestrator';
 
@@ -650,9 +651,8 @@ class App extends Component {
 
                 <div className="flex-element">
                     {state.selected_system !== null ?
-                        <div className="flex-container-column">
-                            <h3> System </h3>
-                            <div className="info-block">
+                        <div className="flex-element">
+                            <div className="flex-container-row">
                             {_.map(state.systems[state.selected_system].stars, (star, key) =>
                                     <div onClick={() => {
                                         let state = this.state;
@@ -673,6 +673,15 @@ class App extends Component {
                                     }}
                                          className="flex-element panel" key={key} style={{color: 'black'}}>
                                         <p>{planet.name}</p>
+                                        {_.map(planet.mater, (item, key)=>{
+                                            let sum = 0;
+                                            sum+=item;
+                                            if(sum>100) {
+                                                sum = sum / 1000000;
+                                            }
+
+                                           return <Circle r={sum} fill={{color: 'indigo'}} stroke={{color: 'black'}} strokeWidth={3}/>
+                                        })}
                                     </div>
                                 )}
                             </div>
@@ -908,13 +917,7 @@ class App extends Component {
                             <div className="flex-container-row">
                                 <div className="flex-element">
                                     {header_subcomponent}
-
-                                    <h4>Space</h4>
-                                    {space_subcomponent}
-
-                                    <h4>Dust</h4>
-                                    {dust_subcomponent}
-                                    </div>
+                                </div>
                             </div>
 
 
@@ -974,12 +977,12 @@ class App extends Component {
                                     </div>
                                 </div>
 
-                                <div className="flex-element info">
+                                <div className="flex-element info-container">
 
                                     <div className="flex-element">
                                         <div className="flex-container-row">
 
-                                            <div className="flex-element info">
+                                            <div className="flex-element ">
                                                 <h4>Info</h4>
 
                                                 <div className="flex-element">
