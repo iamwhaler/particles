@@ -228,7 +228,7 @@ class App extends Component {
                     <div className="flex-container-column">
                         <div className="flex-container-row">
                             <div className="flex-element">
-                                <span>{item.name}</span>
+                                <span>{!item.name ? '' :item.name }</span>
                             </div>
                         </div>
                         <div className="flex-element">
@@ -340,7 +340,7 @@ class App extends Component {
             </div>;
 
 
-        const cosmos_subcomponent =
+        const space_subcomponent =
             <div className="flex-element">
                 <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
                     <img alt="" className="overlay resource-icon" src={"./img/basic_particles.png"}/>
@@ -501,15 +501,16 @@ class App extends Component {
                                         <OverlayTrigger delay={150} placement="left"
                                                         overlay={tooltip(this.state, item)}>
                                             <div className="flex-element fluctuators">
-                                                <button style={{minWidth: '140px', maxHeight: '110px'}}
+                                                <span>{item.name}: {state[key]}</span>
+                                                <button style={{minWidth: '50px', maxHeight: '110px'}}
                                                         className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
                                                         onClick={() => {
                                                             this.onClickWrapper(item);
                                                         }}>
                                                 <span>
                                                     {state[key] > 0
-                                                        ? item.name + ': lvl ' + state[key]
-                                                        : item.name}
+                                                        ? 'Upgrade'
+                                                        : 'Buy'}
                                                 </span>
                                                 </button>
                                                 {(item.toggle && state[key] > 0)
@@ -540,15 +541,15 @@ class App extends Component {
                                     <OverlayTrigger delay={150} placement="left"
                                                     overlay={tooltip(this.state, item)}>
                                         <div className="flex-element fluctuators">
-                                            <button style={{minWidth: '140px', maxHeight: '110px'}}
+                                            <span>{item.name + ': ' + state[key]}</span>
+                                            <button style={{minWidth: '40px', maxHeight: '110px'}}
                                                     className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
                                                     onClick={() => {
                                                         this.onClickWrapper(item);
                                                     }}>
                                                 <span>
-                                                    {state[key] > 0
-                                                        ? item.name + ': lvl ' + state[key]
-                                                        : item.name}
+                                                    {state[key]>0
+                                                        ? 'Upgrade' : 'Buy'}
                                                 </span>
                                             </button>
                                             {(item.toggle && state[key] > 0)
@@ -859,8 +860,8 @@ class App extends Component {
 
                             <div className="flex-container-row">
                                 <div className="flex-element">
-                                    <h4>Cosmos</h4>
-                                    {cosmos_subcomponent}
+                                    <h4>Space</h4>
+                                    {space_subcomponent}
 
                                     <h4>Dust</h4>
                                     {dust_subcomponent}

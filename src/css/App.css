@@ -117,11 +117,16 @@ button.info:hover {
   font-size: 10px;
 }
 
+button.cancel {
+  border: 1px solid auto;
+  border-color: rgba(1,1,1,0.9);
+}
 
 button {
   background-color: Transparent;
   background-repeat:no-repeat;
-  border: none;
+  border: 1px solid auto;
+  border-color: rgba(127,127,127,0.9);
   cursor:pointer;
   overflow: hidden;
   outline:none;
