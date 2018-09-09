@@ -109,7 +109,6 @@ const default_state = {
     universe_name: '',
     universe_size: 0,
 
-    temperature: Math.pow(10, 32),
 
     chat: [],
 

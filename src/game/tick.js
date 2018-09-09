@@ -27,7 +27,7 @@ export const tick = (state) => {
         if (state.achievements[achievement.name]) return;
         if (achievement.rule(state) && !state.achievements.includes(achievement.name)) {
             state.achievements.push(achievement.name);
-            toastr.info(achievement.name + achievement.rank + " achievement unlocked!", {
+            toastr.info(achievement.name + " rank:(" + achievement.rank + ") achievement unlocked!", {
                 timeOut: 20000,
                 closeButton: true,
                 preventDuplicates: true,

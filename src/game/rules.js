@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import {old_rules} from './old_rules';
 import {weight} from './physics';
-import {fluctuators} from "./fluctuators";
 
 
 const radiate_helper = (state, system_key, count) => {
@@ -29,52 +28,7 @@ export const rules = {
         }
     },
 
-    temperature_effect_rule: {
-        name: 'Temperature fluctuation',
-        text: 'Fluctuators slightly increase your temperature',
-        onTick: (state) => {
-            _.map(fluctuators.modules, (value, resource_key) =>
-                value.temperature_effect && state.toggle[resource_key] ? state.temperature += value.temperature_effect(state)
-                    : false);
-            return state
-        }
-    },
 
-
-    protons_rule: {name: 'Protons Merge', text: 'Protons form from existing quarks',
-        locked: state => state.protons === 0,
-        onTick: (state) => {
-            if (state.up_quarks >= 5 && state.down_quarks >= 5) {
-                state.up_quarks -= 2;
-                state.down_quarks -= 1;
-                state.protons += 1;
-            }
-            return state;
-        }
-    },
-
-    neutrons_rule: {name: 'Neutrons Merge', text: 'Neutrons form from existing quarks',
-        locked: state => state.neutrons === 0,
-        onTick: (state) => {
-            if (state.up_quarks >= 5 && state.down_quarks >= 5) {
-                state.up_quarks -= 1;
-                state.down_quarks -= 2;
-                state.neutrons += 1;
-            }
-            return state;
-        }
-    },
-
-    hydrogen_rule: {name: 'hydrogen merge', text: 'Hydrogen forms a molecule once appeared',
-        locked: state => state.hydrogen === 0,
-        onTick: (state) => {
-            if (state.hydrogen >= 5) {
-                state.hydrogen += 1;
-                state.hydrogen -= 2;
-            }
-            return state;
-        }
-    },
 
     /*
     clean_rule: { name: 'Rules ', text: 'Rule Text',
@@ -96,7 +50,7 @@ export const rules = {
                 carbon: 0,
                 oxygen: 0,
                 nitrogen: 0,
-                neon: 0,
+                aluminium: 0,
                 silicon: 0,
                 ferrum: 0,
             };
@@ -193,7 +147,7 @@ export const rules = {
                     if (star.mater.carbon >= 2 && (weight({'carbon': star.mater.carbon}) > (weight(star.mater) * 0.2) )) {
                         let count = Math.ceil(star.mater.carbon / 250);
                         state.systems[system_key].stars[star_key].mater.helium += count;
-                        state.systems[system_key].stars[star_key].mater.neon += count;
+                        state.systems[system_key].stars[star_key].mater.aluminium += count;
                         state.systems[system_key].stars[star_key].mater.carbon -= count * 2;
 
                         let radiation = Math.ceil(count * 50);
@@ -213,9 +167,9 @@ export const rules = {
         onTick: state => {
             _.each(state.systems, (system, system_key) => {
                 _.each(system.stars, (star, star_key) => {
-                    if (star.mater.neon >= 1 && (weight({'neon': star.mater.neon}) > (weight(star.mater) * 0.1) )) {
-                        let count = Math.ceil(star.mater.neon / 200);
-                        state.systems[system_key].stars[star_key].mater.neon -= count;
+                    if (star.mater.aluminium >= 1 && (weight({'aluminium': star.mater.aluminium}) > (weight(star.mater) * 0.1) )) {
+                        let count = Math.ceil(star.mater.aluminium / 200);
+                        state.systems[system_key].stars[star_key].mater.aluminium -= count;
                         state.systems[system_key].stars[star_key].mater.helium += count;
                         state.systems[system_key].stars[star_key].mater.oxygen += count;
 
@@ -237,7 +191,7 @@ export const rules = {
             _.each(state.systems, (system, system_key) => {
                 _.each(system.stars, (star, star_key) => {
                     if (star.mater.oxygen >= 2 && (weight({'oxygen': star.mater.oxygen}) > (weight(star.mater) * 0.05) )) {
-                        let count = Math.ceil(star.mater.neon / 100);
+                        let count = Math.ceil(star.mater.aluminium / 100);
                         state.systems[system_key].stars[star_key].mater.oxygen -= count * 2;
                         state.systems[system_key].stars[star_key].mater.silicon += count;
                         state.systems[system_key].stars[star_key].mater.helium += count;
