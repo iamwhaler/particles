@@ -33,7 +33,7 @@ const default_state = {
     },
 
     storage: {
-        hydrogen: 0,
+        hydrogen: 1000000,
         helium: 0,
         carbon: 0,
         oxygen: 0,
