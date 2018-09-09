@@ -71,21 +71,25 @@ export const info = {
 
     photons: {
         link: 'https://en.wikipedia.org/wiki/Photon',
-        fluctuator_link: ''
+        fluctuator_link: '',
+        mass: 0
     },
     electrons: {
         link: 'https://en.wikipedia.org/wiki/Electron',
-        fluctuator_link: ''
+        fluctuator_link: '',
+        mass: 0.001
     },
     neutrino: {
-        link: 'https://en.wikipedia.org/wiki/Neutrino'
+        link: 'https://en.wikipedia.org/wiki/Neutrino',
+        mass: 0.001
     },
-
     protons: {
-        link: 'https://en.wikipedia.org/wiki/Proton'
+        link: 'https://en.wikipedia.org/wiki/Proton',
+        mass: 1
     },
     neutrons: {
-        link: 'https://en.wikipedia.org/wiki/Neutron'
+        link: 'https://en.wikipedia.org/wiki/Neutron',
+        mass: 1
     },
     hydrogen: {
         link: 'https://en.wikipedia.org/wiki/Hydrogen',

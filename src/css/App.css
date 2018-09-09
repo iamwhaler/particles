@@ -21,6 +21,10 @@
   max-width: 300px;
 }
 
+.red{
+  color: red;
+}
+
 
 html, body {
   background-image: url('/born_of_a_star.jpg');
@@ -69,6 +73,11 @@ button.info:hover {
   align-items: flex-end;
   white-space: nowrap;
   background-color: #5A966A;
+}
+
+.dialog-button {
+  background-color: black;
+  color:white;
 }
 
 #tooltip {
