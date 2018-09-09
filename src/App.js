@@ -126,35 +126,6 @@ class App extends Component {
         }
     }
 
-    /*
-    drawCost(cost) {
-        let text = '';
-        _.each(cost, (value, resource) => {
-            if (value > 0) {
-                text += resource + ': ' + value + ' ';
-            }
-        });
-        return text;
-    }
-
-    isEnough(state, cost) {
-        let enough = true;
-        _.each(cost, (value, resource_key) => {
-            if (_.get(state, resource_key) < value) enough = false;
-        });
-        return enough;
-    }
-
-    chargeCost(state, cost) {
-        if (!this.isEnough(state, cost)) return false;
-        _.each(cost, (value, resource_key) => {
-            let result = _.get(state, resource_key) - value;
-            _.set(state, resource_key, result);
-        });
-        return state;
-    }
-    */
-
     createPopup(state, component) {
         //TODO REMOVE Used only for demonstrational purposes
         this.info = "Your universe size:" + state.universe_size;
@@ -175,7 +146,6 @@ class App extends Component {
         }
         return Math.round(number);
     }
-
 
     render() {
         let state = this.state;
@@ -361,7 +331,7 @@ class App extends Component {
                     <div className="flex-container-column info-block">
 
                         <OverlayTrigger delay={150} placement="right"
-                                        overlay={tooltip(this.state, clickers.field)} trigger="hover">
+                                        overlay={tooltip(this.state, clickers.field)}>
                         <button style={{padding: '4px 4px', width: '100%'}}
                                 className={(clickers.field.cost ? isEnough(this.state, clickers.field.cost) ? '' : 'disabled' : '')}
                                 onClick={() => {
@@ -370,6 +340,13 @@ class App extends Component {
                             <span> {clickers.field.name}: {state.field_level}</span>
                         </button>
                         </OverlayTrigger>
+
+                        <div className="flex-element">
+                            Load:
+                            <span className={state.field_capacity>weight(state.field) ? '' : 'red'}>
+                                {this.roundNumber(weight(state.field))}/{this.roundNumber(state.field_capacity)}
+                            </span>
+                        </div>
 
                         {_.map(state.field, (item, key) =>
                             <div className="flex-container-row" key={key}>
@@ -418,6 +395,24 @@ class App extends Component {
             <div className="flex-element">
                 <div className="flex-container-row info-block" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
                     <div className="flex-container-column">
+                        <OverlayTrigger delay={150} placement="right"
+                                        overlay={tooltip(this.state, clickers.storage)}>
+                            <button style={{padding: '4px 4px', width: '100%'}}
+                                    className={(clickers.storage.cost ? isEnough(this.state, clickers.field.cost) ? '' : 'disabled' : '')}
+                                    onClick={() => {
+                                        this.onClickWrapper(clickers.storage);
+                                    }}>
+                                <span> {clickers.storage.name}: {state.storage_level}</span>
+                            </button>
+                        </OverlayTrigger>
+
+                        <div className="flex-element">
+                            Load:
+                            <span className={state.storage_capacity>weight(state.storage) ? '' : 'red'}>
+                                {this.roundNumber(weight(state.storage))}/{this.roundNumber(state.storage_capacity)}
+                            </span>
+                        </div>
+
                         {_.map(state.storage, (item, key) =>
                             <div className="flex-container-row clickers" key={key}>
                                     <div className="flex-element" style={{textAlign: 'left'}} key={key}>
@@ -757,7 +752,7 @@ class App extends Component {
                 <div className="panel" style={{color: 'black', margin: '100px', padding: '100px'}}>
                     <p>In the distant future, the Milky Way Galaxy and the nearest satellites are colonized. The expansion is stopped by intergalactic distances.</p>
                     <p>New directions of expansion were discovered by Star Engineering: the technology of creating stellar systems.</p>
-                    <GinButton item={{
+                    <GinButton className="dialog-button" item={{
                         name:    'Start Game',
                         onClick: state => {
                             state.game_started = true;
@@ -777,7 +772,7 @@ class App extends Component {
                         {_.map(difficulty, (val, key) =>
                             <div key={key} className="flex-element panel">
                                 <p>{val.text}</p>
-                                <GinButton item={val}/>
+                                <GinButton className="dialog-button" item={val}/>
                             </div>)}
                     </div>
                 </div>

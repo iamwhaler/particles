@@ -8,11 +8,11 @@ import toastr from "toastr";
 
 export const tick = (state) => {
     _.each(fluctuators.modules, (item) => {
-        if (item.onTick) state = item.onTick(state);
+        if (item.onTick ) state = item.onTick(state);
     });
 
     _.each(fluctuators.assemblers, (item) => {
-        if (item.onTick) state = item.onTick(state);
+        if (item.onTick && state.storage_capacity > _.sum(_.values(state.storage))) state = item.onTick(state);
     });
     
     _.each(rules, (item) => {
