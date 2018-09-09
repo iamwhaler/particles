@@ -18,7 +18,7 @@ export const data = {
         carbon: {name: 'Carbon', locked: (state) => clickers.atoms.carbon_clicker.locked(state)},
         nitrogen: {name: 'Nitrogen', locked: (state) => clickers.atoms.nitrogen_clicker.locked(state)},
         oxygen: {name: 'Oxygen', locked: (state) => clickers.atoms.oxygen_clicker.locked(state)},
-        neon: {name: 'Neon', locked: (state) => clickers.atoms.neon_clicker.locked(state)},
+        aluminium: {name: 'Aluminium', locked: (state) => clickers.atoms.aluminium_clicker.locked(state)},
         silicon: {name: 'Silicon', locked: (state) => clickers.atoms.silicon_clicker.locked(state)},
         ferrum: {name: 'Ferrum', locked: (state) => clickers.atoms.ferrum_clicker.locked(state)},
 
@@ -114,9 +114,9 @@ export const info = {
         link: 'https://en.wikipedia.org/wiki/Iron',
         mass: 55.845
     },
-    neon: {
-        link: 'https://en.wikipedia.org/wiki/Neon',
-        mass: 20.1797
+    aluminium: {
+        link: 'https://en.wikipedia.org/wiki/Aluminium',
+        mass: 26.981539
     },
     silicon: {
         link: 'https://en.wikipedia.org/wiki/Silicon',

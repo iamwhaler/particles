@@ -60,38 +60,35 @@ export const fluctuators = {
     modules: {
         pump: {
             name: 'Particle Pump',
-            text: 'Sucks Protons and Neutrons from space',
+            text: 'Sucks particles with no electric charge from space',
             cost: (state) => {
                 return{ 'field.protons': Math.floor(Math.pow(1.1, state.pump -1) *4)}
             },
             locked: (state) => false,
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.19, state.pump - 1) * 12);
+                return Math.floor(Math.pow(1.13, state.pump - 1) * 2);
             },
 
-            toggle: (state) => {
-                (state.toggle.pump)
-                    ? state.toggle.pump=false
-                    : state.toggle.pump=true;
-                return state;
-            },
+            toggle: (state) => toggle_helper(state, 'pump'),
 
             onClick: (state) => {
                 state.pump++;
                 return state;
             },
             onTick: (state) => {
-                let protons_count = Math.round(_.random(state.pump/4 , state.pump));
+                let neutrino_count = Math.round(_.random(state.pump/4 , state.pump));
                 let neutrons_count = Math.round(_.random(state.pump/3.2 , state.pump));
-                if(state.toggle.pump && state.space.protons>protons_count && state.space.neutrons>neutrons_count) {
-                    state.field.protons += protons_count;
-                    state.space.protons -= protons_count;
-                    state.storage.hydrogen += protons_count;
+                let photons_count = state.pump/2;
+                if(state.toggle.pump && state.space.photons>photons_count && state.space.neutrons>neutrons_count && state.space.neutrino > neutrino_count) {
+                    state.field.neutrino += neutrino_count;
+                    state.space.neutrino -= neutrino_count;
 
                     state.field.neutrons += neutrons_count;
                     state.space.neutrons -= neutrons_count;
 
+                    state.field.photons += photons_count;
+                    state.space.photons -= photons_count;
                 }
                 return state;
             }
@@ -99,11 +96,11 @@ export const fluctuators = {
 
         riddle: {
             name: 'Riddle',
-            text: 'Attracts Electrons and Photons from space',
+            text: 'Attracts Electrons and Protons from space',
             cost: (state) => {
                 return {
                     'field.electrons': Math.floor(Math.pow(1.2, state.riddle - 1) * 4),
-                    'field.photons': Math.floor(Math.pow(1.5, state.riddle - 1) * 2)}
+                    'field.protons': Math.floor(Math.pow(1.5, state.riddle - 1) * 2)}
             },
 
             locked: (state) => false,
@@ -112,29 +109,27 @@ export const fluctuators = {
                 return Math.floor(Math.pow(1.3, state.riddle - 1) * 10);
             },
 
-            toggle: (state) => {
-                (state.toggle.riddle)
-                    ? state.toggle.riddle=false
-                    : state.toggle.riddle=true;
+            toggle: (state) => toggle_helper(state, 'riddle'),
 
-                return state;
-            },
             onClick: (state) => {
                 state.riddle++;
                 return state;
             },
             onTick: (state) => {
                 let electrons_count = Math.round(_.random(state.riddle/3, state.riddle));
-                let photons_count = Math.round(_.random(state.riddle/4, state.riddle));
-                if (state.space.electrons > electrons_count && state.space.photons>photons_count
+                let protons_count = Math.round(_.random(state.riddle/4, state.riddle));
+                if (state.space.electrons > electrons_count && state.space.protons>protons_count
                     && state.toggle.riddle && state.riddle >= 1
                     && state.space.electrons>state.pump
-                    && state.space.photons>state.pump) {
+                    && state.space.protons>state.pump) {
                     state.field.electrons += electrons_count;
                     state.space.electrons -= electrons_count;
 
-                    state.field.photons += photons_count;
-                    state.space.photons -= photons_count;
+                    state.field.protons += protons_count;
+                    state.space.protons -= protons_count;
+
+                    state.storage.hydrogen+=1;
+                    state.dust.hydrogen-=1;
                 }
 
                 return state;
@@ -240,14 +235,14 @@ export const fluctuators = {
             onTick: (state) => assemble_helper(state, 'nitrogen')
         },
         
-        neon: {
-            name: 'Neon Assembler',
-            text: 'Synths Hydrogen consuming elementary particles',
-            cost: (state) => {return {'storage.neon': Math.floor(Math.pow(1.7, state.assemblers.neon - 1) * 20)};},
+        aluminium: {
+            name: 'Aluminium Assembler',
+            text: 'Synths Aluminium consuming elementary particles',
+            cost: (state) => {return {'storage.aluminium': Math.floor(Math.pow(1.7, state.assemblers.aluminium - 1) * 20)};},
             locked: (state) => false,
-            toggle: (state) => toggle_helper(state, 'neon'),
-            onClick: (state) => buy_assembler_helper(state, 'neon'),
-            onTick: (state) => assemble_helper(state, 'neon')
+            toggle: (state) => toggle_helper(state, 'aluminium'),
+            onClick: (state) => buy_assembler_helper(state, 'aluminium'),
+            onTick: (state) => assemble_helper(state, 'aluminium')
         },
         
         silicon: {
