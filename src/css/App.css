@@ -49,11 +49,12 @@ html, body {
 }
 
 .time-machine {
-  margin: 10px 0 0 45%;
+  /*margin: 10px 0 0 45%;*/
+  margin: 5px 0 0 30%;
 }
 
 button.info {
-  height: 24px;
+  height: 18px;
   max-width: 3px;
   justify-content: flex-end;
   align-items: flex-end;
@@ -62,7 +63,7 @@ button.info {
 }
 
 button.info:hover {
-  height: 24px;
+  height: 18px;
   max-width: 3px;
   justify-content: flex-end;
   align-items: flex-end;
@@ -129,7 +130,7 @@ button {
   cursor:pointer;
   overflow: hidden;
   outline:none;
-  height: 25px;
+  height: 18px;
   color: white;
   font-size: 11px;
   border-radius: 3.5px;
