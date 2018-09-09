@@ -49,7 +49,7 @@ const assemble_helper = (state, name) => {
         state.storage[name]++;
     }
 
-    console.log(name, mass, level, cost);
+    // console.log(name, mass, level, cost);
 
     return state;
 };
