@@ -33,7 +33,7 @@ export const rules = {
         name: 'Temperature fluctuation',
         text: 'Fluctuators slightly increase your temperature',
         onTick: (state) => {
-            _.map(fluctuators.fluctuators, (value, resource_key) =>
+            _.map(fluctuators.modules, (value, resource_key) =>
                 value.temperature_effect && state.toggle[resource_key] ? state.temperature += value.temperature_effect(state)
                     : false);
             return state

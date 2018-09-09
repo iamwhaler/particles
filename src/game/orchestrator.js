@@ -37,13 +37,6 @@ export class Orchestrator extends React.Component {
         super(props);
     }
 
-    getTrack(track) {
-        _.map(SOUNDBANK, (item, key) => {
-
-        })
-
-    }
-
     render() {
         let current_track = SOUNDBANK[this.props.state.track_playing];
 
