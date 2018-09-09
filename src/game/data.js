@@ -61,9 +61,9 @@ export const info = {
         info: 'Generating atoms you can raise more complex structures giving birth to stars and planets',
         image: 'https://trello-attachments.s3.amazonaws.com/5b559fc5a46db88884558253/5b604d080d2a50cae8d6d548/94a322342e35a6261bae00203adc6b6f/Hydrogen_card_small_copy.png'
     },
-    atoms: {
-        name: 'Atoms',
-        info: 'Generating atoms you can raise more complex structures giving birth to stars and planets',
+    automation: {
+        name: 'Automation',
+        info: 'The achievements of science in the service of stellar engineering',
         image: 'https://trello-attachments.s3.amazonaws.com/5b559fc5a46db88884558253/5b604d080d2a50cae8d6d548/94a322342e35a6261bae00203adc6b6f/Hydrogen_card_small_copy.png'
     },
     simple_molecules: {

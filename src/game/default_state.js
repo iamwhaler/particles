@@ -41,6 +41,40 @@ const default_state = {
     },
 
 
+    assemblers: {
+        hydrogen: 0,
+        helium: 0,
+        carbon: 0,
+        oxygen: 0,
+        nitrogen: 0,
+        neon: 0,
+        silicon: 0,
+        ferrum: 0,
+    },
+
+    toggle: {
+        pump: true,
+        riddle: true, 
+        protonator: true,
+        
+        hydrogen: true,
+        helium: true,
+        carbon: true,
+        oxygen: true,
+        nitrogen: true,
+        neon: true,
+        silicon: true,
+        ferrum: true,
+        
+        hydrogen_assembler: true,
+        helium_assembler: true,
+        carbon_assembler: true,
+
+    },
+
+
+
+    // old shit?
 
     hydrogen: 0,
     helium: 0,
@@ -49,7 +83,6 @@ const default_state = {
 
     CN: 0,
     CH: 0,
-
 
 
     pump: 0,
@@ -66,16 +99,6 @@ const default_state = {
     hydrogen_assembler: 0,
     helium_assembler: 0,
     carbon_assembler: 0,
-
-    toggle: {
-       pump: true,
-       riddle: true,
-        protonator: true,
-       hydrogen_assembler: true,
-        helium_assembler: true,
-        carbon_assembler: true,
-
-    },
 
 
     micro_swiper: false,

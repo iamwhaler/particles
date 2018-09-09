@@ -25,6 +25,8 @@ import {ToastContainer} from 'react-toastr';
 import confirm from './components/confirm_launch';
 import toastr from "toastr";
 
+import {isEnough, chargeCost, drawCost} from './utils/bdcgin';
+
 
 class App extends Component {
     constructor(props) {
@@ -111,8 +113,8 @@ class App extends Component {
     onClickWrapper(item) {
         if (item.cost) {
             let cost = _.isFunction(item.cost) ? item.cost(this.state) : item.cost;
-            if (this.isEnough(this.state, cost)) {
-                if (item.onClick) this.setState(item.onClick(this.chargeCost(this.state, cost)));
+            if (isEnough(this.state, cost)) {
+                if (item.onClick) this.setState(item.onClick(chargeCost(this.state, cost)));
             }
             else {
                 return false;
@@ -123,6 +125,7 @@ class App extends Component {
         }
     }
 
+    /*
     drawCost(cost) {
         let text = '';
         _.each(cost, (value, resource) => {
@@ -149,6 +152,7 @@ class App extends Component {
         });
         return state;
     }
+    */
 
     createPopup(state, component) {
         //TODO REMOVE Used only for demonstrational purposes
@@ -195,7 +199,7 @@ class App extends Component {
                 ? ''
                 :
                 <button style={{padding: '4px 4px', width: '30%'}}
-                        className={(item.isDisabled && item.isDisabled(this.state)) ? 'disabled' : (item.cost ? this.isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
+                        className={(item.isDisabled && item.isDisabled(this.state)) ? 'disabled' : (item.cost ? isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
                         onClick={() => {
                             this.onClickWrapper(item);
                         }}>
@@ -381,19 +385,13 @@ class App extends Component {
                     <div className="flex-container-column info-block">
                         {_.map(state.field, (item, key) =>
                             <div className="flex-container-row" key={key}>
-
-                                <div className="clickers">
-                                    <div className="flex-element" style={{textAlign: 'left'}} key={key}>
-                                                            <span className="flex-element">
-                                                            {data.basic_particles[key] ? data.basic_particles[key].name : 'resource'}: {state.field[key] ?
-                                                                this.roundNumber(state.field[key]) : '0'}
-                                                            </span>
-                                    </div>
+                                <div className="clickers flex-element" style={{textAlign: 'left'}}>
+                                    {data.basic_particles[key] ? data.basic_particles[key].name : 'resource'}: {state.field[key] ?
+                                        this.roundNumber(state.field[key]) : '0'}
                                 </div>
-
                                 <div>
                                     <OverlayTrigger delay={150} placement="right"
-                                                    overlay={tooltip(this.state, item)} trigger="focus">
+                                                    overlay={tooltip(this.state, {name: key})} trigger="focus">
                                         <div>
                                             <button className="info">
                                                 i
@@ -425,7 +423,7 @@ class App extends Component {
 
                                 <div>
                                     <OverlayTrigger delay={150} trigger="focus" placement="right"
-                                                    overlay={tooltip(this.state, item)}>
+                                                    overlay={tooltip(this.state, {name: item})}>
                                         <div>
                                             <button className="info">
                                                 i
@@ -483,8 +481,8 @@ class App extends Component {
                                         <OverlayTrigger delay={150} placement="left"
                                                         overlay={tooltip(this.state, item)}>
                                             <div className="flex-element fluctuators">
-                                                <button style={{minWidth: '50px', maxHeight: '110px'}}
-                                                        className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
+                                                <button //style={{minWidth: '50px', maxHeight: '110px'}}
+                                                        className={(item.cost ? isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
                                                         onClick={() => {
                                                             this.onClickWrapper(item);
                                                         }}>
@@ -521,22 +519,22 @@ class App extends Component {
                                     <OverlayTrigger delay={150} placement="left"
                                                     overlay={tooltip(this.state, item)}>
                                         <div className="flex-element fluctuators">
-                                            <button style={{minWidth: '40px', maxHeight: '110px'}}
-                                                    className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
+                                            <button //style={{minWidth: '40px', maxHeight: '110px'}}
+                                                    className={(item.cost ? isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
                                                     onClick={() => {
                                                         this.onClickWrapper(item);
                                                     }}>
                                                 <span>
-                                                    {state[key]>0
+                                                    {state.assemblers[key]>0
                                                         ? 'Upgrade' : 'Buy'}
                                                 </span>
                                             </button>
-                                            {(item.toggle && state[key] > 0)
+                                            {(item.toggle && state.assemblers[key] > 0)
                                                 ?
                                                 <button className={state.toggle[key] ? 'switchOn' : ''}
                                                         onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
                                                 : ''}
-                                            <span> {item.name + ': ' + state[key]} </span>
+                                            <span> {item.name + ': ' + state.assemblers[key]} </span>
                                         </div>
                                     </OverlayTrigger>
                                 </div>
@@ -586,7 +584,7 @@ class App extends Component {
                     {state.selected_system !== null ? state.systems[state.selected_system].name : ''}
                 </p>
                 <p>
-                    {this.drawCost(obj.mater)}
+                    {drawCost(obj.mater)}
                 </p>
             </div>
         </div>;
@@ -810,7 +808,7 @@ class App extends Component {
             </OverlayTrigger>;
 
         const automation_info =
-            <OverlayTrigger delay={250} placement="bottom" overlay={details(info.atoms)}>
+            <OverlayTrigger delay={250} placement="bottom" overlay={details(info.automation)}>
                 <img alt="" className="overlay resource-icon" src={"./img/automation.png"}/>
             </OverlayTrigger>;
 
