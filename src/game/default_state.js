@@ -3,20 +3,19 @@ import _ from 'lodash';
 const default_state = {
 
     space: {
-
-        electrons: 100000,
-        neutrino: 1000000,
-        photons: 100000,
-        protons: 10000,
-        neutrons: 10000,
+        electrons: 0,
+        neutrino: 0,
+        photons: 0,
+        protons: 0,
+        neutrons: 0,
     },
 
     field: {
-        electrons: 1000,
-        neutrino: 10000,
-        photons: 1000,
-        protons: 10000,
-        neutrons: 1000,
+        electrons: 0,
+        neutrino: 1000,
+        photons: 0,
+        protons: 0,
+        neutrons: 0,
     },
 
     field_level: 1,
@@ -34,7 +33,7 @@ const default_state = {
     },
 
     storage: {
-        hydrogen: 1000000,
+        hydrogen: 0,
         helium: 0,
         carbon: 0,
         oxygen: 0,
