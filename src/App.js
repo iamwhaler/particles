@@ -263,17 +263,6 @@ class App extends Component {
                             </div>
                     )}
 
-                    {item.temperature_effect
-                        ?
-                        <div className="row temperature_effect">
-                            <div className="col-sm-6 infoBar">Temperature effect</div>
-                            <div className="col-sm-6 infoBar">
-                                <span className="glyphicon glyphicon-arrow-up"> </span> {item.temperature_effect(state)}
-                            </div>
-                        </div>
-                        : ''
-                    }
-
                 </div>
                 </div>
             </Tooltip>;
@@ -369,6 +358,18 @@ class App extends Component {
         const field_subcomponent =
                 <div className="flex-element flex-container-row" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
                     <div className="flex-container-column info-block">
+
+                        <OverlayTrigger delay={150} placement="right"
+                                        overlay={tooltip(this.state, clickers.field)} trigger="hover">
+                        <button style={{padding: '4px 4px', width: '100%'}}
+                                className={(clickers.field.cost ? isEnough(this.state, clickers.field.cost) ? '' : 'disabled' : '')}
+                                onClick={() => {
+                                    this.onClickWrapper(clickers.field);
+                                }}>
+                            <span> {clickers.field.name}: {state.field_level}</span>
+                        </button>
+                        </OverlayTrigger>
+
                         {_.map(state.field, (item, key) =>
                             <div className="flex-container-row" key={key}>
                                 <div className="clickers flex-element" style={{textAlign: 'left'}}>
