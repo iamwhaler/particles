@@ -25,34 +25,5 @@ export const old_rules = {
         }
     },
 
-    temperature_rule: {
-        onTick: (state) => {
-            state.temperature = Math.floor(
-                state.temperature *
-                (1 / (1 + Math.pow(state.temperature * (0.00000001 * state.universe_size) * Math.pow(state.tick, 10), 0.01)))); // Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(state.temperature * 0.000000001))))))));
-            return state;
-        }
-    },
-
-
-    H2_rule: {
-        onTick: (state) => {
-            if (state.hydrogen >= 10) {
-                state.H2 += 1;
-                state.hydrogen -= 2;
-            }
-            return state;
-        }
-    },
-
-    He_rule: {
-        onTick: (state) => {
-            if(state.helium >= 5){
-                state.He += state.helium/10;
-                state.helium-= state.helium/5;
-            }
-            return state;
-        }
-    }
 };
 

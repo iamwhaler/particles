@@ -135,11 +135,11 @@ export const clickers = {
 
         aluminium_clicker: {
             name: 'Synth Neon',
-            resource: 'neon',
+            resource: 'aluminium',
             cost: {protons: 13, neutrons: 14, electrons: 13, photons: 13},
             locked: (state) => state.protons < 5 && state.neutrons < 5 && state.electrons < 5 && state.photons < 5,
             onClick: (state) => {
-                state.neon++;
+                state.aluminium++;
                 return state;
             }
         },

@@ -307,19 +307,8 @@ class App extends Component {
             </div>;
 
 
-        const temperature_subcomponent =
-            <div className="flex-element flex-container-row">
-                <h5 className="flex-element"
-                    style={temperatureStyle}>
-                    Temperature: {Math.floor(state.temperature)} K
-                </h5>
-            </div>;
-
         const header_subcomponent =
             <div className="flex-element flex-container-row header">
-                <div className="flex-element">
-                    {temperature_subcomponent}
-                </div>
 
                 <div className="flex-element flex-container-row">
                     <div className="flex-element">
@@ -338,8 +327,7 @@ class App extends Component {
 
                 <div className="flex-element flex-container-row">
                     <span className="flex-element" onClick={() =>
-                        this.state.music_paused ? this.state.music_paused=false : this.state.music_paused=true
-                    }> Sound
+                        this.state.music_paused ? this.state.music_paused=false : this.state.music_paused=true}> Sound
                      <Orchestrator state={this.state}/></span>
                 </div>
             </div>;
@@ -622,6 +610,8 @@ class App extends Component {
                                     }}
                                          className="flex-element panel" key={key} style={{color: 'black'}}>
                                         <p>{star.name}</p>
+                                        <span><Circle r={Math.sqrt(weight(star.mater))/3} fill={{color: '#470407'}} stroke={{color: 'black'}} strokeWidth={3} /></span>
+
                                     </div>
                                 )}
                                 {_.map(state.systems[state.selected_system].planets, (planet, key) =>
@@ -633,15 +623,7 @@ class App extends Component {
                                     }}
                                          className="flex-element panel" key={key} style={{color: 'black'}}>
                                         <p>{planet.name}</p>
-                                        {_.map(planet.mater, (item, key)=>{
-                                            let sum = 0;
-                                            sum+=item;
-                                            if(sum>100) {
-                                                sum = sum / 1000000;
-                                            }
-
-                                           return <span key={key}><Circle r={sum} fill={{color: 'indigo'}} stroke={{color: 'black'}} strokeWidth={3}/></span>
-                                        })}
+                                        <span key={key}><Circle r={Math.sqrt(weight(planet.mater))/2} fill={{color: 'indigo'}} stroke={{color: 'black'}} strokeWidth={3}/></span>
                                     </div>
                                 )}
                             </div>
