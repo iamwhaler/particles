@@ -16,6 +16,7 @@ import {data, info, epochs} from './game/data';
 import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {fluctuators} from './game/fluctuators';
+import {difficulty} from './game/difficulty';
 import Popup from "./utils/Popup/Popup";
 import {Circle} from 'react-shapes';
 
@@ -751,22 +752,35 @@ class App extends Component {
              </ul></div>;
 
         const disclaimer =
-        <div>
-            <div className="panel" style={{color: 'black', margin: '100px', padding: '100px'}}>
-                <p>Particles: the game about music, nuclear and quantum physics, astronomy and evolution.</p>
-                <p>We want to create a kind of simulation-encyclopedia.</p>
-                <GinButton item={{
-                    name:    'Start Game',
-                    onClick: state => {
-                        state.game_started = true;
-                        state.game_paused = false;
-                        return state;
-                    }
-                }}/>
-                <p>Disclaimer the game on the early stages of development, bugs are possible!</p>
-                <p>Developers will be grateful if in case of any problem you write to the Support.</p>
-            </div>
-        </div>;
+            <div>
+                <div className="panel" style={{color: 'black', margin: '100px', padding: '100px'}}>
+                    <p>In the distant future, the Milky Way Galaxy and the nearest satellites are colonized. The expansion is stopped by intergalactic distances.</p>
+                    <p>New directions of expansion were discovered by Star Engineering: the technology of creating stellar systems.</p>
+                    <GinButton item={{
+                        name:    'Start Game',
+                        onClick: state => {
+                            state.game_started = true;
+                            return state;
+                        }
+                    }}/>
+                    <p>Disclaimer the game on the early stages of development, bugs are possible!</p>
+                    <p>Developers will be grateful if in case of any problem you write to the Support.</p>
+                </div>
+            </div>;
+
+        const select_difficulty =
+            <div>
+                <div className="panel" style={{color: 'black', margin: '100px', padding: '100px'}}>
+                    <h3>Select Difficulty</h3>
+                    <div className="flex-container-row">
+                        {_.map(difficulty, (val, key) =>
+                            <div key={key} className="flex-element panel">
+                                <p>{val.text}</p>
+                                <GinButton item={val}/>
+                            </div>)}
+                    </div>
+                </div>
+            </div>;
 
         const basic_particles_info =
             <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
@@ -786,7 +800,8 @@ class App extends Component {
         return (
             <div>
                 <div className="App">
-                    {!state.game_started ? disclaimer
+                    {state.difficulty === false ?
+                        state.game_started === false ? disclaimer : select_difficulty
                         :
                         <div className="wrapper">
                             <div className="flex-container-row">
