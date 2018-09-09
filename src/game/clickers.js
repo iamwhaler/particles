@@ -196,4 +196,15 @@ export const clickers = {
             }
         },
     },
+
+    field: {
+        name: 'Upgrade Field',
+        cost: (state) => {
+            return{'field.electrons': Math.floor(Math.pow(1.1, state.field_level -1) *2)}},
+        isLocked: (state) => false,
+        onClick: (state) => {
+            state.field_level++;
+            return state;
+        }
+    }
 };
