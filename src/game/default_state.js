@@ -31,13 +31,13 @@ const default_state = {
 
     storage: {
         hydrogen: 10000,
-        helium: 1000,
-        carbon: 100,
-        oxygen: 100,
-        nitrogen: 10,
-        aluminium: 10,
-        silicon: 10,
-        ferrum: 10,
+        helium: 0,
+        carbon: 0,
+        oxygen: 0,
+        nitrogen: 0,
+        aluminium: 0,
+        silicon: 0,
+        ferrum: 0,
     },
 
 

@@ -25,6 +25,7 @@ import {ToastContainer} from 'react-toastr';
 import confirm from './components/confirm_launch';
 import toastr from "toastr";
 
+import {weight} from './game/physics';
 import {isEnough, chargeCost, drawCost} from './utils/bdcgin';
 
 
@@ -562,6 +563,12 @@ class App extends Component {
                 <p>
                     {state.selected_system !== null ? state.systems[state.selected_system].name : ''}
                 </p>
+                {obj.temperature ? <p>
+                    Temperature: {obj.temperature}
+                </p> : ''}
+                <p>
+                    Mass: {weight(obj.mater)}
+                </p>
                 <p>
                     {drawCost(obj.mater)}
                 </p>
@@ -633,7 +640,7 @@ class App extends Component {
                                                 sum = sum / 1000000;
                                             }
 
-                                           return <Circle r={sum} fill={{color: 'indigo'}} stroke={{color: 'black'}} strokeWidth={3}/>
+                                           return <span key={key}><Circle r={sum} fill={{color: 'indigo'}} stroke={{color: 'black'}} strokeWidth={3}/></span>
                                         })}
                                     </div>
                                 )}
