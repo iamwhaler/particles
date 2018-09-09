@@ -88,7 +88,6 @@ export const fluctuators = {
                 let photons_count = state.panel;
                 let neutrino_count = state.panel/2;
                 if (state.space.photons > photons_count && state.space.neutrino > neutrino_count) {
-                    console.log(state.field_capacity, weight({photons: photons_count, neutrino: neutrino_count}), weight(state.field));
                     if (state.field_capacity < weight({photons: photons_count, neutrino: neutrino_count}) + weight(state.field)) state.toggle[name] = false;
                     state.field.photons+=photons_count;
                     state.space.photons-=photons_count;
@@ -141,8 +140,10 @@ export const fluctuators = {
 
                         if (state.storage_capacity < weight(obj) + weight(state.storage)) state.toggle[name] = false;
 
-                        state.storage[matter] += count;
-                        state.dust[matter] -= count;
+                        if(state.dust[matter] > count) {
+                            state.storage[matter] += count;
+                            state.dust[matter] -= count;
+                        }
                     }
                 }
                 else {
@@ -262,7 +263,7 @@ export const fluctuators = {
         
         helium: {
             name: 'Helium Assembler',
-            text: 'Synths Hydrogen consuming elementary particles',
+            text: 'Synths Helium consuming elementary particles',
             cost: (state) => {return {'storage.helium': Math.floor(Math.pow(1.7, state.assemblers.helium - 1) * 20)};},
             locked: (state) => false,
             toggle: (state) => toggle_helper(state, 'helium'),
@@ -272,7 +273,7 @@ export const fluctuators = {
 
         carbon: {
             name: 'Carbon Assembler',
-            text: 'Synths Hydrogen consuming elementary particles',
+            text: 'Synths Carbon consuming elementary particles',
             cost: (state) => {return {'storage.carbon': Math.floor(Math.pow(1.7, state.assemblers.carbon - 1) * 20)};},
             locked: (state) => false,
             toggle: (state) => toggle_helper(state, 'carbon'),
@@ -282,7 +283,7 @@ export const fluctuators = {
 
         oxygen: {
             name: 'Oxygen Assembler',
-            text: 'Synths Hydrogen consuming elementary particles',
+            text: 'Synths Oxygen consuming elementary particles',
             cost: (state) => {return {'storage.oxygen': Math.floor(Math.pow(1.7, state.assemblers.oxygen - 1) * 20)};},
             locked: (state) => false,
             toggle: (state) => toggle_helper(state, 'oxygen'),
@@ -292,7 +293,7 @@ export const fluctuators = {
         
         nitrogen: {
             name: 'Nitrogen Assembler',
-            text: 'Synths Hydrogen consuming elementary particles',
+            text: 'Synths Nitrogen consuming elementary particles',
             cost: (state) => {return {'storage.nitrogen': Math.floor(Math.pow(1.7, state.assemblers.nitrogen - 1) * 20)};},
             locked: (state) => false,
             toggle: (state) => toggle_helper(state, 'nitrogen'),
@@ -312,7 +313,7 @@ export const fluctuators = {
         
         silicon: {
             name: 'Silicon Assembler',
-            text: 'Synths Hydrogen consuming elementary particles',
+            text: 'Synths Silicon consuming elementary particles',
             cost: (state) => {return {'storage.silicon': Math.floor(Math.pow(1.7, state.assemblers.silicon - 1) * 20)};},
             locked: (state) => false,
             toggle: (state) => toggle_helper(state, 'silicon'),
@@ -322,7 +323,7 @@ export const fluctuators = {
         
         ferrum: {
             name: 'Ferrum Assembler',
-            text: 'Synths Hydrogen consuming elementary particles',
+            text: 'Synths Ferrum consuming elementary particles',
             cost: (state) => {return {'storage.ferrum': Math.floor(Math.pow(1.7, state.assemblers.ferrum - 1) * 20)};},
             locked: (state) => false,
             toggle: (state) => toggle_helper(state, 'ferrum'),

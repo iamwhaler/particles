@@ -78,6 +78,7 @@ button.info:hover {
 .dialog-button {
   background-color: black;
   color:white;
+  height: 25px;
 }
 
 #tooltip {
