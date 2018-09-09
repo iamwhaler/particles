@@ -3,6 +3,7 @@ import _ from 'lodash';
 const default_state = {
 
     space: {
+
         electrons: 100000,
         neutrino: 1000000,
         photons: 100000,
@@ -21,18 +22,18 @@ const default_state = {
     field_level: 1,
 
     dust: {
-        hydrogen: 10000000,
-        helium: 1000000,
-        carbon: 100000,
-        oxygen: 10000,
-        nitrogen: 1000,
-        aluminium: 1000,
-        silicon: 1000,
-        ferrum: 1000,
+        hydrogen: 0,
+        helium: 0,
+        carbon: 0,
+        oxygen: 0,
+        nitrogen: 0,
+        aluminium: 0,
+        silicon: 0,
+        ferrum: 0,
     },
 
     storage: {
-        hydrogen: 1000000,
+        hydrogen: 0,
         helium: 0,
         carbon: 0,
         oxygen: 0,
@@ -134,6 +135,7 @@ const default_state = {
     game_speed_multiplier: 1,
     tick: 0,
     game_started: false,
+    difficulty: false,
     game_paused: true,
     music_paused: false,
     track_playing: 0,
