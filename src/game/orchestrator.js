@@ -48,7 +48,6 @@ export class Orchestrator extends React.Component {
             <Sound url={current_track.path}
                 volume={this.props.state.achievements.length*20}
                 playStatus={this.props.state.music_paused ? Sound.status.PAUSED: Sound.status.PLAYING}
-                playbackRate={1.02-(this.props.state.field.electrons/Math.pow(10,14))}
                 onFinishedPlaying={() => {if(this.props.state.track_playing>3){this.props.state.track_playing=0} else{this.props.state.track_playing++}}}/>
         </span>);
     }
