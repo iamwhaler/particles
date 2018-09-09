@@ -551,6 +551,9 @@ class App extends Component {
                 <p>
                     {state.selected_system !== null ? state.systems[state.selected_system].name : ''}
                 </p>
+                <p>
+                    Type: {obj.type}
+                </p>
                 {obj.temperature ? <p>
                     Temperature: {obj.temperature}
                 </p> : ''}
@@ -610,7 +613,7 @@ class App extends Component {
                                     }}
                                          className="flex-element panel" key={key} style={{color: 'black'}}>
                                         <p>{star.name}</p>
-                                        <span><Circle r={Math.sqrt(weight(star.mater))/3} fill={{color: '#470407'}} stroke={{color: 'black'}} strokeWidth={3} /></span>
+                                        <span><Circle r={Math.sqrt(weight(star.mater))/9} fill={{color: '#470407'}} stroke={{color: 'black'}} strokeWidth={3} /></span>
 
                                     </div>
                                 )}
@@ -623,7 +626,7 @@ class App extends Component {
                                     }}
                                          className="flex-element panel" key={key} style={{color: 'black'}}>
                                         <p>{planet.name}</p>
-                                        <span key={key}><Circle r={Math.sqrt(weight(planet.mater))/2} fill={{color: 'indigo'}} stroke={{color: 'black'}} strokeWidth={3}/></span>
+                                        <span key={key}><Circle r={Math.sqrt(weight(planet.mater))/7} fill={{color: 'indigo'}} stroke={{color: 'black'}} strokeWidth={3}/></span>
                                     </div>
                                 )}
                             </div>

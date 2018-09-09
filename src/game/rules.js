@@ -2,11 +2,12 @@ import _ from 'lodash';
 
 import {old_rules} from './old_rules';
 import {weight} from './physics';
+import {info} from './data';
 
 
 const radiate_helper = (state, system_key, count) => {
     _.each(state.systems[system_key].planets, (planet, key) => {
-        state.systems[system_key].planets[key].temperature += (Math.ceil(count / (key + 2)));
+        state.systems[system_key].planets[key].temperature += (Math.ceil((count * 0.1) / (key + 2)));
     });
     return state;
 };
@@ -38,9 +39,9 @@ export const rules = {
     */
 
     new_system: { name: 'New System', text: 'Rule Text',
-        isDisabled: state => weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000,
+        isDisabled: state => weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000000,
         onClick: state => {
-            if (weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000) return state;
+            if (weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000000) return state;
 
             state.systems.push({name: 'System ' + (state.systems.length + 1), mater: _.clone(state.storage), stars: [], planets: []});
 
@@ -62,14 +63,14 @@ export const rules = {
         locked: state => state.systems.length === 0,
         onTick: state => {
             _.each(state.systems, (system, system_key) => {
-                if (_.random(1, 10) === 1 && weight(system.mater) > 1000) {
+                if (_.random(1, 50 * (system.stars.length + 1)) === 1 && weight(system.mater) > 100000) {
                     let new_mater = {};
                     _.each(system.mater, (count, key) => {
-                        let transfer = Math.ceil(count / _.random(1.24, 1.42));
+                        let transfer = Math.ceil(count / _.random(1.620, 4.2));
                         new_mater[key] = transfer;
                         state.systems[system_key].mater[key] -= transfer;
                     });
-                    state.systems[system_key].stars.push({name: 'Star ' + (system.stars.length + 1), temperature: 0, mater: new_mater});
+                    state.systems[system_key].stars.push({name: 'Star ' + (system.stars.length + 1), type: 'Proto-Star', temperature: 0, mater: new_mater});
                 }
             });
             return state;
@@ -80,16 +81,84 @@ export const rules = {
         locked: state => state.systems.length === 0,
         onTick: state => {
                 _.each(state.systems, (system, system_key) => {
-                    if (system.stars.length > 1 && _.random(1, 100) === 1 && weight(system.mater) > 100) {
+                    if (system.stars.length > 1 && _.random(1, 100 * (system.planets.length + 1)) === 1 && weight(system.mater) > 1000) {
                         let new_mater = {};
                         _.each(system.mater, (count, key) => {
-                            let transfer = Math.ceil(count / _.random(3.3, 4.2));
+                            let transfer = Math.ceil(count / _.random(4.2, 16.20));
                             new_mater[key] = transfer;
                             state.systems[system_key].mater[key] -= transfer;
                         });
-                        state.systems[system_key].planets.push({name: 'Planet ' + (system.planets.length + 1), temperature: 0, mater: new_mater});
+                        state.systems[system_key].planets.push({name: 'Planet ' + (system.planets.length + 1), type: 'Proto-Planet', temperature: 0, mater: new_mater});
                     }
                 });
+            return state;
+        }
+    },
+
+    accretion: { name: 'Accretion', text: 'Rule Text',
+        locked: state => state.systems.length === 0,
+        onTick: state => {
+            _.each(state.systems, (system, system_key) => {
+                _.each(system.stars, (star, star_key) => {
+                    if (weight(system.mater) > 10000 && (weight(star.mater) < weight(system.mater))) {
+                        _.each(star.mater, (count, key) => {
+                            let accretioned = Math.ceil(count / _.random(420, 1620));
+                            state.systems[system_key].stars[star_key].mater[key] += accretioned;
+                            state.systems[system_key].mater[key] -= accretioned;
+                            state.space.photons += accretioned;
+                        });
+                    }
+                });
+            });
+            return state;
+        }
+    },
+
+    cooling: { name: 'Cooling', text: 'Rule Text',
+        locked: state => state.systems.length === 0,
+        onTick: state => {
+            _.each(state.systems, (system, system_key) => {
+                _.each(system.stars, (star, star_key) => {
+                    state.systems[system_key].stars[star_key].temperature = Math.round(
+                        state.systems[system_key].stars[star_key].temperature * 0.9
+                        //state.systems[system_key].stars[star_key].temperature * (0.9 * (1 - 0.01 * Math.sqrt(weight(star.mater))))
+                    );
+                });
+            });
+            return state;
+        }
+    },
+
+    nova: { name: 'Nova', text: 'Rule Text',
+        locked: state => state.systems.length === 0,
+        onTick: state => {
+            _.each(state.systems, (system, system_key) => {
+                _.each(system.stars, (star, star_key) => {
+                    if ((weight(star.mater) > star.mater.hydrogen * 2) &&
+                        (star.type !== 'Black Hole' && star.type !== 'Neutron Star' && star.type !== 'White Dwarf')
+                    ) {
+
+                        if (weight(star.mater) > 1000000) {
+                            state.systems[system_key].stars[star_key].type = 'Black Hole';
+                        } else if (weight(star.mater) > 100000) {
+                            state.systems[system_key].stars[star_key].type = 'Neutron Star';
+                        } else {
+                            state.systems[system_key].stars[star_key].type = 'White Dwarf';
+                        }
+
+                        _.each(star.mater, (count, key) => {
+                            let ejection = Math.ceil(count * (0.95 - 0.01 * info[key].mass));
+                            state.dust[key] += ejection;
+                            state.space.photons += Math.ceil(ejection * (info[key].mass));
+                            state.systems[system_key].stars[star_key].mater[key] -= ejection;
+
+                            if (state.systems[system_key].stars[star_key].type === 'Neutron Star') {
+                                state.space.neutrino += Math.ceil(ejection * (info[key].mass));
+                            }
+                        });
+                    }
+                });
+            });
             return state;
         }
     },
@@ -99,8 +168,8 @@ export const rules = {
         onTick: state => {
             _.each(state.systems, (system, system_key) => {
                 _.each(system.stars, (star, star_key) => {
-                    if (star.mater.hydrogen >= 4 && (weight({'hydrogen': star.mater.hydrogen}) > (weight(star.mater) * 0.4) )) {
-                        let count = Math.ceil(star.mater.hydrogen / 1000);
+                    if (star.mater.hydrogen >= 4 && (weight({'hydrogen': star.mater.hydrogen}) > (weight(star.mater) * 0.2) )) {
+                        let count = Math.ceil(weight(star.mater) / 10000);
                         state.systems[system_key].stars[star_key].mater.hydrogen -= count * 4;
                         state.systems[system_key].stars[star_key].mater.helium += count;
 
@@ -122,8 +191,8 @@ export const rules = {
         onTick: state => {
             _.each(state.systems, (system, system_key) => {
                 _.each(system.stars, (star, star_key) => {
-                    if (star.mater.helium >= 3 && (weight({'helium': star.mater.helium}) > (weight(star.mater) * 0.3) )) {
-                        let count = Math.ceil(star.mater.helium / 500);
+                    if (star.mater.helium >= 3 && (weight({'helium': star.mater.helium}) > (weight(star.mater) * 0.1) )) {
+                        let count = Math.ceil(weight(star.mater) / 5000);
                         state.systems[system_key].stars[star_key].mater.helium -= count * 3;
                         state.systems[system_key].stars[star_key].mater.carbon += count;
 
@@ -144,8 +213,8 @@ export const rules = {
         onTick: state => {
             _.each(state.systems, (system, system_key) => {
                 _.each(system.stars, (star, star_key) => {
-                    if (star.mater.carbon >= 2 && (weight({'carbon': star.mater.carbon}) > (weight(star.mater) * 0.2) )) {
-                        let count = Math.ceil(star.mater.carbon / 250);
+                    if (star.mater.carbon >= 2 && (weight({'carbon': star.mater.carbon}) > (weight(star.mater) * 0.05) )) {
+                        let count = Math.ceil(weight(star.mater) / 2500);
                         state.systems[system_key].stars[star_key].mater.helium += count;
                         state.systems[system_key].stars[star_key].mater.aluminium += count;
                         state.systems[system_key].stars[star_key].mater.carbon -= count * 2;
@@ -167,8 +236,8 @@ export const rules = {
         onTick: state => {
             _.each(state.systems, (system, system_key) => {
                 _.each(system.stars, (star, star_key) => {
-                    if (star.mater.aluminium >= 1 && (weight({'aluminium': star.mater.aluminium}) > (weight(star.mater) * 0.1) )) {
-                        let count = Math.ceil(star.mater.aluminium / 200);
+                    if (star.mater.aluminium >= 1 && (weight({'aluminium': star.mater.aluminium}) > (weight(star.mater) * 0.025) )) {
+                        let count = Math.ceil(weight(star.mater) / 2000);
                         state.systems[system_key].stars[star_key].mater.aluminium -= count;
                         state.systems[system_key].stars[star_key].mater.helium += count;
                         state.systems[system_key].stars[star_key].mater.oxygen += count;
@@ -190,8 +259,8 @@ export const rules = {
         onTick: state => {
             _.each(state.systems, (system, system_key) => {
                 _.each(system.stars, (star, star_key) => {
-                    if (star.mater.oxygen >= 2 && (weight({'oxygen': star.mater.oxygen}) > (weight(star.mater) * 0.05) )) {
-                        let count = Math.ceil(star.mater.aluminium / 100);
+                    if (star.mater.oxygen >= 2 && (weight({'oxygen': star.mater.oxygen}) > (weight(star.mater) * 0.01) )) {
+                        let count = Math.ceil(weight(star.mater) / 1000);
                         state.systems[system_key].stars[star_key].mater.oxygen -= count * 2;
                         state.systems[system_key].stars[star_key].mater.silicon += count;
                         state.systems[system_key].stars[star_key].mater.helium += count;
