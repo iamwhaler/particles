@@ -17,6 +17,7 @@ import {oneclickers} from './game/oneclickers';
 import {clickers} from './game/clickers';
 import {fluctuators} from './game/fluctuators';
 import Popup from "./utils/Popup/Popup";
+import {Circle} from 'react-shapes';
 
 import { Orchestrator } from './game/orchestrator';
 
@@ -228,7 +229,7 @@ class App extends Component {
                     <div className="flex-container-column">
                         <div className="flex-container-row">
                             <div className="flex-element">
-                                <span>{item.name}</span>
+                                <span>{!item.name ? '' :item.name }</span>
                             </div>
                         </div>
                         <div className="flex-element">
@@ -340,7 +341,7 @@ class App extends Component {
             </div>;
 
 
-        const cosmos_subcomponent =
+        const space_subcomponent =
             <div className="flex-element">
                 <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
                     <img alt="" className="overlay resource-icon" src={"./img/basic_particles.png"}/>
@@ -501,15 +502,16 @@ class App extends Component {
                                         <OverlayTrigger delay={150} placement="left"
                                                         overlay={tooltip(this.state, item)}>
                                             <div className="flex-element fluctuators">
-                                                <button style={{minWidth: '140px', maxHeight: '110px'}}
+                                                <span>{item.name}: {state[key]}</span>
+                                                <button style={{minWidth: '50px', maxHeight: '110px'}}
                                                         className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
                                                         onClick={() => {
                                                             this.onClickWrapper(item);
                                                         }}>
                                                 <span>
                                                     {state[key] > 0
-                                                        ? item.name + ': lvl ' + state[key]
-                                                        : item.name}
+                                                        ? 'Upgrade'
+                                                        : 'Buy'}
                                                 </span>
                                                 </button>
                                                 {(item.toggle && state[key] > 0)
@@ -540,15 +542,15 @@ class App extends Component {
                                     <OverlayTrigger delay={150} placement="left"
                                                     overlay={tooltip(this.state, item)}>
                                         <div className="flex-element fluctuators">
-                                            <button style={{minWidth: '140px', maxHeight: '110px'}}
+                                            <span>{item.name + ': ' + state[key]}</span>
+                                            <button style={{minWidth: '40px', maxHeight: '110px'}}
                                                     className={(item.cost ? this.isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
                                                     onClick={() => {
                                                         this.onClickWrapper(item);
                                                     }}>
                                                 <span>
-                                                    {state[key] > 0
-                                                        ? item.name + ': lvl ' + state[key]
-                                                        : item.name}
+                                                    {state[key]>0
+                                                        ? 'Upgrade' : 'Buy'}
                                                 </span>
                                             </button>
                                             {(item.toggle && state[key] > 0)
@@ -649,9 +651,8 @@ class App extends Component {
 
                 <div className="flex-element">
                     {state.selected_system !== null ?
-                        <div className="flex-container-column">
-                            <h3> System </h3>
-                            <div className="info-block">
+                        <div className="flex-element">
+                            <div className="flex-container-row">
                             {_.map(state.systems[state.selected_system].stars, (star, key) =>
                                     <div onClick={() => {
                                         let state = this.state;
@@ -672,6 +673,15 @@ class App extends Component {
                                     }}
                                          className="flex-element panel" key={key} style={{color: 'black'}}>
                                         <p>{planet.name}</p>
+                                        {_.map(planet.mater, (item, key)=>{
+                                            let sum = 0;
+                                            sum+=item;
+                                            if(sum>100) {
+                                                sum = sum / 1000000;
+                                            }
+
+                                           return <Circle r={sum} fill={{color: 'indigo'}} stroke={{color: 'black'}} strokeWidth={3}/>
+                                        })}
                                     </div>
                                 )}
                             </div>
@@ -918,7 +928,7 @@ class App extends Component {
                                             <div className="flex-container-row">
                                                 <div className="flex-element">
                                                     <h4>Cosmos</h4>
-                                                    {cosmos_subcomponent}
+                                                    {space_subcomponent}
 
                                                     <h4>Dust</h4>
                                                     {dust_subcomponent}
@@ -967,12 +977,12 @@ class App extends Component {
                                     </div>
                                 </div>
 
-                                <div className="flex-element info">
+                                <div className="flex-element info-container">
 
                                     <div className="flex-element">
                                         <div className="flex-container-row">
 
-                                            <div className="flex-element info">
+                                            <div className="flex-element ">
                                                 <h4>Info</h4>
 
                                                 <div className="flex-element">

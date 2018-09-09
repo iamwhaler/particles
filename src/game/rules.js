@@ -12,11 +12,11 @@ export const rules = {
         onTick: state => _.reduce(old_rules, (sum, rule) => rule.onTick ? rule.onTick(sum) : sum, state)
     },
 
+
     universe_size_rule: {
         name: 'Universe Expansion', text: 'Universe is expanding on the lower temperatures',
         locked: false,
         onTick: (state) => {
-            // state.hydrogen+=1000; state.hydrogen+=1000;
             state.universe_size+= Math.pow(1, state.temperature)/(1 + 0.01 *state.temperature);
             return state;
         }

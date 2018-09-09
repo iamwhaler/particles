@@ -41,14 +41,6 @@ const default_state = {
     },
 
 
-    hydrogen: 24000,
-    helium: 0,
-    carbon: 0,
-    oxygen: 0,
-    nitrogen: 0,
-    ferrum: 0,
-    neon: 0,
-    silicon: 0,
 
     H2: 0,
     He: 0,
@@ -58,20 +50,11 @@ const default_state = {
     CN: 0,
     CH: 0,
 
-    hydrogen_stars: 0,
-    helium_stars: 0,
-    carbon_stars: 0,
-
-    strings_rule: 0,
-    up_quarks_rule: 0,
-    down_quarks_rule: 0,
-    electrons_rule: 0,
 
 
     pump: 0,
     riddle: 0,
-    photons_fluctuator: 0,
-    electrons_fluctuator: 0,
+    protonator: 0,
 
     protons_miner: 0,
     neutrons_miner: 0,
@@ -81,12 +64,16 @@ const default_state = {
 
 
     hydrogen_assembler: 0,
+    helium_assembler: 0,
+    carbon_assembler: 0,
 
     toggle: {
        pump: true,
        riddle: true,
+        protonator: true,
        hydrogen_assembler: true,
         helium_assembler: true,
+        carbon_assembler: true,
 
     },
 
@@ -127,7 +114,6 @@ const default_state = {
             }
         ],
     // */
-
     //universe: [],
     selected_galaxy: null,
     selected_system: null,
@@ -140,6 +126,7 @@ const default_state = {
     game_started: false,
     game_paused: true,
     music_paused: false,
+    track_playing: 0,
     game_end: false
 };
 
