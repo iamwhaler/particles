@@ -77,10 +77,14 @@ export const rules = {
     */
 
     new_system: { name: 'New System', text: 'Rule Text',
-        locked: state => state.systems.length === 0,
+        isDisabled: state => weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000,
         onClick: state => {
-            let hydrogen = Math.ceil(13 * Math.sqrt(state.storage.hydrogen));
-            let helium = Math.ceil(9 * Math.sqrt(state.storage.helium));
+            if (weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000) return state;
+            let hydrogen = Math.ceil(0.87 * state.storage.hydrogen);
+            let helium = Math.ceil(0.89 * state.storage.helium);
+
+            //let hydrogen = Math.ceil(13 * Math.sqrt(state.storage.hydrogen));
+            //let helium = Math.ceil(9 * Math.sqrt(state.storage.helium));
             state.storage.hydrogen -= hydrogen;
             state.storage.helium -= helium;
             state.systems.push({name: 'System ' + (state.systems.length + 1), mater: {'hydrogen': hydrogen, 'helium': helium}, stars: [], planets: []});
@@ -92,9 +96,9 @@ export const rules = {
         locked: state => state.systems.length === 0,
         onTick: state => {
             _.each(state.systems, (system, system_key) => {
-                if (_.random(1, 10) === 1 && weight({'hydrogen': system.mater.hydrogen, 'helium': system.mater.helium}) > 1000) {
-                    let hydrogen = Math.ceil(9 * Math.sqrt(system.mater.hydrogen));
-                    let helium = Math.ceil(7 * Math.sqrt(system.mater.helium));
+                if (_.random(1, 100) === 1 && weight({'hydrogen': system.mater.hydrogen, 'helium': system.mater.helium}) > 1000) {
+                    let hydrogen = Math.ceil(0.87 * system.mater.hydrogen);
+                    let helium = Math.ceil(0.89 * system.mater.helium);
                     state.systems[system_key].mater.hydrogen -= hydrogen;
                     state.systems[system_key].mater.helium -= helium;
                     state.systems[system_key].stars.push({name: 'Star ' + (system.stars.length + 1),  mater: {'hydrogen': hydrogen, 'helium': helium}});
