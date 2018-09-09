@@ -3,19 +3,19 @@ import _ from 'lodash';
 const default_state = {
 
     space: {
-        electrons: 0,
-        neutrino: 0,
-        photons: 0,
         protons: 0,
+        electrons: 0,
+        photons: 0,
+        neutrino: 0,
         neutrons: 0,
     },
 
     field: {
-        electrons: 0,
-        neutrino: 1000,
-        photons: 0,
-        protons: 0,
-        neutrons: 0,
+        protons: 420,
+        electrons: 420,
+        photons: 420,
+        neutrino: 420,
+        neutrons: 420,
     },
 
     field_level: 1,
@@ -44,7 +44,7 @@ const default_state = {
     },
 
     storage_level: 1,
-    storage_capacity: 10000,
+    storage_capacity: 100000,
 
 
     assemblers: {
@@ -63,7 +63,8 @@ const default_state = {
         pump: true,
         polarizer: true,
         protonator: true,
-        
+        neutronator: true,
+
         hydrogen: true,
         helium: true,
         carbon: true,
@@ -83,6 +84,7 @@ const default_state = {
     pump: 0,
     polarizer: 0,
     protonator: 0,
+    neutronator: 0,
 
     hydrogen_assembler: 0,
     helium_assembler: 0,

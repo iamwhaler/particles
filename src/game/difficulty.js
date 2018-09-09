@@ -20,10 +20,10 @@ export const difficulty = {
             return state;
         },
         space: {
-            electrons: 100000,
-            neutrino: 100000,
-            photons: 100000,
             protons: 100000,
+            electrons: 100000,
+            photons: 100000,
+            neutrino: 100000,
             neutrons: 100000,
         },
         dust: {
@@ -46,10 +46,10 @@ export const difficulty = {
             return state;
         },
         space: {
-            electrons: 10000,
-            neutrino: 100000,
-            photons: 10000000,
             protons: 10000,
+            electrons: 10000,
+            photons: 10000000,
+            neutrino: 100000,
             neutrons: 10000,
         },
         dust: {
@@ -72,10 +72,10 @@ export const difficulty = {
             return state;
         },
         space: {
-            electrons: 1000,
-            neutrino: 100000000,
-            photons: 1000,
             protons: 10000,
+            electrons: 1000,
+            photons: 1000,
+            neutrino: 100000000,
             neutrons: 1000,
         },
         dust: {
