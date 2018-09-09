@@ -58,11 +58,43 @@ const assemble_helper = (state, name) => {
 
 export const fluctuators = {
     modules: {
-        pump: {
-            name: 'Particle Pump',
-            text: 'Sucks particles with no electric charge from space',
+        panel: {
+            name: 'Panel',
+            text: 'Attracts Photons and Neutrino from space',
             cost: (state) => {
-                return{ 'field.protons': Math.floor(Math.pow(1.1, state.pump -1) *4)}
+                return{ 'field.neutrino': Math.floor(Math.pow(1.1, state.panel -1) *4)}
+            },
+            locked: (state) => false,
+
+            temperature_effect: (state) => {
+                return Math.floor(Math.pow(1.13, state.panel - 1) * 2);
+            },
+
+            toggle: (state) => toggle_helper(state, 'panel'),
+
+            onClick: (state) => {
+                state.panel++;
+                return state;
+            },
+            onTick: (state) => {
+                let photons_count = state.panel;
+                let neutrino_count = state.panel/2;
+                if(state.toggle.panel && state.space.photons>photons_count&&state.space.neutrino>neutrino_count){
+                    state.field.photons+=photons_count;
+                    state.space.photons-=photons_count;
+
+                    state.field.neutrino+=neutrino_count;
+                    state.space.neutrino-=neutrino_count;
+                }
+                return state;
+            }
+        },
+
+        pump: {
+            name: 'Matter Pump',
+            text: 'Sucks Neutrons and atoms from space',
+            cost: (state) => {
+                return{ 'field.neutrons': Math.floor(Math.pow(1.1, state.pump -1) *4)}
             },
             locked: (state) => false,
 
@@ -77,49 +109,56 @@ export const fluctuators = {
                 return state;
             },
             onTick: (state) => {
-                let neutrino_count = Math.round(_.random(state.pump/4 , state.pump));
-                let neutrons_count = Math.round(_.random(state.pump/3.2 , state.pump));
-                let photons_count = state.pump/2;
-                if(state.toggle.pump && state.space.photons>photons_count && state.space.neutrons>neutrons_count && state.space.neutrino > neutrino_count) {
-                    state.field.neutrino += neutrino_count;
+                if(state.toggle.pump){
+                    if(_.random(0,2)===0){
+                        state.field.neutrons++;
+                        state.space.neutrons--;
+
+                    }
+                    else{
+                        let matter = _.sample(_.keys(state.dust));
+                        state.storage[matter]++;
+                        state.dust[matter]--;
+                    }
+
+                    /* state.field.neutrino += neutrino_count;
                     state.space.neutrino -= neutrino_count;
 
                     state.field.neutrons += neutrons_count;
                     state.space.neutrons -= neutrons_count;
 
                     state.field.photons += photons_count;
-                    state.space.photons -= photons_count;
+                    state.space.photons -= photons_count; */
                 }
                 return state;
             }
         },
 
-        riddle: {
-            name: 'Riddle',
+        polarizer: {
+            name: 'Polarizer',
             text: 'Attracts Electrons and Protons from space',
             cost: (state) => {
                 return {
-                    'field.electrons': Math.floor(Math.pow(1.2, state.riddle - 1) * 4),
-                    'field.protons': Math.floor(Math.pow(1.5, state.riddle - 1) * 2)}
+                    'field.protons': Math.floor(Math.pow(1.5, state.polarizer - 1) * 2)}
             },
 
             locked: (state) => false,
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.3, state.riddle - 1) * 10);
+                return Math.floor(Math.pow(1.3, state.polarizer - 1) * 10);
             },
 
-            toggle: (state) => toggle_helper(state, 'riddle'),
+            toggle: (state) => toggle_helper(state, 'polarizer'),
 
             onClick: (state) => {
-                state.riddle++;
+                state.polarizer++;
                 return state;
             },
             onTick: (state) => {
-                let electrons_count = Math.round(_.random(state.riddle/3, state.riddle));
-                let protons_count = Math.round(_.random(state.riddle/4, state.riddle));
+                let electrons_count = Math.round(_.random(state.polarizer/3, state.polarizer));
+                let protons_count = Math.round(_.random(state.polarizer/4, state.polarizer));
                 if (state.space.electrons > electrons_count && state.space.protons>protons_count
-                    && state.toggle.riddle && state.riddle >= 1
+                    && state.toggle.polarizer && state.polarizer >= 1
                     && state.space.electrons>state.pump
                     && state.space.protons>state.pump) {
                     state.field.electrons += electrons_count;
@@ -127,9 +166,6 @@ export const fluctuators = {
 
                     state.field.protons += protons_count;
                     state.space.protons -= protons_count;
-
-                    state.storage.hydrogen+=1;
-                    state.dust.hydrogen-=1;
                 }
 
                 return state;
@@ -141,9 +177,7 @@ export const fluctuators = {
             name: 'Protonator',
             text: 'Converts Neutron and Neutrino into Electron and Proton',
             cost: (state) => {
-                return {
-                    'field.neutrons': Math.floor(Math.pow(1.2, state.protonator - 1) * 4),
-                    'field.neutrino': Math.floor(Math.pow(1.5, state.protonator - 1) * 2)}
+                return {'field.photons': Math.floor(Math.pow(1.2, state.protonator - 1) * 4)}
             },
 
             locked: (state) => false,
