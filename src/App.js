@@ -127,9 +127,7 @@ class App extends Component {
     }
 
     createPopup(state, component) {
-        //TODO REMOVE Used only for demonstrational purposes
-        this.info = "Your universe size:" + state.universe_size;
-        this.popupHandler.createPopup(`${this.info}`, component);
+        this.popupHandler.createPopup(``, component);
     }
 
 
@@ -329,25 +327,6 @@ class App extends Component {
         const field_subcomponent =
                 <div className="flex-element flex-container-row" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
                     <div className="flex-container-column info-block">
-
-                        <OverlayTrigger delay={150} placement="right"
-                                        overlay={tooltip(this.state, clickers.field)}>
-                        <button style={{padding: '4px 4px', width: '100%'}}
-                                className={(clickers.field.cost ? isEnough(this.state, clickers.field.cost) ? '' : 'disabled' : '')}
-                                onClick={() => {
-                                    this.onClickWrapper(clickers.field);
-                                }}>
-                            <span> {clickers.field.name}: {state.field_level}</span>
-                        </button>
-                        </OverlayTrigger>
-
-                        <div className="flex-element">
-                            Load:
-                            <span className={state.field_capacity>weight(state.field) ? '' : 'red'}>
-                                {this.roundNumber(weight(state.field))}/{this.roundNumber(state.field_capacity)}
-                            </span>
-                        </div>
-
                         {_.map(state.field, (item, key) =>
                             <div className="flex-container-row" key={key}>
                                 <div className="clickers flex-element" style={{textAlign: 'left'}}>
@@ -365,6 +344,27 @@ class App extends Component {
                             </div>
                         )}
                     </div></div>;
+
+        const upgrade_field_subcomponent =
+            <span>
+                <OverlayTrigger delay={150} placement="right"
+                                overlay={tooltip(this.state, clickers.field)}>
+                    <button style={{padding: '4px 4px'}}
+                            className={(clickers.field.cost ? isEnough(this.state, _.isFunction(clickers.field.cost) ? clickers.field.cost(this.state) : clickers.field.cost) ? 'field' : 'field disabled' : 'field')}
+                            onClick={() => {
+                                this.onClickWrapper(clickers.field);
+                            }}>
+                        <span> {clickers.field.name}: {state.field_level}</span>
+                    </button>
+                </OverlayTrigger>
+
+                <div style={{fontSize: '12px'}}>
+                    Load:
+                    <span className={state.field_capacity > weight(state.field) ? '' : 'red'}>
+                {' ' + this.roundNumber(weight(state.field))} / {this.roundNumber(state.field_capacity)}
+                    </span>
+                </div>
+            </span>;
 
         const dust_subcomponent =
             <div className="flex-element">
@@ -395,24 +395,6 @@ class App extends Component {
             <div className="flex-element">
                 <div className="flex-container-row info-block" style={{maxWidth: '250px', paddingBottom: '5px', paddingTop: '5px'}}>
                     <div className="flex-container-column">
-                        <OverlayTrigger delay={150} placement="right"
-                                        overlay={tooltip(this.state, clickers.storage)}>
-                            <button style={{padding: '4px 4px', width: '100%'}}
-                                    className={(clickers.storage.cost ? isEnough(this.state, clickers.field.cost) ? '' : 'disabled' : '')}
-                                    onClick={() => {
-                                        this.onClickWrapper(clickers.storage);
-                                    }}>
-                                <span> {clickers.storage.name}: {state.storage_level}</span>
-                            </button>
-                        </OverlayTrigger>
-
-                        <div className="flex-element">
-                            Load:
-                            <span className={state.storage_capacity>weight(state.storage) ? '' : 'red'}>
-                                {this.roundNumber(weight(state.storage))}/{this.roundNumber(state.storage_capacity)}
-                            </span>
-                        </div>
-
                         {_.map(state.storage, (item, key) =>
                             <div className="flex-container-row clickers" key={key}>
                                     <div className="flex-element" style={{textAlign: 'left'}} key={key}>
@@ -433,6 +415,28 @@ class App extends Component {
                     </div>
                 </div>
             </div>;
+
+
+        const upgrade_storage_subcomponent =
+            <span>
+                <OverlayTrigger delay={150} placement="right"
+                                overlay={tooltip(this.state, clickers.storage)}>
+                        <button style={{padding: '4px 4px'}}
+                                className={(clickers.storage.cost ?  isEnough(this.state, _.isFunction(clickers.storage.cost) ? clickers.storage.cost(this.state) : clickers.storage.cost) ? 'field' : 'field disabled' : 'field')}
+                                onClick={() => {
+                                    this.onClickWrapper(clickers.storage);
+                                }}>
+                        <span> {clickers.storage.name}: {state.storage_level}</span>
+                    </button>
+                </OverlayTrigger>
+
+                <div style={{fontSize: '12px'}}>
+                    Load:
+                    <span className={state.storage_capacity > weight(state.storage) ? '' : 'red'}>
+                {' ' + this.roundNumber(weight(state.storage))} / {this.roundNumber(state.storage_capacity)}
+                    </span>
+                </div>
+            </span>;
 
 
         const modules_subcomponent =
@@ -766,7 +770,7 @@ class App extends Component {
 
         const select_difficulty =
             <div>
-                <div className="panel" style={{color: 'black', margin: '100px', padding: '100px'}}>
+                <div className="panel-wrapper" style={{color: 'black', margin: '100px', padding: '100px'}}>
                     <h3>Select Difficulty</h3>
                     <div className="flex-container-row">
                         {_.map(difficulty, (val, key) =>
@@ -817,9 +821,12 @@ class App extends Component {
                                             {dust_subcomponent}
                                         </div>
                                         <div className="flex-element">
-                                            <h4>{basic_particles_info} Field</h4>
+                                            <h4>
+                                                {basic_particles_info} Field {upgrade_field_subcomponent}
+                                             </h4>
+
                                             {field_subcomponent}
-                                            <h4>{atoms_info} Storage</h4>
+                                            <h4>{atoms_info} Storage {upgrade_storage_subcomponent}</h4>
                                             {storage_subcomponent}
                                         </div>
                                         <div className="flex-element">

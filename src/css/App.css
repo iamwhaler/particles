@@ -25,36 +25,8 @@
   color: red;
 }
 
-
 html, body {
   background-image: url('/born_of_a_star.jpg');
-
-}
-
-.big-tab {
-  padding: 2px 4px 2px 4px;
-  border: 1px solid #BDBDBD;
-  border-radius: 3px;
-  margin: 2px 2px 2px 2px;
-}
-.big-tab:hover {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.universe-tab {
-  max-width: 400px;
-  border: 0px solid #BDBDBD;
-  border-radius: 5px;
-  opacity: 1;
-}
-
-.universe-size {
-  width: 280px;
-}
-
-.time-machine {
-  /*margin: 10px 0 0 45%;*/
-  margin: 5px 0 0 30%;
 }
 
 button.info {
@@ -127,6 +99,10 @@ button.info:hover {
   font-size: 10px;
 }
 
+button.field {
+  max-width: 55px;
+}
+
 button.cancel {
   border: 1px solid auto;
   border-color: rgba(1,1,1,0.9);
@@ -160,14 +136,6 @@ button:hover {
   background-color: #83B18F;
 }
 
-.button-selector {
-  color: white;
-}
-
-.button-selector-disabled {
-  color: #BDBDBD;
-}
-
 .flex-element {
   padding-top: 2.5px;
   padding-bottom: 2.5px;
@@ -183,13 +151,6 @@ img {
   margin-bottom: 10px;
 }
 
-.star-icon {
-  filter: invert(0%);
-  width: 25px;
-  height: 25px;
-  margin-bottom: 5px;
-}
-
 .resource-icon {
   filter: invert(40%);
 }
@@ -203,33 +164,29 @@ img {
   transition: .5s ease;
 }
 
-.your-stars {
-  margin-right: 5px;
-  height: 150px;
-  overflow-y: scroll;
-  border: 0px solid #BDBDBD;
-  border-radius: 3px;
-}
-
-.star-circle {
-  text-align: center;
-  filter: invert(0%) !important;
+.panel-wrapper {
+  background-color: white;
+  opacity: 0.8;
 }
 
 .panel {
+  margin: 3px 3px 3px 3px;
   background-color: #EBEBEB;
   opacity: 0.8;
+}
+
+.panel button{
+  height: 40px;
+  max-width: 80px;
+  color: black;
+  background-color: darkseagreen;
+}
+
+.panel button:hover{
+  background-color: #EFEEEE;
 }
 
 .history {
   overflow-y: auto;
   height: 350px;
-}
-
-.blocked {
-  opacity: 0.6;
-  height: 70px;
-  vertical-align: 50%;
-  color: black;
-  background-image: linear-gradient(gainsboro, lightsteelblue, #EBEBEB);
 }

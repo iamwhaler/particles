@@ -201,6 +201,7 @@ export const clickers = {
         name: 'Upgrade Field',
         cost: (state) => {
             return{'field.electrons': Math.floor(Math.pow(6, state.field_level)*10)}},
+
         isLocked: (state) => false,
         onClick: (state) => {
             state.field_level++;
