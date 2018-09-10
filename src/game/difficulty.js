@@ -13,7 +13,7 @@ const select_difficulty_helper = (state, key) => {
 export const difficulty = {
     nursery: {
         name: 'Start in Stellar Nursery',
-        text: 'The most favorable areas for creating stars are molecular clouds, sometimes also called stellar nursery.',
+        text: 'The most favorable areas for creating stars are molecular clouds, also called stellar nursery. It is molecular dense regions in space that sometimes collapse and form stars',
         img: './img/nursery.jpg',
         onClick: state => {
             state = select_difficulty_helper(state, 'nursery');

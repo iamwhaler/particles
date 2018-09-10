@@ -169,17 +169,18 @@ export const fluctuators = {
                 if (state.toggle[name] === false) return state;
                 let photons_count = state.panel;
                 let neutrino_count = state.panel/2;
-                if (state.space.photons > photons_count && state.space.neutrino > neutrino_count) {
-                    console.log(state.field_capacity, weight({photons: photons_count, neutrino: neutrino_count}), weight(state.field));
+                if (state.space.photons > photons_count ) {
                     if (state.field_capacity < weight({photons: photons_count, neutrino: neutrino_count}) + weight(state.field)) state.toggle[name] = false;
                     state.field.photons+=photons_count;
                     state.space.photons-=photons_count;
+
+                }
+                else if(state.space.neutrino > neutrino_count){
                     state.field.neutrino+=neutrino_count;
                     state.space.neutrino-=neutrino_count;
                 }
-                else {
-                    state.toggle[name] = false;
-                }
+
+                else{state.toggle[name] = false}
                 return state;
             }
         },

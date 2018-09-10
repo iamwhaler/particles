@@ -87,14 +87,6 @@ class App extends Component {
                 new_state.chat.unshift({header: "Welcome to the Game!", text: "Your universe is cooling down, please wait a little"});
                 this.setState(new_state);
                 this.playGame(new_state.game_speed_multiplier);
-
-                toastr.info("Your universe is cooling down, please wait a little", 'Welcome to the Game!', {
-                    timeOut:           15000,
-                    closeButton:       true,
-                    preventDuplicates: true,
-                    extendedTimeOut:   15000,
-                    escapeHtml:        false
-                });
             },
 
             () => {
@@ -776,7 +768,7 @@ class App extends Component {
                     <div className="flex-container-row">
                         {_.map(difficulty, (val, key) =>
                             <div key={key} className="flex-element panel">
-                                <img style={{width: '200px', height: '200px'}} src={val.img} />
+                                <img style={{width: '200px', height: '200px', border: '4px solid #B7B7B7'}} src={val.img} />
                                 <p>{val.text}</p>
                                 <GinButton className="dialog-button" item={val}/>
                             </div>)}
@@ -818,24 +810,21 @@ class App extends Component {
                                         <div className="flex-element">
                                             <h4>{basic_particles_info} Space</h4>
                                             {space_subcomponent}
-
-                                            <h4>{atoms_info} Dust</h4>
-                                            {dust_subcomponent}
-                                        </div>
-                                        <div className="flex-element">
-                                            <h4>
-                                                {basic_particles_info} Field {upgrade_field_subcomponent}
-                                             </h4>
-
+                                            <h4>{basic_particles_info} Field {upgrade_field_subcomponent}</h4>
                                             {field_subcomponent}
-                                            <h4>{atoms_info} Storage {upgrade_storage_subcomponent}</h4>
-                                            {storage_subcomponent}
-                                        </div>
-                                        <div className="flex-element">
                                             <h4>{automation_info} Machinery</h4>
                                             {modules_subcomponent}
+                                        </div>
+                                        <div className="flex-element">
+                                            <h4>{atoms_info} Dust</h4>
+                                            {dust_subcomponent}
+                                            <h4>{atoms_info} Storage {upgrade_storage_subcomponent}</h4>
+                                            {storage_subcomponent}
                                             <h4>{automation_info} Assemblers</h4>
                                             {assemblers_subcomponent}
+                                        </div>
+                                        <div className="flex-element">
+
                                         </div>
                                         <div className="flex-element">
                                             <h4>Systems</h4>
