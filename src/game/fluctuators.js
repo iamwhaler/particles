@@ -248,19 +248,20 @@ export const fluctuators = {
                 if (state.space.neutrons > 0 || _.sum(_.values(state.dust)) > 0 ) {
                     let count = state.pump;
 
-                    if (_.random(0,2) === 0) {
-                        if (state.field_capacity < weight({neutrons: count}) + weight(state.field)) state.toggle[name] = false;
+                    if (_.random(0,2) === 0 && state.field_capacity > weight({neutrons: count}) + weight(state.field)) {
 
                         state.field.neutrons += count;
                         state.space.neutrons -= count;
                     }
-                    else{
+
+                    else {
                         let matter = _.sample(_.keys(state.dust));
 
                         let obj = {};
                         obj[matter] = count;
 
-                        if (state.storage_capacity < weight(obj) + weight(state.storage)) state.toggle[name] = false;
+                        if (state.storage_capacity < weight(obj) + weight(state.storage)
+                            && state.field_capacity < weight({neutrons: count}) + weight(state.field)) state.toggle[name] = false;
 
                         if(state.dust[matter]>count){
                             state.storage[matter] += count;
