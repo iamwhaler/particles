@@ -141,7 +141,7 @@ class App extends Component {
             decimal = Math.pow(1000, i+1);
 
             if(number <= -decimal || number >= decimal) {
-                return +(number / decimal).toFixed(4) + units[i];
+                return +(number / decimal).toFixed(3) + units[i];
             }
         }
         return Math.round(number);
