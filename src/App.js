@@ -362,6 +362,7 @@ class App extends Component {
                     Load:
                     <span className={state.field_capacity > weight(state.field) ? '' : 'red'}>
                 {' ' + this.roundNumber(weight(state.field))} / {this.roundNumber(state.field_capacity)}
+                        {console.log(this.roundNumber(weight(state.field)))}
                     </span>
                 </div>
             </span>;
@@ -763,7 +764,7 @@ class App extends Component {
                             return state;
                         }
                     }}/>
-                    <p>Disclaimer the game on the early stages of development, bugs are possible!</p>
+                    <p>Disclaimer: the game on the early stages of development, bugs are possible!</p>
                     <p>Developers will be grateful if in case of any problem you write to the Support.</p>
                 </div>
             </div>;
@@ -775,6 +776,7 @@ class App extends Component {
                     <div className="flex-container-row">
                         {_.map(difficulty, (val, key) =>
                             <div key={key} className="flex-element panel">
+                                <img style={{width: '200px', height: '200px'}} src={val.img} />
                                 <p>{val.text}</p>
                                 <GinButton className="dialog-button" item={val}/>
                             </div>)}

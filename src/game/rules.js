@@ -39,7 +39,7 @@ export const rules = {
     */
 
     new_system: { name: 'New System', text: 'Rule Text',
-        isDisabled: state => weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000000,
+        isDisabled: state => weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 100000,
         onClick: state => {
             if (weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000000) return state;
 

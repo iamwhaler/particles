@@ -111,7 +111,7 @@ export const fluctuators = {
             name: 'Protonator',
             text: 'Converts Neutron and Neutrino into Electron and Proton',
             cost: (state) => {
-                return {'field.photon': Math.floor(Math.pow(1.5, state.protonator) * 250)}
+                return {'field.photons': Math.floor(Math.pow(1.5, state.protonator) * 250)}
             },
 
             locked: (state) => false,

@@ -14,6 +14,7 @@ export const difficulty = {
     nursery: {
         name: 'Start in Stellar Nursery',
         text: 'The most favorable areas for creating stars are molecular clouds, sometimes also called stellar nursery.',
+        img: './img/nursery.jpg',
         onClick: state => {
             state = select_difficulty_helper(state, 'nursery');
             state.game_paused = false;
@@ -40,6 +41,7 @@ export const difficulty = {
     core: {
         name: 'Start at Galaxy Core',
         text: 'Near the active core of the galaxy there are many neutron stars, photons and heavy elements, but a shortage of hydrogen, which was already wasted on star-forming earlier.',
+        img: './img/core.jpg',
         onClick: state => {
             state = select_difficulty_helper(state, 'core');
             state.game_paused = false;
@@ -66,6 +68,7 @@ export const difficulty = {
     dark: {
         name: 'Start in Dark Matter',
         text: 'The galaxy is surrounded by a huge cloud of Dark Matter. Its mass is ten times higher than the mass of all the stars and nebulae. But mining Dark Matter is not so easy.',
+        img: './img/dark_matter.jpg',
         onClick: state => {
             state = select_difficulty_helper(state, 'dark');
             state.game_paused = false;
