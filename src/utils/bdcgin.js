@@ -1,4 +1,3 @@
-
 import _ from 'lodash';
 
 export function isEnough(state, cost) {
@@ -7,8 +6,7 @@ export function isEnough(state, cost) {
         if (_.get(state, resource_key) < value) enough = false;
        // console.log(_.get(state, resource_key), resource_key);
     });
-
-    //console.log(state, cost, enough);
+    // console.log(state, cost, enough);
 
     return enough;
 }

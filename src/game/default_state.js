@@ -19,7 +19,7 @@ const default_state = {
     },
 
     field_level: 1,
-    field_capacity: 10000,
+    field_capacity: 1000,
 
     dust: {
         hydrogen: 0,
@@ -44,7 +44,7 @@ const default_state = {
     },
 
     storage_level: 1,
-    storage_capacity: 100000,
+    storage_capacity: 10000,
 
 
     assemblers: {
