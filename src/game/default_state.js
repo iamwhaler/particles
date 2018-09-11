@@ -12,10 +12,10 @@ const default_state = {
 
     field: {
         protons: 420,
-        electrons: 420,
-        photons: 420,
-        neutrino: 420,
-        neutrons: 420,
+        electrons: 0,
+        photons: 0,
+        neutrino: 0,
+        neutrons: 0,
     },
 
     field_level: 1,
@@ -47,6 +47,14 @@ const default_state = {
     storage_capacity: 10000,
 
 
+    modules: {
+        polarizer: 0,
+        cell: 0,
+        panel: 0,
+        neutronator: 0,
+        pump: 0,
+    },
+
     assemblers: {
         hydrogen: 0,
         helium: 0,
@@ -59,11 +67,11 @@ const default_state = {
     },
 
     toggle: {
-        panel: true,
-        pump: true,
         polarizer: true,
-        protonator: true,
+        cell: true,
+        panel: true,
         neutronator: true,
+        pump: true,
 
         hydrogen: true,
         helium: true,
@@ -79,12 +87,6 @@ const default_state = {
         carbon_assembler: true,
 
     },
-
-    panel: 0,
-    pump: 0,
-    polarizer: 0,
-    protonator: 0,
-    neutronator: 0,
 
     hydrogen_assembler: 0,
     helium_assembler: 0,

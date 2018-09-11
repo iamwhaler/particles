@@ -64,35 +64,34 @@ const assemble_helper = (state, name) => {
 
 export const fluctuators = {
     modules: {
-
         polarizer: {
             name: 'Polarizer',
             text: 'Attracts Electrons and Protons from space',
             cost: (state) => {
                 return {
-                    'field.protons': Math.floor(Math.pow(1.5, state.polarizer) * 100)}
+                    'field.protons': Math.floor(Math.pow(1.5, state.modules.polarizer) * 100)}
             },
 
             locked: (state) => false,
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.3, state.polarizer - 1) * 10);
+                return Math.floor(Math.pow(1.3, state.modules.polarizer - 1) * 10);
             },
 
             toggle: (state) => toggle_helper(state, 'polarizer'),
 
             onClick: (state) => {
-                state.polarizer++;
+                state.modules.polarizer++;
                 return state;
             },
             onTick: (state) => {
                 const name = 'polarizer';
                 if (state.toggle[name] === false) return state;
-                let electrons_count = Math.round(_.random(state.polarizer/3, state.polarizer));
-                let protons_count = Math.round(_.random(state.polarizer/4, state.polarizer));
+                let electrons_count = Math.round(_.random(state.modules.polarizer/3, state.modules.polarizer));
+                let protons_count = Math.round(_.random(state.modules.polarizer/4, state.modules.polarizer));
 
                 if (state.space.electrons > electrons_count && state.space.protons > protons_count
-                    && state.toggle[name] && state.polarizer >= 1) {
+                    && state.toggle[name] && state.modules.polarizer >= 1) {
                     if (state.field_capacity < weight({electrons: electrons_count, protons: protons_count}) + weight(state.field)) state.toggle[name] = false;
                     state.field.electrons += electrons_count;
                     state.space.electrons -= electrons_count;
@@ -106,37 +105,40 @@ export const fluctuators = {
                 return state;
             }
         },
-
-        protonator: {
-            name: 'Protonator',
-            text: 'Converts Neutron and Neutrino into Electron and Proton',
+        
+        cell: {
+            name: 'Сell',
+            text: 'Attracts Electrons and Photons from space',
             cost: (state) => {
-                return {'field.photons': Math.floor(Math.pow(1.5, state.protonator) * 250)}
+                return {
+                    'field.electrons': Math.floor(Math.pow(1.5, state.modules.cell) * 100)}
             },
 
             locked: (state) => false,
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.3, state.protonator - 1) * 10);
+                return Math.floor(Math.pow(1.3, state.modules.cell - 1) * 10);
             },
 
-            toggle: (state) => toggle_helper(state, 'protonator'),
+            toggle: (state) => toggle_helper(state, 'cell'),
+
             onClick: (state) => {
-                state.protonator++;
+                state.modules.cell++;
                 return state;
             },
             onTick: (state) => {
-                const name = 'protonator';
+                const name = 'cell';
                 if (state.toggle[name] === false) return state;
-                let electrons_count = state.protonator *2;
-                let protons_count = state.protonator *2;
-                if (state.field.neutrino > electrons_count && state.field.neutrons > protons_count
-                    && state.protonator >= 1) {
-                    if (state.field_capacity < weight({electrons: electrons_count, protons: protons_count}) + weight(state.field)) state.toggle[name] = false;
+                let electrons_count = Math.round(_.random(state.modules.cell/3, state.modules.cell));
+                let photons_count = Math.round(_.random(state.modules.cell/4, state.modules.cell));
+
+                if (state.space.electrons > electrons_count && state.space.photons > photons_count
+                    && state.toggle[name] && state.modules.cell >= 1) {
+                    if (state.field_capacity < weight({electrons: electrons_count, photons: photons_count}) + weight(state.field)) state.toggle[name] = false;
                     state.field.electrons += electrons_count;
-                    state.field.protons += protons_count;
-                    state.field.neutrino -= electrons_count;
-                    state.field.neutrons -= protons_count;
+                    state.space.electrons -= electrons_count;
+                    state.field.photons += photons_count;
+                    state.space.photons -= photons_count;
                 }
                 else {
                     state.toggle[name] = false;
@@ -145,32 +147,35 @@ export const fluctuators = {
                 return state;
             }
         },
-
+        
         panel: {
             name: 'Panel',
             text: 'Attracts Photons and Neutrino from space',
             cost: (state) => {
-                return{ 'field.neutrino': Math.floor(Math.pow(1.5, state.panel) * 100)}
+                return{ 'field.photons': Math.floor(Math.pow(1.5, state.modules.panel) * 100)}
             },
             locked: (state) => false,
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.13, state.panel - 1) * 2);
+                return Math.floor(Math.pow(1.13, state.modules.panel - 1) * 2);
             },
 
             toggle: (state) => toggle_helper(state, 'panel'),
 
             onClick: (state) => {
-                state.panel++;
+                state.modules.panel++;
                 return state;
             },
             onTick: (state) => {
                 const name = 'panel';
                 if (state.toggle[name] === false) return state;
-                let photons_count = state.panel;
-                let neutrino_count = state.panel/2;
-                if (state.space.photons > photons_count ) {
-                    if (state.field_capacity < weight({photons: photons_count, neutrino: neutrino_count}) + weight(state.field)) state.toggle[name] = false;
+                let photons_count = state.modules.panel;
+                let neutrino_count = state.modules.panel/2;
+
+
+                if (state.space.photons > photons_count &&
+                    (state.field_capacity < weight({neutrino: neutrino_count}) + weight(state.field) || _.random(1, 2) === 1)
+                ) {
                     state.field.photons+=photons_count;
                     state.space.photons-=photons_count;
 
@@ -187,9 +192,9 @@ export const fluctuators = {
 
         neutronator: {
             name: 'Neutronator',
-            text: 'Converts Electron and Proton into Neutron and Neutrino',
+            text: 'Converts Electron and Proton from Space into Neutron and Neutrino',
             cost: (state) => {
-                return {'field.neutrino': Math.floor(Math.pow(1.5, state.neutronator) * 250)}
+                return {'field.neutrino': Math.floor(Math.pow(1.5, state.modules.neutronator) * 250)}
             },
 
             locked: (state) => false,
@@ -199,20 +204,20 @@ export const fluctuators = {
             },
             toggle: (state) => toggle_helper(state, 'neutronator'),
             onClick: (state) => {
-                state.neutronator++;
+                state.modules.neutronator++;
                 return state;
             },
             onTick: (state) => {
                 const name = 'neutronator';
                 if (state.toggle[name] === false) return state;
-                let electrons_count = state.neutronator *2;
-                let protons_count = state.neutronator *2;
-                if (state.field.electrons > electrons_count && state.field.protons > protons_count
-                    && state.neutronator >= 1) {
+                let electrons_count = state.modules.neutronator *2;
+                let protons_count = state.modules.neutronator *2;
+                if (state.space.electrons > electrons_count && state.space.protons > protons_count
+                    && state.modules.neutronator >= 1) {
 
                     if (state.field_capacity < weight({electrons: electrons_count, protons: protons_count}) + weight(state.field)) state.toggle[name] = false;
-                    state.field.electrons -= electrons_count;
-                    state.field.protons -= protons_count;
+                    state.space.electrons -= electrons_count;
+                    state.space.protons -= protons_count;
                     state.field.neutrino += electrons_count;
                     state.field.neutrons += protons_count;
                 }
@@ -228,18 +233,18 @@ export const fluctuators = {
             name: 'Matter Pump',
             text: 'Sucks Neutrons and atoms from space',
             cost: (state) => {
-                return{ 'field.neutrons': Math.floor(Math.pow(1.5, state.pump) * 100)}
+                return{ 'field.neutrons': Math.floor(Math.pow(1.5, state.modules.pump) * 100)}
             },
             locked: (state) => false,
 
             temperature_effect: (state) => {
-                return Math.floor(Math.pow(1.13, state.pump - 1) * 2);
+                return Math.floor(Math.pow(1.13, state.modules.pump - 1) * 2);
             },
 
             toggle: (state) => toggle_helper(state, 'pump'),
 
             onClick: (state) => {
-                state.pump++;
+                state.modules.pump++;
                 return state;
             },
             onTick: (state) => {
@@ -247,7 +252,7 @@ export const fluctuators = {
                 if (state.toggle[name] === false) return state;
 
                 if (state.space.neutrons > 0 || _.sum(_.values(state.dust)) > 0 ) {
-                    let count = state.pump;
+                    let count = state.modules.pump;
 
                     if (_.random(0,2) === 0 && state.field_capacity > weight({neutrons: count}) + weight(state.field)) {
 

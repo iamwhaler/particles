@@ -449,17 +449,17 @@ class App extends Component {
                                                             this.onClickWrapper(item);
                                                         }}>
                                                 <span>
-                                                    {state[key] > 0
+                                                    {state.modules[key] > 0
                                                         ? 'Upgrade'
                                                         : 'Buy'}
                                                 </span>
                                                 </button>
-                                                {(item.toggle && state[key] > 0)
+                                                {(item.toggle && state.modules[key] > 0)
                                                     ?
                                                     <button className={state.toggle[key] ? 'switchOn' : ''}
                                                             onClick={() => this.setState(item.toggle(this.state))}>{state.toggle[key] ? 'Off' : 'On'}</button>
                                                     : ''}
-                                                <span> {item.name}: {state[key]} </span>
+                                                <span> {item.name}: {state.modules[key]} </span>
                                             </div>
                                         </OverlayTrigger>
                                     </div>
