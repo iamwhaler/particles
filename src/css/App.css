@@ -79,8 +79,18 @@ button.info:hover {
 }
 
 .info-block {
-  max-height: 250px;
-  overflow-y: scroll;
+  margin: 2px 2px 2px 2px;
+  border-radius: 5px;
+  background-color: rgba(0,0,0,0.4);
+  max-width: 600px;
+}
+
+.space-block {
+    min-width: 35%;
+}
+
+.dust-block {
+    min-width: 40%;
 }
 
 .clickers {
@@ -94,8 +104,6 @@ button.info:hover {
 }
 
 .fluctuators {
-  text-align: left;
-  width: 110px;
   font-size: 10px;
 }
 
@@ -188,4 +196,11 @@ img {
 .history {
   overflow-y: auto;
   height: 350px;
+}
+
+.line {
+    margin: 0 auto;
+    height: 1px;
+    background-color: #EFEEEE;
+    opacity: 0.6;
 }

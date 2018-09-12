@@ -133,17 +133,6 @@ export const clickers = {
             }
         },
 
-        aluminium_clicker: {
-            name: 'Synth Neon',
-            resource: 'aluminium',
-            cost: {protons: 13, neutrons: 14, electrons: 13, photons: 13},
-            locked: (state) => state.protons < 5 && state.neutrons < 5 && state.electrons < 5 && state.photons < 5,
-            onClick: (state) => {
-                state.aluminium++;
-                return state;
-            }
-        },
-
         silicon_clicker: {
             name: 'Synth Silicon',
             resource: 'silicon',
@@ -200,7 +189,7 @@ export const clickers = {
     field: {
         name: 'Upgrade Field',
         cost: (state) => {
-            return{'field.electrons': Math.floor(Math.pow(6, state.field_level)*10)}},
+            return{'field.electrons': Math.floor(Math.pow(2, state.field_level)*10)}},
 
         isLocked: (state) => false,
         onClick: (state) => {
@@ -216,7 +205,7 @@ export const clickers = {
         isLocked: (state) => false,
         onClick: (state) => {
             state.storage_level++;
-            state.storage_capacity=state.storage_level*Math.pow(10,5.3);
+            state.storage_capacity=state.storage_level*Math.pow(2,12);
             return state;
         }
     }

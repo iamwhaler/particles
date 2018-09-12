@@ -51,7 +51,6 @@ export const rules = {
                 carbon: 0,
                 oxygen: 0,
                 nitrogen: 0,
-                aluminium: 0,
                 silicon: 0,
                 ferrum: 0,
             };

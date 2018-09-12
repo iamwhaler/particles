@@ -19,6 +19,19 @@ const buy_assembler_helper = (state, name) => {
     return state;
 };
 
+const module_helper = (state, module, cost) => {
+        const name = module;
+        if (state.toggle[name] === false) return state;
+
+        if (
+            (state.field_capacity < weight(cost) + weight(state.field) || _.random(1, 2) === 1)
+        ) {
+            state.space.field+=cost;}
+
+        else{state.toggle[name] = false}
+        return state;
+};
+
 const assemble_helper = (state, name) => {
     let mass = Math.round(info[name].mass);
 
@@ -149,7 +162,7 @@ export const fluctuators = {
         },
         
         panel: {
-            name: 'Panel',
+            name: 'Solar Panel',
             text: 'Attracts Photons and Neutrino from space',
             cost: (state) => {
                 return{ 'field.photons': Math.floor(Math.pow(1.5, state.modules.panel) * 100)}
@@ -286,7 +299,7 @@ export const fluctuators = {
 
     assemblers: {
         hydrogen: {
-            name: 'Hydrogen Assembler',
+            name: 'Hydrogen',
             text: 'Synths Hydrogen consuming elementary particles',
             cost: (state) => {return {'storage.hydrogen': Math.floor(Math.pow(1.5, state.assemblers.hydrogen) * 1000)};},
             locked: (state) => false,
@@ -296,7 +309,7 @@ export const fluctuators = {
         },
         
         helium: {
-            name: 'Helium Assembler',
+            name: 'Helium',
             text: 'Synths Helium consuming elementary particles',
             cost: (state) => {return {'storage.helium': Math.floor(Math.pow(1.6, state.assemblers.helium) * 1000)};},
             locked: (state) => false,
@@ -306,7 +319,7 @@ export const fluctuators = {
         },
 
         carbon: {
-            name: 'Carbon Assembler',
+            name: 'Carbon',
             text: 'Synths Carbon consuming elementary particles',
             cost: (state) => {return {'storage.carbon': Math.floor(Math.pow(1.7, state.assemblers.carbon) * 1000)};},
             locked: (state) => false,
@@ -316,7 +329,7 @@ export const fluctuators = {
         },
 
         oxygen: {
-            name: 'Oxygen Assembler',
+            name: 'Oxygen',
             text: 'Synths Oxygen consuming elementary particles',
             cost: (state) => {return {'storage.oxygen': Math.floor(Math.pow(1.8, state.assemblers.oxygen) * 1000)};},
             locked: (state) => false,
@@ -326,7 +339,7 @@ export const fluctuators = {
         },
         
         nitrogen: {
-            name: 'Nitrogen Assembler',
+            name: 'Nitrogen',
             text: 'Synths Nitrogen consuming elementary particles',
             cost: (state) => {return {'storage.nitrogen': Math.floor(Math.pow(1.9, state.assemblers.nitrogen) * 1000)};},
             locked: (state) => false,
@@ -335,18 +348,8 @@ export const fluctuators = {
             onTick: (state) => assemble_helper(state, 'nitrogen')
         },
         
-        aluminium: {
-            name: 'Aluminium Assembler',
-            text: 'Synths Aluminium consuming elementary particles',
-            cost: (state) => {return {'storage.aluminium': Math.floor(Math.pow(2, state.assemblers.aluminium) * 1000)};},
-            locked: (state) => false,
-            toggle: (state) => toggle_helper(state, 'aluminium'),
-            onClick: (state) => buy_assembler_helper(state, 'aluminium'),
-            onTick: (state) => assemble_helper(state, 'aluminium')
-        },
-        
         silicon: {
-            name: 'Silicon Assembler',
+            name: 'Silicon',
             text: 'Synths Silicon consuming elementary particles',
             cost: (state) => {return {'storage.silicon': Math.floor(Math.pow(2.1, state.assemblers.silicon) * 1000)};},
             locked: (state) => false,
@@ -356,7 +359,7 @@ export const fluctuators = {
         },
         
         ferrum: {
-            name: 'Ferrum Assembler',
+            name: 'Ferrum',
             text: 'Synths Ferrum consuming elementary particles',
             cost: (state) => {return {'storage.ferrum': Math.floor(Math.pow(2.2, state.assemblers.ferrum) * 1000)};},
             locked: (state) => false,
