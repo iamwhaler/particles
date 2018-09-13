@@ -311,29 +311,36 @@ class App extends Component {
                 </div>;
 
         const upgrade_field_subcomponent =
-            <span className="flex-element flex-container-row">
+            <div className="flex-element flex-container-row">
                 <div className="flex-element" style={{fontSize: '12px'}}>
                     Load:
-                    <Line percent={(weight(state.field)/state.field_capacity)*100} strokeWidth="3" strokeColor={(weight(state.field)/state.field_capacity)>=1 ? "red" : "#D3D3D3"}/>
+                    <Line percent={(weight(state.field)/state.field_capacity)*100}
+                          trailWidth="3" trailColor="#a8a8a8" strokeWidth="3" strokeColor={(weight(state.field)/state.field_capacity)>=1 ? "red" : "#D3D3D3"}/>
                     <span className={state.field_capacity > weight(state.field) ? '' : 'red'}>
                 {' ' + this.roundNumber(weight(state.field))} / {this.roundNumber(state.field_capacity)}
                     </span>
                 </div>
 
+                <div className="flex-element">
                  <OverlayTrigger delay={150} placement="right"
                                    overlay={tooltip(this.state, clickers.field)}>
-                    <div className="flex-element flex-container-row">
-                        <span className="flex-element">{state.field_level}</span>
-                    <button style={{padding: '4px 4px'}}
-                            className={(clickers.field.cost ? isEnough(this.state, _.isFunction(clickers.field.cost) ? clickers.field.cost(this.state) : clickers.field.cost) ? 'field' : 'field disabled' : 'field')}
-                            onClick={() => {
-                                this.onClickWrapper(clickers.field);
-                            }}>
-                        <span> {clickers.field.name}: {state.field_level}</span>
-                    </button>
-                    </div>
+
+                      <div className="flex-container-row upgrades-button">
+                         <span className="flex-element">{state.field_level}</span>
+                          <span style={state.field_level > 0
+                              ? {borderTopRightRadius: "80px",
+                                  borderBottomRightRadius: "80px"}
+                              : {borderRadius: "80px"}}
+                                className={(clickers.field.cost ? isEnough(this.state, _.isFunction(clickers.field.cost) ? clickers.field.cost(this.state) : clickers.field.cost) ? 'flex-element field' : 'flex-element field disabled' : 'flex-element field')}
+                                onClick={() => {
+                                    this.onClickWrapper(clickers.field);
+                                }}>
+                                 <span className="flex-element">Upgrade</span>
+                            </span>
+                               </div>
                 </OverlayTrigger>
-            </span>;
+                </div>
+            </div>;
 
 
         const dust_subcomponent =
@@ -362,29 +369,35 @@ class App extends Component {
 
 
         const upgrade_storage_subcomponent =
-            <span className="flex-element flex-container-row">
+            <div className="flex-element flex-container-row">
                 <div className="flex-element" style={{fontSize: '12px'}}>
                     Load:
-                    <Line percent={(weight(state.storage)/state.storage_capacity)*100} strokeWidth="3" strokeColor={(weight(state.storage)/state.storage_capacity)>=1 ? "red" : "#D3D3D3"}/>
+                    <Line percent={(weight(state.storage)/state.storage_capacity)*100}
+                          trailWidth="3" trailColor="#a8a8a8" strokeWidth="3" strokeColor={(weight(state.storage)/state.storage_capacity)>=1 ? "red" : "#D3D3D3"}/>
                     <span className={state.storage_capacity > weight(state.storage) ? '' : 'red'}>
                 {' ' + this.roundNumber(weight(state.storage))} / {this.roundNumber(state.storage_capacity)}
                     </span>
                 </div>
 
+                <div className="flex-element">
                  <OverlayTrigger delay={150} placement="right"
                                  overlay={tooltip(this.state, clickers.storage)}>
-                    <div className="flex-element flex-container-row">
-                        <span className="flex-element">{state.storage_level}</span>
-                    <button style={{padding: '4px 4px'}}
-                            className={(clickers.storage.cost ? isEnough(this.state, _.isFunction(clickers.field.cost) ? clickers.storage.cost(this.state) : clickers.storage.cost) ? 'field' : 'field disabled' : 'field')}
-                            onClick={() => {
-                                this.onClickWrapper(clickers.storage);
-                            }}>
-                        <span> {clickers.storage.name}: {state.storage_level}</span>
-                    </button>
-                    </div>
+                    <div className="flex-container-row upgrades-button">
+                         <span className="flex-element">{state.storage_level}</span>
+                          <span style={state.storage_level > 0
+                              ? {borderTopRightRadius: "80px",
+                                  borderBottomRightRadius: "80px"}
+                              : {borderRadius: "80px"}}
+                                className={(clickers.storage.cost ? isEnough(this.state, _.isFunction(clickers.storage.cost) ? clickers.storage.cost(this.state) : clickers.storage.cost) ? 'plus-span flex-element field' : 'plus-span flex-element field disabled' : 'plus-span flex-element field')}
+                                onClick={() => {
+                                    this.onClickWrapper(clickers.storage);
+                                }}>
+                                 <span className="flex-element">Upgrade</span>
+                            </span>
+                               </div>
                 </OverlayTrigger>
-            </span>;
+                </div>
+            </div>;
 
 
         const modules_subcomponent =
@@ -397,28 +410,36 @@ class App extends Component {
                                         <OverlayTrigger delay={150} placement="right"
                                                         overlay={tooltip(this.state, item)}>
                                             <div className="fluctuators">
-                                                <span> {item.name}: {state.modules[key]} </span>
+                                                <div> {item.name}</div>
 
-                                                <button
-                                                        className={(item.cost ? isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
+                                                <div className="flex-container-row modules-button">
+                                                    {state.modules[key] > 0
+                                                        ? <span className="flex-element">{state.modules[key]}</span>
+                                                        : ''}
+                                                    <span style={state.modules[key] > 0
+                                                        ? {borderTopRightRadius: "80px",
+                                                            borderBottomRightRadius: "80px"}
+                                                        : {borderRadius: "80px"}}
+                                                        className={(item.cost ? isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? 'flex-element plus-span' : 'flex-element plus-span disabled' : 'flex-element plus-span')}
                                                         onClick={() => {
                                                             this.onClickWrapper(item);
                                                         }}>
-                                                <span>
-                                                    {state.modules[key] > 0
-                                                        ? 'Upgrade'
-                                                        : 'Buy'}
-                                                </span>
-                                                </button>
+                                                        <span className="flex-element">
+                                                        {state.modules[key] > 0
+                                                            ? '+'
+                                                            : <span>Buy</span>}
+                                                        </span>
+                                                    </span>
+                                                </div>
 
                                                 {(item.toggle && state.modules[key] > 0)
                                                     ?
                                                     <div>
-                                                    <Switch onChange={() => this.setState(item.toggle(this.state))}
-                                                            checked={this.state.toggle[key]} onColor="#d4d4d4" onHandleColor="#FFFFFF"
-                                                            handleDiameter={10} uncheckedIcon={false} checkedIcon={false} height={10}
-                                                            width={30}
-                                                    />
+                                                        <Switch onChange={() => this.setState(item.toggle(this.state))}
+                                                                checked={this.state.toggle[key]} onColor="#d4d4d4" onHandleColor="#FFFFFF"
+                                                                handleDiameter={8} uncheckedIcon={false} checkedIcon={false} height={4}
+                                                                width={28}
+                                                        />
                                                     </div>
                                                     : ''}
                                             </div>
@@ -440,25 +461,34 @@ class App extends Component {
                                     <OverlayTrigger delay={150} placement="left"
                                                     overlay={tooltip(this.state, item)}>
                                         <div className="fluctuators">
-                                            <span> {item.name + ': ' + state.assemblers[key]} </span>
+                                            <div> {item.name}</div>
 
-                                            <button //style={{minWidth: '40px', maxHeight: '110px'}}
-                                                    className={(item.cost ? isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
-                                                    onClick={() => {
-                                                        this.onClickWrapper(item);
-                                                    }}>
-                                                <span>
-                                                    {state.assemblers[key]>0
-                                                        ? 'Upgrade' : 'Buy'}
-                                                </span>
-                                            </button>
+                                            <div className="flex-container-row modules-button">
+                                                {state.assemblers[key] > 0
+                                                    ? <span className="flex-element">{state.assemblers[key]}</span>
+                                                    : ''}
+                                                <span style={state.assemblers[key] > 0
+                                                    ? {borderTopRightRadius: "80px",
+                                                        borderBottomRightRadius: "80px"}
+                                                    : {borderRadius: "80px"}}
+                                                      className={(item.cost ? isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? 'flex-element plus-span' : 'flex-element plus-span disabled' : 'flex-element plus-span')}
+                                                      onClick={() => {
+                                                          this.onClickWrapper(item);
+                                                      }}>
+                                                        <span className="flex-element">
+                                                        {state.assemblers[key] > 0
+                                                            ? '+'
+                                                            : <span>Buy</span>}
+                                                        </span>
+                                                    </span>
+                                            </div>
                                             {(item.toggle && state.assemblers[key] > 0)
                                                 ?
                                                 <div>
                                                     <Switch onChange={() => this.setState(item.toggle(this.state))}
                                                             checked={this.state.toggle[key]} onColor="#d4d4d4" onHandleColor="#FFFFFF"
-                                                            handleDiameter={10} uncheckedIcon={false} checkedIcon={false} height={10}
-                                                            width={30}
+                                                            handleDiameter={8} uncheckedIcon={false} checkedIcon={false} height={4}
+                                                            width={28}
                                                     />
                                                 </div>
                                                 : ''}

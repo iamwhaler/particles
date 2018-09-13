@@ -201,7 +201,7 @@ export const clickers = {
     storage: {
         name: 'Upgrade Storage',
         cost: (state) => {
-            return{'field.photons': Math.floor(Math.pow(9, state.storage_level)*4)}},
+            return{'field.electrons': Math.floor(Math.pow(4, state.storage_level)*2)}},
         isLocked: (state) => false,
         onClick: (state) => {
             state.storage_level++;

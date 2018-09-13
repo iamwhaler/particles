@@ -80,6 +80,7 @@ button.info:hover {
 
 .info-block {
   margin: 2px 2px 2px 2px;
+  padding: 2px 2px 2px 2px;
   border-radius: 5px;
   background-color: rgba(0,0,0,0.4);
   max-width: 600px;
@@ -124,7 +125,6 @@ button {
   cursor:pointer;
   overflow: hidden;
   outline:none;
-  height: 18px;
   color: white;
   font-size: 11px;
   border-radius: 3.5px;
@@ -140,10 +140,6 @@ button:hover {
   background-color: #B7B7B7;
 }
 
-.switchOn {
-  background-color: #83B18F;
-}
-
 .flex-element {
   padding-top: 2.5px;
   padding-bottom: 2.5px;
@@ -153,14 +149,11 @@ circle {
   margin: 0 auto;
 }
 
-img {
-  width: 20px;
-  height: 20px;
-  margin-bottom: 10px;
-}
-
 .resource-icon {
   filter: invert(40%);
+    width: 20px;
+    height: 20px;
+    margin-bottom: 10px;
 }
 
 .overlay {
@@ -191,6 +184,27 @@ img {
 
 .panel button:hover{
   background-color: #EFEEEE;
+}
+
+.modules-button {
+    margin: 0 auto;
+    width: 48px;
+    height: 24px;
+    border: 1px solid white;
+    border-radius: 80px;
+}
+
+.upgrades-button{
+    margin: 0 auto;
+    width: 140px;
+    height: 24px;
+    border: 1px solid white;
+    border-radius: 80px;
+}
+
+.plus-span {
+    border-left: 1px solid white;
+    cursor: pointer;
 }
 
 .history {
