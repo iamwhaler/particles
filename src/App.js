@@ -12,8 +12,7 @@ import {game_name} from './game/app_config';
 import {getDefaultState} from './game/default_state';
 import {tick} from './game/tick';
 import {rules} from './game/rules';
-import {data, info, epochs} from './game/data';
-import {oneclickers} from './game/oneclickers';
+import {data} from './game/data';
 import {clickers} from './game/clickers';
 import {fluctuators} from './game/fluctuators';
 import {difficulty} from './game/difficulty';
@@ -22,12 +21,11 @@ import {Line} from 'rc-progress';
 import {Circle} from 'react-shapes';
 import Switch from "react-switch";
 
-
 import { Orchestrator } from './game/orchestrator';
 
-import {ToastContainer} from 'react-toastr';
+// import {ToastContainer} from 'react-toastr';
 import confirm from './components/confirm_launch';
-import toastr from "toastr";
+// import toastr from "toastr";
 
 import {weight} from './game/physics';
 import {calcLifeFormProbability} from './game/biology';
@@ -159,7 +157,7 @@ class App extends Component {
                 </button>
         };
 
-        const details = (item) =>
+        /* const details = (item) =>
             <Tooltip id="tooltip">
                 <div className="flex-container-row">
                     <div className="flex-element flex-container-column">
@@ -178,6 +176,7 @@ class App extends Component {
 
                 </div>
             </Tooltip>;
+            */
 
         const tooltip = (state, item) =>
             <Tooltip id="tooltip">
@@ -261,8 +260,11 @@ class App extends Component {
                 </div>
 
                 <div className="flex-element flex-container-row">
-                    <span className="flex-element" onClick={() =>
-                        this.state.music_paused ? this.state.music_paused=false : this.state.music_paused=true}> Sound
+                    <span className="flex-element" onClick={() =>{
+                        if(this.state.music_paused)
+                        {this.setState({music_paused: false})}
+                        else{this.setState({music_paused: true})}
+                    }}> Sound
                      <Orchestrator state={this.state}/></span>
                 </div>
             </div>;
@@ -312,29 +314,36 @@ class App extends Component {
                 </div>;
 
         const upgrade_field_subcomponent =
-            <span className="flex-element flex-container-row">
+            <div className="flex-element flex-container-row">
                 <div className="flex-element" style={{fontSize: '12px'}}>
                     Load:
-                    <Line percent={(weight(state.field)/state.field_capacity)*100} strokeWidth="3" strokeColor={(weight(state.field)/state.field_capacity)>=1 ? "red" : "#D3D3D3"}/>
+                    <Line percent={(weight(state.field)/state.field_capacity)*100}
+                          trailWidth="3" trailColor="#a8a8a8" strokeWidth="3" strokeColor={(weight(state.field)/state.field_capacity)>=1 ? "red" : "#D3D3D3"}/>
                     <span className={state.field_capacity > weight(state.field) ? '' : 'red'}>
                 {' ' + this.roundNumber(weight(state.field))} / {this.roundNumber(state.field_capacity)}
                     </span>
                 </div>
 
+                <div className="flex-element">
                  <OverlayTrigger delay={150} placement="right"
                                    overlay={tooltip(this.state, clickers.field)}>
-                    <div className="flex-element flex-container-row">
-                        <span className="flex-element">{state.field_level}</span>
-                    <button style={{padding: '4px 4px'}}
-                            className={(clickers.field.cost ? isEnough(this.state, _.isFunction(clickers.field.cost) ? clickers.field.cost(this.state) : clickers.field.cost) ? 'field' : 'field disabled' : 'field')}
-                            onClick={() => {
-                                this.onClickWrapper(clickers.field);
-                            }}>
-                        <span> {clickers.field.name}: {state.field_level}</span>
-                    </button>
-                    </div>
+
+                      <div className="flex-container-row upgrades-button">
+                         <span className="flex-element">{state.field_level}</span>
+                          <span style={state.field_level > 0
+                              ? {borderTopRightRadius: "80px",
+                                  borderBottomRightRadius: "80px"}
+                              : {borderRadius: "80px"}}
+                                className={(clickers.field.cost ? isEnough(this.state, _.isFunction(clickers.field.cost) ? clickers.field.cost(this.state) : clickers.field.cost) ? 'plus-span flex-element field' : 'plus-span flex-element field disabled' : 'plus-span flex-element field')}
+                                onClick={() => {
+                                    this.onClickWrapper(clickers.field);
+                                }}>
+                                 <span className="flex-element">Upgrade</span>
+                            </span>
+                               </div>
                 </OverlayTrigger>
-            </span>;
+                </div>
+            </div>;
 
 
         const dust_subcomponent =
@@ -363,29 +372,35 @@ class App extends Component {
 
 
         const upgrade_storage_subcomponent =
-            <span className="flex-element flex-container-row">
+            <div className="flex-element flex-container-row">
                 <div className="flex-element" style={{fontSize: '12px'}}>
                     Load:
-                    <Line percent={(weight(state.storage)/state.storage_capacity)*100} strokeWidth="3" strokeColor={(weight(state.storage)/state.storage_capacity)>=1 ? "red" : "#D3D3D3"}/>
+                    <Line percent={(weight(state.storage)/state.storage_capacity)*100}
+                          trailWidth="3" trailColor="#a8a8a8" strokeWidth="3" strokeColor={(weight(state.storage)/state.storage_capacity)>=1 ? "red" : "#D3D3D3"}/>
                     <span className={state.storage_capacity > weight(state.storage) ? '' : 'red'}>
                 {' ' + this.roundNumber(weight(state.storage))} / {this.roundNumber(state.storage_capacity)}
                     </span>
                 </div>
 
+                <div className="flex-element">
                  <OverlayTrigger delay={150} placement="right"
                                  overlay={tooltip(this.state, clickers.storage)}>
-                    <div className="flex-element flex-container-row">
-                        <span className="flex-element">{state.storage_level}</span>
-                    <button style={{padding: '4px 4px'}}
-                            className={(clickers.storage.cost ? isEnough(this.state, _.isFunction(clickers.field.cost) ? clickers.storage.cost(this.state) : clickers.storage.cost) ? 'field' : 'field disabled' : 'field')}
-                            onClick={() => {
-                                this.onClickWrapper(clickers.storage);
-                            }}>
-                        <span> {clickers.storage.name}: {state.storage_level}</span>
-                    </button>
-                    </div>
+                    <div className="flex-container-row upgrades-button">
+                         <span className="flex-element">{state.storage_level}</span>
+                          <span style={state.storage_level > 0
+                              ? {borderTopRightRadius: "80px",
+                                  borderBottomRightRadius: "80px"}
+                              : {borderRadius: "80px"}}
+                                className={(clickers.storage.cost ? isEnough(this.state, _.isFunction(clickers.storage.cost) ? clickers.storage.cost(this.state) : clickers.storage.cost) ? 'plus-span flex-element field' : 'plus-span flex-element field disabled' : 'plus-span flex-element field')}
+                                onClick={() => {
+                                    this.onClickWrapper(clickers.storage);
+                                }}>
+                                 <span className="flex-element">Upgrade</span>
+                            </span>
+                               </div>
                 </OverlayTrigger>
-            </span>;
+                </div>
+            </div>;
 
 
         const modules_subcomponent =
@@ -398,28 +413,36 @@ class App extends Component {
                                         <OverlayTrigger delay={150} placement="right"
                                                         overlay={tooltip(this.state, item)}>
                                             <div className="fluctuators">
-                                                <span> {item.name}: {state.modules[key]} </span>
+                                                <div> {item.name}</div>
 
-                                                <button
-                                                        className={(item.cost ? isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
+                                                <div className="flex-container-row modules-button">
+                                                    {state.modules[key] > 0
+                                                        ? <span className="flex-element">{state.modules[key]}</span>
+                                                        : ''}
+                                                    <span style={state.modules[key] > 0
+                                                        ? {borderTopRightRadius: "80px",
+                                                            borderBottomRightRadius: "80px"}
+                                                        : {borderRadius: "80px"}}
+                                                        className={(item.cost ? isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? 'flex-element plus-span' : 'flex-element plus-span disabled' : 'flex-element plus-span')}
                                                         onClick={() => {
                                                             this.onClickWrapper(item);
                                                         }}>
-                                                <span>
-                                                    {state.modules[key] > 0
-                                                        ? 'Upgrade'
-                                                        : 'Buy'}
-                                                </span>
-                                                </button>
+                                                        <span className="flex-element">
+                                                        {state.modules[key] > 0
+                                                            ? '+'
+                                                            : <span>Buy</span>}
+                                                        </span>
+                                                    </span>
+                                                </div>
 
                                                 {(item.toggle && state.modules[key] > 0)
                                                     ?
                                                     <div>
-                                                    <Switch onChange={() => this.setState(item.toggle(this.state))}
-                                                            checked={this.state.toggle[key]} onColor="#d4d4d4" onHandleColor="#FFFFFF"
-                                                            handleDiameter={10} uncheckedIcon={false} checkedIcon={false} height={10}
-                                                            width={30}
-                                                    />
+                                                        <Switch onChange={() => this.setState(item.toggle(this.state))}
+                                                                checked={this.state.toggle[key]} onColor="#d4d4d4" onHandleColor="#FFFFFF"
+                                                                handleDiameter={8} uncheckedIcon={false} checkedIcon={false} height={4}
+                                                                width={28}
+                                                        />
                                                     </div>
                                                     : ''}
                                             </div>
@@ -441,25 +464,34 @@ class App extends Component {
                                     <OverlayTrigger delay={150} placement="left"
                                                     overlay={tooltip(this.state, item)}>
                                         <div className="fluctuators">
-                                            <span> {item.name + ': ' + state.assemblers[key]} </span>
+                                            <div> {item.name}</div>
 
-                                            <button //style={{minWidth: '40px', maxHeight: '110px'}}
-                                                    className={(item.cost ? isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? '' : 'disabled' : '')}
-                                                    onClick={() => {
-                                                        this.onClickWrapper(item);
-                                                    }}>
-                                                <span>
-                                                    {state.assemblers[key]>0
-                                                        ? 'Upgrade' : 'Buy'}
-                                                </span>
-                                            </button>
+                                            <div className="flex-container-row modules-button">
+                                                {state.assemblers[key] > 0
+                                                    ? <span className="flex-element">{state.assemblers[key]}</span>
+                                                    : ''}
+                                                <span style={state.assemblers[key] > 0
+                                                    ? {borderTopRightRadius: "80px",
+                                                        borderBottomRightRadius: "80px"}
+                                                    : {borderRadius: "80px"}}
+                                                      className={(item.cost ? isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? 'flex-element plus-span' : 'flex-element plus-span disabled' : 'flex-element plus-span')}
+                                                      onClick={() => {
+                                                          this.onClickWrapper(item);
+                                                      }}>
+                                                        <span className="flex-element">
+                                                        {state.assemblers[key] > 0
+                                                            ? '+'
+                                                            : <span>Buy</span>}
+                                                        </span>
+                                                    </span>
+                                            </div>
                                             {(item.toggle && state.assemblers[key] > 0)
                                                 ?
                                                 <div>
                                                     <Switch onChange={() => this.setState(item.toggle(this.state))}
                                                             checked={this.state.toggle[key]} onColor="#d4d4d4" onHandleColor="#FFFFFF"
-                                                            handleDiameter={10} uncheckedIcon={false} checkedIcon={false} height={10}
-                                                            width={30}
+                                                            handleDiameter={8} uncheckedIcon={false} checkedIcon={false} height={4}
+                                                            width={28}
                                                     />
                                                 </div>
                                                 : ''}
@@ -482,24 +514,6 @@ class App extends Component {
                     )}
                 </div>
             </div>;
-
-        const rules_subcomponent =
-        <div className="flex-container-column">
-            <h3>Rules</h3>
-            <div className="info-block">
-            {_.map(rules, (item, key) => (item.locked && item.locked(this.state))
-                ? ''
-                :
-                item.name
-                ?
-                    <div key={key} className="flex-container-column-reverse">
-                <div className="panel" key={key} style={{color: 'black'}}>
-                    <h5>{item.name}</h5>
-                    <p>{item.text}</p>
-                </div>
-                    </div>: '')}
-            </div>
-        </div>;
 
 
         const object_drawer = (obj) =>
@@ -601,121 +615,6 @@ class App extends Component {
                 </div>
             </div>;
 
-        const molecules_arts = <div>
-             <ul className='atoms set'>
-                 <li className='atom O'></li>
-                 <li className='atom H'></li>
-                 <li className='atom C'></li>
-                 <li className='atom N'></li>
-                 <li className='atom Cl'></li>
-             </ul>
-             <ul className='molecules set'>
-                 <li className='molecule-wrap'>
-                     <div className='info'>water (H<sub>2</sub>O)</div>
-                     <ul className='molecule H2O'>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom O'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>carbon dioxide (CO<sub>2</sub>)</div>
-                     <ul className='molecule CO2'>
-                         <li className='atom C'></li>
-                         <li className='atom O'></li>
-                         <li className='atom O'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>hydrogen cyanide (HCN)</div>
-                     <ul className='molecule HCN'>
-                         <li className='atom H'></li>
-                         <li className='atom C'></li>
-                         <li className='atom N'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>ammonia (NH<sub>3</sub>)</div>
-                     <ul className='molecule NH3'>
-                         <li className='atom N'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>methane (CH<sub>4</sub>)</div>
-                     <ul className='molecule CH4'>
-                         <li className='atom C'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>formaldehyde (CH<sub>2</sub>O)</div>
-                     <ul className='molecule CH2O'>
-                         <li className='atom C'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom O'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>carbon tetrachloride (CCl<sub>4</sub>)</div>
-                     <ul className='molecule CCl4'>
-                         <li className='atom C'></li>
-                         <li className='atom Cl'></li>
-                         <li className='atom Cl'></li>
-                         <li className='atom Cl'></li>
-                         <li className='atom Cl'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>methyl chloride (CH<sub>3</sub>Cl)</div>
-                     <ul className='molecule CH3Cl'>
-                         <li className='atom C'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom Cl'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>acetylene (C<sub>2</sub>H<sub>2</sub>)</div>
-                     <ul className='molecule C2H2'>
-                         <li className='atom C'></li>
-                         <li className='atom C'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>ethylene (C<sub>2</sub>H<sub>4)</sub></div>
-                     <ul className='molecule C2H4'>
-                         <li className='atom C'></li>
-                         <li className='atom C'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>ethane (C<sub>2</sub>H<sub>6)</sub></div>
-                     <ul className='molecule C2H6'>
-                         <li className='atom C'></li>
-                         <li className='atom C'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                     </ul>
-                 </li>
-             </ul></div>;
 
         const disclaimer =
             <div>
@@ -741,7 +640,7 @@ class App extends Component {
                     <div className="flex-container-row">
                         {_.map(difficulty, (val, key) =>
                             <div key={key} className="flex-element panel">
-                                <img style={{width: '200px', height: '200px', border: '4px solid #B7B7B7'}} src={val.img} />
+                                <img alt="" style={{width: '200px', height: '200px', border: '4px solid #B7B7B7'}} src={val.img} />
                                 <p>{val.text}</p>
                                 <GinButton className="dialog-button" item={val}/>
                             </div>)}
@@ -749,7 +648,7 @@ class App extends Component {
                 </div>
             </div>;
 
-        const basic_particles_info =
+        /* const basic_particles_info =
             <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
                 <img alt="" className="overlay resource-icon" src={"./img/basic_particles.png"}/>
             </OverlayTrigger>;
@@ -763,6 +662,7 @@ class App extends Component {
             <OverlayTrigger delay={250} placement="bottom" overlay={details(info.automation)}>
                 <img alt="" className="overlay resource-icon" src={"./img/automation.png"}/>
             </OverlayTrigger>;
+            */
 
         return (
             <div>
@@ -790,7 +690,7 @@ class App extends Component {
                                             </div>
 
                                             <div className="info-block">
-                                            <h4>{automation_info} Machinery</h4>
+                                            <h4>Machinery</h4>
                                             {modules_subcomponent}
                                             </div>
                                         </div>
@@ -804,7 +704,7 @@ class App extends Component {
                                             </div>
 
                                             <div className="info-block">
-                                            <h4>{automation_info} Assemblers</h4>
+                                            <h4>Assemblers</h4>
                                             {assemblers_subcomponent}
                                             </div>
                                         </div>
