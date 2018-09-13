@@ -12,8 +12,7 @@ import {game_name} from './game/app_config';
 import {getDefaultState} from './game/default_state';
 import {tick} from './game/tick';
 import {rules} from './game/rules';
-import {data, info, epochs} from './game/data';
-import {oneclickers} from './game/oneclickers';
+import {data} from './game/data';
 import {clickers} from './game/clickers';
 import {fluctuators} from './game/fluctuators';
 import {difficulty} from './game/difficulty';
@@ -22,12 +21,11 @@ import {Line} from 'rc-progress';
 import {Circle} from 'react-shapes';
 import Switch from "react-switch";
 
-
 import { Orchestrator } from './game/orchestrator';
 
-import {ToastContainer} from 'react-toastr';
+// import {ToastContainer} from 'react-toastr';
 import confirm from './components/confirm_launch';
-import toastr from "toastr";
+// import toastr from "toastr";
 
 import {weight} from './game/physics';
 import {isEnough, chargeCost, drawCost} from './utils/bdcgin';
@@ -158,7 +156,7 @@ class App extends Component {
                 </button>
         };
 
-        const details = (item) =>
+        /* const details = (item) =>
             <Tooltip id="tooltip">
                 <div className="flex-container-row">
                     <div className="flex-element flex-container-column">
@@ -177,6 +175,7 @@ class App extends Component {
 
                 </div>
             </Tooltip>;
+            */
 
         const tooltip = (state, item) =>
             <Tooltip id="tooltip">
@@ -260,8 +259,11 @@ class App extends Component {
                 </div>
 
                 <div className="flex-element flex-container-row">
-                    <span className="flex-element" onClick={() =>
-                        this.state.music_paused ? this.state.music_paused=false : this.state.music_paused=true}> Sound
+                    <span className="flex-element" onClick={() =>{
+                        if(this.state.music_paused)
+                        {this.setState({music_paused: false})}
+                        else{this.setState({music_paused: true})}
+                    }}> Sound
                      <Orchestrator state={this.state}/></span>
                 </div>
             </div>;
@@ -331,7 +333,7 @@ class App extends Component {
                               ? {borderTopRightRadius: "80px",
                                   borderBottomRightRadius: "80px"}
                               : {borderRadius: "80px"}}
-                                className={(clickers.field.cost ? isEnough(this.state, _.isFunction(clickers.field.cost) ? clickers.field.cost(this.state) : clickers.field.cost) ? 'flex-element field' : 'flex-element field disabled' : 'flex-element field')}
+                                className={(clickers.field.cost ? isEnough(this.state, _.isFunction(clickers.field.cost) ? clickers.field.cost(this.state) : clickers.field.cost) ? 'plus-span flex-element field' : 'plus-span flex-element field disabled' : 'plus-span flex-element field')}
                                 onClick={() => {
                                     this.onClickWrapper(clickers.field);
                                 }}>
@@ -512,24 +514,6 @@ class App extends Component {
                 </div>
             </div>;
 
-        const rules_subcomponent =
-        <div className="flex-container-column">
-            <h3>Rules</h3>
-            <div className="info-block">
-            {_.map(rules, (item, key) => (item.locked && item.locked(this.state))
-                ? ''
-                :
-                item.name
-                ?
-                    <div key={key} className="flex-container-column-reverse">
-                <div className="panel" key={key} style={{color: 'black'}}>
-                    <h5>{item.name}</h5>
-                    <p>{item.text}</p>
-                </div>
-                    </div>: '')}
-            </div>
-        </div>;
-
 
         const object_drawer = (obj) =>
         <div>
@@ -622,121 +606,6 @@ class App extends Component {
                 </div>
             </div>;
 
-        const molecules_arts = <div>
-             <ul className='atoms set'>
-                 <li className='atom O'></li>
-                 <li className='atom H'></li>
-                 <li className='atom C'></li>
-                 <li className='atom N'></li>
-                 <li className='atom Cl'></li>
-             </ul>
-             <ul className='molecules set'>
-                 <li className='molecule-wrap'>
-                     <div className='info'>water (H<sub>2</sub>O)</div>
-                     <ul className='molecule H2O'>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom O'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>carbon dioxide (CO<sub>2</sub>)</div>
-                     <ul className='molecule CO2'>
-                         <li className='atom C'></li>
-                         <li className='atom O'></li>
-                         <li className='atom O'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>hydrogen cyanide (HCN)</div>
-                     <ul className='molecule HCN'>
-                         <li className='atom H'></li>
-                         <li className='atom C'></li>
-                         <li className='atom N'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>ammonia (NH<sub>3</sub>)</div>
-                     <ul className='molecule NH3'>
-                         <li className='atom N'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>methane (CH<sub>4</sub>)</div>
-                     <ul className='molecule CH4'>
-                         <li className='atom C'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>formaldehyde (CH<sub>2</sub>O)</div>
-                     <ul className='molecule CH2O'>
-                         <li className='atom C'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom O'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>carbon tetrachloride (CCl<sub>4</sub>)</div>
-                     <ul className='molecule CCl4'>
-                         <li className='atom C'></li>
-                         <li className='atom Cl'></li>
-                         <li className='atom Cl'></li>
-                         <li className='atom Cl'></li>
-                         <li className='atom Cl'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>methyl chloride (CH<sub>3</sub>Cl)</div>
-                     <ul className='molecule CH3Cl'>
-                         <li className='atom C'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom Cl'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>acetylene (C<sub>2</sub>H<sub>2</sub>)</div>
-                     <ul className='molecule C2H2'>
-                         <li className='atom C'></li>
-                         <li className='atom C'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>ethylene (C<sub>2</sub>H<sub>4)</sub></div>
-                     <ul className='molecule C2H4'>
-                         <li className='atom C'></li>
-                         <li className='atom C'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                     </ul>
-                 </li>
-                 <li className='molecule-wrap'>
-                     <div className='info'>ethane (C<sub>2</sub>H<sub>6)</sub></div>
-                     <ul className='molecule C2H6'>
-                         <li className='atom C'></li>
-                         <li className='atom C'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                         <li className='atom H'></li>
-                     </ul>
-                 </li>
-             </ul></div>;
 
         const disclaimer =
             <div>
@@ -762,7 +631,7 @@ class App extends Component {
                     <div className="flex-container-row">
                         {_.map(difficulty, (val, key) =>
                             <div key={key} className="flex-element panel">
-                                <img style={{width: '200px', height: '200px', border: '4px solid #B7B7B7'}} src={val.img} />
+                                <img alt="" style={{width: '200px', height: '200px', border: '4px solid #B7B7B7'}} src={val.img} />
                                 <p>{val.text}</p>
                                 <GinButton className="dialog-button" item={val}/>
                             </div>)}
@@ -770,7 +639,7 @@ class App extends Component {
                 </div>
             </div>;
 
-        const basic_particles_info =
+        /* const basic_particles_info =
             <OverlayTrigger delay={250} placement="bottom" overlay={details(info.basic_particles)}>
                 <img alt="" className="overlay resource-icon" src={"./img/basic_particles.png"}/>
             </OverlayTrigger>;
@@ -784,6 +653,7 @@ class App extends Component {
             <OverlayTrigger delay={250} placement="bottom" overlay={details(info.automation)}>
                 <img alt="" className="overlay resource-icon" src={"./img/automation.png"}/>
             </OverlayTrigger>;
+            */
 
         return (
             <div>
@@ -811,7 +681,7 @@ class App extends Component {
                                             </div>
 
                                             <div className="info-block">
-                                            <h4>{automation_info} Machinery</h4>
+                                            <h4>Machinery</h4>
                                             {modules_subcomponent}
                                             </div>
                                         </div>
@@ -825,7 +695,7 @@ class App extends Component {
                                             </div>
 
                                             <div className="info-block">
-                                            <h4>{automation_info} Assemblers</h4>
+                                            <h4>Assemblers</h4>
                                             {assemblers_subcomponent}
                                             </div>
                                         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Sound from 'react-sound';
-import _ from 'lodash';
+//import _ from 'lodash';
 import classNames from "classnames";
 
 export let SOUNDBANK = [
@@ -33,9 +33,6 @@ export let SOUNDBANK = [
 
 
 export class Orchestrator extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         let current_track = SOUNDBANK[this.props.state.track_playing];

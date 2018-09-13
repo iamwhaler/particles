@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './css/footer.css';
-import {social_links, support} from './game/app_config';
+import {social_links} from './game/app_config';
 
 
 class Footer extends Component {
@@ -31,7 +31,7 @@ class Footer extends Component {
                     Reddit
                 </a>
                 &nbsp;&nbsp;&nbsp;
-                <a rel="noopener noreferrer" href={support.show}>
+                <a rel="noopener noreferrer" href="javascript:void($zopim.livechat.window.show())">
                     <img alt="" src="https://www.intraworlds.com/wp-content/uploads/2015/01/IntraWorlds_icon_Solutions_Dedicated-Client-Support.png"/>
                     &nbsp;
                     Support
