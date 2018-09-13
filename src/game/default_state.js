@@ -27,7 +27,6 @@ const default_state = {
         carbon: 0,
         oxygen: 0,
         nitrogen: 0,
-        aluminium: 0,
         silicon: 0,
         ferrum: 0,
     },
@@ -38,7 +37,6 @@ const default_state = {
         carbon: 0,
         oxygen: 0,
         nitrogen: 0,
-        aluminium: 0,
         silicon: 0,
         ferrum: 0,
     },
@@ -61,7 +59,6 @@ const default_state = {
         carbon: 0,
         oxygen: 0,
         nitrogen: 0,
-        aluminium: 0,
         silicon: 0,
         ferrum: 0,
     },
@@ -78,22 +75,10 @@ const default_state = {
         carbon: true,
         oxygen: true,
         nitrogen: true,
-        aluminium: true,
         silicon: true,
         ferrum: true,
-        
-        hydrogen_assembler: true,
-        helium_assembler: true,
-        carbon_assembler: true,
 
     },
-
-    hydrogen_assembler: 0,
-    helium_assembler: 0,
-    carbon_assembler: 0,
-
-
-    micro_swiper: false,
 
     black_hole: [],
 

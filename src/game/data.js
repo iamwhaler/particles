@@ -115,10 +115,6 @@ export const info = {
         link: 'https://en.wikipedia.org/wiki/Iron',
         mass: 55.845
     },
-    aluminium: {
-        link: 'https://en.wikipedia.org/wiki/Aluminium',
-        mass: 26.981539
-    },
     silicon: {
         link: 'https://en.wikipedia.org/wiki/Silicon',
         mass: 28.0855

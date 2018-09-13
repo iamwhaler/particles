@@ -23,6 +23,7 @@
     "react-scripts": "1.1.4",
     "react-shapes": "0.1.0",
     "react-sound": "^1.2.0",
+    "react-switch": "^3.0.4",
     "react-toastr": "^3.0.0",
     "startaudiocontext": "^1.2.1",
     "toastr": "^2.1.4",
