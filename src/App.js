@@ -28,6 +28,7 @@ import confirm from './components/confirm_launch';
 // import toastr from "toastr";
 
 import {weight} from './game/physics';
+import {calcLifeFormProbability} from './game/biology';
 import {isEnough, chargeCost, drawCost} from './utils/bdcgin';
 
 
@@ -535,6 +536,14 @@ class App extends Component {
                 <p>
                     {drawCost(obj.mater)}
                 </p>
+                {obj.type === 'Proto-Planet' || obj.type === 'Planet' ?
+                    <div>
+                        <p>Life Forms probability: {calcLifeFormProbability(state, obj, state.systems[state.selected_system])}</p>
+                        {_.map(obj.lifeforms, (lifeform, key) =>
+                            <div key={key}>
+                                Name: {lifeform.name} DNA: {lifeform.DNA}
+                            </div>)}
+                    </div> : ''}
             </div>
         </div>;
 
@@ -585,7 +594,7 @@ class App extends Component {
                                     }}
                                          className="flex-element panel" key={key} style={{color: 'black'}}>
                                         <p>{star.name}</p>
-                                        <span><Circle r={Math.sqrt(weight(star.mater))/9} fill={{color: '#470407'}} stroke={{color: 'black'}} strokeWidth={3} /></span>
+                                        <span><Circle r={Math.sqrt(Math.sqrt(weight(star.mater) * 11))} fill={{color: '#470407'}} stroke={{color: 'black'}} strokeWidth={3} /></span>
 
                                     </div>
                                 )}
@@ -598,7 +607,7 @@ class App extends Component {
                                     }}
                                          className="flex-element panel" key={key} style={{color: 'black'}}>
                                         <p>{planet.name}</p>
-                                        <span key={key}><Circle r={Math.sqrt(weight(planet.mater))/7} fill={{color: 'indigo'}} stroke={{color: 'black'}} strokeWidth={3}/></span>
+                                        <span key={key}><Circle r={Math.sqrt(Math.sqrt(weight(planet.mater) * 19))} fill={{color: 'indigo'}} stroke={{color: 'black'}} strokeWidth={3}/></span>
                                     </div>
                                 )}
                             </div>
