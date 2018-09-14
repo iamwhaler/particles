@@ -15,6 +15,7 @@ import {rules} from './game/rules';
 import {data} from './game/data';
 import {clickers} from './game/clickers';
 import {fluctuators} from './game/fluctuators';
+import {rockets} from './game/rockets';
 import {difficulty} from './game/difficulty';
 import Popup from "./utils/Popup/Popup";
 import {Line} from 'rc-progress';
@@ -148,14 +149,23 @@ class App extends Component {
             return (item.isLocked && item.isLocked(this.state))
                 ? ''
                 :
-                <button style={{padding: '4px 4px', width: '30%'}}
+                <OverlayTrigger delay={150} placement="right"
+                                overlay={tooltip(this.state, clickers.field)}>
+                    <button style={{padding: '4px 4px', width: '30%'}}
                         className={(item.isDisabled && item.isDisabled(this.state)) ? 'disabled' : (item.cost ? isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
                         onClick={() => {
                             this.onClickWrapper(item);
                         }}>
-                    {item.name}
-                </button>
+                        {item.name}
+                    </button>
+                </OverlayTrigger>
         };
+
+        const ConsumableGinButton = (props) => <GinButton item={{
+            name: props.item.name,
+            isDisabled: (state) => !state.rockets[props.item.key],
+            onClick: (state) => { state.rockets[props.item.key] -= 1; return props.item.onLaunch(this.state, props.system_id, props.target_id); } }} />;
+
 
         /* const details = (item) =>
             <Tooltip id="tooltip">
@@ -180,37 +190,42 @@ class App extends Component {
 
         const tooltip = (state, item) =>
             <Tooltip id="tooltip">
-                        <div className="flex-container-row">
-                            <span className="flex-element">
-                                {!item.name ? '' : item.name}
-                            </span>
-                        </div>
-                        <div className="flex-element">
-                                {(!item.text)
-                                    ? ''
-                                    :
-                                    <span style={{fontSize: '11px'}}>{item.text}</span>}
-                            </div>
+                <div className="flex-container-row">
+                    <span className="flex-element">
+                        {!item.name ? '' : item.name}
+                    </span>
+                </div>
+                <div className="flex-element">
+                    {(!item.text)
+                        ? ''
+                        :
+                        <span style={{fontSize: '11px'}}>{item.text}</span>}
+                </div>
 
-                    {_.map(_.isFunction(item.cost) ? item.cost(this.state) : item.cost, (value, resource_key) =>
-                        (!item.cost)
-                            ? ''
-                            :
+                {item.cost
+                    ?
+                    <div>
+                        <div className="flex-element">Cost</div>
+                        {_.map(_.isFunction(item.cost) ? item.cost(this.state) : item.cost, (value, resource_key) =>
                             <div className="flex-container-row" key={resource_key}>
                                 <div className="flex-element" style={{textAlign: 'left', justifyContent: 'flex-start'}}>
-                                <span>{resource_key}: </span>
+                                    <span>{resource_key}: </span>
                                 </div>
-                                    <div className="flex-element" style={{textAlign: 'right', justifyContent: 'flex-end'}}>
+                                <div className="flex-element" style={{textAlign: 'right', justifyContent: 'flex-end'}}>
                                     <span
-                                     style={(value > _.get(state, resource_key)) ? {color: '#982727'} : {color: ''}}>
+                                        style={(value > _.get(state, resource_key)) ? {color: '#982727'} : {color: ''}}>
                                         {this.roundNumber(value)}
                                         / {this.roundNumber(_.get(state, resource_key))}
-                                    {(value > _.get(state, resource_key)) ?
-                                    <span> ({this.roundNumber(-(_.get(state, resource_key) - value))} left)</span> : ''}
-                                </span>
+                                        {(value > _.get(state, resource_key)) ?
+                                            <span> ({this.roundNumber(-(_.get(state, resource_key) - value))} left)</span> : ''}
+                                    </span>
                                 </div>
                             </div>
-                    )}
+                        )}
+                    </div>
+                    : ''}
+
+
             </Tooltip>;
 
         const time_subcomponent =
@@ -226,15 +241,15 @@ class App extends Component {
                             className={classNames('glyphicon', (this.state.game_paused ? 'glyphicon-play' : 'glyphicon-pause'))}
                             style={{width: 28, height: 28}}> </span>
                             </span>
-                {[1, 4, 16].map((speed, index) => {
+                {[1, 2, 5].map((speed, index) => {
                     return <span key={index}>
                                 {this.state.game_speed_multiplier === speed
                                     ? <button className="" style={{width: 42, height: 28}}>
-                                    <u>{{0: 'x1', 1: 'x4', 2: 'x16'}[index]}</u></button>
+                                    <u>{{0: 'x1', 1: 'x2', 2: 'x5'}[index]}</u></button>
                                     : <button style={{width: 42, height: 28}}
                                               onClick={() => {
                                                   this.setGameSpeed(speed);
-                                              }}>{{0: 'x1', 1: 'x4', 2: 'x16'}[index]}
+                                              }}>{{0: 'x1', 1: 'x2', 2: 'x5'}[index]}
                                 </button>}
                             </span>
                 })}
@@ -578,6 +593,55 @@ class App extends Component {
                 }
             </div>;
 
+        const rockets_subcomponent =
+            <div className="flex-element flex-container-row">
+                {_.map(rockets, (item, key) =>
+                    <div className="flex-element" key={key}>
+                        {(item.locked && item.locked(this.state))
+                            ? <div className="flex-element"> </div>
+                            : <div key={key}>
+                            <OverlayTrigger delay={150} placement="left"
+                                            overlay={tooltip(this.state, item)}>
+                                <div className="fluctuators">
+                                    <div> {item.name}</div>
+
+                                    <div className="flex-container-row modules-button">
+                                        {state.rockets[key] > 0
+                                            ? <span className="flex-element">{state.rockets[key]}</span>
+                                            : ''}
+                                        <span style={state.rockets[key] > 0
+                                            ? {borderTopRightRadius: "80px",
+                                            borderBottomRightRadius: "80px"}
+                                            : {borderRadius: "80px"}}
+                                              className={(item.cost ? isEnough(this.state, _.isFunction(item.cost) ? item.cost(this.state) : item.cost) ? 'flex-element plus-span' : 'flex-element plus-span disabled' : 'flex-element plus-span')}
+                                              onClick={() => {
+                                                  this.onClickWrapper(item);
+                                              }}>
+                                                        <span className="flex-element">
+                                                        {state.rockets[key] > 0
+                                                            ? '+'
+                                                            : <span>Buy</span>}
+                                                        </span>
+                                                    </span>
+                                    </div>
+                                    {(item.toggle && state.rockets[key] > 0)
+                                        ?
+                                        <div>
+                                            <Switch onChange={() => this.setState(item.toggle(this.state))}
+                                                    checked={this.state.toggle[key]} onColor="#d4d4d4" onHandleColor="#FFFFFF"
+                                                    handleDiameter={8} uncheckedIcon={false} checkedIcon={false} height={4}
+                                                    width={28}
+                                            />
+                                        </div>
+                                        : ''}
+                                </div>
+                            </OverlayTrigger>
+                        </div>
+                        }
+                    </div>
+                )}
+            </div>;
+
         const sustem_subcomponent =
             <div className="flex-element flex-container-row">
 
@@ -682,46 +746,51 @@ class App extends Component {
                                     <div className="flex-container-row">
                                         <div className="flex-element space-block">
                                             <div className="info-block">
-                                            {particles_subcomponent}
-                                            {space_subcomponent}
-                                             <div className="line" />
-                                            {field_subcomponent}
-                                            {upgrade_field_subcomponent}
+                                                {particles_subcomponent}
+                                                {space_subcomponent}
+                                                <div className="line"/>
+                                                {field_subcomponent}
+                                                {upgrade_field_subcomponent}
                                             </div>
 
                                             <div className="info-block">
-                                            <h4>Machinery</h4>
-                                            {modules_subcomponent}
+                                                <h4>Machinery</h4>
+                                                {modules_subcomponent}
                                             </div>
                                         </div>
                                         <div className="flex-element dust-block">
                                             <div className="info-block">
-                                            {atoms_subcomponent}
-                                            {dust_subcomponent}
-                                            <div className="line" />
-                                            {storage_subcomponent}
-                                            {upgrade_storage_subcomponent}
+                                                {atoms_subcomponent}
+                                                {dust_subcomponent}
+                                                <div className="line"/>
+                                                {storage_subcomponent}
+                                                {upgrade_storage_subcomponent}
                                             </div>
 
                                             <div className="info-block">
-                                            <h4>Assemblers</h4>
-                                            {assemblers_subcomponent}
-                                            </div>
-                                        </div>
-                                        <div className="flex-element">
-                                            <h4>Systems</h4>
-                                            {systems_subcomponent}
-                                            <div>
-                                                <GinButton item={rules.new_system}/>
+                                                <h4>Assemblers</h4>
+                                                {assemblers_subcomponent}
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex-container-column">
-                                        <div className="flex-element">
+
+
+                                    <div className="flex-element flex-container-row sys-block">
+                                        <div className="flex-element info-block">
+                                            <h4>Systems</h4>
+                                            <div>
+                                                <GinButton item={rules.new_system}/>
+                                            </div>
+                                            {systems_subcomponent}
+                                        </div>
+                                        <div className="flex-element info-block">
+                                            <h4>Rockets</h4>
+                                            {rockets_subcomponent}
                                             <h4>Selected System</h4>
                                             {sustem_subcomponent}
                                         </div>
                                     </div>
+
                                 </div>
 
                                 <div className="flex-container-row flex-element info-container">

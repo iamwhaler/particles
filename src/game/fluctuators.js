@@ -82,7 +82,7 @@ export const fluctuators = {
             text: 'Attracts Electrons and Protons from space',
             cost: (state) => {
                 return {
-                    'field.protons': Math.floor(Math.pow(1.5, state.modules.polarizer) * 100)}
+                    'field.protons': Math.floor(Math.pow(1.1, state.modules.polarizer) * 100)}
             },
 
             locked: (state) => false,
@@ -124,7 +124,7 @@ export const fluctuators = {
             text: 'Attracts Electrons and Photons from space',
             cost: (state) => {
                 return {
-                    'field.electrons': Math.floor(Math.pow(1.5, state.modules.cell) * 100)}
+                    'field.electrons': Math.floor(Math.pow(1.2, state.modules.cell) * 100)}
             },
 
             locked: (state) => false,
@@ -165,7 +165,7 @@ export const fluctuators = {
             name: 'Solar Panel',
             text: 'Attracts Photons and Neutrino from space',
             cost: (state) => {
-                return{ 'field.photons': Math.floor(Math.pow(1.5, state.modules.panel) * 100)}
+                return{ 'field.photons': Math.floor(Math.pow(1.3, state.modules.panel) * 100)}
             },
             locked: (state) => false,
 
@@ -207,7 +207,7 @@ export const fluctuators = {
             name: 'Neutronator',
             text: 'Converts Electron and Proton from Space into Neutron and Neutrino',
             cost: (state) => {
-                return {'field.neutrino': Math.floor(Math.pow(1.5, state.modules.neutronator) * 250)}
+                return {'field.neutrino': Math.floor(Math.pow(1.4, state.modules.neutronator) * 250)}
             },
 
             locked: (state) => false,
@@ -328,16 +328,6 @@ export const fluctuators = {
             onTick: (state) => assemble_helper(state, 'carbon')
         },
 
-        oxygen: {
-            name: 'Oxygen',
-            text: 'Synths Oxygen consuming elementary particles',
-            cost: (state) => {return {'storage.oxygen': Math.floor(Math.pow(1.8, state.assemblers.oxygen) * 1000)};},
-            locked: (state) => false,
-            toggle: (state) => toggle_helper(state, 'oxygen'),
-            onClick: (state) => buy_assembler_helper(state, 'oxygen'),
-            onTick: (state) => assemble_helper(state, 'oxygen')
-        },
-        
         nitrogen: {
             name: 'Nitrogen',
             text: 'Synths Nitrogen consuming elementary particles',
@@ -346,6 +336,16 @@ export const fluctuators = {
             toggle: (state) => toggle_helper(state, 'nitrogen'),
             onClick: (state) => buy_assembler_helper(state, 'nitrogen'),
             onTick: (state) => assemble_helper(state, 'nitrogen')
+        },
+
+        oxygen: {
+            name: 'Oxygen',
+            text: 'Synths Oxygen consuming elementary particles',
+            cost: (state) => {return {'storage.oxygen': Math.floor(Math.pow(1.8, state.assemblers.oxygen) * 1000)};},
+            locked: (state) => false,
+            toggle: (state) => toggle_helper(state, 'oxygen'),
+            onClick: (state) => buy_assembler_helper(state, 'oxygen'),
+            onTick: (state) => assemble_helper(state, 'oxygen')
         },
         
         silicon: {
