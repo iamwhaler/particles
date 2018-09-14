@@ -35,7 +35,7 @@ export const rules = {
         name: 'Universe Expansion', text: 'Universe is expanding on the lower temperatures',
         locked: false,
         onTick: (state) => {
-            // state.field.electrons+=1000; state.storage.hydrogen += 10000; state.storage.helium+=1000; // ^_^
+           //  state.field.electrons+=1000; state.storage.hydrogen += 10000; state.storage.helium+=1000; // ^_^
             state.universe_size+= Math.pow(1, state.temperature)/(1 + 0.01 *state.temperature);
             return state;
         }
@@ -69,7 +69,12 @@ export const rules = {
 
     new_system: { name: 'New System', text: 'Rule Text',
         isLocked: state => weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000000,
-        cost: (state) => state.storage,
+        cost: (state) => {
+        false
+           /* let cost = {};
+            _.each(state.storage, (value, key) => { cost['storage.'+key] = value });
+            return cost; */
+        },
         onClick: state => {
             //if (weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000000) return state;
 

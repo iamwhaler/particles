@@ -149,26 +149,13 @@ class App extends Component {
             return (item.isLocked && item.isLocked(this.state))
                 ? ''
                 :
-                    <button style={{padding: '4px 4px', width: '30%'}}
+                    <button style={{padding: '4px 4px', width: '50%'}}
                         className={(item.isDisabled && item.isDisabled(this.state)) ? 'disabled' :''}
                         onClick={() => {
                             this.onClickWrapper(item);
                         }}>
                         {item.name}
                     </button>
-        };
-
-        const newSystemsButton = (props) => {
-            let item = props.item;
-            //console.log(item);
-            return (item.isLocked && item.isLocked(this.state))
-                ? ''
-                :
-                <button style={{padding: '4px 4px', width: '30%'}}
-                        className={(item.isDisabled && item.isDisabled(this.state)) ? 'disabled' :''}
-                        onClick={() => item.onClick(state)}>
-                    {item.name}
-                </button>
         };
 
         const ConsumableGinButton = (props) => <GinButton item={{
@@ -285,40 +272,42 @@ class App extends Component {
                 </div>
 
                 <div className="flex-element flex-container-row">
-                    <span className="flex-element" onClick={() =>{
-                        if(this.state.music_paused)
-                        {this.setState({music_paused: false})}
-                        else{this.setState({music_paused: true})}
-                    }}> Sound
+                    <div className="upgrades-button">
+                            <span className="flex-element" onClick={() =>{
+                                if(this.state.music_paused)
+                                {this.setState({music_paused: false})}
+                                else{this.setState({music_paused: true})}
+                            }}> Sound
                      <Orchestrator state={this.state}/></span>
+                    </div>
                 </div>
             </div>;
 
         const particles_subcomponent =
-            <div className="flex-container-row flex-element" style={{ paddingBottom: '5px', paddingTop: '5px'}}>
+            <div className="resource-info flex-container-row flex-element">
                 <span className="flex-element"> </span>
                 {_.map(state.space, (item, key) =>
                     <div className="flex-element clickers" style={{textAlign: 'center'}} key={key}>
-                        <div style={{marginBottom:'10px'}}><img className="particle-icon" src={'./particles/particle.png'} /> </div>
-                        <div>{data.basic_particles[key] ? data.basic_particles[key].name : 'resource'}</div>
+                        <div style={{marginBottom:'10px'}}><img alt="" className="particle-icon" src={'./particles/particle.png'} /> </div>
+                        <div style={{opacity:'0.6'}}>{data.basic_particles[key] ? data.basic_particles[key].name : 'resource'}</div>
                     </div>
                 )}
             </div>;
 
         const atoms_subcomponent =
-            <div className="flex-container-row flex-element" style={{ paddingBottom: '5px', paddingTop: '5px'}}>
+            <div className="resource-info flex-container-row flex-element">
                 <span className="flex-element"> </span>
                 {_.map(state.dust, (item, key) =>
                     <div className="flex-element clickers" style={{textAlign: 'center'}} key={key}>
-                        <div style={{marginBottom:'10px'}}><img className="particle-icon" src={'./atoms/'+key +'.png'} /> </div>
-                        <div>{data.atoms[key] ? data.atoms[key].name : 'resource'}</div>
+                        <div style={{marginBottom:'10px'}}><img alt="" className="particle-icon" src={'./atoms/'+key +'.png'} /> </div>
+                        <div style={{opacity:'0.6'}}>{data.atoms[key] ? data.atoms[key].name : 'resource'}</div>
                     </div>
                 )}
             </div>;
 
         const space_subcomponent =
                 <div className="flex-container-row flex-element" style={{ paddingBottom: '5px', paddingTop: '5px'}}>
-                    <span className="flex-element" style={{textAlign: 'left'}}>Space</span>
+                    <span className="flex-element" style={{textAlign: 'left', fontWeight: 'bold'}}>Space</span>
                         {_.map(state.space, (item, key) =>
                                  <div className="flex-element clickers" style={{textAlign: 'center'}} key={key}>
                                        <div style={{textAlign:'center'}}>{state.space[key] ?
@@ -330,7 +319,7 @@ class App extends Component {
 
         const field_subcomponent =
                 <div className="flex-element flex-container-row" style={{ paddingBottom: '5px', paddingTop: '5px'}}>
-                    <span className="flex-element" style={{textAlign: 'left'}}>Field</span>
+                    <span className="flex-element" style={{textAlign: 'left', fontWeight: 'bold'}}>Field</span>
                     {_.map(state.field, (item, key) =>
                             <div className="flex-element clickers" style={{textAlign: 'center'}} key={key}>
                                 <div style={{textAlign:'center'}}>{state.field[key] ?
@@ -375,7 +364,7 @@ class App extends Component {
 
         const dust_subcomponent =
             <div className="flex-element flex-container-row" style={{ paddingBottom: '5px', paddingTop: '5px'}}>
-                <span className="flex-element" style={{textAlign: 'left'}}>Dust</span>
+                <span className="flex-element" style={{textAlign: 'left', fontWeight: 'bold'}}>Dust</span>
                 {_.map(state.dust, (item, key) =>
                     <div className="flex-element clickers" style={{textAlign: 'center'}} key={key}>
                         <div style={{textAlign:'center'}}>{state.dust[key] ?
@@ -387,7 +376,7 @@ class App extends Component {
 
         const storage_subcomponent =
             <div className="flex-element flex-container-row" style={{ paddingBottom: '5px', paddingTop: '5px'}}>
-                <span className="flex-element" style={{textAlign: 'left'}}>Storage</span>
+                <span className="flex-element" style={{textAlign: 'left', fontWeight: 'bold'}}>Storage</span>
                 {_.map(state.storage, (item, key) =>
                     <div className="flex-element clickers" style={{textAlign: 'center'}} key={key}>
                         <div style={{textAlign:'center'}}>{state.storage[key] ?
@@ -546,7 +535,7 @@ class App extends Component {
         const object_drawer = (obj) =>
         <div>
             <h3> Object </h3>
-            <div className="panel info-block" style={{color: 'black'}}>
+            <div>
                 <h4> {obj.name} </h4>
                 <p>
                     {state.selected_system !== null ? state.systems[state.selected_system].name : ''}
@@ -586,7 +575,6 @@ class App extends Component {
             <div className="flex-element">
                 {state.systems.length ?
                     <div className="flex-container-column">
-                        <div className="info-block">
                             {_.map(state.systems, (system, key) =>
                                 <div onClick={() => {
                                     let state = this.state;
@@ -595,11 +583,16 @@ class App extends Component {
                                     state.selected_planet = null;
                                     this.setState(state);
                                 }}
-                                     className="flex-element panel" key={key} style={{color: 'black'}}>
-                                    <p>{system.name}</p>
+                                     className="flex-element system-selector" key={key}
+                                     style={state.selected_system===key ? {backgroundColor:'rgba(255, 255, 255, 0.3)'} : {backgroundColor:'rgba(0,0,0,0.4)'}}>
+                                    <span style={{display: 'block', textAlign:'left'}}>{system.name}</span>
+
+                                    {_.map(state.systems[key].stars, (star, key) =>
+                                            <Circle r={Math.sqrt(Math.sqrt(weight(star.mater) * 11))/10} fill={{color: 'white'}} stroke={{color: 'black'}} strokeWidth={3} />
+                                    )}
+
                                 </div>
                                 )}
-                        </div>
                     </div>
                     : ''
                 }
@@ -668,7 +661,7 @@ class App extends Component {
                                         state.selected_planet = null;
                                         this.setState(state);
                                     }}
-                                         className="flex-element panel" key={key} style={{color: 'black'}}>
+                                         className="flex-element" key={key}>
                                         <p>{star.name}</p>
                                         <span><Circle r={Math.sqrt(Math.sqrt(weight(star.mater) * 11))} fill={{color: '#470407'}} stroke={{color: 'black'}} strokeWidth={3} /></span>
 
@@ -681,7 +674,7 @@ class App extends Component {
                                         state.selected_planet = key;
                                         this.setState(state);
                                     }}
-                                         className="flex-element panel" key={key} style={{color: 'black'}}>
+                                         className="flex-element" key={key}>
                                         <p>{planet.name}</p>
                                         <span key={key}><Circle r={Math.sqrt(Math.sqrt(weight(planet.mater) * 19))} fill={{color: 'indigo'}} stroke={{color: 'black'}} strokeWidth={3}/></span>
                                     </div>
@@ -788,11 +781,12 @@ class App extends Component {
 
 
                                     <div className="flex-element flex-container-row sys-block">
-                                        <div className="flex-element systems-block info-block">
-                                            <h4>Systems</h4>
-                                            <div>
-                                                <newSystemsButton item={rules.new_system}/>
+                                        <div className="flex-element systems-block">
+                                            <div className="flex-container-row">
+                                            <h4 className="flex-element tab-title">Galaxy</h4>
+                                            <div className="flex-element"><GinButton item={rules.new_system}/></div>
                                             </div>
+
                                             {systems_subcomponent}
                                         </div>
                                         <div className="flex-element info-block">
@@ -807,7 +801,7 @@ class App extends Component {
 
                                 <div className="flex-container-row flex-element info-container">
                                             <div className="flex-element">
-                                                <h4>Info</h4>
+                                                <h4>Information</h4>
                                                     {object_subcomponent()}
                                             </div>
                                 </div>
