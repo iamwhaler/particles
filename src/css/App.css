@@ -83,15 +83,11 @@ button.info:hover {
   padding: 4px 4px 4px 4px;
   border-radius: 18px;
   background-color: rgba(0,0,0,0.4);
-  max-width: 600px;
+  max-width: 528px;
 }
 
-.space-block {
-    min-width: 35%;
-}
-
-.dust-block {
-    min-width: 40%;
+.space-block, .systems-block {
+    max-width: 326px;
 }
 
 .clickers {
@@ -156,6 +152,10 @@ circle {
     margin-bottom: 10px;
 }
 
+.particle-icon{
+    width: 28px;
+    height: 28px;
+}
 .overlay {
   filter: invert(60%);
 }

@@ -279,8 +279,8 @@ export const fluctuators = {
                         let obj = {};
                         obj[matter] = count;
 
-                        if (state.storage_capacity < weight(obj) + weight(state.storage)
-                            && state.field_capacity < weight({neutrons: count}) + weight(state.field)) state.toggle[name] = false;
+                        if (state.storage_capacity < weight(obj[matter]) + weight(state.storage)
+                            || state.field_capacity < weight({neutrons: count}) + weight(state.field)) state.toggle[name] = false;
 
                         if(state.dust[matter]>count){
                             state.storage[matter] += count;

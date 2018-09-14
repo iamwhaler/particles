@@ -149,16 +149,26 @@ class App extends Component {
             return (item.isLocked && item.isLocked(this.state))
                 ? ''
                 :
-                <OverlayTrigger delay={150} placement="right"
-                                overlay={tooltip(this.state, clickers.field)}>
                     <button style={{padding: '4px 4px', width: '30%'}}
-                        className={(item.isDisabled && item.isDisabled(this.state)) ? 'disabled' : (item.cost ? isEnough(this.state, item.cost) ? '' : 'disabled' : '')}
+                        className={(item.isDisabled && item.isDisabled(this.state)) ? 'disabled' :''}
                         onClick={() => {
                             this.onClickWrapper(item);
                         }}>
                         {item.name}
                     </button>
-                </OverlayTrigger>
+        };
+
+        const newSystemsButton = (props) => {
+            let item = props.item;
+            //console.log(item);
+            return (item.isLocked && item.isLocked(this.state))
+                ? ''
+                :
+                <button style={{padding: '4px 4px', width: '30%'}}
+                        className={(item.isDisabled && item.isDisabled(this.state)) ? 'disabled' :''}
+                        onClick={() => item.onClick(state)}>
+                    {item.name}
+                </button>
         };
 
         const ConsumableGinButton = (props) => <GinButton item={{
@@ -289,7 +299,8 @@ class App extends Component {
                 <span className="flex-element"> </span>
                 {_.map(state.space, (item, key) =>
                     <div className="flex-element clickers" style={{textAlign: 'center'}} key={key}>
-                       {data.basic_particles[key] ? data.basic_particles[key].name : 'resource'}
+                        <div style={{marginBottom:'10px'}}><img className="particle-icon" src={'./particles/particle.png'} /> </div>
+                        <div>{data.basic_particles[key] ? data.basic_particles[key].name : 'resource'}</div>
                     </div>
                 )}
             </div>;
@@ -299,7 +310,8 @@ class App extends Component {
                 <span className="flex-element"> </span>
                 {_.map(state.dust, (item, key) =>
                     <div className="flex-element clickers" style={{textAlign: 'center'}} key={key}>
-                        {data.atoms[key] ? data.atoms[key].name : 'resource'}
+                        <div style={{marginBottom:'10px'}}><img className="particle-icon" src={'./atoms/'+key +'.png'} /> </div>
+                        <div>{data.atoms[key] ? data.atoms[key].name : 'resource'}</div>
                     </div>
                 )}
             </div>;
@@ -586,7 +598,7 @@ class App extends Component {
                                      className="flex-element panel" key={key} style={{color: 'black'}}>
                                     <p>{system.name}</p>
                                 </div>
-                            )}
+                                )}
                         </div>
                     </div>
                     : ''
@@ -776,10 +788,10 @@ class App extends Component {
 
 
                                     <div className="flex-element flex-container-row sys-block">
-                                        <div className="flex-element info-block">
+                                        <div className="flex-element systems-block info-block">
                                             <h4>Systems</h4>
                                             <div>
-                                                <GinButton item={rules.new_system}/>
+                                                <newSystemsButton item={rules.new_system}/>
                                             </div>
                                             {systems_subcomponent}
                                         </div>
