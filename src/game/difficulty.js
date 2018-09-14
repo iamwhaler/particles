@@ -21,11 +21,11 @@ export const difficulty = {
             return state;
         },
         space: {
-            protons: 100000,
-            electrons: 100000,
-            photons: 100000,
-            neutrino: 100000,
-            neutrons: 100000,
+            protons: 10000000,
+            electrons: 10000000,
+            photons: 10000000,
+            neutrino: 10000000,
+            neutrons: 10000000,
         },
         dust: {
             hydrogen: 10000000,
@@ -47,11 +47,11 @@ export const difficulty = {
             return state;
         },
         space: {
-            protons: 10000,
-            electrons: 10000,
-            photons: 10000000,
-            neutrino: 100000,
-            neutrons: 10000,
+            protons: 1000000,
+            electrons: 1000000,
+            photons: 1000000000,
+            neutrino: 10000000,
+            neutrons: 1000000,
         },
         dust: {
             hydrogen: 1000000,
@@ -73,11 +73,11 @@ export const difficulty = {
             return state;
         },
         space: {
-            protons: 10000,
-            electrons: 1000,
-            photons: 1000,
-            neutrino: 100000000,
-            neutrons: 1000,
+            protons: 1000000,
+            electrons: 100000,
+            photons: 100000,
+            neutrino: 10000000000,
+            neutrons: 100000,
         },
         dust: {
             hydrogen: 10000,

@@ -188,23 +188,23 @@ export const clickers = {
     field: {
         name: 'Upgrade Field',
         cost: (state) => {
-            return{'field.photons': Math.floor(Math.pow(2, state.field_level)*10)}},
+            return{'field.photons': Math.floor(Math.pow(1.2, state.field_level)*100)}},
 
         isLocked: (state) => false,
         onClick: (state) => {
             state.field_level++;
-            state.field_capacity=state.field_level*Math.pow(2,10);
+            state.field_capacity=state.field_level*Math.pow(2,11);
             return state;
         }
     },
     storage: {
         name: 'Upgrade Storage',
         cost: (state) => {
-            return{'field.electrons': Math.floor(Math.pow(4, state.storage_level)*2)}},
+            return{'field.electrons': Math.floor(Math.pow(1.3, state.storage_level)*100)}},
         isLocked: (state) => false,
         onClick: (state) => {
             state.storage_level++;
-            state.storage_capacity=state.storage_level*Math.pow(2,12);
+            state.storage_capacity=state.storage_level*Math.pow(2,13);
             return state;
         }
     }

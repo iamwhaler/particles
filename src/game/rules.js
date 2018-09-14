@@ -68,9 +68,10 @@ export const rules = {
     },
 
     new_system: { name: 'New System', text: 'Rule Text',
-        isDisabled: state => weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000000,
+        isLocked: state => weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000000,
+        cost: (state) => state.storage,
         onClick: state => {
-            if (weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000000) return state;
+            //if (weight({'hydrogen': state.storage.hydrogen, 'helium': state.storage.helium}) < 1000000) return state;
 
             state.systems.push({name: 'System ' + (state.systems.length + 1), mater: _.clone(state.storage), stars: [], planets: []});
 
