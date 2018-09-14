@@ -1,7 +1,5 @@
-
 import _ from 'lodash';
-
-import {info} from '../game/data';
+//import {info} from '../game/data';
 
 
 export const calcLifeFormProbability = (state, planet, system) => {

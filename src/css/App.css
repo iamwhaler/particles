@@ -80,8 +80,8 @@ button.info:hover {
 
 .info-block {
   margin: 2px 2px 2px 2px;
-  padding: 2px 2px 2px 2px;
-  border-radius: 5px;
+  padding: 4px 4px 4px 4px;
+  border-radius: 18px;
   background-color: rgba(0,0,0,0.4);
   max-width: 600px;
 }

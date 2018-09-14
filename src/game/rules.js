@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import {old_rules} from './old_rules';
 import {weight} from './physics';
 import {calcLifeFormProbability, genDNA} from './biology';
 import {info} from './data';
@@ -26,16 +25,17 @@ const fusion_helper = (state, condition, action) => {
 
 export const rules = {
 
-    old_rules: {
+   /* old_rules: {
         locked: state => false,
         onTick: state => _.reduce(old_rules, (sum, rule) => rule.onTick ? rule.onTick(sum) : sum, state)
     },
+    */
 
     universe_size_rule: {
         name: 'Universe Expansion', text: 'Universe is expanding on the lower temperatures',
         locked: false,
         onTick: (state) => {
-            // state.storage.hydrogen += 10000; // ^_^
+            // state.field.electrons+=1000; state.storage.hydrogen += 10000; state.storage.helium+=1000; // ^_^
             state.universe_size+= Math.pow(1, state.temperature)/(1 + 0.01 *state.temperature);
             return state;
         }
