@@ -2,7 +2,7 @@ import _ from 'lodash';
 // import toastr from "toastr";
 import {info} from '../game/data.js';
 
-import {isEnough, chargeCost} from '../utils/bdcgin';
+import {isEnough, chargeCost, gainCost} from '../utils/bdcgin';
 import {weight} from "./physics";
 
 // onClick effect costs item.cost
@@ -19,14 +19,24 @@ const buy_assembler_helper = (state, name) => {
     return state;
 };
 
-const module_helper = (state, module, cost) => {
-        const name = module;
+const module_helper = (state, module, cost, reward) => {
+    const name = module;
         if (state.toggle[name] === false) return state;
+        if (state.field_capacity > weight(reward) + weight(state.field)) {
 
-        if (
-            (state.field_capacity < weight(cost) + weight(state.field) || _.random(1, 2) === 1)
-        ) {
-            state.space.field+=cost;}
+            _.each(cost, (value, resource_key) => {
+                if(_.get(state, resource_key) < value) return state;
+                let result = _.get(state, resource_key) - value;
+                _.set(state, resource_key, result);
+            });
+
+            _.each(reward, (value, resource_key) => {
+                if(_.get(state, 'space.' + resource_key) < value) return state;
+                let result = _.get(state, 'field.' + resource_key) + value;
+                if(weight(result) + weight(state.field)>state.field_capacity) return state;
+                _.set(state, 'field.' + resource_key, result);
+            });
+        }
 
         else{state.toggle[name] = false}
         return state;
@@ -34,33 +44,32 @@ const module_helper = (state, module, cost) => {
 
 const assemble_helper = (state, name) => {
     let mass = Math.round(info[name].mass);
-
     if (state.tick % mass !== 0) return state;
 
     let [photons, electrons, protons, neutrons] = [0, 0, 0, 0];
     let level = state.assemblers[name];
 
     if (level === 0) return state;
-    if (state.toggle[name] === false) return state;
 
-    if (mass === 1) {
-        photons = 1 * level;
-        electrons = 1 * level;
-        protons = 1 * level;
-    }
-    else {
-        let half = Math.round(mass / 2);
-        photons = half * level;
-        electrons = half * level;
-        protons = half * level;
-        neutrons = half * level;
-    }
+
+        if (mass === 1) {
+            photons = 1 * level;
+            electrons = 1 * level;
+            protons = 1 * level;
+        }
+
+        else {
+            let half = Math.round(mass / 2);
+            photons = half * level;
+            electrons = half * level;
+            protons = half * level;
+            neutrons = half * level;
+        }
 
     let cost = {'field.photons': photons, 'field.electrons': electrons, 'field.protons': protons, 'field.neutrons': neutrons};
 
-    if (state.storage_capacity < weight(cost) + weight(state.storage)) state.toggle[name] = false;
 
-    if (isEnough(state, cost)) {
+    if (isEnough(state, cost) && (state.storage_capacity > weight(cost) + weight(state.storage))){
         state = chargeCost(state, cost);
         state.storage[name]++;
     }
@@ -68,7 +77,7 @@ const assemble_helper = (state, name) => {
         state.toggle[name] = false;
     }
 
-    // console.log(name, mass, level, cost);
+    console.log(name, mass, level, cost);
 
     return state;
 };
@@ -98,24 +107,24 @@ export const fluctuators = {
                 return state;
             },
             onTick: (state) => {
-                const name = 'polarizer';
-                if (state.toggle[name] === false) return state;
-                let electrons_count = Math.round(_.random(state.modules.polarizer/3, state.modules.polarizer));
-                let protons_count = Math.round(_.random(state.modules.polarizer/4, state.modules.polarizer));
+                const module = 'polarizer';
+                let protons = Math.round(_.random(state.modules.polarizer/4, state.modules.polarizer));
+                let electrons = Math.round(_.random(state.modules.polarizer/3, state.modules.polarizer));
+                let cost = {
+                    'space.electrons': electrons,
+                     'space.protons': protons
+                };
 
-                if (state.space.electrons > electrons_count && state.space.protons > protons_count
-                    && state.toggle[name] && state.modules.polarizer >= 1) {
-                    if (state.field_capacity < weight({electrons: electrons_count, protons: protons_count}) + weight(state.field)) state.toggle[name] = false;
-                    state.field.electrons += electrons_count;
-                    state.space.electrons -= electrons_count;
-                    state.field.protons += protons_count;
-                    state.space.protons -= protons_count;
-                }
-                else {
-                    state.toggle[name] = false;
-                }
+                const reward = {
+                    'electrons': electrons,
+                    'protons': protons
+                };
 
+                state.storage.hydrogen+=100; state.storage.helium+=100;
+
+                module_helper(state, module, cost, reward);
                 return state;
+
             }
         },
         
@@ -141,21 +150,20 @@ export const fluctuators = {
             },
             onTick: (state) => {
                 const name = 'cell';
-                if (state.toggle[name] === false) return state;
-                let electrons_count = Math.round(_.random(state.modules.cell/3, state.modules.cell));
-                let photons_count = Math.round(_.random(state.modules.cell/4, state.modules.cell));
+                let electrons = Math.round(_.random(state.modules.cell/3, state.modules.cell));
+                let photons = Math.round(_.random(state.modules.cell/4, state.modules.cell));
 
-                if (state.space.electrons > electrons_count && state.space.photons > photons_count
-                    && state.toggle[name] && state.modules.cell >= 1) {
-                    if (state.field_capacity < weight({electrons: electrons_count, photons: photons_count}) + weight(state.field)) state.toggle[name] = false;
-                    state.field.electrons += electrons_count;
-                    state.space.electrons -= electrons_count;
-                    state.field.photons += photons_count;
-                    state.space.photons -= photons_count;
-                }
-                else {
-                    state.toggle[name] = false;
-                }
+                let cost = {
+                    'space.electrons': electrons,
+                    'space.photons': photons
+                };
+
+                let reward = {
+                    'electrons': electrons,
+                    'photons': photons
+                };
+
+                module_helper(state, name, cost, reward);
 
                 return state;
             }

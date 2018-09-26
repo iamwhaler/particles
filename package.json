@@ -25,6 +25,7 @@
     "react-sound": "^1.2.0",
     "react-switch": "^3.0.4",
     "react-toastr": "^3.0.0",
+    "sass": "^1.13.4",
     "startaudiocontext": "^1.2.1",
     "toastr": "^2.1.4",
     "tonal": "^1.1.3",

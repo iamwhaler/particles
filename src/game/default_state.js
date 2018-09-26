@@ -63,7 +63,7 @@ const default_state = {
         ferrum: 0,
     },
 
-    rockets: {
+    terraformers: {
         hydrogen: 0,
         helium: 0,
         carbon: 0,

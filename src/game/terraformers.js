@@ -2,12 +2,12 @@
 
 
 const buy_rocket_helper = (state, name) => {
-    state.rockets[name]++;
+    state.terraformers[name]++;
     return state;
 };
 
 
-export const rockets = {
+export const terraformers = {
     /*
  clean: {
      name: 'Rocket ', text: 'Rocket Text',
@@ -30,7 +30,7 @@ export const rockets = {
      */
 
 
-    hydrogen: { name: 'Hydrogen Rocket', text: 'Destroy target Planet',
+    hydrogen: { name: 'Hydrogen Terraformer', text: 'Destroy target Planet',
         cost: {
             'storage.hydrogen': 10000
         },
@@ -43,7 +43,7 @@ export const rockets = {
         }
     },
 
-    helium: { name: 'Helium Rocket', text: 'Add Helium to target Star Core',
+    helium: { name: 'Helium Terraformer', text: 'Add Helium to target Star Core',
         cost: {
             'storage.hydrogen': 10000,
             'storage.helium': 10000
@@ -57,7 +57,7 @@ export const rockets = {
         }
     },
 
-    carbon: { name: 'Carbon Rocket', text: 'Mine resources from target Planet',
+    carbon: { name: 'Carbon Terraformer', text: 'Mine resources from target Planet',
         cost: {
             'storage.hydrogen': 10000,
             'storage.carbon': 10000
@@ -71,7 +71,7 @@ export const rockets = {
         }
     },
 
-    nitrogen: { name: 'Nitrogen Rocket', text: 'Fertilize target Planet a little',
+    nitrogen: { name: 'Nitrogen Terraformer', text: 'Fertilize target Planet a little',
         cost: {
             'storage.helium': 10000,
             'storage.nitrogen': 10000
@@ -85,7 +85,7 @@ export const rockets = {
         }
     },
 
-    oxygen: { name: 'Oxygen Rocket', text: 'Rocket Text',
+    oxygen: { name: 'Oxygen Terraformer', text: 'Rocket Text',
         cost: {
             'storage.helium': 10000,
             'storage.nitrogen': 10000,
@@ -100,7 +100,7 @@ export const rockets = {
         }
     },
 
-    silicon: { name: 'Silicon Rocket', text: 'Rocket Text',
+    silicon: { name: 'Silicon Terraformer', text: 'Rocket Text',
         cost: {
             'storage.hydrogen': 10000,
             'storage.carbon': 10000,
@@ -116,7 +116,7 @@ export const rockets = {
         }
     },
 
-    ferrum: { name: 'Ferrum Rocket', text: 'Rocket Text',
+    ferrum: { name: 'Ferrum Terraformer', text: 'Rocket Text',
         cost: {
             'storage.helium': 10000,
             'storage.carbon': 10000,
