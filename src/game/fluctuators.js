@@ -119,9 +119,7 @@ export const fluctuators = {
                     'electrons': electrons,
                     'protons': protons
                 };
-
-                state.storage.hydrogen+=100; state.storage.helium+=100;
-
+                
                 module_helper(state, module, cost, reward);
                 return state;
 
