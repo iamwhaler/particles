@@ -1,0 +1,39 @@
+@keyframes move {
+    30% {opacity: 0}
+    100% {
+        transform: translate3d(0, 0, -1000px); opacity: 1;
+    }
+}
+.container {
+    position: relative;
+    width: 10%;
+    transform-style: preserve-3d;
+
+}
+.bubble-wrap {
+    margin: 0 auto;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    perspective: 200px;
+}
+
+.bubble {
+    margin-right: 50px;
+    margin-top: 70px;
+    position: absolute;
+    border-radius: 50%;
+    animation: move 5s infinite;
+    opacity: 0;
+}
+
+@for $i from 1 through 100 {
+    .bubble:nth-child(#{$i}){
+        $size: random(30)+px;
+        height: $size;
+        width: $size;
+        animation-delay: -$i * .2s;
+        transform: translate3d( (random(500) * 1px),  (random(800) * 1px), (random(800) * 1px));
+        background: white;
+    }
+
+}

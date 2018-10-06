@@ -26,12 +26,22 @@ export const achievements = {
         rule: (state) => {return state.hydrogen === 1}
     },
 
+    /*
     galaxy_born: {
         rank: 'bronze',
         type: 'breakthrough',
         name: 'Galaxy born',
         text: 'Grow a star in your galaxy to get it started',
         rule: (state) => {return state.universe.length === 1}
+    },
+    */
+
+    system_born: {
+        rank: 'bronze',
+        type: 'breakthrough',
+        name: 'System born',
+        text: 'Grow a star in your galaxy to get it started',
+        rule: (state) => {return state.systems.length === 1}
     },
 
     rising_star: {

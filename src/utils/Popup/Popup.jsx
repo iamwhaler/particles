@@ -42,7 +42,7 @@ export default class Popup extends React.Component {
           <div className={'popup-header'}>
             <div>{popupData.name}</div>
             <div className={'popup-close-button'} onClick={this.closeUpperPopup}>
-              <button className={'btn'}>
+              <button className={'btn cancel'}>
                 close
               </button>
             </div>

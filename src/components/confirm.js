@@ -8,7 +8,7 @@ const YourDialog = ({show, proceed, dismiss, cancel, confirmation}) => (
                 <h5 className="flex-element text-center">{confirmation}</h5>
         <img alt="" style={{width: '150px', height: '150px', margin: 'auto'}} src="https://cdn0.iconfinder.com/data/icons/game-line-icon-set-2/512/reset-512.png" />
                 <div className="flex-element text-right" style={{verticalAlign: 'flex-end'}}>
-                    <button className="btn btn-cancel" onClick={() => cancel('arguments will be passed to the callback')}>Cancel</button>
+                    <button className="btn btn-cancel cancel" onClick={() => cancel('arguments will be passed to the callback')}>Cancel</button>
                     <button className="btn btn-primary" onClick={() => proceed('same as cancel')}>Ok</button>
                 </div>
             </div>

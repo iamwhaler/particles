@@ -5,44 +5,6 @@ import {getDefaultState} from '../game/default_state';
 export const clickers = {
 
     basic_particles: {
-        strings_clicker: {
-            name: 'Fluctuate String',
-            resource: 'strings',
-            text: 'String is one-dimensional extended objects',
-            cost: false,
-            locked: (state) => false,
-            onClick: (state) => {
-                //state.strings++;
-                return state;
-            }
-        },
-
-        up_quarks_clicker: {
-            name: 'Gain Up Quark',
-            resource: 'up_quarks',
-            cost: {strings: 1},
-            text: 'Like all quarks, the up quark is an elementary fermion with spin \n' +
-            '1\n' +
-            '/\n' +
-            '2\n' +
-            ', and experiences all four fundamental interactions: gravitation, electromagnetism, weak interactions, and strong interactions. Forms protons and neutrons.',
-            locked: (state) => state.temperature>Math.pow(10, 21),
-            onClick: (state) => {
-                state.up_quarks++;
-                return state;
-            }
-        },
-        down_quarks_clicker: {
-            name: 'Gain Down Quark',
-            resource: 'down_quarks',
-            cost: {strings: 1},
-            text: 'The second-lightest all quarks, forms protons and neutrons',
-            locked: (state) => state.temperature>Math.pow(10, 21),
-            onClick: (state) => {
-                state.down_quarks++;
-                return state;
-            }
-        },
 
         electrons_clicker: {
             name: 'Gain Electron',
@@ -61,21 +23,9 @@ export const clickers = {
             resource: 'photons',
             cost: {strings: 1},
             text: 'The photon is a type of elementary particle, the quantum of the electromagnetic field including electromagnetic radiation such as light, and the force carrier for the electromagnetic force',
-            locked: (state) => state.temperature>Math.pow(10, 12),
+            locked: (state) => false,
             onClick: (state) => {
                 state.photons++;
-                return state;
-            }
-        },
-
-        neutrino_clicker: {
-            name: 'Generate Neutrino',
-            resource: 'neutrino',
-            cost: {strings: 1},
-            text: 'A neutrino is a fermion that interacts only via the weak subatomic force and gravity. The mass of the neutrino is much smaller than that of the other known elementary particles.',
-            locked: (state) => state.neutrino<1,
-            onClick: (state) => {
-                state.neutrino++;
                 return state;
             }
         },
@@ -85,7 +35,7 @@ export const clickers = {
             resource: 'protons',
             text: 'Proton has a positive electric charge and combined with neutron forms atom nuclei.',
             cost: {up_quarks: 2, down_quarks: 1},
-            locked: (state) => state.up_quarks<5 && state.down_quarks<3,
+            locked: () => false,
             onClick: (state) => {
                 state.protons++;
                 return state;
@@ -97,12 +47,25 @@ export const clickers = {
             resource: 'neutrons',
             text: 'Neutron has no net electric charge and forms atom nuclei.',
             cost: {up_quarks: 1, down_quarks: 2},
-            locked: (state) =>  state.down_quarks<5 && state.up_quarks<3,
+            locked: () => false,
             onClick: (state) => {
                 state.neutrons++;
                 return state;
             }
         },
+
+        neutrino_clicker: {
+            name: 'Generate Neutrino',
+            resource: 'neutrino',
+            cost: {strings: 1},
+            text: 'A neutrino is a fermion that interacts only via the weak subatomic force and gravity. The mass of the neutrino is much smaller than that of the other known elementary particles.',
+            locked: (state) => false,
+            onClick: (state) => {
+                state.neutrino++;
+                return state;
+            }
+        },
+
     },
 
     atoms: {
@@ -170,17 +133,6 @@ export const clickers = {
             }
         },
 
-        neon_clicker: {
-            name: 'Synth Neon',
-            resource: 'neon',
-            cost: {protons: 5, neutrons: 5, electrons: 5, photons: 5},
-            locked: (state) => state.protons < 5 && state.neutrons < 5 && state.electrons < 5 && state.photons < 5,
-            onClick: (state) => {
-                state.neon++;
-                return state;
-            }
-        },
-
         silicon_clicker: {
             name: 'Synth Silicon',
             resource: 'silicon',
@@ -212,7 +164,6 @@ export const clickers = {
             isLocked: (state) => state.black_hole.length<1,
             onClick: (state) => {
                 confirm('Do you really want to retrieve your stars from the black hole? Your progress will be lost').then(
-
                     () => {
                         let saved_stars = _.cloneDeep(state.black_hole);
                         let saved_tick = state.tick;
@@ -233,4 +184,28 @@ export const clickers = {
             }
         },
     },
+
+    field: {
+        name: 'Upgrade Field',
+        cost: (state) => {
+            return{'field.photons': Math.floor(Math.pow(1.2, state.field_level)*100)}},
+
+        isLocked: (state) => false,
+        onClick: (state) => {
+            state.field_level++;
+            state.field_capacity=state.field_level*Math.pow(2,11);
+            return state;
+        }
+    },
+    storage: {
+        name: 'Upgrade Storage',
+        cost: (state) => {
+            return{'field.electrons': Math.floor(Math.pow(1.3, state.storage_level)*100)}},
+        isLocked: (state) => false,
+        onClick: (state) => {
+            state.storage_level++;
+            state.storage_capacity=state.storage_level*Math.pow(2,13);
+            return state;
+        }
+    }
 };
